@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommLgalAt"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommThingKnd"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntRealIncrprAr"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/bsnNrtBuldAt"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+            <CheckBox
+                    android:id="@+id/residntAraLgalAt"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+        </LinearLayout>
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/buldThingWtnKndText"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/buldIncrprArText"
+                android:layout_weight="1" />
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+            <CheckBox
+                    android:id="@+id/nrtBuldAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:enabled="false"
+            />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/bsnRealPrpos"
+                android:layout_weight="1" />
+
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/bsnRegstrPrpos"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/bsnRgistPrpos"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/buldPrposText"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/regstrBuldPrposText"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/rgistBuldPrposText"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:bottom="1dp"
+            android:left="-2dp"
+            android:right="1dp"
+            android:top="-2dp"
+    >
+        <shape android:shape="rectangle">
+            <stroke
+                    android:width="0.3dp"
+                    android:color="?android:textColorPrimary"/>
+        </shape>
+    </item>
+</layer-list>

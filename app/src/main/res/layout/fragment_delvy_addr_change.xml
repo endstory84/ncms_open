@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:padding="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvSignUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nsquareextrabold"
+                android:singleLine="true"
+                android:text="송달주소변경"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_sign"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/textview_border"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+
+            <!-- 우편번호 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linearLayout28"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                        android:id="@+id/tvBeforeDelvyAddres"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="이전 송달주소"
+                        app:layout_constraintEnd_toStartOf="@id/editBeforeDelvyAddres"
+                        app:layout_constraintHorizontal_weight="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+<!--                <EditText-->
+<!--                        android:id="@+id/editBeforeDelvyAddres"-->
+<!--                        style="@style/Widget.NCMS.WtnccValueEditText"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:inputType="number"-->
+<!--                        app:layout_constraintEnd_toEndOf="parent"-->
+<!--                        app:layout_constraintHorizontal_weight="2"-->
+<!--                        app:layout_constraintStart_toEndOf="@+id/tvBeforeDelvyAddres"-->
+<!--                        app:layout_constraintTop_toTopOf="parent" />-->
+                <TextView
+                        android:id="@+id/editBeforeDelvyAddres"
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="2"
+                        app:layout_constraintStart_toEndOf="@+id/tvBeforeDelvyAddres"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout23"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout28">
+
+                <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:id="@+id/tvDelvyPostNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="우편번호"
+                    app:layout_constraintEnd_toStartOf="@id/editDelvyPostNumber"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:id="@+id/editDelvyPostNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="우편번호를 입력해주세요."
+                    android:inputType="number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvyPostNumber"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 주소 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout24"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout23">
+
+                <TextView
+                    android:id="@+id/tvDelvyAddr"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="주소"
+                    app:layout_constraintEnd_toStartOf="@id/editDelvyAddr"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editDelvyAddr"
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="주소를 입력해주세요."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvyAddr"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 상세주소 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout25"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout24">
+
+                <TextView
+                    android:id="@+id/tvDelvyAddrDetail"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="상세주소"
+                    app:layout_constraintEnd_toStartOf="@id/editDelvyAddrDetail"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editDelvyAddrDetail"
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="상세주소를 입력해주세요."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvyAddrDetail"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 서명 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout26"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout25">
+
+                <TextView
+                    android:id="@+id/tvDelvySign"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="서명"
+                    app:layout_constraintEnd_toStartOf="@id/tvDelvySignGuide"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDelvySignGuide"
+                    style="@style/Widget.NCMS.WtnccValueTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nsquarebold"
+                    android:text="서명란을 클릭하세요."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvySign"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:id="@+id/ivDelvySignPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvySign"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- 서류사진 -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout27"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout26">
+
+                <TextView
+                    android:id="@+id/tvDelvyDoc"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="근거자료"
+                    app:layout_constraintEnd_toStartOf="@id/tvDelvyDocImgGuide"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDelvyDocImgGuide"
+                    style="@style/Widget.NCMS.WtnccValueTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/nsquarebold"
+                    android:text="서류사진을 촬영하시려면 클릭하세요."
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvyDoc"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivDelvyDocImgPreview"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="2"
+                    app:layout_constraintStart_toEndOf="@+id/tvDelvyDoc"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout21"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelvyCancel"
+                style="@style/Widget.NCMS.Alert.Button.Negative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="취소" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelvySave"
+                style="@style/Widget.NCMS.Alert.Button.Positive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="저장" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

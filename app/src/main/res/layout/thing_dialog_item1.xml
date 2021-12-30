@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:cornerRadius="10dp"
+        app:strokeColor="#32a981"
+        android:backgroundTint="@color/thing_dialog_btn_bgcolor"
+        android:textColor="@color/thing_dialog_btn_txtcolor"
+        android:fontFamily="@font/notosansmedium"
+        android:layout_margin="4dp"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonThingDialog" />

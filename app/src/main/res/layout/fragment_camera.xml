@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black">
+
+            <kr.or.kreb.ncms.mobile.view.CameraView
+                android:id="@+id/customKrebCameraView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHeight_percent="0.95"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.95" />
+
+            <ImageView
+                android:id="@+id/imageViewCamreaTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="#33000000"
+                android:padding="10dp"
+                android:src="@drawable/ic_reb_logo"
+                app:layout_constraintEnd_toEndOf="@+id/customKrebCameraView"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/customKrebCameraView"
+                app:layout_constraintTop_toTopOf="@+id/customKrebCameraView" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/imageViewCamreaTitle"
+                app:layout_constraintStart_toStartOf="@+id/customKrebCameraView"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewCamreaTitle">
+
+                <TextView
+                    android:id="@+id/textViewCameraTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nsquarebold"
+                    android:textColor="@color/orange"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewCamreaAzimuth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/notosansmedium"
+                    android:textColor="@color/orange"
+                    android:tooltipText="azimuth"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageViewCamreaAzimuth"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageViewCamreaAzimuth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|right"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_direction"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--        <ImageView-->
+            <!--                android:id="@+id/imageViewCamreaAzimuth"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:src="@drawable/ic_compass"-->
+            <!--                android:layout_margin="10dp"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout22" />-->
+
+            <!--        <LinearLayout-->
+            <!--                android:id="@+id/linearLayout21"-->
+            <!--                android:gravity="center"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:padding="10dp"-->
+            <!--                app:layout_constraintEnd_toEndOf="@+id/customKrebCameraView"-->
+            <!--                app:layout_constraintStart_toStartOf="@+id/customKrebCameraView"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout22">-->
+
+            <!--            <TextView-->
+            <!--                    android:tooltipText="locale"-->
+            <!--                    android:id="@+id/textViewCameraLocale"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:fontFamily="@font/notosansregular"-->
+            <!--                    app:layout_constraintTop_toBottomOf="@+id/imageViewCamreaAzimuth"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    android:textColor="@color/white" />-->
+
+            <!--            <TextView-->
+            <!--                    android:tooltipText="lonlat"-->
+            <!--                    android:id="@+id/textViewCamreaLonLat"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    android:fontFamily="@font/notosansregular"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/textViewCameraLocale"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/textViewCameraLocale"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@+id/textViewCameraLocale" />-->
+
+            <!--            <TextView-->
+            <!--                    android:tooltipText="azimuth"-->
+            <!--                    android:id="@+id/textViewCamreaAzimuth"-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:textColor="@color/red"-->
+            <!--                    android:fontFamily="@font/notosansbold"-->
+            <!--                    app:layout_constraintTop_toTopOf="@+id/textViewCameraLocale"-->
+            <!--                    app:layout_constraintStart_toEndOf="@+id/textViewCamreaLonLat"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="@+id/textViewCameraLocale" />-->
+
+            <!--        </LinearLayout>-->
+
+            <ImageView
+                android:id="@+id/imageButtonCamreaLense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_camera_lense"
+                app:layout_constraintBottom_toBottomOf="@+id/customKrebCameraView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

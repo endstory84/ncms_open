@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle" >
+            <solid android:color="@color/root_color_4" />
+        </shape>
+    </item>
+
+    <item android:top="-2dp" android:right="-2dp" android:left="-2dp">
+        <shape>
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                    android:width="1dp"
+                    android:color="#33FFFFFF" />
+        </shape>
+        <!--
+        android:dashGap="10px"
+                android:dashWidth="10px"
+                -->
+    </item>
+
+</layer-list>

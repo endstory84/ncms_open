@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+       <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntAr"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommProperAt"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/landName"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntSe"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="text"/>
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/textview_border"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+
+        </LinearLayout>
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:orientation="vertical"
+                android:background="@drawable/textview_border">
+
+            <Spinner style="@style/Widget.NCMS.Spinner" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntHshldrRelate"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntPdBgnDe"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntPdEndde"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/residntBasis"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+
+        <!--        <LinearLayout-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:layout_margin="2dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/textview_border">-->
+
+<!--            <Button-->
+<!--                    style="@style/Widget.NCMS.WtnccPopupButton"-->
+<!--                    android:text="@string/wtnncCommRsgstAbstrct"-->
+<!--                    android:layout_weight="1" />-->
+
+<!--            <Button-->
+<!--                    style="@style/Widget.NCMS.WtnccPopupButton"-->
+<!--                    android:text="@string/etcBasisData"-->
+<!--                    android:layout_weight="1" />-->
+
+<!--        </LinearLayout>-->
+
+    </LinearLayout>
+
+</LinearLayout>

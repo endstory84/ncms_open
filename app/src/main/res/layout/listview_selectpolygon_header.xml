@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@drawable/round_corner_box_polycheck"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+     <FrameLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+          <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="30dp"
+                  android:textColor="?android:attr/textColorPrimary"
+                  android:fontFamily="@font/notosansregular"
+                  android:textSize="16sp"
+                  android:text="필지레이어"
+                  android:background="@color/root_color_3"
+                  android:gravity="center_horizontal|center"/>
+
+          <ImageView
+                  android:id="@+id/listviewSelectPolygonClose"
+                  android:layout_width="14dp"
+                  android:layout_height="14dp"
+                  android:layout_gravity="center_vertical|right"
+                  android:tint="@color/white"
+                  android:layout_marginRight="10dp"
+                  android:src="@drawable/ic_cancel"/>
+
+
+     </FrameLayout>
+
+</LinearLayout>

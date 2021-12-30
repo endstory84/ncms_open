@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="400dp"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="20dp"
+              android:gravity="center"
+>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+    >
+        <NumberPicker
+                android:id="@+id/yearPicker"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+        />
+    </LinearLayout>
+</LinearLayout>

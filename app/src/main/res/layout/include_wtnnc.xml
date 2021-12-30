@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottompanel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bottomsheetshape"
+                app:behavior_hideable="false"
+                app:behavior_peekHeight="30dp"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+                app:layout_anchorGravity="center"
+                app:layout_anchor="@+id/bottompanel"
+                app:layout_dodgeInsetEdges="">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="end"
+                    android:layout_margin="10dp"
+                    tools:ignore="MissingConstraints">
+
+                <com.google.android.material.button.MaterialButton
+                        app:strokeColor="@null"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/root_color_2"
+                        android:fontFamily="@font/nsquareregular"
+                        android:id="@+id/viewSearchConfirmBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wtnncCommCnfirm"
+                        android:layout_marginEnd="10dp" />
+
+                <Button
+                        style="@style/Widget.NCMS.Alert.Button.Positive"
+                        app:strokeColor="@null"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/root_color_1"
+                        android:fontFamily="@font/nsquareregular"
+                        android:id="@+id/viewSearchSaveBtn"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wtnncCommCompt"
+                        android:layout_toEndOf="@id/viewSearchConfirmBtn"
+                        android:visibility="gone"
+                        android:layout_marginEnd="10dp"
+                        tools:visibility="visible" />
+            </RelativeLayout>
+
+            <ImageView
+                    android:id="@+id/bottomsheetBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="#4b3c25"
+                    android:src="@drawable/img_bottmsheet_bar"
+                    android:layout_marginTop="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tabLayout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    app:tabMaxWidth="0dp"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:background="@drawable/tab_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabTextColor="@color/white"
+                    app:tabSelectedTextColor="@color/tab_layout"
+                    app:tabIconTint="@color/white"
+                    android:layout_marginTop="40dp"
+                    app:tabTextAppearance="@style/TabLayoutTextStyle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bottomsheetBar"
+                    app:layout_constraintBottom_toTopOf="@+id/wtnncViewPager"
+                    app:layout_constraintHorizontal_bias="0.494" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/wtnncViewPager"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@color/white"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tabLayout"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_chainStyle="spread_inside" />
+
+            <Button
+                    android:id="@+id/bottomSheetDownBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/transparent"
+                    android:drawableBottom="@drawable/ic_fold"
+                    android:drawableTint="#32FFFFFF"
+                    tools:ignore="MissingConstraints" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

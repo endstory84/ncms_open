@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutIndoor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <!-- 실내 스케치 -->
+            <include
+                    android:id="@+id/indoorToolbar"
+                    layout="@layout/include_indoorsketch_toolbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            <com.slaviboy.infinitegridview.InfiniteGridView
+                    android:id="@+id/indoorSketchGridview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#C5C5C5"
+                    app:horizontalNormalLinesColor="@color/alice_blue"
+                    app:horizontalThickLinesColor="@color/alice_blue"
+                    app:verticalNormalLinesColor="@color/alice_blue"
+                    app:verticalThickLinesColor="@color/alice_blue"
+                    tools:ignore="MissingConstraints" />
+
+            <kr.or.kreb.ncms.mobile.view.IndoorCanvasView
+                    android:id="@+id/indoorCanvasView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="MissingConstraints" />
+
+<!--            <TextView-->
+<!--                    android:id="@+id/tvIndoorStatus"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                    android:layout_margin="10dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:padding="8dp"-->
+<!--                    android:autoSizeTextType="uniform"-->
+<!--                    app:autoSizeMinTextSize="3sp"-->
+<!--                    app:autoSizeMaxTextSize="18sp"-->
+<!--                    android:fontFamily="@font/nsquarebold"-->
+<!--                    android:background="@drawable/layout_round_btn_border"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:text="텍스트뷰 상태값"-->
+
+<!--                    />-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>

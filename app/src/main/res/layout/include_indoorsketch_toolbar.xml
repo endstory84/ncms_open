@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <!-- LINE, RECTANGLE, CIRCLE, ELLIPSE, CLEAR, TEXT -->
+
+    <!-- 실내조서 스케치 -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonIndoorText"
+            app:srcCompat="@drawable/ic_text"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_9" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonIndoorClear"
+            app:srcCompat="@drawable/ic_eraser"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_8" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonOval"
+            app:srcCompat="@drawable/ic_oval"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_7" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonSave"
+            app:srcCompat="@drawable/ic_save"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_6" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonRectangle"
+            app:srcCompat="@drawable/ic_rectangle"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_5" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonLine"
+            app:srcCompat="@drawable/ic_line"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_4" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonIndoorRedo"
+            app:srcCompat="@drawable/ic_redo_arrow"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_3" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonIndoorUndo"
+            app:srcCompat="@drawable/ic_undo_arrow"
+            app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintStart_toStartOf="@id/floatingActionButtonIndoorToolbar"
+            app:layout_constraintEnd_toEndOf="@id/floatingActionButtonIndoorToolbar"
+            android:tooltipText="@string/fab_indoor_toolbar_2" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            style="@style/Widget.NCMS.FloatingActionButton"
+            android:id="@+id/floatingActionButtonIndoorToolbar"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"
+            android:layout_margin="8dp"
+            android:tooltipText="@string/fab_indoor_toolbar_1" />
+
+
+</merge>

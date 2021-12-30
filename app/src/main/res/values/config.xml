@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<resources>
+    <bool name="use_light_status">false</bool>
+    <bool name="use_light_navigation">false</bool>
+</resources>

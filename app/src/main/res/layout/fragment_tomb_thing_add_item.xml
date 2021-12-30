@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <LinearLayout
+            android:id="@+id/realTombLayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <!--        <TextView-->
+            <!--                android:text="@string/wtnncCommNum"-->
+            <!--                android:gravity="center"-->
+            <!--                android:background="@color/wtnncTextCr"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:layout_weight="1"-->
+            <!--                android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+            <!--                -->
+            <!--                app:autoSizeTextType="uniform"-->
+            <!--                app:autoSizeMaxTextSize="15sp"-->
+            <!--                app:autoSizeMinTextSize="12sp"-->
+            <!--                android:layout_margin="2dp"-->
+            <!--        />-->
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/wtnncCommSclas"
+                    android:layout_weight="1" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/wtnncCommThingKnd"
+                    android:layout_weight="1" />
+
+<!--            <TextView-->
+<!--                    style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                    android:text="@string/wtnncCommStrctStndrd"-->
+<!--                    android:layout_weight="4" />-->
+
+<!--            <TextView-->
+<!--                    style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                    android:text="@string/tombIncrprQy"-->
+<!--                    android:layout_weight="1" />-->
+            <LinearLayout
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/textViewThingGnrlItem08"
+                        android:text="@string/wtnncCommArQy"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:id="@+id/textViewThingGnrlItem09"
+                            android:text="@string/wtnncCommAll"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:id="@+id/textViewThingGnrlItem10"
+                            android:text="@string/wtnncCommIncrpr"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/wtnncCommUnit"
+                    android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:id="@+id/addTombTestTextView"
+                android:layout_weight="1"
+                android:text="@string/tombThingKnd" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1" />
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+            <Spinner
+                    android:id="@+id/tombThingAddThingUnitSpinner"
+                    style="@style/Widget.NCMS.Spinner" />
+
+
+        </LinearLayout>
+
+<!--        <EditText-->
+<!--                style="@style/Widget.NCMS.WtnccValueEditText"-->
+<!--                android:layout_weight="1" />-->
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommStrctStndrd"
+                android:layout_weight="2" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommArComputBasis"
+                android:layout_weight="2" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/wtnncCommRm"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="2" />
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="2" />
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+</LinearLayout>

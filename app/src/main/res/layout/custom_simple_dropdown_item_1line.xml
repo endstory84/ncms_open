@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <TextView
+            android:text="item"
+            android:id="@+id/tvCustomDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/root_color_4"
+            android:fontFamily="@font/nsquarebold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+<!--    <include-->
+<!--            android:id="@+id/layoutDivider"-->
+<!--            layout="@layout/include_divider"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="1dp"-->
+<!--            app:layout_constraintHorizontal_bias="1.5"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/tvCustomDropdown"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/tvCustomDropdown"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/tvCustomDropdown" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

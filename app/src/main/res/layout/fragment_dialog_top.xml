@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dialog_top"
+        android:padding="20dp">
+
+    <TextView
+            android:id="@+id/textViewFragmentDialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/notosansbold"
+            app:drawableTint="@color/white" />
+
+    <TextView
+            android:id="@+id/textViewFragmentDialogAddr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:drawablePadding="8dp"
+            android:fontFamily="@font/notosansregular"
+            android:textSize="16sp"
+            android:textColor="@color/gray_20"
+            android:tooltipText="addr"
+            android:visibility="invisible"
+            app:drawableStartCompat="@drawable/ic_baseline_location_on_24"
+            app:drawableTint="@color/gray_20" />
+
+</LinearLayout>
+
+

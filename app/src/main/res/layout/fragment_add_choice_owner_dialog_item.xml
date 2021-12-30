@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/view_line2"
+            tools:ignore="UselessParent">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_margin="2dp">
+            <CheckBox
+                    android:id="@+id/addChoiceOwnerChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="1"
+                android:id="@+id/ownerChoiceSearchDivText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="1"
+                android:id="@+id/ownerChoiceDivisionText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="2"
+                android:id="@+id/ownerChoiceNameText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="1"
+                android:id="@+id/ownerChoiceSameNameNoText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="3"
+                android:id="@+id/ownerChoiceIhidnumText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="5"
+                android:id="@+id/ownerChoiceRgistAdresText"/>
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:textColor="?android:attr/textColorPrimary"
+                android:background="@null"
+                android:layout_weight="5"
+                android:id="@+id/ownerChoiceDelvyAdresText"/>
+
+    </LinearLayout>
+
+</LinearLayout>

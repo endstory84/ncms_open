@@ -1,0 +1,1275 @@
+<resources>
+    <string name="app_name">한국부동산원 현장지원모바일시스템</string>
+    <string name="app_sub_name">보상정보시스템 현장조사 모바일</string>
+    <string name="app_copyright">copyright ⓒ korea real estate board. all rights reserved.</string>
+
+    <!-- login -->
+    <string name="login_loading">앱 로딩중입니다.</string>
+
+    <string name="login_ci">부동산원CI</string>
+    <string name="login_id_hint_msg">아이디</string>
+    <string name="login_pw_hint_msg">비밀번호</string>
+    <string name="login_chk_save_msg" translatable="false">아이디 저장</string>
+    <string name="login_btn">로그인</string>
+
+    <!-- drawerMenu-->
+    <string name="drawer_app_name">차세대 보상정보\n현장지원 모바일시스템</string>
+    <string name="drawer_menu_title_1">사업선택</string>
+    <string name="drawer_menu_title_2">시스템</string>
+    <string name="drawer_menu_1">용지도</string>
+    <string name="drawer_menu_2">토지</string>
+    <string name="drawer_menu_3">지장물</string>
+    <string name="drawer_menu_4">영업ㆍ축산업ㆍ잠업</string>
+    <string name="drawer_menu_5">농업</string>
+    <string name="drawer_menu_6">광업권</string>
+    <string name="drawer_menu_7">어업권</string>
+    <string name="drawer_menu_8">거주자</string>
+    <string name="drawer_menu_9">분묘</string>
+    <string name="drawer_menu_10">로그아웃</string>
+    <string name="drawer_menu_98">잔여지</string>
+    <string name="drawer_menu_99">잔여건물</string>
+
+    <!-- slide layer -->
+    <string name="drawer_layer_menu_1">일반</string>
+    <string name="drawer_layer_menu_2">레이어</string>
+    <string name="drawer_layer_menu_3">범례</string>
+
+    <string name="drawer_layer_submenu_1">시도 경계</string>
+    <string name="drawer_layer_submenu_2">시군구 경계</string>
+    <string name="drawer_layer_submenu_3">읍면동 경계</string>
+    <string name="drawer_layer_submenu_4">리경계</string>
+    <string name="drawer_layer_submenu_5">지적편집도 (네이버)</string>
+    <string name="drawer_layer_submenu_6">사업구역(용지도)</string>
+    <string name="drawer_layer_submenu_7">편집지적도</string>
+
+    <string name="drawer_layer_submenu_8">토지</string>
+    <string name="drawer_layer_submenu_9">토지실제이용</string>
+    <string name="drawer_layer_submenu_10">지장물</string>
+    <string name="drawer_layer_submenu_11">영업</string>
+    <string name="drawer_layer_submenu_12">농업</string>
+    <string name="drawer_layer_submenu_13">거주자</string>
+    <string name="drawer_layer_submenu_14">분묘</string>
+    <!--    <string name="drawer_layer_submenu_9">지장물 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_10">영업ㆍ축산업ㆍ잠업 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_11">농업 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_12">광업권 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_13">어업권 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_14">거주자 레이어</string>-->
+    <!--    <string name="drawer_layer_submenu_15">분묘 레이어</string>-->
+
+    <string name="drawer_layer_submenu_16">현장조사</string>
+    <string name="drawer_layer_submenu_17">확정</string>
+    <string name="drawer_layer_submenu_18">감정평가</string>
+    <string name="drawer_layer_submenu_19">계약</string>
+
+    <!-- main -->
+    <string name="main_tv_1">감정평가</string>
+    <string name="main_plus_menu_1">당초지번</string>
+    <string name="main_plus_menu_2">편입지번</string>
+    <string name="main_plus_menu_3">당초면적</string>
+    <string name="main_plus_menu_4">편입지번</string>
+    <string name="main_plus_menu_5">지목</string>z
+    <string name="main_plus_menu_6">소유자</string>
+    <string name="main_plus_menu_detail_1">50-2</string>
+    <string name="main_plus_menu_detail_2">50</string>
+    <string name="main_plus_menu_detail_3">50-3</string>
+    <string name="main_plus_menu_detail_4">50</string>
+    <string name="main_plus_menu_detail_5">임야</string>
+    <string name="main_plus_menu_detail_6">확인</string>
+
+    <!-- message -->
+    <string name="msg_permission_title">앱 권한설정</string>
+    <string name="msg_permission_content">정상적으로 사용하기 위해서 디바이스의 위치 및 카메라 접근 권한이 필요합니다</string>
+    <string name="msg_permission_y">권한설정</string>
+    <string name="msg_permsission_n">확인</string>
+    <string name="msg_permission_fail">요청한 권한이 거부되어 앱을 종료합니다. \n 권한허용 후 재시동해주세요.</string>
+    <string name="msg_permsission_status_success">요청한 권한이 승인되었습니다.</string>
+    <string name="msg_permsission_status_fail">요청한 권한이 승인되지 않았습니다.</string>
+
+    <string name="msg_server_connected_text">잠시만 기다려주세요. \n 서버데이터를 불러오는중입니다.</string>
+    <string name="msg_server_connected_fail">서버 접속이 불안정합니다. \n 확인 후 작업해주세요.</string>
+    <string name="msg_server_bsns_connected_fail">보상사업을 불러 오지 못했습니다 \n 잠시 후 다시 시도해 주시기 바람니다.</string>
+    <string name="msg_server_connected_resut_empty">데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_Lad_empty">현재 지역에는 토지 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_realLad_empty">현재 지역에는 토지실제이용 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_thing_empty">현재 지역에는 지장물 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_tomb_empty">현재 지역에는 분묘 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_farm_empty">현재 지역에는 농업 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_residnt_empty">현재 지역에는 거주자 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_bsn_empty">현재 지역에는 영업 데이터가 존재하지 않습니다.</string>
+    <string name="msg_server_connected_resut_minrgt_empty">현재 지역에는 광업권 데이터가 존재하지 않습니다.</string>
+
+    <string name="map_wfs_cadastral_minzoom">17레벨 미만에서는 지적도 레이어를 불러올 수 없습니다.</string>
+    <string name="map_wfs_reallad_minzoom">17레벨 미만에서는 토지실제이용 레이어를 불러올 수 없습니다.</string>
+    <string name="map_wfs_thing_minzoom">17레벨 미만에서는 지장물 레이어를 불러올 수 없습니다.</string>
+
+    <string name="msg_login_validation_success">로그인이 되었습니다.</string>
+    <string name="msg_login_validation_fail">아이디 또는 비밀번호를 다시 확인해주세요.</string>
+
+    <string name="msg_alert_y">확인</string>
+    <string name="msg_alert_n">취소</string>
+
+    <string name="msg_alert_yy">예</string>
+    <string name="msg_alert_nn">아니오</string>
+
+    <string name="msg_logout_title">로그아웃</string>
+    <string name="msg_logout_content">앱을 로그아웃 하시겠습니까?</string>
+
+    <string name="msg_map_title">Map</string>
+    <string name="msg_map_contents">지도에서 작업중인 내용을 \n 취소하시겠습니까??</string>
+
+    <string name="msg_sketch_success">필지 스케치가 적용되었습니다.</string>
+    <string name="msg_indoor_sketch_success">실내배치도 스케치가 적용되었습니다.</string>
+    <string name="msg_sketch_minzoom">20레벨 미만에서는 편집모드를 실행 할 수 없습니다.</string>
+    <string name="msg_undo">이전 스케치 이력이 존재하지 않습니다.</string>
+    <string name="msg_redo">다음 스케치 이력이 존재하지 않습니다.</string>
+
+    <string name="msg_layer_add">실내 배치도 레이어 추가.</string>
+
+    <string name="msg_action_modfity">편집모드</string>
+    <string name="msg_action_remove">선택한 필지스케치가 삭제되었습니다.</string>
+
+    <string name="msg_action_modfity_fail">선택모드를 선택해주세요.</string>
+    <string name="msg_action_remove_fail">삭제모드를 선택해주세요.</string>
+
+    <string name="msg_server_response_fail">server result value : none</string>
+
+    <string name="msg_camera_document_scan_fail">문서를 인식할 수 없습니다. 다시 찍어주세요</string>
+    <string name="msg_camera_document_crop_ifno">꼭지점을 드래그하여 편집영역을 지정해주세요.</string>
+
+    <string name="msg_search_hint">검색어를 입력해주세요.</string>
+
+    <string name="msg_polygon_edit_title">편집</string>
+    <string name="msg_polygon_edit_content">선택된 필지를 편집하시겠습니까?</string>
+
+    <string name="msg_inooorsketch_insert_text">선택된 필지를 편집하시겠습니까?</string>
+
+    <string name="msg_server_"></string>
+
+    <string name="geoserver_wms_url">http://192.168.51.146:8444/geoserver/ncms/wms?</string>
+
+    <string name="geoserver_wfs_url">http://192.168.51.146:8444/geoserver/ncms/ows?"</string>
+    <string name="geoserver_kais_wfs_url">http://192.168.51.83/geoserver/cite/wfs?"</string>
+
+    <string name="server_bsns_mng_list">http://192.168.51.146:8444/bsns/bsnsChoiseList.do</string>
+
+    <string name="mobile_url">http://192.168.51.146:8444/mobile/</string>
+
+    <string name="naver_geocoding_gc">https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc</string>
+
+    <string name="login_err_msg_id">잘못된 형식입니다.</string>
+    <string name="login_err_msg_pw">잘못된 비밀번호 형식입니다.</string>
+
+    <!-- carto -->
+    <string name="catro_license_code">
+        XTUMwQ0ZDL0F4cnZsd0JmRldKWWcwQlBhUzJwcVVYaTRBaFVBaVJMcTNxbVlFR1liZTk1SWIyeTUzb3BhUnBvPQoKYXBwVG9rZW49ZjIzMWU0ZDAtMzdlNy00NzYyLWFkYTMtZDkxMjU4NzZlM2EwCnBhY2thZ2VOYW1lPWNvbS5jYXJ0by5naXNtYXAuYW5kcm9pZApvbmxpbmVMaWNlbnNlPTEKcHJvZHVjdHM9c2RrLWFuZHJvaWQtNC4qCndhdGVybWFyaz1jYXJ0b2RiCg==
+    </string>
+
+    <string name="naver_license_code">3jaxlr7kas</string>
+
+    <string name="fab_toolbar_1">도형 도구</string>
+    <string name="fab_toolbar_2">이전</string>
+    <string name="fab_toolbar_3">다음</string>
+    <string name="fab_toolbar_4">수정</string>
+    <string name="fab_toolbar_5">삭제</string>
+    <string name="fab_toolbar_6">추가</string>
+    <string name="fab_toolbar_7">취소</string>
+    <string name="fab_toolbar_8">완료</string>
+
+    <string name="fab_indoor_toolbar_1">실내스케치 도구</string>
+    <string name="fab_indoor_toolbar_2">이전</string>
+    <string name="fab_indoor_toolbar_3">다음</string>
+    <string name="fab_indoor_toolbar_4">선긋기</string>
+    <string name="fab_indoor_toolbar_5">사각형</string>
+    <string name="fab_indoor_toolbar_6">저장</string>
+    <string name="fab_indoor_toolbar_7">타원</string>
+    <string name="fab_indoor_toolbar_8">초기화</string>
+    <string name="fab_indoor_toolbar_9">텍스트</string>
+    <string name="fab_indoor_toolbar_10">저장</string>
+
+
+    <!--조서 공통-->
+    <string name="wtnncCommNum">No</string>
+    <string name="wtnncCommLocplc">소재지</string>
+    <string name="wtnncCommOriginalLnm">원래 지번</string>
+    <string name="wtnncCommincrprLnm">편입 지번</string>
+    <string name="wtnncCommLndcgr">지목</string>
+    <string name="wtnncCommRelateLnm">관련 지번</string>
+    <string name="wtnncCommAllAr">전체 면적</string>
+    <string name="wtnncCommIncrprAr">편입 면적</string>
+    <string name="wtnncCommLandOwner">토지 소유자</string>
+    <string name="wtnncCommLandPartcpnt">토지 관계인</string>
+    <string name="wtnncCommSclas">소분류</string>
+    <string name="wtnncCommThingKnd">물건의 종류</string>
+    <string name="wtnncCommStrctStndrd">구조 및 규격</string>
+    <string name="wtnncCommIndoorTy">실내여부</string>
+    <string name="wtnncCommLadReal">실제이용현황</string>
+    <string name="wtnncCommArQy">면적 및 수량</string>
+    <string name="wtnncCommAll">전체</string>
+    <string name="wtnncCommIncrpr">편입</string>
+    <string name="wtnncCommUnit">단위</string>
+    <string name="wtnncCommArComputBasis">면적산출근거</string>
+    <string name="wtnncCommRm">비고</string>
+    <string name="wtnncCommRegist">등록</string>
+    <string name="wtnncCommRegistDe">*등록일자</string>
+    <string name="wtnncCommAr">면적</string>
+    <string name="wtnncCommCntnncPd">존속기간</string>
+    <string name="wtnncCommCntnncPdBgnde">존속기간시작</string>
+    <string name="wtnncCommCntnncPdEndde">존속기간끝</string>
+
+    <string name="wtnncCommCnfirm">확인</string>
+    <string name="wtnncCommSketch">스케치</string>
+    <string name="wtnncCommCompt">완료</string>
+    <string name="wtnncCommInfoLedger">대장조회</string>
+    <string name="wtnncCommInfoRegistered">등기조회</string>
+    <string name="wtnncCommPossesnSe">*점유구분</string>
+    <string name="wtnncCommHirePd">임차기간</string>
+    <string name="wtnncCommHireMthd">임차방식</string>
+    <string name="wtnncCommRntchrg">임대료</string>
+    <string name="wtnncCommLn">위치</string>
+    <string name="wtnncCommSpccntr">특약</string>
+    <string name="wtnncCommLandRegiMap">지적도</string>
+    <string name="wtnncCommSurveyResultMap">측량성과도</string>
+    <string name="wtnncCommPrmisnDta">허가등 자료</string>
+    <string name="wtnncCommLsCtrtc">임대차계약서</string>
+    <string name="wtnncCommBsnmCeregrt">사업자등록증</string>
+    <string name="wtnncCommRsgstAbstrct">주민등록초본</string>
+    <string name="wtnncCommRsgstTrnscr">주민등록등본</string>
+    <string name="wtnncCommTrnsFrnHshldRd">전입세대열람부</string>
+    <string name="wtnncCommSexdstn">성별</string>
+    <string name="wtnncCommIhidnum">주민등록번호</string>
+    <string name="wtnncCommLgalAt">적법여부</string>
+    <string name="wtnncCommProperAt">적격여부</string>
+    <string name="wtnncCommBuldLink">건물선택</string>
+    <string name="wtnncCommInput">입력</string>
+    <string name="wtnncCommCancel">취소</string>
+    <string name="wtnncCommDivice">구분</string>
+    <string name="wtnncCommRamtBgnnAr">전체\n면적 또는 수량</string>
+    <string name="wtnncCommRamtIncrprAr">편입\n면적 또는 수량</string>
+    <string name="wtnncCommRamtCalAmt">보상금액</string>
+    <string name="wtnncCommAddRelate">관계자 추가</string>
+    <string name="wtnncCommAddOwner">소유자 추가</string>
+    <string name="wtnncCommAddChoiceOwner">소유자 선택</string>
+    <string name="wtnncCommAddSelectRelate">선택된 관계자 확인</string>
+    <string name="wtnncCommAddOwnerNew">신규소유자추가</string>
+    <string name="wtnncCommAddRelateNew">신규관계자추가</string>
+    <string name="wtnncCommAddNewOwnerInput">신규소유자입력</string>
+    <string name="wtnncCommInclsSe">포함구분</string>
+    <string name="wtnncCommAcqsSe">취득구분</string>
+    <string name="wtnncCommOwnerCnfirmBasis">소유자확인근거</string>
+
+
+    <!-- 내역 컬럼 -->
+    <string name="landInfoIncrprAr">편입면적</string>
+    <string name="landInfoSpfc">용도지역 및 지구</string>
+
+    <string name="landInfoOwners">토지소유자</string>
+    <string name="lanfInfoRelation">토지관계인</string>
+
+    <!-- 내역 임시 값 -->
+    <string name="landInfoNoText">001</string>
+    <string name="landInfoLocationText">경기도 파주시 운정동</string>
+
+    <string name="landInfoBgnnLnmText">100</string>
+    <string name="landInfoincrprLnmText">100</string>
+    <string name="landInfoNominationText">대</string>
+    <string name="landInfoRelatedLnmText">없음</string>
+
+    <string name="landInfoBgnnArText">48</string>
+    <string name="landInfoIncrprArText">48</string>
+
+    <string name="landInfoOwnersText">홍길동 외 1인</string>
+    <string name="lanfInfoRelationText">우리은행 외 2인</string>
+
+    <!-- 토지조서 내역 버튼 -->
+    <string name="landInfoPreviousCompensate">기불/미불 조회</string>
+    <string name="landInfoUsePlan">토지이용계획확인서</string>
+    <string name="landInfoFeedChannel">도수로부지 조회</string>
+
+    <!-- 토지조서 조사-->
+    <string name="landSearchaNrfrstAt">자연림여부</string>
+    <string name="landSearchClvtAt">경작여부</string>
+    <string name="landSearchBuildAt">건축물여부</string>
+    <string name="landSearchPlotAt">대지권여부</string>
+    <string name="landRewardAt">보상대상여부</string>
+
+    <string name="landSearchRealLndcgrCl">현실적인 이용현황</string>
+    <string name="landSearchRealLndcgrCn">용도지구 및 지구</string>
+    <string name="landSearchRealLndcgrAr">해당면적</string>
+    <string name="landSearchSttusMesrAt">측량요청</string>
+    <string name="landSearchPartitnTrgetAt">분할대상여부</string>
+    <string name="landSearchSpclLadCl">특수용지</string>
+    <string name="landSearchSpclLadCn">특수용지내용</string>
+    <string name="landSearchOwnerCnfirmBasisCl">소유자확인근거</string>
+
+    <string name="includePaclrMatter">특이사항</string>
+    <string name="includeReferMatter">참고사항</string>
+    <string name="includeRm">비고</string>
+
+    <string name="checkbox_b1_01">있음</string>
+
+    <string name="includeCarame">사진촬영</string>
+    <string name="includeImageDelete">삭제</string>
+
+    <string name="landSearchRealChange">"+" 버튼을 선택하시여 지도상에 현실적인 이용현황을 그려 주시기 바랍니다.</string>
+    <string name="landSearchRealNotChange">현재의 토지에 대한 현황이 자동으로 입력 됩니다.</string>
+
+    <!-- 조서 임시 값 -->
+    <string name="loanValue_b1_01">001</string>
+    <string name="loanValue_b1_02">경기도 파주시 운정동</string>
+
+    <string name="loanValue_b2_01">100</string>
+    <string name="loanValue_b2_02">100</string>
+    <string name="loanValue_b2_03">대</string>
+    <string name="loanValue_b2_04">없음</string>
+    <string name="loanValue_b2_05">48</string>
+    <string name="loanValue_b2_06">48</string>
+
+    <!--토지조서 소유자 및 관계인-->
+    <string name="landSe">구분</string>
+    <string name="landName">성명</string>
+    <string name="landCttpc">연락처</string>
+    <string name="landGovRgistAddr">공부상 주소</string>
+    <string name="landAbstrAddr">초본상 주소</string>
+    <string name="landDelvyAddr">송달 주소</string>
+    <string name="landPosesnQota">지분</string>
+    <string name="indvdlGrpTy">소유구분</string>
+    <string name="pcnindvdlGrpTy">관계구분</string>
+    <string name="pcnRightRelate">권리관계</string>
+    <string name="spotNm">지점명</string>
+    <string name="landUnDcsnOwnerAt">미확정\n소유자여부</string>
+    <string name="ididnum">주민번호</string>
+    <string name="ownerCl">소유자분류</string>
+    <string name="landChange">변경</string>
+    <string name="landOwnAdd">소유자 추가</string>
+    <string name="landRelateAdd">관계자 추가</string>
+    <!-- 토지조서 끝 -->
+
+    <!--지장물-->
+    <string name="thingDialogTitle">물건 종류 선택</string>
+    <string name="thingDialogComm">일반</string>
+    <string name="thingDialogMobables">동산이전</string>
+    <string name="thingDialogCommBuild">일반건축물</string>
+    <string name="thingDialogCollectiveBuild">집합건축물</string>
+    <string name="thingDialogWorkpiece">공작물</string>
+    <string name="thingDialogBuild">건물</string>
+    <string name="thingDialogWdpt">수목</string>
+    <string name="thingDialogClearing">개간비</string>
+    <string name="thingDialogPriceLoss">잔여지가격손실</string>
+    <string name="thingDialogOwnership">소유권이외의권리</string>
+    <string name="thingDialogMchn">기계</string>
+    <string name="thingDialogSklthing">조형물</string>
+    <string name="thingDialogEtc">기타</string>
+    <string name="thingOwn">소유자</string>
+    <string name="thingExaminMthd">조사방식</string>
+    <string name="thingNrmltAt">정상식 여부</string>
+    <string name="thingResn">사유</string>
+    <string name="thingBuildNm">건물명</string>
+    <string name="thingDong">동명</string>
+    <string name="thingHo">호명</string>
+    <string name="thingPrpos">용도</string>
+    <string name="thingFloor">층</string>
+    <string name="thingStrct">구조</string>
+    <string name="thingStrctDffrnc">대장 상이 내역</string>
+    <string name="thingArDffrnc">등기 상이 내역</string>
+    <string name="thingbildngPrmisnCl">건축허가분류</string>
+    <string name="thingCslt">상의내용등록</string>
+    <string name="thingSttusMesrAt">현황측량여부</string>
+    <string name="thingOwnshipTransrAt">소유권이전여부</string>
+    <string name="thingRewardAt">보상대상여부</string>
+    <string name="thingApasmtTrgetAt">감정평가대상여부</string>
+    <string name="thingRpmsnAt">허가여부</string>
+    <string name="thingRpmsnBasis">허가근거</string>
+    <string name="thingRgistAt">등기여부</string>
+    <string name="thingResideBuldAt">주거용건물여부</string>
+    <string name="thingAr">면적</string>
+
+    <!--지장물 대장조회-->
+    <string name="thingTitle">선택</string>
+    <string name="thingCn">내용</string>
+    <string name="thingDffrncAt">상이여부</string>
+    <string name="thingWtnncCp">조서복사</string>
+    <string name="thingPrmisnDe">허가일자</string>
+    <string name="thingUseConfmDe">사용승인일자</string>
+    <string name="thingchgConfrmDe">변경승인일자</string>
+    <string name="thingChangeDtls">변경내역</string>
+
+    <!--거주자 건물선택-->
+    <string name="thingResidentSelect">선택</string>
+    <string name="thingResidentThingKnd">물건의종류</string>
+    <string name="thingResidentThingincrprLnm">편입지번</string>
+    <string name="thingResidntBuldPrPos">실제용도</string>
+    <string name="thingResidntThingIncrprAr">실제편입\n면적</string>
+    <string name="thingResidntRegstrPrpos">대장용도</string>
+    <string name="thingResidntRRgistPrpos">등기용도</string>
+    <string name="thingresidntNrtBuldAt">89.1.24당시\n무허가\n건물여부</string>
+
+
+    <!--영업조서-->
+    <string name="bsnNtfcDe">고시일</string>
+    <string name="bsnHoNm">호명</string>
+    <string name="bsnSe">영업구분</string>
+    <string name="bsnAt">영업여부</string>
+    <string name="bsnStrtDe">영업시작일자</string>
+    <string name="bsnPlace">장소</string>
+    <string name="bsnRealUseAt">실사용여부</string>
+    <string name="bsnPosesnPd">소유기간</string>
+    <string name="bsnBsnmRegist">사업자등록</string>
+    <string name="bsnBsnmNo">사업자번호</string>
+    <string name="bsnApplcnt">신청자</string>
+    <string name="bsnPd">기간</string>
+    <string name="bsnLvstckChoice">가축선택</string>
+    <string name="bsnLvstckNm">가축명</string>
+    <string name="bsnCo">마리/수</string>
+    <string name="bsnStdr">기준</string>
+    <string name="bsnPlaceLgalBasis">장소의 적법성 근거</string>
+    <string name="bsnRealPrpos">실제용도</string>
+    <string name="bsnRegstrPrpos">대장용도</string>
+    <string name="bsnRgistPrpos">등기용도</string>
+    <string name="bsnNrtBuldAt">89.1.24 당시\n무허가건물 여부</string>
+    <string name="bsnPosesesnLgalBasis">점유의 적법성 근거</string>
+    <string name="bsnLsCtrtcAt">임대차계약서\n존재여부</string>
+    <string name="bsnLesseeNm">임차인 성명</string>
+    <string name="bsnLessorNm">임대인 성명</string>
+    <string name="bsnLesseePc">임차기간</string>
+    <string name="bsnLesseePcBgnde">임차기간시작</string>
+    <string name="bsnLesseePcEndde">임차기간끝</string>
+    <string name="bsnGtn">보증금(원)</string>
+    <string name="bsnMtht">월세(원)</string>
+    <string name="bsnCntrctLc">계약(소유)위치</string>
+    <string name="bsnCntrctAr">계약(소유)면적(㎡)</string>
+    <string name="bsnSpccntr">특약</string>
+    <string name="bsnLgalBasis">영업의 적법성 근거</string>
+    <string name="bsnOpenAt">영업중 여부</string>
+    <string name="bsnPrmisnSe">*허가등 구분</string>
+    <string name="bsnPrmisnRecivNm">허가등 받은자</string>
+    <string name="bsnPrmisnNm">허가등 번호</string>
+    <string name="bsnPrmisnDe">허가등 일자</string>
+    <string name="bsnPrmisnPc">허가등 기간</string>
+    <string name="bsnPrmisnPcBgned">허가등기간시작</string>
+    <string name="bsnPrmisnPcEnded">허가등기간끝</string>
+    <string name="bsnPrmisnInstt">허가등 기관</string>
+    <string name="bsnBsnPd">영업기간</string>
+    <string name="bsnBsnPdBgnde">영업기간시작</string>
+    <string name="bsnBsnPdEndde">영업기간끝</string>
+    <string name="bsnBuzplclC">영업장위치</string>
+    <string name="bsnBuzplcAr">영업장면적(㎡)</string>
+    <string name="bsnHnPhysixFcltyAt">인적ㆍ물적시설 여부</string>
+    <string name="bsnSgnbrdNm">*간판명</string>
+    <string name="bsnResdngHn">상주인력</string>
+    <string name="bsnFcltsAt">시설물 여부</string>
+    <string name="bsnSamenssHshldAt">동일세대원 다른\n영업보상 수령여부</string>
+    <string name="bsnRegistrationDtls">사업자등록 내역</string>
+    <string name="bsnSttusConsistAt">현황부합여부</string>
+    <string name="bsnPrftmkSe">영리구분</string>
+    <string name="bsnRegistSe">등록구분</string>
+    <string name="bsnRprsntv">대표자</string>
+    <string name="bsnCmpnm">*상호</string>
+    <string name="bsnInduty">업종</string>|
+    <string name="bsnBizcnd">업태</string>
+    <string name="bsnRgsde">*등록일</string>
+    <string name="bsnNtfcRgsAt">고시 1년전\n등록여부</string>
+    <string name="bsnBrdDtls">사육 내역</string>
+    <string name="bsnBrdLvstckNm">*사육 가축명</string>
+    <string name="bsnBrdPd">사육기간</string>
+    <string name="bsnBrdPdBgnde">사육기간시작</string>
+    <string name="bsnBrdPdEndde">사육기간끝</string>
+    <string name="bsnBrdQy">*사육 수량</string>
+    <string name="bsnStdrLvstckNm">기준 가축명</string>
+    <string name="bsnStdrQy">*기준 수량</string>
+    <string name="bsnCnvrsnQy">*환산 수량</string>
+    <string name="bsnAddThing">시설물추가</string>
+    <string name="bsnCl">휴업/폐업</string>
+    <string name="bsnClDiv">*구분</string>
+    <string name="bssMthCo">휴업개월수</string>
+    <string name="bsnAddBrdLayoutBtn">사육내역추가</string>
+
+
+    <!--농업조서 조서탭-->
+    <string name="farmClvtSe">경작구분</string>
+    <string name="farmAdmnstZnRsdAt">행정구역\n거주여부</string>
+    <string name="farmRealPruf">실농증빙</string>
+    <string name="farmRealPrufRegist">실농증빈\n등록</string>
+    <string name="farmCommPruf">일반증빙</string>
+    <string name="farmCommPrufRegist">일반증빈\n등록</string>
+    <string name="farmFrlndLedger">농지원부</string>
+    <string name="farmDirctCashInqire">직불금 조회</string>
+    <string name="farmClvtFactCnfirm">경작사실확인서</string>
+    <string name="farmFarmerCnfirm">농업인확인서</string>
+    <string name="farmMngmtRegistCnfirm">농어업경영체등록확인서</string>
+    <string name="farmPlaceLgalBasis">농지의 적법성 근거</string>
+    <string name="farmFrlndBasis">농지근거</string>
+    <string name="farmDirctChshRecptAt">직불금 수령여부</string>
+    <string name="farmDirctChshRecptYearText">직불금 수령년</string>
+    <string name="farmDirctChshRecptr">직불금 수령자</string>
+    <string name="farmLedgerEnnc">농지원부 유무</string>
+    <string name="farmAreaResideAt">토지주 해당지역\n거주중인 농민여부</string>
+    <string name="farmerLgalBasis">농민의 적법성 근거</string>
+    <string name="farmFarmerBasis">농민근거</string>
+    <string name="farmFarmerCnfirmAt">농업인확인서 유무</string>
+    <string name="farmMngmtRegistCnfirmAt">농어업경영체등록\n확인서 유무</string>
+    <string name="farmDirctChshRecptrClvterMtchAt">직불금 수령자와\n경작자 일치여부</string>
+    <string name="farmClvterAreaResideAt">경작자 해당지역\n거주여부</string>
+    <string name="farmFrlndOwnerClvtCnfirmAt">농지소유자 확인\n경작사실확인서 유무</string>
+    <string name="farmHeadClvtCnfirmAt">이장ㆍ통장 확인\n경작사실확인서 유무</string>
+    <string name="farmClvtDtls">경작내역</string>
+    <string name="farmCropsNm">작물명</string>
+    <string name="farmClvtPd">경작기간</string>
+    <string name="farmClvtPdBgnde">경작기간시작</string>
+    <string name="farmClvtPdEndde">경작기간끝</string>
+    <string name="farmClvtAr">작물별 경작면적(㎡)</string>
+    <string name="farmRealIncomeBasis">농작물 실제소득 근거</string>
+    <string name="farmRealIncomePrufAt">실제소득증빙 여부</string>
+    <string name="farmIncomeDtaPblctYear">적용된 소득자료집\n발간 년도</string>
+    <string name="farmCropsIncomert">작물별 소득률</string>
+    <string name="farmCropAvrgIncomeat">동일(유사)작목군\n평균 소득액</string>
+    <string name="clvtIncomeRt">동일(유사)작목군\n평균 소득률</string>
+    <string name="farmIncomeOriginSe">실제소득\n출처구분</string>
+    <string name="farmIncomeOriginEntrpsNm">실제소득\n출처업체명</string>
+    <string name="farmCropFyerAvrgIncomert">작물별 연간\n평균수입</string>
+    <string name="farmaddClvtDtlsBtn">경작내역 추가</string>
+    <string name="posesnLadFarmerAt">토지주\n농민여부</string>
+    <string name="posesnLadResideAt">토지주\n해당지역 거주여부</string>
+    <string name="posesnDbtamtRepInf">직불금\n수령년도(수령자 성명)</string>
+    <string name="realIncomeFarmAt">실제소득 영농가능여부\n(이전하여중단없이계속)</string>
+
+
+    <!--거주자조서 조서탭-->
+    <string name="residntLgalAt">거주자\n적법여부</string>
+    <string name="residntLgalBuildBasis">적법건물근거</string>
+    <string name="residntGovRgistInqire">공부조회</string>
+    <string name="residntEtcPapers">기타서류</string>
+    <string name="residntBuildPrpos">거주자\n건물용도</string>
+    <string name="residntBuildAr">건물면적</string>
+    <string name="residntRsdBuildReincrprAt">주거건물\n재편입 여부</string>
+    <string name="residntHouseHoldMemNo">가구원 수</string>
+    <string name="residntLc">거주위치</string>
+    <string name="residntRealIncrprAr">실제편입면적</string>
+    <string name="residntDtls">거주자내역</string>
+    <string name="residntRamtCalWtn">보상액 내역</string>
+    <string name="residntAr">거주면적</string>
+    <string name="residntSe">거주자 구분</string>
+    <string name="residntHshldrRelate">세대주와의 관계</string>
+    <string name="residntPd">거주기간</string>
+    <string name="residntPdBgnDe">거주기간시작</string>
+    <string name="residntPdEndde">거주기간종료</string>
+    <string name="residntBasis">거주근거</string>
+    <string name="etcBasisData">기타 근거자료</string>
+    <string name="pbcbizReincrprBasis">공익사업 재편입 근거</string>
+    <string name="prerptBsnsNm">기보상 사업명</string>
+    <string name="prerptNtfcDe">기보상 고시일</string>
+    <string name="prerptDe">기보상일자</string>
+    <string name="ReincrprBasisEnnc">재편입근거 유무</string>
+    <string name="ReincrprBasis">재편입근거</string>
+    <string name="aceptncFactCnfrmn">수용사실확인서</string>
+    <string name="ladRgist">토지등기부</string>
+    <string name="etcPrufData">기타 증빙자료</string>
+    <string name="LsCtrtcEnnc">임대차계약서 유무</string>
+    <string name="addResidntDtlsBtn">거주자 추가</string>
+
+
+    <!--분묘조서 조서탭-->
+    <string name="tombNo">분묘 번호</string>
+    <string name="tombSe">*분묘 구분</string>
+    <string name="tombRlativ">*분묘 연고자</string>
+    <string name="tombBurlTy">분묘 매장자 유형</string>
+    <string name="tombBurlScale">*매장 규모</string>
+    <string name="tombBytgtCn">합장 내용</string>
+    <string name="tombThing">시설물</string>
+    <string name="tombThingKnd">분묘 시설물</string>
+    <string name="tombCemeteryRegister">묘적부</string>
+    <string name="tombCemeteryRegisterRead">묘적부</string>
+    <string name="tombThingAdd">시설물 추가</string>
+    <string name="tombIncrprQy">편입수량</string>
+    <string name="tombBurlDe">매장일자</string>
+    <string name="tombBytgtScale">합장규모</string>
+    <string name="tombRlativRelate">연고자와 관계</string>
+
+    <!--광업조서 조서탭-->
+    <string name="minrgtSearch">광업권 설정</string>
+    <string name="minrgtRegistNum">*등록번호</string>
+    <string name="minrgtLgstr">*광업지적</string>
+    <string name="minrgtMnrlKnd">*광종</string>
+    <string name="minrgtProspectPlan">탐광계획\n신고일자</string>
+    <string name="minrgtMiningPlan">채광계획\n인가일자</string>
+    <string name="minrgtMnrlPrdctn">광물생산보고자료</string>
+    <string name="minrgtInclsSe">포함구분</string>
+    <string name="minrgtAcqsSe">취득구분</string>
+    <string name="minrgtOwnerCnfirmBasis">소유자확인근거</string>
+    <string name="minrgtRewardTrgetAt">보상대상여부</string>
+    <string name="minrgtappRslEvlTrgetAt">감정평가대상여부</string>
+    <string name="minrgtDayCount">일수</string>
+    <string name="minrgtAvrgWage">평균임금</string>
+    <string name="minrgtCalcPd">산정기간</string>
+    <string name="minrgtCmercWage">통상임금</string>
+    <string name="minrgtBeforeDe">근로장소\n이전일자</string>
+    <string name="minrgtunemployedDe">실직일자</string>
+    <string name="minrgtunemployedResn">실직사유</string>
+
+    <!--어업조서 조서탭-->
+    <string name="fyhtsAdministGrc">*행정관청</string>
+    <string name="fyhtsLcnsCl">*허가등 구분</string>
+    <string name="fyhtsLcnsKnd">*허가등 종류</string>
+    <string name="fyhtsLcnsNum">*허가등 번호</string>
+    <string name="fyhtsLcnsDe">허가등 일자</string>
+    <string name="fyhtsFshlLc">어장의 위치</string>
+    <string name="fshrMth">*어업의 방법</string>
+    <string name="fyhtsSrfwtrLcZon">수면의 위치 및\n 구역도</string>
+    <string name="fyhtsTitle">어업권 설정</string>
+    <string name="fyhtsOwnerCnfirmBasis">소유자확인근거</string>
+    <string name="fyhtsCommCntnncPdEndde">존속기간끝</string>
+    <string name="fyhtsBsnCl">어업손실분류</string>
+    <string name="fyhtsSssMthCo">어업손실개월수</string>
+    <string name="fyhtsAr">면적(㏊)</string>
+
+    <!-- 소유자 관계인 추가 -->
+    <string name="ownerSelect">선택</string>
+    <string name="ownerDivision">구분</string>
+    <string name="ownerName">이름</string>
+    <string name="ownerSameName">-</string>
+    <string name="ownerCprNo">주민(법인)번호</string>
+    <string name="ownerDelvyAddr">송달주소</string>
+    <string name="ownerPcnRightRelate">관계인권리관계</string>
+    <string name="ownerSearchDiv">조서\n구분</string>
+    <string name="ownerRgistAdres">등기부주소</string>
+
+    <!-- 잔여지 조서탭 -->
+    <string-array name="restLandQuestArr">
+        <item>지목과 토지이용현황이 동일성\n* 동일하지 않은 경우 불법형질 변경 등 해당여부</item>
+        <item>사업인정고시일 당시 현실적인 토지이용 상황</item>
+        <item>잔여지의 소유자 동일성\n* 동일하지 않은 경우 연접 토지 소유자와의 관계(친인척, 명의신탁 등)</item>
+        <item>잔여지 면적 및 편입비율</item>
+        <item>잔여지로의 진/출입로 또는 용/배수로 차단여부 및 진입로 개설 가능 여부</item>
+        <item>잔여지 형상 및 연접토지와 차단</item>
+        <item>영농현황 및 기계영농 여부\n* 기게영농의 경우 농기계 폭/회전반경 등</item>
+        <item>건축 가능면적(분할제한 면적, 건페율 적용면적 등</item>
+        <item>공익사업시행 또는 시설설치로 인한 배수/일조/조망 등 피해여부\n* 관련 조정, 심판, 소송 등 분재 절차 진행 및 결과</item>
+        <item>기타\n* 종래 목적 사용가능 여부와 관련된 그 밖의 내용</item>
+    </string-array>
+    <string name="restLandRewardChkResult">확대보상여부 결과</string>
+    <string name="restLandReason">이유</string>
+
+    <!-- 잔여건물 조서탭 -->
+    <string-array name="restThingQuestArr">
+        <item>지목과 토지이용현황이 동일성\n* 동일하지 않은 경우 불법형질 변경 등 해당여부</item>
+        <item>사업인정고시일 당시 현실적인 토지이용 상황</item>
+        <item>잔여지의 소유자 동일성\n* 동일하지 않은 경우 연접 토지 소유자와의 관계(친인척, 명의신탁 등)</item>
+        <item>잔여지 면적 및 편입비율</item>
+        <item>잔여지로의 진/출입로 또는 용/배수로 차단여부 및 진입로 개설 가능 여부</item>
+        <item>잔여지 형상 및 연접토지와 차단</item>
+        <item>영농현황 및 기계영농 여부\n* 기게영농의 경우 농기계 폭/회전반경 등</item>
+        <item>건축 가능면적(분할제한 면적, 건페율 적용면적 등</item>
+        <item>공익사업시행 또는 시설설치로 인한 배수/일조/조망 등 피해여부\n* 관련 조정, 심판, 소송 등 분재 절차 진행 및 결과</item>
+        <item>기타\n* 종래 목적 사용가능 여부와 관련된 그 밖의 내용</item>
+    </string-array>
+
+    <string name="restThingRewardChkResult">확대보상여부 결과</string>
+    <string name="restThingReason">이유</string>
+
+    <string name="restEditTextHint">입력/수정 (최대 200자)</string>
+    <string name="restReasonHint">입력/수정 (최대 100자)</string>
+
+
+    <!-- Array -->
+    <string-array name="biz_confirm_category_array">
+        <item>사업 전체</item>
+        <item>현장조사</item>
+        <item>이의신청</item>
+        <item>감정평가</item>
+        <item>재결평가</item>
+        <item>잔여지</item>
+    </string-array>
+
+    <string-array name="biz_category_array">
+        <item>토지</item>
+        <item>지장물(물건)</item>
+        <item>영업ㆍ축산업ㆍ잠업</item>
+        <item>농업</item>
+        <item>거주자</item>
+        <item>분묘</item>
+    </string-array>
+
+    <string-array name="context_naver_map_array">
+        <item>조서 작성</item>
+        <item>사진 촬영</item>
+    </string-array>
+
+    <string-array name="context_naver_lndpcl_array">
+        <item>토지 조서</item>
+        <item>지장물 조서</item>
+        <item>영업ㆍ축산업ㆍ잠업 조서</item>
+        <item>농업 조서</item>
+        <item>거주자 조서</item>
+        <item>분묘 조서</item>
+        <item>광업권 조서</item>
+        <item>어업권 조서</item>
+    </string-array>
+
+    <!--토지조서 현실적인 이용현황 SpinnerArray-->
+    <string-array name="landUseRealtyUseSttusArray">
+        <item>선택</item>
+        <item>전</item>
+        <item>답</item>
+        <item>과수원</item>
+        <item>목장용지</item>
+        <item>임야</item>
+        <item>광천지</item>
+        <item>염전</item>
+        <item>대</item>
+        <item>공장용지</item>
+        <item>학교용지</item>
+        <item>주차장</item>
+        <item>주유소용지</item>
+        <item>창고용지</item>
+        <item>도로</item>
+        <item>제방</item>
+        <item>하천</item>
+        <item>구거</item>
+        <item>유지</item>
+        <item>양어장</item>
+        <item>수도용지</item>
+        <item>공원</item>
+        <item>체육용지</item>
+        <item>유원지</item>
+        <item>종교용지</item>
+        <item>사적지</item>
+        <item>묘지</item>
+        <item>잡종지</item>
+        <item>철도용지</item>
+        <item>알수없음</item>
+    </string-array>
+
+    <!--물건조서 소분류 spinner-->
+    <string-array name="thingSmallCategoryArray">
+        <item>선택</item>
+        <item>동산이전</item>
+        <item>일반건축물</item>
+        <item>집합건축물</item>
+        <item>공작물</item>
+        <item>수목</item>
+        <item>개간비</item>
+        <item>잔여지가격손실</item>
+        <item>소유권이외의권리</item>
+        <item>기타</item>
+    </string-array>
+
+    <!--물건조서 조사방식-->
+    <string-array name="thingExaminMthArray">
+        <item>선택</item>
+        <item>개별</item>
+        <item>면적</item>
+        <item>기타</item>
+    </string-array>
+
+    <string-array name="thingUnitArray">
+        <item>선택</item>
+        <item>개</item>
+        <item>건</item>
+        <item>공</item>
+        <item>구</item>
+        <item>군</item>
+        <item>권</item>
+        <item>기</item>
+        <item>대</item>
+        <item>대분</item>
+        <item>동</item>
+        <item>두</item>
+        <item>드럼</item>
+        <item>롤</item>
+        <item>마리</item>
+        <item>매</item>
+        <item>박스</item>
+        <item>벌</item>
+        <item>병</item>
+        <item>본</item>
+        <item>분</item>
+        <item>삭</item>
+        <item>상</item>
+        <item>시</item>
+        <item>식</item>
+        <item>실</item>
+        <item>자</item>
+        <item>장</item>
+        <item>점</item>
+        <item>조</item>
+        <item>주</item>
+        <item>줄</item>
+        <item>짝</item>
+        <item>쪽</item>
+        <item>채</item>
+        <item>척</item>
+        <item>칸</item>
+        <item>통</item>
+        <item>틀</item>
+        <item>평</item>
+        <item>포트</item>
+        <item>회선</item>
+        <item>BOX</item>
+        <item>EA</item>
+        <item>Kw</item>
+        <item>L</item>
+        <item>LINE</item>
+        <item>㎜</item>
+        <item>㎝</item>
+        <item>㎞</item>
+        <item>㎟</item>
+        <item>㎠</item>
+        <item>㎡</item>
+        <item>㎢</item>
+        <item>㎣</item>
+        <item>㎤</item>
+        <item>㎥</item>
+        <item>㎦</item>
+        <item>R</item>
+        <item>SET</item>
+        <item>TON</item>
+        <item>UNIT</item>
+        <item>w</item>
+        <item>일</item>
+        <item>폭</item>
+        <item>㎏</item>
+        <item>묶음</item>
+        <item>필</item>
+    </string-array>
+
+    <!--영업조서 영업구분-->
+    <string-array name="bsnBsnSeArray">
+        <item>선택</item>
+        <item>일반영업</item>
+        <item>잠업</item>
+        <item>축산업</item>
+    </string-array>
+
+    <!--영업조서 소분류-->
+    <!--일반영업-->
+    <string-array name="bsnCommSmallCtgArray">
+        <item>선택</item>
+        <item>(영업)시설물</item>
+<!--        <item>(영업)실직자</item>-->
+<!--        <item>(영업)휴직자</item>-->
+<!--        <item>(영업)영업보상특례</item>-->
+    </string-array>
+
+    <!--축산업-->
+    <string-array name="bsnBrdSmallCtgArray">
+        <item>선택</item>
+        <item>(축산)시설물</item>
+<!--        <item>(축산)실직자</item>-->
+<!--        <item>(축산)휴직자</item>-->
+<!--        <item>(축산)영업보상특례</item>-->
+    </string-array>
+
+    <!--잠업-->
+    <string-array name="bsnSricltSmallCtgArray">
+        <item>선택</item>
+        <item>(잠업)시설물</item>
+<!--        <item>(잠업)실직자</item>-->
+<!--        <item>(잠업)휴직자</item>-->
+<!--        <item>(잠업)영업보상특례</item>-->
+    </string-array>
+    <!--영업조서 소분류-->
+
+    <!--영업조서 구분-->
+    <string-array name="bsnSeArray">
+        <item>선택</item>
+        <item>개인</item>
+        <item>법인</item>
+    </string-array>
+
+    <!--영업조서 점유 구분-->
+    <string-array name="bsnCommPossesnSeArray">
+        <item>선택</item>
+        <item>자가</item>
+        <item>임차</item>
+    </string-array>
+
+    <!--영업조서 임차방식-->
+    <string-array name="bsnHireMthd">
+        <item>선택</item>
+        <item>전세</item>
+        <item>월세</item>
+    </string-array>
+
+    <!--영업조서 허가등(임시)-->
+    <string-array name="bsnPrmisnArray">
+        <item>선택</item>
+        <item>허가등1</item>
+        <item>허가등2</item>
+        <item>허가등3</item>
+        <item>허가등4</item>
+        <item>허가등5</item>
+    </string-array>
+
+    <!--영업조서 가축구분-->
+    <string-array name="bsnLvstckStringArrayl">
+        <item>선택</item>
+        <item>닭</item>
+        <item>토끼</item>
+        <item>오리</item>
+        <item>돼지</item>
+        <item>소</item>
+        <item>사슴</item>
+        <item>염소 \u0026 양</item>
+        <item>꿀벌</item>
+    </string-array>
+
+    <!--영업조서 시설물 spinnerArray-->
+    <string-array name="bsnFrlndBasisArray">
+        <item>선택</item>
+        <item>영업 시설물1</item>
+        <item>영업 시설물2</item>
+        <item>영업 시설물3</item>
+        <item>영업 시설물4</item>
+    </string-array>
+
+    <!--농업 소분류-->
+    <string-array name="farmSmallCategoryArray">
+        <item>선택</item>
+        <item>농업보상</item>
+        <item>농업시설물</item>
+        <item>농기구</item>
+    </string-array>
+    <!--농업 소분류-->
+    <string-array name="farmSmallCategorySubArray">
+        <item>선택</item>
+        <item>농업시설물</item>
+        <item>농기구</item>
+        <item>농작물</item>
+    </string-array>
+
+    <!--농지 근거-->
+    <string-array name="farmFrlndBasisArray">
+        <item>선택</item>
+        <item>전, 답, 과수원</item>
+        <item>다년생경작(3년 이상)</item>
+        <item>전용허가받은 임야</item>
+        <item>경작 부속시설</item>
+        <item>기타</item>
+        <item>고정식온실VH</item>
+    </string-array>
+
+    <!--농민 근거-->
+    <string-array name="farmFarmerBasisArray">
+        <item>선택</item>
+        <item>1,000㎡ 이상 경작</item>
+        <item>1년중 90일이상 경작</item>
+        <item>330㎡ 이상 VH</item>
+        <item>기타</item>
+    </string-array>
+
+    <!--점유구분-->
+    <string-array name="farmPrmisnSeArray">
+        <item>선택</item>
+        <item>자경</item>
+        <item>임차농</item>
+    </string-array>
+
+    <!--실제소득출처 구분-->
+    <string-array name="farmIncomeOriginSeArray">
+        <item>선택</item>
+        <item>농안법(도매시장 등)</item>
+        <item>대형마트/백화점</item>
+        <item>호텔</item>
+        <item>국가/지자체</item>
+        <item>세관/세무처</item>
+        <item>기타</item>
+    </string-array>
+
+    <!--거주자 소분류-->
+    <string-array name="residntSmallSclas">
+        <item>선택</item>
+        <item>주거이전비</item>
+        <item>이사비</item>
+    </string-array>
+
+    <!--거주자조서 거주구분-->
+    <string-array name="residntSeArray">
+        <item>선택</item>
+        <item>자가</item>
+        <item>임차(세입자)</item>
+        <item>임차(무상거주)</item>
+    </string-array>
+
+    <!--거주자 구분-->
+    <string-array name="residntTyArray">
+        <item>선택</item>
+        <item>세대주</item>
+        <item>세대원</item>
+    </string-array>
+
+    <!--분묘 조서 분묘 구분-->
+    <string-array name="tombSeArray">
+        <item>선택</item>
+        <item>분묘</item>
+        <item>가묘</item>
+    </string-array>
+
+    <!--분묘 매장자 유형-->
+    <string-array name="tombBurlTyArray">
+        <item>선택</item>
+        <item>일반</item>
+        <item>아장</item>
+        <item>자연장</item>
+    </string-array>
+
+    <!--분묘조서 매장 규모-->
+    <string-array name="tombBurlScaleArray">
+        <item>선택</item>
+        <item>단장</item>
+        <item>합장</item>
+    </string-array>
+
+    <!--분묘 합장 규모-->
+    <string-array name="tombBytgtScaleArray">
+        <item>선택</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6 이상</item>
+    </string-array>
+
+    <!--분묘 매장자 성별-->
+    <string-array name="tombSexdstnArray">
+        <item>선택</item>
+        <item>남</item>
+        <item>여</item>
+    </string-array>
+
+    <!--분묘 연고자 유무-->
+    <string-array name="tombRlativArray">
+        <item>선택</item>
+        <item>유연</item>
+        <item>무연</item>
+        <item>기타</item>
+    </string-array>
+
+    <!--광업 소분류-->
+    <string-array name="wtnncCommSclasArray">
+        <item>선택</item>
+        <item>시설물</item>
+        <item>실직자</item>
+        <item>휴직자</item>
+    </string-array>
+
+    <string-array name="fyhtsSclasArray">
+        <item>선택</item>
+        <item>어업 시설물</item>
+    </string-array>
+
+    <!--소유자확인근거부류-->
+    <string-array name="ownerCnfirmBasisArray">
+        <item>선택</item>
+        <item>등기부등본</item>
+        <item>허가대장</item>
+        <item>과세대장</item>
+        <item>기타증빙서류</item>
+        <item>현장탐문조사</item>
+    </string-array>
+
+    <!--포함분류-->
+    <string-array name="InclsSeArray">
+        <item>선택</item>
+        <item>편입</item>
+        <item>미편입</item>
+        <item>잔여지</item>
+        <item>잔여건물</item>
+    </string-array>
+
+    <!--취득분류-->
+    <string-array name="acqsSeArray">
+        <item>선택</item>
+        <item>취득</item>
+        <item>이전</item>
+        <item>일시사용</item>
+        <item>지상영구사용</item>
+        <item>지하영구사용</item>
+        <item>무상사용</item>
+        <item>무상귀속</item>
+        <item>무상관리환</item>
+        <item>유상사용</item>
+        <item>유상귀속</item>
+        <item>유상관리환</item>
+        <item>미취득</item>
+    </string-array>
+
+    <!--영업 허가등 구분 -->
+    <string-array name="bsnPrmisnSeArray">
+        <item>선택</item>
+        <item>자유업</item>
+        <item>허가업</item>
+        <item>인가업</item>
+        <item>신고업</item>
+        <item>면허업</item>
+        <item>등록업</item>
+        <item>기타업종</item>
+    </string-array>
+
+    <!--영업 영리 구분-->
+    <string-array name="bsnPrftmkSeArray">
+        <item>선택</item>
+        <item>영리</item>
+        <item>비영리</item>
+    </string-array>
+
+    <!-- 특수토지분류 -->
+    <string-array name="spclLadClArray">
+        <item>선택</item>
+        <item>개간지</item>
+        <item>공부불일치</item>
+        <item>구거</item>
+        <item>기타</item>
+        <item>도로</item>
+        <item>도수로</item>
+        <item>무허가건축부지</item>
+        <item>미불용지</item>
+        <item>불법형질변경</item>
+        <item>선하지</item>
+        <item>해당사항 없음</item>
+        <item>저수지</item>
+        <item>하천구역</item>
+    </string-array>
+
+    <!--소유자확인그거분류 -->
+    <string-array name="ownercnfirmbasisArray">
+        <item>선택</item>
+        <item>등기부등본</item>
+        <item>허가대장</item>
+        <item>과세대장</item>
+        <item>기타증빙서류</item>
+        <item>현장탐문조사</item>
+    </string-array>
+    <string-array name="prmisnCl">
+        <item>선택</item>
+        <item>건축물대장</item>
+        <item>과세대상</item>
+        <item>항공사진</item>
+        <item>기타</item>
+    </string-array>
+
+
+    <string-array name="restThingRewardChkArray">
+        <item>선택(보상/선택)</item>
+        <item>보상</item>
+        <item>선택</item>
+    </string-array>
+
+    <string-array name="bsnClDivArray">
+        <item>선택</item>
+        <item>휴업</item>
+        <item>폐업</item>
+    </string-array>
+
+    <string-array name="fyhtsBsnClArray">
+        <item>선택</item>
+        <item>취소보상</item>
+        <item>제한보상</item>
+        <item>정지보상</item>
+        <item>어업보상불가</item>
+    </string-array>
+
+    <string-array name="minrgtBsnClArray">
+        <item>선택</item>
+        <item>휴업</item>
+        <item>감구</item>
+        <item>광업보상불가</item>
+    </string-array>
+
+    <string-array name="frmrbsDbtamtAt">
+        <item>선택</item>
+        <item>일치</item>
+        <item>불일치</item>
+        <item>직불금미수령</item>
+    </string-array>
+
+    <string-array name="posesnLadResideAt">
+        <item>선택</item>
+        <item>거주</item>
+        <item>비거주</item>
+        <item>해당없음</item>
+    </string-array>
+
+    <string-array name="posesnLadFarmerAt">
+        <item>선택</item>
+        <item>농민</item>
+        <item>비농민</item>
+        <item>해당없음</item>
+    </string-array>
+
+    <string-array name="posesnOwnerClvtCnfirmAt">
+        <item>선택</item>
+        <item>경작사실확인서 있음</item>
+        <item>경작사실확인서 없음</item>
+        <item>해당없음</item>
+    </string-array>
+
+    <string-array name="posesnDbtamtRepAt">
+        <item>선텍</item>
+        <item>수령</item>
+        <item>미수령</item>
+        <item>해당없음</item>
+    </string-array>
+
+    <string-array name="realIncomeAt">
+        <item>선택</item>
+        <item>여</item>
+        <item>부</item>
+        <item>해당없음</item>
+    </string-array>
+
+    <string-array name="lcnsClArray">
+        <item>선택</item>
+        <item>면허어업</item>
+        <item>허가어업</item>
+        <item>신고어업</item>
+        <item>양식업</item>
+    </string-array>
+
+    <string-array name="indvdlClArray">
+        <item>선택</item>
+        <item>금(한정)치산자</item>
+        <item>외국영주권자</item>
+        <item>외국시민권자</item>
+        <item>사망자</item>
+        <item>알수없음</item>
+        <item>일반인</item>
+    </string-array>
+
+    <string-array name="indvdlDtilClArray">
+        <item>선택</item>
+        <item>성인</item>
+        <item>미성년자</item>
+    </string-array>
+
+    <string-array name="ownerClArray">
+        <item>선택</item>
+        <item>사유</item>
+        <item>국유</item>
+        <item>공유</item>
+        <item>알수없음</item>
+    </string-array>
+
+    <string-array name="grpClBankArray">
+        <item>선택</item>
+        <item>은행</item>
+    </string-array>
+
+    <string-array name="grpClArray">
+        <item>선택</item>
+        <item>법인</item>
+        <item>종중,문중</item>
+        <item>법인 아닌 사단,재단</item>
+        <item>종교단체</item>
+        <item>알수없음</item>
+        <item>어촌계</item>
+        <item>국가</item>
+        <item>지자체</item>
+    </string-array>
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="camera_info_title">현장지원모바일 현장조사 사진 촬영모드입니다.</string>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.navigation.NavigationView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/navigationViewLayer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/navigation_drawer_layer_menu"
+        style="@style/Widget.NCMS.NavigationLayerView">
+
+<!--        <ListView-->
+<!--                android:entries="@array/biz_category_array"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"/>-->
+
+</com.google.android.material.navigation.NavigationView>
+
+

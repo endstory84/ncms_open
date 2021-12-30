@@ -1,0 +1,35 @@
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+  <path
+      android:pathData="M58.772,67.634L7.509,84.724C2.652,98.241 0,112.81 0,128c0,16.7 3.201,32.651 9.02,47.278l49.753,-16.588V67.634z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M58.772,20.322c-14.251,9.181 -26.556,21.116 -36.175,35.048l36.175,-12.06V20.322z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M19.594,196.075c10.002,15.894 23.396,29.437 39.179,39.603v-52.663L19.594,196.075z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M81.849,183.035v64.384C96.167,252.957 111.728,256 128,256c25.507,0 49.271,-7.463 69.229,-20.322v-14.174L81.849,183.035z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M242.964,71.675c-5.865,-11.95 -13.536,-22.851 -22.661,-32.348v41.412L242.964,71.675z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M220.303,196.145l20.896,-8.358C250.642,169.94 256,149.597 256,128c0,-12.054 -1.669,-23.716 -4.784,-34.774l-30.913,12.366V196.145z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M81.849,158.69l115.38,38.468l0,-91.059l-115.38,-38.465z"
+      android:fillColor="#4B4B4B"/>
+  <path
+      android:pathData="M197.229,81.778V20.322C177.271,7.464 153.507,0 128,0c-16.272,0 -31.833,3.044 -46.151,8.581v34.753L197.229,81.778z"
+      android:fillColor="#4B4B4B"/>
+</vector>

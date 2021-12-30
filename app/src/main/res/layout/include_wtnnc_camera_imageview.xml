@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ECEBEB"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+            android:id="@+id/wtnccCameraImageView"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/img_picture_none"
+    />
+
+<!--    <TextView-->
+<!--            android:id="@+id/wtnccCameraTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/notosansregular"-->
+<!--            android:textAlignment="center"-->
+<!--            android:text="index"-->
+<!--            android:layout_margin="10dp"-->
+<!--            app:layout_constraintHorizontal_bias="0.5"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/wtnccCameraImageView"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/wtnccCameraImageView"/>-->
+
+    <ImageButton
+            android:id="@+id/wtnncCameraDeleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cancel"
+            android:background="@null"
+            app:tint="@color/gray_70"
+            android:visibility="gone"
+            android:layout_margin="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/wtnccCameraImageView"
+            app:layout_constraintEnd_toEndOf="@+id/wtnccCameraImageView"
+
+            />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

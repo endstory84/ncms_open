@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:padding="14dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvSignUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nsquareextrabold"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageButton
+                android:id="@+id/btnSignReset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:tint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_eraser" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main_sign"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/textview_border"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout21"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout7"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout7"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout7">
+
+            <android.gesture.GestureOverlayView
+                android:id="@+id/gestureView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="@android:color/white"
+                android:clickable="false"
+                android:eventsInterceptionEnabled="true"
+                android:fadeEnabled="false"
+                android:fadeOffset="10000000"
+                android:gestureColor="@color/black"
+                android:gestureStrokeLengthThreshold="0.1"
+                android:gestureStrokeType="multiple"
+                android:longClickable="false"
+                android:orientation="vertical"
+                android:splitMotionEvents="true"
+                android:uncertainGestureColor="#000000">
+
+            </android.gesture.GestureOverlayView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout21"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:weightSum="2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/main_sign"
+            app:layout_constraintStart_toStartOf="@+id/main_sign">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignCancel"
+                style="@style/Widget.NCMS.Alert.Button.Negative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="취소" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSignSave"
+                style="@style/Widget.NCMS.Alert.Button.Positive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="저장" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

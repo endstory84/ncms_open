@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingDefaultResource">
+
+    <kr.or.kreb.ncms.mobile.view.CustomScrollView
+        android:id="@+id/layout_camera_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:fillViewport="true"
+        tools:context=".fragment.CameraViewFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/imageViewFragmentCameraImageView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/textview_border"
+                app:layout_constraintDimensionRatio="0.8:1"
+                app:layout_constraintEnd_toEndOf="@+id/layoutCameraView2"
+                app:layout_constraintStart_toStartOf="@+id/layoutCameraView2"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                        android:id="@+id/imageViewFragmentCameraPreview"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintHeight_percent="0.9"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/layoutCameraView1"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/imageViewFragmentCameraImageView">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewFragmentCameraViewLonLatLabel"-->
+<!--                    style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                    android:text="사진촬영 좌표"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/textViewFragmentCameraViewLonLat"-->
+<!--                    app:layout_constraintHorizontal_weight="1"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewFragmentCameraViewLonLat"-->
+<!--                    style="@style/Widget.NCMS.WtnccValueTextView"-->
+<!--                    android:gravity="center"-->
+<!--                    android:text="@string/loanValue_b1_01"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_weight="1"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/textViewFragmentCameraViewLonLatLabel"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCameraView2"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageViewFragmentCameraImageView">
+
+                <TextView
+                    android:id="@+id/imageViewFragmentCameraViewAzimuthLabel"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="방위각"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/imageViewFragmentCameraViewAzimuthLayout"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                />
+
+                <LinearLayout
+                    android:id="@+id/imageViewFragmentCameraViewAzimuthLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/imageViewFragmentCameraViewAzimuthLabel"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageViewFragmentCameraViewAzimuth"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:layout_weight="0.5"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_north"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintStart_toEndOf="@id/imageViewFragmentCameraViewAzimuthLabel"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewFragmentCameraViewAzimuth"
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:layout_margin="2dp"
+                        android:layout_weight="0.5" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCameraView3"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutCameraView2">
+
+                <TextView
+                    android:id="@+id/textViewFragmentCameraViewEtcLabel"
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="비고"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/textViewFragmentCameraViewEtc"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                />
+
+                <EditText
+                    android:id="@+id/textViewFragmentCameraViewEtc"
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:layout_weight="1"
+                    android:background="@drawable/textview_border"
+                    android:hint="비고란"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@id/textViewFragmentCameraViewEtcLabel"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:id="@+id/layoutCameraView4"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="100dp"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/layoutCameraView3">-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewFragmentCameraViewSignLabel"-->
+<!--                    style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                    android:text="(서명)"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/textViewFragmentCameraViewSignLayout"-->
+<!--                    app:layout_constraintHorizontal_weight="1"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/textViewFragmentCameraViewSignLayout"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="2dp"-->
+<!--                    android:background="@drawable/textview_border"-->
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintHorizontal_weight="1"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/textViewFragmentCameraViewSignLabel"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/imageViewSignPreview"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:visibility="gone" />-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/tvSignPreview"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="서명란을 클릭해주세요." />-->
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCameraView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutCameraView3">
+
+                <Button
+                    android:id="@+id/buttonCameraViewCancel"
+                    style="@style/Widget.NCMS.Alert.Button.Negative"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="취소"
+                    app:layout_constraintEnd_toStartOf="@id/buttonCameraViewSubmit"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/buttonCameraViewSubmit"
+                    style="@style/Widget.NCMS.Alert.Button.Positive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="확인"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toEndOf="@+id/buttonCameraViewCancel"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </kr.or.kreb.ncms.mobile.view.CustomScrollView>
+
+</layout>

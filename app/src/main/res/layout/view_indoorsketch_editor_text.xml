@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/layoutIndoorSketchTextviewLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:id="@+id/frmBorder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_round_textview_border">
+
+        <TextView
+            android:id="@+id/tvIndoorSktetchEditorText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:padding="10dp"
+            android:gravity="center"
+            tools:text="ncms" />
+
+
+        <EditText
+                android:id="@+id/editIndoorSktetchEditorText"
+                android:visibility="gone"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:padding="10dp"
+                android:gravity="center"
+                tools:text="ncms" />
+
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.Group
+            android:id="@+id/indoorButtonGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="imgindoorSketchEditorMove, imgindoorSketchEditorClose" />
+
+    <ImageView
+            android:id="@+id/imgindoorSketchEditorMove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="1dp"
+            android:src="@drawable/ic_move"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+            android:id="@+id/imgindoorSketchEditorClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:elevation="1dp"
+            android:src="@drawable/ic_remove"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--        -->
+
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

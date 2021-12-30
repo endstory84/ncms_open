@@ -1,0 +1,39 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="NCMS.AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/design_default_color_primary_variant</item>
+        <item name="colorSecondary">@color/colorPrimaryDark</item>
+        <!--<item name="colorOnSecondary">@color/design_default_color_on_secondary</item>
+        <item name="colorControlHighlight">@color/color_control_light</item>
+        <item name="colorPrimarySurface">@color/color_surface_secondary</item>-->
+
+        <!-- Window decor -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+
+
+        <item name="toolbarStyle">@style/Widget.NCMS.Toolbar</item>
+        <!--<item name="tabStyle">@style/TextAppearance.NCMS.Tab</item>-->
+        <item name="navigationViewStyle">@style/Widget.NCMS.NavigationView</item>
+
+        <!-- Text appearances -->
+        <item name="textAppearanceBody2">@style/TextAppearance.NCMS.Body2</item>
+        <item name="textAppearanceButton">@style/TextAppearance.NCMS.Button</item>
+        <item name="textAppearanceListItem">@style/TextAppearance.NCMS.ListPrimary</item>
+
+        <!-- Dialogs -->
+        <item name="materialAlertDialogTheme">@style/Widget.NCMS.AlertDialog.NCMS.Theme</item>
+
+        <!-- Switch -->
+        <item name="switchStyle">@style/Widget.NCMS.Switch</item>
+        <item name="searchViewStyle">@style/Widget.NCMS.SearchView</item>
+
+        <item name="textInputStyle">@style/Widget.NCMS.TextInputLayout</item>
+
+        <!--<item name="spinnerStyle">@style/Widget.NCMS.Spinner</item>-->
+
+    </style>
+</resources>

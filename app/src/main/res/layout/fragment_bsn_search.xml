@@ -1,0 +1,1426 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@color/white">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                    android:id="@+id/bsnSearchFragmentLl1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/landSearchLocation"
+                        android:text="@string/wtnncCommLocplc"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchLocationText"
+                        android:layout_weight="3.07" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="4.5">
+
+                    <LinearLayout
+                            android:id="@+id/landSearchFragmentLl2"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/landSearchBgnnLnm"
+                                android:text="@string/wtnncCommOriginalLnm"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/landSearchincrprLnm"
+                                android:text="@string/wtnncCommincrprLnm"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/landSearchNomination"
+                                android:text="@string/wtnncCommLndcgr"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/landSearchRelatedLnm"
+                                android:text="@string/wtnncCommRelateLnm"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:id="@+id/landSearchFragmentLl3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchBgnnLnmText"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchincrprLnmText"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchNominationText"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchRelatedLnmText"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:id="@+id/searchShetchBtn"-->
+<!--                        android:textColor="@color/black"-->
+<!--                        android:background="@drawable/b_btn_add"-->
+<!--                        app:backgroundTint="@color/wtnncBtnCr"-->
+<!--                        android:layout_weight="0.5" />-->
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/searchShetchBtn"
+                        style="@style/Widget.NCMS.Wtncc.addButton" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommAllAr"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommIncrprAr"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/landInfoOwners"
+                        android:layout_weight="2" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/lanfInfoRelation"
+                        android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchBgnnArText"
+                        android:text="@string/loanValue_b2_05"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchIncrprArText"
+                        android:text="@string/loanValue_b2_06"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchOwnerText"
+                        android:layout_weight="2" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchOwnerRText"
+                        android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommNum"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/tv_bsn_require1"
+                        android:text="*소분류"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommThingKnd"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommStrctStndrd"
+                        android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnWtnCodeText"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnSclasSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnThingKnd"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnStrctNdStrndrd"
+                        android:layout_weight="2" />
+
+
+                <!--                <EditText-->
+<!--                        style="@style/Widget.NCMS.WtnccValueEditText"-->
+<!--                        android:id="@+id/bsnThingKnd"-->
+<!--                        android:layout_weight="1" />-->
+
+<!--                <EditText-->
+<!--                        style="@style/Widget.NCMS.WtnccValueEditText"-->
+<!--                        android:id="@+id/bsnStrctNdStrndrd"-->
+<!--                        android:layout_weight="1" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="0dp">
+
+                <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/wtnncCommArQy"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:text="@string/wtnncCommAll"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:text="@string/wtnncCommIncrpr"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommUnit"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommArComputBasis"
+                        android:layout_weight="1.5" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                <!--전체면적-->
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnBgnnAr"
+                        android:inputType="number"
+                        android:layout_weight="1" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnIncrprAr"
+                        android:inputType="number"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnUnitSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnArComputBasis"
+                        android:layout_weight="1.5" />
+
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnCl"
+                        android:background="@color/long_text_view_bgcolor"
+                        android:layout_weight="1" />
+                <TextView
+                        android:id="@+id/tv_bsn_require6"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnClDiv"
+                        android:layout_weight="1" />
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnClDivSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/bssMthCoLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:layout_weight="2"
+                        android:orientation="horizontal"
+                        android:background="@drawable/textview_border">
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bssMthCo"
+                            android:layout_weight="1" />
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bssMthCoText"
+                            android:layout_weight="1"
+                            android:inputType="text" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPlaceLgalBasis"
+                        android:layout_weight="1"
+                        android:background="@color/long_text_view_bgcolor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/addBsnBuldLinkViewGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+
+            <!--장소의 접법성 추가부분-->
+            <LinearLayout
+                    android:id="@+id/bsnPlaceLgalBasisViewGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPosesesnLgalBasis"
+                        android:background="@color/long_text_view_bgcolor"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommLgalAt"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_bsn_require2"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommPossesnSe"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:id="@+id/bsnPssLinearLayout1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:visibility="visible">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnLsCtrtcAt"
+                            android:layout_weight="1" />
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/pssLgalAt"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnCommPossesnSeSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/bsnPssLinearLayout2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1"
+                        android:visibility="visible">
+
+                    <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:background="@drawable/textview_border"
+                            android:layout_margin="2dp">
+
+                        <CheckBox
+                                android:id="@+id/pssHireCntrctAtChk"
+                                android:layout_width="31dp"
+                                android:layout_height="23dp"
+                                android:gravity="center"
+                                android:layout_margin="2dp"/>
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/bsnPssLinearLayout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnLesseeNm"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnLessorNm"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnLesseePcBgnde"
+                            android:layout_weight="1" />
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnLesseePcEndde"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/pssRentNameText"
+                            android:layout_weight="1"
+                            android:inputType="text" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/pssHireNameText"
+                            android:layout_weight="1"
+                            android:inputType="text" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:id="@+id/pssRentPeriodBgndeText"
+                            android:layout_weight="1" />
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:id="@+id/pssRentPeriodEnddeText"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnGtn"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnMtht"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnCntrctLc"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnCntrctAr"
+                            android:layout_weight="1" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnSpccntr"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bsnGtnText"
+                            android:layout_weight="1"
+                            android:inputType="number" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bsnMthtText"
+                            android:layout_weight="1"
+                            android:inputType="number" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bsnCntrctLcText"
+                            android:layout_weight="1"
+                            android:inputType="text" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bsnCntrctArText"
+                            android:layout_weight="1"
+                            android:inputType="number" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/bsnSpccntrText"
+                            android:inputType="text"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnLgalBasis"
+                        android:layout_weight="1"
+                        android:background="@color/long_text_view_bgcolor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:layout_constraintTop_toBottomOf="@id/landSearchFragmentLl3"
+                    app:layout_constraintBottom_toTopOf="@id/landSearchFragmentLl4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommLgalAt"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnOpenAt"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnSe"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr"
+                        android:id="@+id/tv_bsn_require8" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnRecivNm"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnNm"
+                        android:layout_weight="1" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnProperAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnOpenAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnPrmisnSeSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnPrmisnRecivNm"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnPrmisnNm"
+                        android:layout_weight="1" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnDe"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnPcBgned"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnPcEnded"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrmisnInstt"
+                        android:layout_weight="1" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnPrmisnDe"
+                        android:layout_weight="1" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnPrmisnPcBgned"
+                        android:layout_weight="1" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnPrmisnPcEndde"
+                        android:layout_weight="1" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnPrmisnInstt"
+                        android:layout_weight="1" />
+
+
+
+            </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/bsnBsnPdBgnde"
+                    android:layout_weight="1" />
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/bsnBsnPdEndde"
+                    android:layout_weight="1" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/bsnBuzplclC"
+                    android:layout_weight="1" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:text="@string/bsnBuzplcAr"
+                    android:layout_weight="1" />
+
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+            <TextView
+                    style="@style/Widget.NCMS.WtnccValueTextView"
+                    android:id="@+id/bsnBsnPdBgned"
+                    android:layout_weight="1" />
+            <TextView
+                    style="@style/Widget.NCMS.WtnccValueTextView"
+                    android:id="@+id/bsnBsnPdEndde"
+                    android:layout_weight="1" />
+
+            <!--영업장위치-->
+            <EditText
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:id="@+id/bsnBuzplcLc"
+                    android:layout_weight="1" />
+
+            <!--영업장면적-->
+            <EditText
+                    style="@style/Widget.NCMS.WtnccValueEditText"
+                    android:id="@+id/bsnBuzplcAr"
+                    android:layout_weight="1"
+                    android:inputType="number" />
+
+        </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnHnPhysixFcltyAt"
+                        android:layout_weight="1"
+                        android:background="@color/long_text_view_bgcolor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommProperAt"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_bsn_require5"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnSgnbrdNm"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnResdngHn"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnFcltsAt"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnSamenssHshldAt"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/hmftyProperAt"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnSgnbrdNm"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnResdngHn"
+                        android:layout_weight="1"
+                        android:inputType="number" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnFcltsAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnSamenssHshldAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnRegistrationDtls"
+                        android:layout_weight="1"
+                        android:background="@color/long_text_view_bgcolor" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnSttusConsistAt"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnPrftmkSe"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnRegistSe"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnRprsntv"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_bsn_require3"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnCmpnm"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnSttusConsistAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnPrftmkSeSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnRegistSeSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnRprsntv"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnCmpnm"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnInduty"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnBizcnd"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_bsn_require7"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/minrgtRegistNum"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_bsn_require4"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnRgsde"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/bsnNtfcRgsAt"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnInduty"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/bsnBizcnd"
+                        android:layout_weight="1"
+                        android:inputType="text" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/RegistrationNm"
+                        android:layout_weight="1"
+                        />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/bsnRgsde"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/bsnNtfcRgsAtChk"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/bsnBrdBaseLayout"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/bsnBrdDtls"
+                            android:layout_weight="1"
+                            android:background="@color/long_text_view_bgcolor" />
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                        android:id="@+id/bsnBrdBaseViewGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/bsnAddBrdLayoutBtn"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/b_btn_add"-->
+<!--                            app:backgroundTint="@color/wtnncBtnCr" />-->
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/bsnAddBrdLayoutBtn"-->
+<!--                            style="@style/Widget.NCMS.Wtncc.addButton" />-->
+                    <Button
+                            style="@style/Widget.NCMS.WtnccPopupButton"
+                            android:id="@+id/bsnAddBrdLayoutBtn"
+                            android:text="@string/bsnAddBrdLayoutBtn"
+                            android:layout_weight="1" />
+
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="@string/bsnAddThing"
+                        android:background="@color/long_text_view_bgcolor" />
+
+                <LinearLayout
+                        android:id="@+id/bsnBaseViewGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/bsnAddLayoutBtn"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@drawable/b_btn_add"-->
+<!--                            app:backgroundTint="@color/wtnncBtnCr" />-->
+
+<!--                    <com.google.android.material.button.MaterialButton-->
+<!--                            android:id="@+id/bsnAddLayoutBtn"-->
+<!--                            style="@style/Widget.NCMS.Wtncc.addButton" />-->
+                    <Button
+                            style="@style/Widget.NCMS.WtnccPopupButton"
+                            android:id="@+id/bsnAddLayoutBtn"
+                            android:text="@string/tombThingAdd"
+                            android:layout_weight="1" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="2"
+                        android:text="@string/fyhtsOwnerCnfirmBasis" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:text="@string/thingRewardAt" />
+
+
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:text="@string/thingApasmtTrgetAt" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/bsnOwnerCnfirmBasisSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_weight="1">
+
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/rwTrgetAtChk"
+                            android:gravity="center"
+
+                    />
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp">
+
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/apasmtTrgetAtChk"
+                            android:gravity="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/landInfoFragmentLl8"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <Button
+                        style="@style/Widget.NCMS.WtnccPopupButton"
+                        android:id="@+id/commPrmisnDtaBtn"
+                        android:text="@string/wtnncCommPrmisnDta"
+                        android:layout_weight="1" />
+
+                <Button
+                        style="@style/Widget.NCMS.WtnccPopupButton"
+                        android:id="@+id/commLsCtrtcBtn"
+                        android:text="@string/wtnncCommLsCtrtc"
+                        android:layout_weight="1" />
+
+                <Button
+                        style="@style/Widget.NCMS.WtnccPopupButton"
+                        android:id="@+id/commBsnmCeregrtBtn"
+                        android:text="@string/wtnncCommBsnmCeregrt"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/include_wtnnc_camera" />
+
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

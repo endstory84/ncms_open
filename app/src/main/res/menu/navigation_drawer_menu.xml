@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/drawer_menu_title_1">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                        android:id="@+id/drawer_lotmap"
+                        android:title="@string/drawer_menu_1"/>
+                <item
+                        android:id="@+id/drawer_lad"
+                        android:title="@string/drawer_menu_2" />
+                <item
+                        android:id="@+id/drawer_thing"
+                        android:title="@string/drawer_menu_3" />
+                <item
+                        android:id="@+id/drawer_bsn"
+                        android:title="@string/drawer_menu_4" />
+                <item
+                        android:id="@+id/drawer_farm"
+                        android:title="@string/drawer_menu_5" />
+                <item
+                        android:id="@+id/drawer_fshr"
+                        android:title="@string/drawer_menu_6" />
+                <item
+                        android:id="@+id/drawer_mndist"
+                        android:title="@string/drawer_menu_7" />
+                <item
+                        android:id="@+id/drawer_residnt"
+                        android:title="@string/drawer_menu_8" />
+                <item
+                        android:id="@+id/drawer_tomb"
+                        android:title="@string/drawer_menu_9" />
+            </group>
+        </menu>
+    </item>
+</menu>

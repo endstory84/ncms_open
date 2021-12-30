@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapActivity">
+
+    <com.slaviboy.infinitegridview.InfiniteGridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#46ADE8"
+            app:horizontalNormalLinesColor="#ffffff"
+            app:horizontalThickLinesColor="#ffffff"
+            app:verticalNormalLinesColor="#ffffff"
+            app:verticalThickLinesColor="#ffffff" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

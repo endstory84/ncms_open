@@ -1,0 +1,161 @@
+/*
+ * Create by sgablc team.eco-chain on 2021.
+ * Copyright (c) 2021. sgablc. All rights reserved.
+ */
+
+package kr.or.kreb.ncms.mobile.util
+
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.naver.maps.geometry.LatLng
+
+object JsonArrayParseUtil {
+
+
+    /**
+     * Geoserver에서 가져온 GeoJson을 파싱하여 LatLng로 변환하여 return
+     * @param resultArr
+     * @param resultAddrArr -> 임시 주소 Addr
+     * @param resultLadWtnCodeArr -> 임시 ladWtnCode Addr
+     * @param geomArr
+     * @return MutableList<ArrayList<LatLng>>
+     */
+
+    fun getGeomertyArrayParse(
+        resultArr: JsonArray,
+        resultAddrArr: MutableList<String>?,
+        resultLadWtnCodeArr: MutableList<String>?,
+        geomArr: MutableList<JsonArray>
+    ): MutableList<ArrayList<LatLng>> {
+
+        val resultLatLngArr = mutableListOf<ArrayList<LatLng>>()
+
+        resultArr.forEachIndexed { _, dataArr ->
+            if (dataArr.asJsonObject.get("geometry").toString() != "null") {
+                when {
+                    resultAddrArr != null -> {
+                        resultAddrArr.add(dataArr.asJsonObject.get("properties").asJsonObject.get("jibun").asString) // WFS DATA (지적도 지번)
+                    }
+                }
+                geomArr.add(dataArr.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray) // WFS DATA (지오메트리)
+            }
+
+            when {
+                resultLadWtnCodeArr != null -> {
+                    resultLadWtnCodeArr.add(dataArr.asJsonObject.get("properties").asJsonObject.get("LAD_WTN_CODE").asString)
+                }
+            }
+        }
+
+        geomArr.forEachIndexed { _, jsonArray ->
+            val geomJsonArr = jsonArray[0].asJsonArray.get(0).asJsonArray
+            val tempGeomStringArr = mutableListOf<String>()
+            val tempGeomLatLngArr = mutableListOf<LatLng>()
+
+            geomJsonArr.forEach { obj ->
+                val splitStr = obj.toString().replace("[", "").replace("]", "").split(",")
+                val sumStr = "${splitStr[1]}, ${splitStr[0]}"
+                    tempGeomStringArr.add(sumStr)
+            }
+
+            tempGeomStringArr.forEach {
+                tempGeomLatLngArr.add(LatLng(it.split(",")[0].toDouble(), it.split(",")[1].toDouble()))
+            }
+
+            resultLatLngArr.add(tempGeomLatLngArr as ArrayList<LatLng>)
+        }
+
+        return resultLatLngArr
+    }
+
+    /**
+     * 토지조서 Geometry Parse fn
+     * @param jsonArr 토지조서 코드에 분류되어진 필터링 된 Arr
+     * @param infoValueArr 토지조서 layer Info String Arr (GeoJSon -> properties -> 'No')
+     * @param geomArr Geometry Array
+     * @return MutableList<ArrayList<LatLng>>
+     */
+    fun getWtnccLandLayerGeometryArrayParse(resultArr: JsonArray, infoValueArr: MutableList<String>?, geomArr:MutableList<JsonArray>): MutableList<ArrayList<LatLng>>{
+        val resultLatLngArr = mutableListOf<ArrayList<LatLng>>()
+
+        resultArr.forEach {
+            if (it.asJsonObject.get("geometry").toString() != "null") {
+
+                when {
+                    infoValueArr != null -> {
+                        //resultLandInfoArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // 토지레이어 'No' value 대입
+                        infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("NO").asString) // 토지레이어 'No' value 대입
+                    }
+                }
+
+                geomArr.add(it.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray)
+            }
+        }
+
+        geomArr.forEachIndexed { _, jsonArray ->
+            val geomJsonArr = jsonArray[0].asJsonArray.get(0).asJsonArray
+            val tempGeomStringArr = mutableListOf<String>()
+            val tempGeomLatLngArr = mutableListOf<LatLng>()
+
+            geomJsonArr.forEach { obj ->
+                val splitStr = obj.toString().replace("[", "").replace("]", "").split(",")
+                val sumStr = "${splitStr[1]}, ${splitStr[0]}"
+                tempGeomStringArr.add(sumStr)
+            }
+
+            tempGeomStringArr.forEach {
+                tempGeomLatLngArr.add(LatLng(it.split(",")[0].toDouble(), it.split(",")[1].toDouble()))
+            }
+
+            resultLatLngArr.add(tempGeomLatLngArr as ArrayList<LatLng>)
+        }
+
+        return resultLatLngArr
+    }
+
+    /**
+     * 물건조서 Geometry Parse fn
+     * @param jsonArr 물건조서 코드에 분류되어진 필터링 된 Arr
+     * @param infoValueArr 토지조서 layer Info String Arr (GeoJSon -> properties -> 'wtnCode')
+     * @param geomArr Geometry Array
+     * @return MutableList<ArrayList<LatLng>>
+     */
+    fun getWtnccThingLayerGeometryArrayParse(jsonArr: List<JsonElement>, infoValueArr: MutableList<String>?, geomArr:MutableList<JsonArray>): MutableList<ArrayList<LatLng>>{
+
+        val resultLatLngArr = mutableListOf<ArrayList<LatLng>>()
+
+        jsonArr.forEach {
+            if (it.asJsonObject.get("geometry").toString() != "null") {
+
+                when {
+                    infoValueArr != null -> {
+                        infoValueArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // Geojson -> WTN Code
+                    }
+                }
+
+                geomArr.add(it.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray)
+            }
+        }
+
+        geomArr.forEachIndexed { _, jsonArray ->
+            val geomJsonArr = jsonArray[0].asJsonArray.get(0).asJsonArray
+            val tempGeomStringArr = mutableListOf<String>()
+            val tempGeomLatLngArr = mutableListOf<LatLng>()
+
+            geomJsonArr.forEach { obj ->
+                val splitStr = obj.toString().replace("[", "").replace("]", "").split(",")
+                val sumStr = "${splitStr[1]}, ${splitStr[0]}"
+                tempGeomStringArr.add(sumStr)
+            }
+
+            tempGeomStringArr.forEach {
+                tempGeomLatLngArr.add(LatLng(it.split(",")[0].toDouble(), it.split(",")[1].toDouble()))
+            }
+
+            resultLatLngArr.add(tempGeomLatLngArr as ArrayList<LatLng>)
+        }
+
+        return resultLatLngArr
+
+    }
+}

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--Bottom Sheets TabLayout-->
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/tab_background</item>
+        <item name="tabMaxWidth">100dp</item>
+    </style>
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Splash theme. -->
+    <style name="NCMS.SplashTheme" parent="NCMS.AppTheme">
+        <item name="android:windowBackground">@drawable/bg_splash_theme</item>
+    </style>
+
+    <!-- Material AlertDialog Custom Design -->
+    <style name="Widget.NCMS.AlertDialog.NCMS.Theme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+        <item name="materialAlertDialogTitlePanelStyle">@style/MaterialAlertDialog.MaterialComponents.Title.Panel2</item>
+        <item name="materialAlertDialogTitleIconStyle">@style/MaterialAlertDialog.App.Title.Icon</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.MaterialComponents.Body.Text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.NCMS.Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.NCMS.Alert.Button.Negative</item>
+    </style>
+
+    <!-- Material Alert Dialog Shape -->
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <!-- Material Alert Dialog Panel -->
+    <style name="MaterialAlertDialog.MaterialComponents.Title.Panel2" parent="MaterialAlertDialog.MaterialComponents.Title.Panel">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingTop">?attr/dialogPreferredPadding</item>
+    </style>
+
+    <!-- Material Alert Dialog Icon -->
+    <style name="MaterialAlertDialog.App.Title.Icon" parent="MaterialAlertDialog.MaterialComponents.Title.Icon.CenterStacked">
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <!-- Material Alert Dialog Title -->
+    <style name="MaterialAlertDialog.App.Title.Text"
+           parent="MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="fontFamily">@font/notosansregular</item>
+    </style>
+
+    <!-- Material Alert Dialog Body -->
+    <style name="MaterialAlertDialog.MaterialComponents.Body.Text" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="android:textColor">@color/font_color_1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/notosansregular</item>
+        <item name="android:lineSpacingExtra">10dp</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <!-- Material Alert Dialog Shape - medium -->
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <!-- Material Alert Dialog Shape - small -->
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <!--<item name="cornerSize">16dp</item>-->
+    </style>
+
+    <!-- Material Alert Dialog Positive btn shape -->
+    <style name="Widget.NCMS.Alert.Button.Positive" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:fillColor">@color/colorPrimary</item>
+        <item name="android:textColor">?android:colorBackground</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorOnSurface">@color/colorAccent</item>
+    </style>
+
+    <!-- Material Alert Dialog Negative btn shape -->
+    <style name="Widget.NCMS.Alert.Button.Negative" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
+    <style name="Widget.NCMS.WtnccValueEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">text</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/gray_70</item>
+        <item name="android:background">@drawable/textview_border</item>
+    </style>
+
+    <style name="Widget.NCMS.WtnccValueEditTextLandScape" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">text</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/textview_border</item>
+    </style>
+
+    <!-- 조서 라벨 텍스트뷰 -->
+    <style name="Widget.NCMS.WtnccLabelTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/wtnncTextCr</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMaxTextSize">15sp</item>
+        <item name="android:autoSizeMinTextSize">9sp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/nsquarebold</item>
+    </style>
+
+    <style name="Widget.NCMS.WtnccLabel2TextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/wtnncTextCr</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMaxTextSize">15sp</item>
+        <item name="android:autoSizeMinTextSize">9sp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:fontFamily">@font/nsquarebold</item>
+    </style>
+
+
+    <!-- 조서 서버 데이터 값 텍스트뷰 -->
+    <style name="Widget.NCMS.WtnccValueTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/textview_border</item>
+        <item name="android:textColor">@color/gray_70</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:autoSizeTextType">uniform</item>
+        <item name="android:autoSizeMaxTextSize">15sp</item>
+        <item name="android:autoSizeMinTextSize">9sp</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/notosansregular</item>
+    </style>
+
+    <!-- Button -->
+    <style name="Widget.NCMS.WtnccPopupButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:textColor">@color/btnPopupText</item>
+        <item name="strokeColor">@color/btnPopupText</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="android:backgroundTint">@color/btnPopup</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="Widget.NCMS.CnfirmButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/wtnncTextCr</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/nsquarebold</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconTint">@color/root_color_3</item>
+        <item name="iconSize">50dp</item>
+        <item name="iconPadding">10dp</item>
+    </style>
+
+    <style name="Widget.NCMS.WtnccButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="iconGravity">textStart</item>
+    </style>
+
+    <style name="Widget.NCMS.GIS.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">10dp</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="Widget.NCMS.Wtncc.addButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:background">@drawable/b_btn_add</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="backgroundTint">@color/wtnncBtnCr</item>
+    </style>
+
+    <style name="Widget.NCMS.Wtncc.addTextButton" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/b_btn_add</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:text">추가</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="iconPadding">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/wtnncBtnCr</item>
+    </style>
+
+    <style name="Widget.NCMS.Wtncc.addButton2" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_add_thin</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:text">추가</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="iconPadding">10dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="backgroundTint">@color/wtnncBtnCr</item>
+    </style>
+
+    <!-- Navi Theme -->
+    <style name="Widget.NCMS.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NCMS.NavigationView</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="itemIconTint">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+        <item name="itemBackground">@drawable/drawer_item_bg</item>
+        <!--<item name="itemIconSize">40dp</item>-->
+        <item name="itemTextAppearance">@style/TextAppearance.NCMS.ListPrimary</item>
+    </style>
+
+    <style name="Widget.NCMS.NavigationLayerView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NCMS.NavigationLayerView</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.NCMS.H1</item>
+        <item name="itemTextColor">@color/font_color_1</item>
+        <item name="itemIconSize">36dp</item>
+    </style>
+
+    <style name="Widget.NCMS.NavigationBarContentFrameLayout" parent="android:Widget.Material">
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">@color/white</item>
+    </style>
+
+    <style name="ThemeOverlay.NCMS.NavigationView" parent="">
+        <item name="colorPrimary">@color/root_color_4</item>
+        <item name="colorSurface">@color/root_color_4</item>
+        <item name="colorOnSurface">@color/root_color_4</item>
+        <item name="android:textColorSecondary">@color/gray_20</item>
+    </style>
+
+    <style name="ThemeOverlay.NCMS.NavigationLayerView" parent="">
+        <item name="colorPrimary">?android:colorBackground</item>
+        <item name="colorSurface">?android:colorBackground</item>
+        <item name="colorOnSurface">?android:colorBackground</item>
+        <item name="itemHorizontalPadding">@dimen/nav_item_horizontal_padding</item>
+    </style>
+
+    <!-- Text appearances -->
+
+    <!-- For titles, e.g. Event Detail, Speaker Detail -->
+    <style name="TextAppearance.NCMS.H1" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:fontFamily">@font/nsquarebold</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
+        <item name="fontFamily">@font/nsquarebold</item>
+    </style>
+
+    <!-- For smaller titles, e.g. Schedule day decorations -->
+    <style name="TextAppearance.NCMS.H2" parent="@style/TextAppearance.NCMS.H1">
+        <item name="android:textSize">@dimen/text_size_h2</item>
+    </style>
+
+    <!-- For other prominent text -->
+    <style name="TextAppearance.NCMS.H3" parent="@style/TextAppearance.NCMS.H1">
+        <item name="android:fontFamily">@font/nsquarebold</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="fontFamily">@font/nsquarebold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="itemTextColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.NCMS.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="android:fontFamily">@font/nsquareregular</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/nsquareregular</item>
+    </style>
+
+    <!-- List item primary text, e.g. event titles, codelab titles -->
+    <style name="TextAppearance.NCMS.ListPrimary" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/nsquareregular</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="fontFamily">@font/nsquareregular</item>
+    </style>
+
+    <!-- Intermediate style to make further style extensions below easier to follow -->
+    <style name="TextAppearance.NCMS.Body2" parent="TextAppearance.MaterialComponents.Body2"/>
+
+    <!-- Section headers -->
+    <style name="TextAppearance.NCMS.Overline" parent="@style/TextAppearance.NCMS.Body2">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+
+    <style name="TextAppearance.NCMS.ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="fontFamily">@font/nsquarebold</item>
+    </style>
+
+    <style name="TextAppearance.NCMS.Tab" parent="@style/TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/nsquareregular</item>
+        <item name="android:textStyle">bold</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Custom Switch -->
+    <style name="Widget.NCMS.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.NCMS.Switch</item>
+    </style>
+
+    <!-- Custom Switch on/off -->
+    <style name="ThemeOverlay.NCMS.Switch" parent="">
+        <item name="colorOnSurface">@color/root_color_1</item>
+        <item name="colorSecondary">@color/root_color_2</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="Widget.NCMS.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/theme_root_color</item>
+        <item name="titleTextColor">?android:attr/textColorPrimary</item>
+        <item name="titleTextAppearance">@style/TextAppearance.NCMS.ToolbarTitle</item>
+        <!--<item name="navigationIcon">@drawable/ic_menu_white_24dp</item>-->
+        <!--<item name="navigationIcon">@drawable/ic_kreb_symbol</item>-->
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetLeft">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <!--<item name="titleMarginStart">-10dp</item>-->
+    </style>
+
+    <style name="Widget.NCMS.Tabs" parent="@style/Widget.MaterialComponents.TabLayout">
+        <item name="tabTextAppearance">@style/TextAppearance.NCMS.Tab</item>
+        <!--<item name="tabIndicator">@drawable/tab_indicator</item>-->
+    </style>
+
+    <style name="Widget.NCMS.SearchView.AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:popupBackground">@color/white</item>
+    </style>
+
+    <style name="Widget.NCMS.SearchView.SearchResult" parent="TextAppearance.AppCompat.SearchResult.Title">
+        <item name="android:textColor">@color/cobalt_blue</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+    </style>
+
+    <style name="Widget.NCMS.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/ic_search</item>
+<!--        <item name="android:background">@drawable/layout_round_border</item>-->
+<!--        <item name="queryBackground">@null</item>-->
+<!--        <item name="submitBackground">@null</item>-->
+<!--        <item name="elevation">20dp</item>-->
+<!--        <item name="queryBackground">@color/theme_root_color</item>-->
+    </style>
+
+    <style name="Widget.NCMS.Spinner" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/bg_spinner</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:popupBackground">@color/white</item>
+        <item name="colorControlHighlight">@color/orange</item>
+        <item name="colorControlNormal">#ffc107</item>
+        <item name="colorAccent">#ffa000</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.NCMS.FloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="tint">@color/white</item>
+        <item name="rippleColor">@color/white</item>
+        <item name="backgroundTint">@color/colorPrimary</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="Widget.NCMS.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="boxStrokeColor">@null</item>
+    </style>
+
+    <style name="ShapeAppearance.MyApp.MediumComponent.Cut" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+    </style>
+
+    <style name="ShapeAppearance.MyApp.MediumComponent.Rounded" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamilyTopLeft">cut</item>
+        <item name="cornerFamilyBottomRight">cut</item>
+        <item name="cornerSizeTopLeft">20dp</item>
+        <item name="cornerSizeBottomRight">20dp</item>
+    </style>
+
+</resources>

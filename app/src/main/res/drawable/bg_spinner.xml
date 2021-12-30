@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <layer-list>
+            <item>
+                <shape android:shape="rectangle">
+                    <corners android:radius="10dp" />
+                    <padding android:right="12dp" />
+                </shape>
+            </item>
+            <item
+                    android:drawable="@drawable/ic_arrow_down"
+                    android:gravity="center|end"
+                    android:width="10dp"
+                    android:height="10dp" />
+        </layer-list>
+    </item>
+</selector>

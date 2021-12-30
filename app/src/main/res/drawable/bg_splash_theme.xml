@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="?android:attr/colorBackground" />
+    <item
+            android:drawable="@drawable/ic_reb_logo_with_eng"
+            android:gravity="center" />
+</layer-list>
+

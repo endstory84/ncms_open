@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/addBuldLinkListBaseViewGroup"
+            android:id="@+id/addBuldLinkListTitleView">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/wtnncCommNum"
+                android:layout_weight="1"
+                android:background="@color/wtnncTextCr"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/wtnncCommDivice"
+                android:layout_weight="1"
+                android:background="@color/wtnncTextCr"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/ownerName"
+                android:layout_weight="2"
+                android:background="@color/wtnncTextCr"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/ownerSameName"
+                android:layout_weight="1"
+                android:background="@color/wtnncTextCr"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/ownerDelvyAddr"
+                android:layout_weight="6"
+                android:background="@color/wtnncTextCr"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/addOwnerRelateListBaseViewGroup"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toBottomOf="@+id/addBuldLinkListTitleView"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/ownerNoText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_weight="10">
+
+            <LinearLayout
+                    android:id="@+id/addOwnerBaseViewGroupSub1"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/ownerDivisionText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        android:id="@+id/ownerNameText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="2"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        android:id="@+id/ownerSameNameText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        android:id="@+id/ownerDelvyAddrText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="6"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/addOwnerBaseViewGroupSub2"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/landPosesnQota"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/landUnDcsnOwnerAt"
+                        android:layout_weight="1"
+                        android:background="@color/wtnncTextCr"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/ownerCprNo"
+                        android:layout_weight="3"
+                        android:background="@color/wtnncTextCr"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/landGovRgistAddr"
+                        android:layout_weight="7"
+                        android:background="@color/wtnncTextCr"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/addOwnerBaseViewGroupSub3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/ownerPosesnQota"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp">
+
+                    <CheckBox
+                            android:id="@+id/ownerUnDcsnOwnerAt"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:gravity="center"
+                            android:layout_margin="2dp" />
+                </LinearLayout>
+
+                <TextView
+                        android:id="@+id/ownerCrpNoText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="3"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+                <TextView
+                        android:id="@+id/ownerRgistAddrText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/thingCn"
+                        android:gravity="center"
+                        android:layout_weight="7"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                        android:background="@drawable/view_line2"
+                        android:layout_margin="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMaxTextSize="15sp"
+                        app:autoSizeMinTextSize="9sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

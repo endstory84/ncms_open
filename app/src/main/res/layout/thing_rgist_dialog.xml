@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_thing_dialog_radius"
+        android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="10dp"
+            android:id="@+id/constraintLayout6">
+
+        <TextView
+                android:fontFamily="@font/nsquareextrabold"
+                android:autoSizeMaxTextSize="32sp"
+                android:textSize="28sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/wtnncCommInfoRegistered"
+                android:textColor="?android:attr/textColorPrimary"
+                android:id="@+id/textView2" />
+
+        <!--<ImageView
+                android:id="@+id/thingRgistDialogExitBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/ic_cancel"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:contentDescription="닫기"
+                app:layout_constraintEnd_toEndOf="parent" />-->
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout11">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/thingTitle"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/thingCn"
+                android:layout_weight="3" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/thingDffrncAt"
+                android:layout_weight="0.7" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/thingWtnncCp"
+                android:layout_weight="0.7" />
+
+    </LinearLayout>
+
+   
+
+    <!--건물명-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout13">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingBuildNm"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/rgistBuldNmTxt"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldNmAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/rgistBuldNmCpBtn"
+                android:text="@string/thingWtnncCp"
+                android:layout_weight="0.7" />
+
+    </LinearLayout>
+
+    <!--용도-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout13"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout14">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingPrpos"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/rgistBuldPrposTxt"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldPrposAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:text="@string/thingWtnncCp"
+                android:id="@+id/rgistBuldStrctCpBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+    </LinearLayout>
+
+    <!--구조-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout14"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout15">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingStrct"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:id="@+id/rgistBuldStrctTxt"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldStrctAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:text="@string/thingWtnncCp"
+                android:id="@+id/rgistBuldPrposCpBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+    </LinearLayout>
+
+    <!--동명-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout15"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout16">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingDong"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:id="@+id/rgistBuldDongNmTxt"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldDongAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:text="@string/thingWtnncCp"
+                android:id="@+id/rgistBuldDongNmCpBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+    </LinearLayout>
+    <!--층-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout16"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout18">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingFloor"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:id="@+id/rgistBuldFlratoTxt"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldHoAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:text="@string/thingWtnncCp"
+                android:id="@+id/rgistBuldFlratoNmCpBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+    </LinearLayout>
+
+    <!--호명-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout18"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout17">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingHo"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp"/>
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:id="@+id/rgistBuldHoNmTxt"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistBuldFlratoDfnAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:text="@string/thingWtnncCp"
+                android:id="@+id/rgistBuldHoNmCpBtn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7" />
+    </LinearLayout>
+
+
+    <!--면적-->
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout17"
+            tools:layout_editor_absoluteX="10dp"
+            android:id="@+id/linearLayout12">
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/wtnncCommAr"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:id="@+id/rgistArTxt"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:gravity="center"
+                android:background="@drawable/view_line2"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/rgistArAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <Button
+                style="@style/Widget.NCMS.WtnccPopupButton"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingWtnncCp"
+                android:visibility="invisible"
+                android:id="@+id/rgistArCpBtn"
+                android:layout_weight="0.7" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout12">
+
+<!--        <Button-->
+<!--                style="@style/Widget.NCMS.WtnccPopupButton"-->
+<!--                android:id="@+id/thingRgistChkBtn"-->
+<!--                android:text="@string/wtnncCommCnfirm"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent" />-->
+
+        <Button
+                style="@style/Widget.NCMS.Alert.Button.Negative"
+                android:id="@+id/thingRgistDialogExitBtn"
+                android:text="취소"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        <Button
+                style="@style/Widget.NCMS.Alert.Button.Positive"
+                android:id="@+id/thingRgistChkBtn"
+                android:text="@string/wtnncCommCnfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

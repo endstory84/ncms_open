@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".DocumentCropActivity">
+
+        <LinearLayout
+                android:id="@+id/layoutDocumentCropTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="30dp"
+                android:gravity="center">
+
+            <TextView
+                    style="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/gray_70"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/nsquarebold"
+                    android:text="@string/msg_camera_document_crop_ifno" />
+
+        </LinearLayout>
+
+        <!--        <Button-->
+        <!--                android:id="@+id/btnImageEnhance"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="사진편집"-->
+        <!--                android:layout_margin="20dp"-->
+        <!--                android:fontFamily="@font/nsquareregular"-->
+        <!--                android:textSize="16sp"-->
+        <!--                app:layout_constraintStart_toStartOf="parent"-->
+        <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--                app:layout_constraintEnd_toEndOf="parent" />-->
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/linearLayout21"
+                android:layout_margin="20dp"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.NCMS.Alert.Button.Negative"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="취소"
+                    android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.NCMS.Alert.Button.Positive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnImageEnhance"
+                    android:text="사진편집"
+                    android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <FrameLayout
+                android:id="@+id/layoutCameraCropFrame"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/layoutDocumentCropTextView"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout21"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <FrameLayout
+                    android:id="@+id/holderImageCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp">
+
+                <ImageView
+                        android:id="@+id/imageViewCropView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true" />
+            </FrameLayout>
+
+            <kr.or.kreb.ncms.mobile.view.PolygonView
+                    android:id="@+id/polygonView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

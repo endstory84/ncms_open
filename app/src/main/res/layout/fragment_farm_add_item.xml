@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/view_line">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmClvtDtls"
+                android:layout_weight="1"
+                android:background="@color/long_text_view_bgcolor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/landSearchClvtAt"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmCropsNm"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmClvtPdBgnde"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmClvtPdEndde"
+                android:layout_weight="1" />
+
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmClvtAr"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/textview_border"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+
+        </LinearLayout>
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:id="@+id/farmResdngHn"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+
+
+        <TextView
+                android:id="@+id/editFarmAddItemCurrentArea"
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmRealIncomeBasis"
+                android:layout_weight="1"
+                android:background="@color/long_text_view_bgcolor" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmRealIncomePrufAt"
+                android:layout_weight="1" />
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/realIncomeFarmAt"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmIncomeDtaPblctYear"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/clvtIncomeRt"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmCropAvrgIncomeat"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/textview_border"
+                android:layout_margin="2dp">
+            <Spinner
+                    android:background="@drawable/bg_spinner"
+                    style="@style/Widget.NCMS.Spinner"/>
+
+<!--            <CheckBox-->
+<!--                    android:id="@+id/farmSttusConsistAtChk"-->
+<!--                    android:layout_width="30dp"-->
+<!--                    android:layout_height="30dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:layout_margin="2dp" />-->
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/textview_border"
+                android:layout_margin="2dp">
+
+            <CheckBox
+                    android:id="@+id/realIncomeFarmAtChk"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccValueTextView"
+                android:layout_weight="1" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmIncomeOriginSe"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmIncomeOriginEntrpsNm"
+                android:layout_weight="1" />
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:text="@string/farmCropFyerAvrgIncomert"
+                android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:orientation="vertical"
+                android:background="@drawable/textview_border">
+
+            <Spinner
+                    android:background="@drawable/bg_spinner"
+                    style="@style/Widget.NCMS.Spinner"/>
+
+        </LinearLayout>
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="text" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="1"
+                android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
+</LinearLayout>

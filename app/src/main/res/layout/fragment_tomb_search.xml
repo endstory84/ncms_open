@@ -1,0 +1,725 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:background="@color/white"
+        android:id="@+id/constraint1">
+
+    <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/bsnSearchFragmentLl1"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/landSearchLocation"
+                        android:text="@string/wtnncCommLocplc" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:layout_weight="3.07"
+                        android:id="@+id/landSearchLocationText" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:orientation="horizontal">
+
+                <LinearLayout
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_weight="4.5">
+
+                    <LinearLayout
+                            android:id="@+id/landSearchFragmentLl2"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:layout_weight="1"
+                                android:id="@+id/landSearchBgnnLnm"
+                                android:text="@string/wtnncCommOriginalLnm" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:layout_weight="1"
+                                android:id="@+id/landSearchincrprLnm"
+                                android:text="@string/wtnncCommincrprLnm" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:layout_weight="1"
+                                android:id="@+id/landSearchNomination"
+                                android:text="@string/wtnncCommLndcgr" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/landSearchRelatedLnm"
+                                android:text="@string/wtnncCommRelateLnm"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:id="@+id/landSearchFragmentLl3"
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchBgnnLnmText"
+                                android:text="@string/loanValue_b2_01"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchincrprLnmText"
+                                android:text="@string/loanValue_b2_02"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchNominationText"
+                                android:text="@string/loanValue_b2_03"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
+                                android:id="@+id/landSearchRelatedLnmText"
+                                android:text="@string/loanValue_b2_04"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--<com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:id="@+id/searchShetchBtn"
+                        android:textColor="@color/black"
+                        android:background="@drawable/b_btn_add"
+                        app:backgroundTint="@color/wtnncBtnCr"
+                        android:layout_weight="0.5" />-->
+
+                <com.google.android.material.button.MaterialButton
+                        android:id="@+id/searchShetchBtn"
+                        style="@style/Widget.NCMS.Wtncc.addButton" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/landSearchBgnnAr"
+                        android:text="@string/wtnncCommAllAr" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/landSearchIncrprAr"
+                        android:text="@string/wtnncCommIncrprAr"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommLandOwner"
+                        android:layout_weight="2" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommLandPartcpnt"
+                        android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchBgnnArText"
+                        android:text="@string/loanValue_b2_05"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchIncrprArText"
+                        android:text="@string/loanValue_b2_06"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchOwnerText"
+                        android:layout_weight="2" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/landSearchOwnerRText"
+                        android:layout_weight="2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/linearLayoutThingGnrlItem01"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/textViewThingGnrlItem01"
+                        android:text="@string/wtnncCommNum"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/textViewThingGnrlItem02"
+                        android:text="@string/wtnncCommSclas" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommThingKnd"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/wtnncCommStrctStndrd"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/linearLayoutThingGnrlItem02"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutThingGnrlItem01"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="0dp">
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/thingTombCodeText"
+                        android:layout_weight="1"
+                        tools:text="001" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/thingTombSmallNmText"
+                        android:layout_weight="1"
+                        android:text="@string/drawer_menu_9" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/tombThingKnd"
+                        android:layout_weight="1" />
+
+                <!--구조 및 규격-->
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/tombStrctNdStrndrd"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/realTombLayout"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                <LinearLayout
+                        android:gravity="center"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:id="@+id/textViewThingGnrlItem08"
+                            android:text="@string/wtnncCommArQy"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp" />
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal">
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/textViewThingGnrlItem09"
+                                android:text="@string/wtnncCommAll"
+                                android:layout_weight="1" />
+
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccLabelTextView"
+                                android:id="@+id/textViewThingGnrlItem10"
+                                android:text="@string/wtnncCommIncrpr"
+                                android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/textViewThingGnrlItem11"
+                        android:text="@string/wtnncCommUnit"
+                        android:layout_weight="1" />
+                <TextView
+                        android:id="@+id/tv_tomb_no_require1"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombNo"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_tomb_require1"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombSe"
+                        android:layout_weight="1" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/realTombLayoutValue"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:baselineAligned="true">
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="2"
+                        android:orientation="horizontal">
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/thingTombBennArEdit"
+                            android:layout_weight="1" />
+
+                    <EditText
+                            style="@style/Widget.NCMS.WtnccValueEditText"
+                            android:id="@+id/thingTombIncrprArEdit"
+                            android:layout_weight="1" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <Spinner
+                                android:id="@+id/thingTombUnitSpinner"
+                                style="@style/Widget.NCMS.Spinner" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:id="@+id/thingTombNoEdit"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/tombSeSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombBurlDe"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_tomb_require2"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombRlativ"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombBurlTy"
+                        android:layout_weight="1" />
+
+                <TextView
+                        android:id="@+id/tv_tomb_require3"
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:text="@string/tombBurlScale"
+                        android:layout_weight="1" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/tombBytgtScaleText"
+                        android:text="@string/tombBytgtScale"
+                        android:layout_weight="1" />
+
+<!--                <TextView-->
+<!--                        style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                        android:text="@string/tombBytgtCn"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                        android:background="@color/wtnncTextCr"-->
+<!--                        android:layout_margin="2dp"-->
+<!--                        app:autoSizeTextType="uniform"-->
+<!--                        app:autoSizeMaxTextSize="15sp"-->
+<!--                        app:autoSizeMinTextSize="9sp" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <!--매장일자 입력-->
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/tombBurlDe"
+                        android:layout_weight="1" />
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/tombRlativSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/tombBurlTySpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/tombBurlScaleSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/tombBytgtScaleLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border"
+                        android:visibility="visible">
+
+                    <Spinner
+                            android:id="@+id/tombBytgtScaleSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+
+<!--                <TextView-->
+<!--                        style="@style/Widget.NCMS.WtnccValueTextView"-->
+<!--                        android:id="@+id/tombBytgtCn"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                        android:background="@drawable/textview_border"-->
+
+<!--                        />-->
+
+            </LinearLayout>
+
+            <!--매장자 정보-->
+            <LinearLayout
+                    android:id="@+id/tombRlativTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                android:visibility="gone">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="1.5"
+                            android:text="@string/landName" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/tombRlativRelate"
+                            android:layout_weight="1.5" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/wtnncCommSexdstn"
+                            android:layout_weight="0.9" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:text="@string/wtnncCommIhidnum"
+                            android:layout_weight="4.5" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                        android:id="@+id/tombrlativBaseViewGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                <include
+                        android:id="@+id/tombIncludeBtnLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        layout="@layout/include_layout_add_btn" />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                <Button
+                        style="@style/Widget.NCMS.WtnccPopupButton"
+                        android:id="@+id/landInfoPreviousCompensateBtn"
+                        android:text="@string/tombCemeteryRegisterRead"
+                        android:layout_weight="1" />
+
+                <Button
+                        style="@style/Widget.NCMS.WtnccPopupButton"
+                        android:id="@+id/addTombThingBtn"
+                        android:text="@string/tombThingAdd"
+                        android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!--분묘 시설물 추가되는곳-->
+            <LinearLayout
+                    android:id="@+id/tombBaseViewGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="2"
+                        android:text="@string/fyhtsOwnerCnfirmBasis" />
+<!--                <TextView-->
+<!--                        style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="@string/minrgtAcqsSe" />-->
+<!--                <TextView-->
+<!--                        style="@style/Widget.NCMS.WtnccLabelTextView"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="@string/minrgtInclsSe" />-->
+
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:text="@string/thingRewardAt" />
+
+
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:text="@string/thingApasmtTrgetAt" />
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:layout_margin="2dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/textview_border">
+
+                    <Spinner
+                            android:id="@+id/tombOwnerCnfirmBasisSpinner"
+                            style="@style/Widget.NCMS.Spinner" />
+
+                </LinearLayout>
+<!--                <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_margin="2dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:background="@drawable/textview_border">-->
+
+<!--                    <Spinner-->
+<!--                            android:id="@+id/tombAcqsSeSpinner"-->
+<!--                            style="@style/Widget.NCMS.Spinner" />-->
+
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_margin="2dp"-->
+<!--                        android:orientation="vertical"-->
+<!--                        android:background="@drawable/textview_border">-->
+
+<!--                    <Spinner-->
+<!--                            android:id="@+id/tombInclsSeSpinner"-->
+<!--                            style="@style/Widget.NCMS.Spinner" />-->
+
+<!--                </LinearLayout>-->
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_weight="1">
+
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/rwTrgetAtChk"
+                            android:gravity="center"
+
+                    />
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/textview_border"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp">
+
+                    <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:id="@+id/apasmtTrgetAtChk"
+                            android:gravity="center" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/include_wtnnc_camera" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

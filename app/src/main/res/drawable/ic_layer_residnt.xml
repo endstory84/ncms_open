@@ -1,0 +1,17 @@
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+  <path
+      android:pathData="M79.019,246.258a128.003,128.003 73.365,1 0,97.971 -236.518a128.003,128.003 73.365,1 0,-97.971 236.518z"
+      android:fillColor="#A34687"/>
+  <path
+      android:pathData="M128,36l-91.25,78.25l8.75,11l12,-10.363V215.5H110v-53h36v53h52V114l11.375,11.375L219.5,114.25L128,36zM128,121.5c-11.046,0 -20,-8.954 -20,-20c0,-11.046 8.954,-20 20,-20s20,8.954 20,20C148,112.546 139.046,121.5 128,121.5z"
+      android:fillColor="#FFFFFF"/>
+</vector>

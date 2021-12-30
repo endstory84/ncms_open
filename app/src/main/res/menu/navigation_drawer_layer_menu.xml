@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/drawer_layer_menu_1">
+        <menu>
+            <group android:checkableBehavior="all">
+                <item
+                        android:id="@+id/drawer_sido_layer"
+                        android:icon="@drawable/ic_sido_layer"
+                        android:title="@string/drawer_layer_submenu_1"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_sigungu_layer"
+                        android:icon="@drawable/ic_singungu_layer"
+                        android:title="@string/drawer_layer_submenu_2"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_dong_layer"
+                        android:icon="@drawable/ic_dong_layer"
+                        android:title="@string/drawer_layer_submenu_3"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_li_layer"
+                        android:icon="@drawable/ic_ri_layer"
+                        android:title="@string/drawer_layer_submenu_4"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_naverCadastral_layer"
+                        android:icon="@drawable/ic_cadstral_layer"
+                        android:title="@string/drawer_layer_submenu_5"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_cadastral_edit_layer"
+                        android:icon="@drawable/ic_cadastral_edit_layer"
+                        android:title="@string/drawer_layer_submenu_7"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_bsnArea_layer"
+                        android:icon="@drawable/ic_bsns_area_layer"
+                        android:title="@string/drawer_layer_submenu_6"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/drawer_layer_menu_2">
+        <menu>
+            <group android:checkableBehavior="all">
+                <item
+                        android:id="@+id/drawer_lad_layer"
+                        android:icon="@drawable/ic_layer_lad"
+                        android:title="@string/drawer_layer_submenu_8"
+                        android:iconTint="@null"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_lad_real_layer"
+                        android:icon="@drawable/lc_layer_real_lad"
+                        android:title="@string/drawer_layer_submenu_9"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_thing_layer"
+                        android:icon="@drawable/ic_layer_thing"
+                        android:title="@string/drawer_layer_submenu_10"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_bsn_layer"
+                        android:icon="@drawable/ic_layer_bsn"
+                        android:title="@string/drawer_layer_submenu_11"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_farm_layer"
+                        android:icon="@drawable/ic_layer_farm"
+                        android:title="@string/drawer_layer_submenu_12"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+                <item
+                        android:id="@+id/drawer_residnt_layer"
+                        android:icon="@drawable/ic_layer_residnt"
+                        android:title="@string/drawer_layer_submenu_13"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+
+                <item
+                        android:id="@+id/drawer_tomb_layer"
+                        android:icon="@drawable/ic_layer_tomb"
+                        android:title="@string/drawer_layer_submenu_14"
+                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>
+
+            </group>
+        </menu>
+    </item>
+
+<!--    <item android:title="@string/drawer_layer_menu_3">-->
+<!--        <menu>-->
+<!--            <group android:checkableBehavior="all">-->
+<!--                <item-->
+<!--                        android:title="@string/drawer_layer_submenu_16"-->
+<!--                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>-->
+<!--                <item-->
+<!--                        android:title="@string/drawer_layer_submenu_17"-->
+<!--                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>-->
+<!--                <item-->
+<!--                        android:title="@string/drawer_layer_submenu_18"-->
+<!--                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>-->
+<!--                <item-->
+<!--                        android:title="@string/drawer_layer_submenu_19"-->
+<!--                        app:actionViewClass="com.google.android.material.switchmaterial.SwitchMaterial"/>-->
+<!--            </group>-->
+<!--        </menu>-->
+<!--    </item>-->
+
+</menu>

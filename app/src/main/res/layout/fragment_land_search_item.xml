@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/textview_border">
+
+        <Spinner
+                android:id="@+id/landSearchRealCl"
+                android:layout_height="match_parent"
+                style="@style/Widget.NCMS.Spinner"/>
+
+    </LinearLayout>
+
+    <EditText
+            android:id="@+id/landSearchRealCn"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/textview_border"
+            app:autoSizeTextType="uniform"
+            android:textSize="15sp"
+            android:imeOptions="actionDone"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            tools:text="002"
+            android:layout_margin="2dp" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:background="@drawable/textview_border"
+            android:orientation="horizontal">
+
+
+        <EditText
+                android:id="@+id/landSearchRealAr"
+                android:gravity="center"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/textview_border"
+                app:autoSizeTextType="uniform"
+                android:textSize="15sp"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
+                tools:text="003"
+                android:textColor="@color/black"
+                android:layout_margin="2dp" />
+
+        <TextView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:background="@drawable/textview_border"
+                android:textSize="20sp"
+                android:text="㎡"
+                android:textColor="@color/black" />
+    </LinearLayout>
+
+
+</LinearLayout>

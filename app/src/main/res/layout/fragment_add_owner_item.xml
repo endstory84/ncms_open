@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/lndOwnerItemBaseView">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_weight="1"
+                    android:id="@+id/ownberCodeNo"
+                    android:text="@string/wtnncCommNum" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_weight="1"
+                    android:id="@+id/landSe"
+                    android:text="@string/landSe" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_weight="2"
+                    android:id="@+id/landName"
+                    android:text="@string/landName" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_weight="2"
+                    android:text="@string/landCttpc" />
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccLabelTextView"
+                    android:layout_weight="4"
+                    android:text="@string/landGovRgistAddr" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="horizontal">
+
+            <TextView
+                    style="@style/Widget.NCMS.WtnccValueTextView"
+                    android:id="@+id/ownerCodeNoText"
+                    android:layout_weight="1" />
+
+            <LinearLayout
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="9">
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="1"
+                            android:id="@+id/posesnSeText" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="2"
+                            android:id="@+id/ownerName" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="2"
+                            android:id="@+id/phoneNumber" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="4"
+                            android:id="@+id/rgistAdresText" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="1"
+                            android:text="@string/landPosesnQota" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="1"
+                            android:text="@string/indvdlGrpTy" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="1"
+                            android:text="@string/landUnDcsnOwnerAt" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="2"
+                            android:id="@+id/ihidnumTitle"
+                            android:text="@string/ididnum" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="4"
+                            android:text="@string/landAbstrAddr" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="1"
+                            android:id="@+id/PosesnQotaText" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="1"
+                            android:id="@+id/indvdlGrpTyText" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="1"
+                            android:id="@+id/UnDcsnOwnerAtText" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="2"
+                            android:id="@+id/ihidnumText" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="4"
+                            android:id="@+id/AbstrAddrText" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccLabelTextView"
+                            android:layout_weight="2"
+                            android:text="@string/landDelvyAddr" />
+
+                    <TextView
+                            style="@style/Widget.NCMS.WtnccValueTextView"
+                            android:layout_weight="5"
+                            android:id="@+id/DelvyAddrText" />
+
+                    <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.NCMS.WtnccPopupButton"
+                            android:id="@+id/delvyAddrChange"
+                            android:layout_height="wrap_content"
+                            android:layout_width="50dp"
+                            android:text="@string/landChange"
+                            android:layout_weight="1"
+                            android:layout_margin="2dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--        <LinearLayout-->
+        <!--                android:orientation="horizontal"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="50dp">-->
+        <!--            <TextView-->
+        <!--                    style="@style/Widget.NCMS.WtnccLabelTextView"-->
+        <!--                    android:layout_weight="2"-->
+        <!--                    android:text="@string/wtnncCommRm" />-->
+        <!--            <TextView-->
+        <!--                    style="@style/Widget.NCMS.WtnccValueTextView"-->
+        <!--                    android:layout_weight="8"-->
+        <!--                    android:id="@+id/ownerInfoRm" />-->
+        <!--            <com.google.android.material.button.MaterialButton-->
+        <!--                    style="@style/Widget.NCMS.WtnccPopupButton"-->
+        <!--                    android:id="@+id/ownerInfoRmBtn"-->
+        <!--                    android:text="@string/wtnncCommRegist"-->
+        <!--                    android:layout_weight="1.25"-->
+        <!--                    android:layout_width="50dp"-->
+        <!--                    android:layout_margin="2dp" />-->
+        <!--        </LinearLayout>-->
+        <LinearLayout
+                android:id="@+id/relateOwnerItemLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+            <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/relateOwnerList" />
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.NCMS.Wtncc.addButton2"
+                    android:id="@+id/addRelateOwnerBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/landRelateAdd" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

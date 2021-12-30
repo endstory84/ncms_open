@@ -1,0 +1,9 @@
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<vector android:height="12dp" android:viewportHeight="472.615"
+        android:viewportWidth="472.615" android:width="12dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#FF000000" android:pathData="M278.565,194.051l0,-194.051l-84.512,0l0,194.051l-194.053,0l0,84.513l194.053,0l0,194.051l84.512,0l0,-194.051l194.05,0l0,-84.513z"/>
+</vector>

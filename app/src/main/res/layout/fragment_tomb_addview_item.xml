@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <EditText
+            android:id="@+id/tombBuriedNameEdit"
+            android:gravity="center"
+            android:background="@drawable/textview_border"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:autoSizeTextType="uniform"
+            android:textSize="15sp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:inputType="text"
+            android:layout_weight="1.5"
+            android:layout_margin="2dp" />
+
+    <EditText
+            android:id="@+id/tombBuriedRelateEdit"
+            android:gravity="center"
+            android:background="@drawable/textview_border"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:autoSizeTextType="uniform"
+            android:textSize="15sp"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
+            android:inputType="text"
+            android:layout_weight="1.5"
+            android:layout_margin="2dp" />
+
+    <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9"
+            android:layout_margin="2dp"
+            android:orientation="vertical"
+            android:background="@drawable/textview_border">
+
+        <Spinner
+                android:id="@+id/tombSexdstnAddSpinner"
+                style="@style/Widget.NCMS.Spinner"/>
+
+    </LinearLayout>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:maxLength="6"
+            android:background="@drawable/textview_border" />
+
+    <TextView
+            style="@style/Widget.NCMS.WtnccValueTextView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textview_border"
+            android:textColor="@color/gray_70"
+            android:layout_marginBottom="5dp"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMaxTextSize="15sp"
+            android:autoSizeMinTextSize="9sp"
+            android:layout_margin="2dp"
+            android:layout_weight="0.5"
+            android:gravity="center"
+            android:text="-"
+            android:fontFamily="@font/notosansregular" />
+
+    <EditText
+            style="@style/Widget.NCMS.WtnccValueEditText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:imeOptions="actionDone"
+            android:inputType="number"
+            android:layout_margin="2dp"
+            android:padding="2dp"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_weight="2"
+            android:maxLength="7"
+            android:background="@drawable/textview_border" />
+
+<!--    <EditText-->
+<!--            android:id="@+id/tombBuriedIhidnumEdit2"-->
+<!--            android:gravity="center"-->
+<!--            android:background="@drawable/textview_border"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--            app:autoSizeTextType="uniform"-->
+<!--            android:textSize="15sp"-->
+<!--            android:imeOptions="actionDone"-->
+<!--            android:singleLine="true"-->
+<!--            android:inputType="number"-->
+<!--            android:layout_weight="4"-->
+<!--            android:layout_margin="2dp"-->
+<!--            android:hint="숫자만 입력해주세요." />-->
+
+</LinearLayout>
+

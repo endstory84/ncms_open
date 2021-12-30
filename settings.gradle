@@ -1,0 +1,3 @@
+rootProject.name = "ncms"
+include ':app'
+//include ':opencvlib'

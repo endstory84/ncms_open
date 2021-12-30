@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<searchable xmlns:android="http://schemas.android.com/apk/res/android"
+            android:label="@string/app_name"
+            android:hint="@string/msg_search_hint"
+            android:searchSuggestAuthority="kr.or.kreb.ncms.mobile.util.SearchHistoryProvider"
+            android:searchSuggestIntentAction="android.intent.action.VIEW"
+            android:voiceLanguageModel="web_search"
+            android:voiceLanguage="kr"
+            android:searchSuggestSelection=" ?"
+/>

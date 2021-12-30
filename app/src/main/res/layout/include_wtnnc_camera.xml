@@ -1,0 +1,122 @@
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/includePaclrMatterLl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_weight="1"
+                android:id="@+id/includePaclrMatter"
+                android:text="@string/includePaclrMatter" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="3"
+                android:id="@+id/includePaclrMatterEdit" />
+    </LinearLayout>
+    <LinearLayout
+            android:id="@+id/includeReferMatterLl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_weight="1"
+                android:id="@+id/includereReferMatter"
+                android:text="@string/includeReferMatter" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="3"
+                android:id="@+id/includeReferMatterEdit" />
+    </LinearLayout>
+    <LinearLayout
+            android:id="@+id/includeRmLl"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+        <TextView
+                style="@style/Widget.NCMS.WtnccLabelTextView"
+                android:layout_weight="1"
+                android:id="@+id/includeRm"
+                android:text="@string/includeRm" />
+
+        <EditText
+                style="@style/Widget.NCMS.WtnccValueEditText"
+                android:layout_weight="3"
+                android:id="@+id/includeRmEdit" />
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/includeCarameLl"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:id="@+id/includeCarameInfoLl"
+                android:background="@color/wtnncTextCr"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/includeCarame"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_margin="2dp">
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/includeCameraBtn"
+                    android:fontFamily="@font/notosansmedium"
+                    android:text="@string/includeCarame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/wtnncBtnCr"
+                    android:textColor="@color/white"
+                    android:layout_margin="2dp"
+                     />
+
+            <com.google.android.material.button.MaterialButton
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_remove"
+                    android:id="@+id/includeImageDeleteBtn"
+                    android:fontFamily="@font/notosansmedium"
+                    android:text="@string/includeImageDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/red"
+                    android:layout_margin="2dp" />
+
+        </LinearLayout>
+
+        <kr.or.kreb.ncms.mobile.fragment.NestedScrollableHost
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constrainedHeight="true"
+                android:layout_weight="3">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/includeImageViewRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/textview_border"
+                    android:layout_margin="10dp"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </kr.or.kreb.ncms.mobile.fragment.NestedScrollableHost>
+
+    </LinearLayout>
+
+</LinearLayout>

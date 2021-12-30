@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        tools:context=".MapActivity">
+
+    <!-- 스크롤 & 리사이클러 뷰 -->
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ownerRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:clipToPadding="false"
+            android:paddingTop="30dp"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    />
+</androidx.constraintlayout.widget.ConstraintLayout>

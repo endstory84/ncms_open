@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layout_cadastral_info"
+        android:orientation="vertical">
+
+    <TextView
+            android:id="@+id/tvCadastralLayerInfo"
+            android:textSize="16sp"
+            android:textColor="@color/red"
+            android:fontFamily="@font/notosansbold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_login"
+            tools:context=".LoginActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.85"
+                app:layout_constraintHeight_percent="0.9"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+
+            <!-- login head -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutLoginHeader"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent">
+
+
+                <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:src="@drawable/img_kreb_logo_login"
+                        tools:ignore="MissingConstraints" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- id -->
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    android:layout_marginTop="40dp"
+                    app:hintAnimationEnabled="true"
+                    app:errorTextColor="?attr/colorError"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutLoginHeader"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/layoutLoginHeader"
+                    app:layout_constraintEnd_toEndOf="@+id/layoutLoginHeader">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextLoginId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/login_id_hint_msg"
+                        android:inputType="textAutoComplete"
+                        android:textCursorDrawable="@color/black"
+                        android:textColorHint="#999999"
+                        android:maxLength="10" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- pw -->
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:endIconMode="password_toggle"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputId"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textInputId"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputId">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editTextLoginPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/login_pw_hint_msg"
+                        android:inputType="textPassword"
+                        app:endIconMode="password_toggle"
+                        android:maxLength="10" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- save user -->
+            <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/checkboxLoginSaverUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/login_chk_save_msg"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/notosansregular"
+                    app:buttonTint="#c59700"
+                    app:layout_constraintTop_toBottomOf="@+id/textInputPassword"
+                    app:layout_constraintLeft_toLeftOf="@id/textInputPassword"
+                    app:layout_constraintHorizontal_bias="0.5" />
+
+            <!-- submit btn -->
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/imageViewBtnLogin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:fontFamily="@font/nsquarebold"
+                    android:textColor="@color/white"
+                    android:text="로그인"
+                    android:textSize="20sp"
+                    android:backgroundTint="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@+id/checkboxLoginSaverUser"
+                    app:layout_constraintEnd_toEndOf="@+id/textInputPassword"
+                    app:layout_constraintStart_toStartOf="@+id/textInputPassword" />
+
+            <!--        <TextView-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--                app:layout_constraintRight_toRightOf="parent"-->
+            <!--                android:layout_marginBottom="208dp"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                android:fontFamily="@font/notosanslight"-->
+            <!--                android:textSize="12sp"-->
+            <!--                android:text="@string/app_copyright"-->
+            <!--                app:layout_constraintHorizontal_bias="0.481" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

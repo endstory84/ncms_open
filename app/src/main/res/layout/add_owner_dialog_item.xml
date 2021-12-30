@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Create by sgablc team.eco-chain on 2021.
+  ~ Copyright (c) 2021. sgablc. All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:background="@drawable/view_line2"
+            android:layout_marginTop="4dp"
+            android:layout_height="50dp">
+
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_margin="2dp">
+
+            <RadioButton
+                    android:id="@+id/ownerSelectRb"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:layout_margin="2dp" />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/ownerDivisionText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:id="@+id/ownerNameText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:id="@+id/ownerSameNameText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:id="@+id/ownerCrpNoText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+
+        <TextView
+                android:id="@+id/ownerDelvyAddrText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="@string/thingCn"
+                android:gravity="center"
+                android:layout_weight="6"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:layout_margin="2dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="15sp"
+                app:autoSizeMinTextSize="9sp" />
+    </LinearLayout>
+</LinearLayout>
