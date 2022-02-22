@@ -18,10 +18,7 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.base.BaseDialogFragment
 import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.databinding.FragmentCameraViewBinding
-import kr.or.kreb.ncms.mobile.util.DialogUtil
-import kr.or.kreb.ncms.mobile.util.FileUtil
-import kr.or.kreb.ncms.mobile.util.GPSUtil
-import kr.or.kreb.ncms.mobile.util.HttpUtil
+import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -195,7 +192,7 @@ class CameraViewFragment :
                     atchRequestMap["atflNm"] = "$saveFileName.png"
                     atchRequestMap["fileseInfo"] = fileCode!!
                     atchRequestMap["fileCodeNm"] = fileCodeNm!!
-                    atchRequestMap["register"] = "1234" // 등록자 임시 등록
+                    atchRequestMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") // 등록자 임시 등록
                     atchRequestMap["atflSize"] = ""
                     atchRequestMap["atflExtsn"] = ".png"
                     atchRequestMap["lon"] = lon!!
@@ -227,7 +224,7 @@ class CameraViewFragment :
                     atchRequestMap["atflNm"] = "$saveFileName.png"
                     atchRequestMap["fileseInfo"] = fileCode!!
                     atchRequestMap["fileCodeNm"] = fileCodeNm!!
-                    atchRequestMap["register"] = "1234" // 등록자 임시 등록
+                    atchRequestMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") // 등록자 임시 등록
                     atchRequestMap["atflSize"] = ""
                     atchRequestMap["atflExtsn"] = ".png"
                     atchRequestMap["lon"] = lon!!

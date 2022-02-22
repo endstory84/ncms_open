@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.*
@@ -281,6 +282,17 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
         //대지권여부
         val plotAtString = checkStringNull(landInfoDataJson.getString("plotAt"))
         view.landSearchPlotAtChk.isChecked = plotAtString == "Y"
+
+        if(plotAtString == "Y"){
+            TabLayoutMediator(Constants.GLOBAL_TAB_LAYOUT!!, Constants.GLOBAL_VIEW_PAGER!!) { tab, position ->
+                when (position) {
+                    0 -> tab.text = "토지내역"
+                    1 -> tab.text = "토지조서"
+                }
+            }.attach()
+
+            ToastUtil(context).msg_error("대지권 여부가 'Y'일 경우에는 소유자 및 관계자를 확인 할 수 없습니다.", 500)
+        }
 
         //보상대상여부
         val rwTrgetAtString = checkStringNull(landInfoDataJson.getString("rwTrgetAt"))

@@ -168,7 +168,7 @@ class DelvyAddrChangeFragment(val bizCode: BizEnum, val ownerInfoJson: JSONObjec
                     delvyChangeMap["documentFileNm"] = documentFileNm
                     delvyChangeMap["documentFileseInfo"] = "A200006007"
                     delvyChangeMap["documentAtflExtsn"] = ".png"
-                    delvyChangeMap["register"] = "1234" //---등록자 이름 임시 설정
+                    delvyChangeMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") //---등록자 이름 임시 설정
                 }
 
             }

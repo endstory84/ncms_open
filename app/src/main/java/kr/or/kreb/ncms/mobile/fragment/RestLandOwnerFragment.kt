@@ -72,7 +72,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
 
     fun init(view: View) {
 
-        var dataString = requireActivity().intent!!.extras!!.get("RestLandInfo") as String?
+        var dataString = requireActivity().intent!!.extras!!.get("LandInfo") as String?
 
         landDataJson = JSONObject(dataString)
 
@@ -248,7 +248,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
                                             relateAdddata.put("inhbtntCprNo", selectOwnerdata.inhbtntCprNo)
                                             relateAdddata.put("sameNameNo", selectOwnerdata.sameNameNo)
                                             relateAdddata.put("pcnRightRelate", pcnRightRelateString)
-                                            relateAdddata.put("register","12345")
+                                            relateAdddata.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAdddata)
                                             relateAddJson.put("ownerInfo", ownerData)
@@ -456,7 +456,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
                                                 addOwnerJson.put("unDcsnOwnerAt","N")
                                             }
                                             addOwnerJson.put("rgistAdres",rgistAddrString)
-                                            addOwnerJson.put("register","12345")
+                                            addOwnerJson.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
                                             addOwnerJson.put("hapyuGroupCode","")
                                             addOwnerJson.put("hapyuAt","")
                                             addOwnerJson.put("qotaAr","")
@@ -628,7 +628,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
                                         addOwnerJson.put("unDcsnOwnerAt","N")
                                     }
                                     addOwnerJson.put("rgistAdres",rgistAddrString)
-                                    addOwnerJson.put("register","12345")
+                                    addOwnerJson.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
                                     addOwnerJson.put("hapyuGroupCode","")
                                     addOwnerJson.put("hapyuAt","")
                                     addOwnerJson.put("qotaAr","")

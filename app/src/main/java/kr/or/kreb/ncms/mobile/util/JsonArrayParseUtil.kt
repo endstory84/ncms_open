@@ -72,10 +72,11 @@ object JsonArrayParseUtil {
      * 토지조서 Geometry Parse fn
      * @param jsonArr 토지조서 코드에 분류되어진 필터링 된 Arr
      * @param infoValueArr 토지조서 layer Info String Arr (GeoJSon -> properties -> 'No')
+     * @param wtnCodeArr 토지조서 layer Info String Arr (GeoJSon -> properties -> 'WtnCode')
      * @param geomArr Geometry Array
      * @return MutableList<ArrayList<LatLng>>
      */
-    fun getWtnccLandLayerGeometryArrayParse(resultArr: JsonArray, infoValueArr: MutableList<String>?, geomArr:MutableList<JsonArray>): MutableList<ArrayList<LatLng>>{
+    fun getWtnccLandLayerGeometryArrayParse(resultArr: JsonArray, infoValueArr: MutableList<String>?, wtnCodeArr: MutableList<String>?, geomArr:MutableList<JsonArray>): MutableList<ArrayList<LatLng>>{
         val resultLatLngArr = mutableListOf<ArrayList<LatLng>>()
 
         resultArr.forEach {
@@ -85,6 +86,7 @@ object JsonArrayParseUtil {
                     infoValueArr != null -> {
                         //resultLandInfoArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // 토지레이어 'No' value 대입
                         infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("NO").asString) // 토지레이어 'No' value 대입
+                        wtnCodeArr?.add(it.asJsonObject.get("id").asString.split(".")[1]) // 토지레이어 'WtnCode' value 대입
                     }
                 }
 

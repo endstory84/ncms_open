@@ -37,6 +37,7 @@ import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.base.BaseActivity
 import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.databinding.ActivityMapWithDrawerlayoutBinding
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.BizEnum.*
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
 import kr.or.kreb.ncms.mobile.enums.GeoserverLayerEnum
@@ -72,6 +73,9 @@ class MapActivity :
     private lateinit var cartoMapType: String
 
     lateinit var menuItem: MenuItem
+    var getCoord:String = ""
+    var restData:String = ""
+
     var setContextPopupPosition: Int = 0
     var setcontextPopupName: String = ""
 
@@ -144,8 +148,13 @@ class MapActivity :
         cartoIndoorMapview.goneView()
 
         val naverMapFragment = findViewById<MapView>(R.id.naverMapView)
+        getCoord = intent.extras?.get("coord").toString()
+        restData = intent.extras?.get("restData").toString()
 
-        naverMap = NaverMapUtil(this, this, naverMapFragment)
+
+        logUtil.d("restData ---------------------------------> $restData")
+
+        naverMap = NaverMapUtil(this, this, naverMapFragment, getCoord, restData)
         naverMap?.getMapView()?.getMapAsync(naverMap)
 
         toggleButtonBaseMap.apply { isChecked = true; text = null; textOn = null; textOff = null }
@@ -194,7 +203,7 @@ class MapActivity :
     override fun initViewFinal() {
 
         // Drawer On/Off
-//        appToolbar.setNavigationOnClickListener {
+//        appToolbar.setNigationOnClickListener {
 //            layoutMapDrawerLayout.openDrawer(GravityCompat.START)
 //            imageViewDrawerClose?.setOnClickListener { layoutMapDrawerLayout.closeDrawer(GravityCompat.START) }
 //        }
@@ -228,7 +237,7 @@ class MapActivity :
 
         //setColorBizCategory(this, textViewBizInfoCategory, textViewBizInfoSubCategory)
 
-        val navListener = NavSetItemListener(this)
+        val navListener = NavSetItemListener(this, context, getCoord)
         navigationViewMain.setNavigationItemSelectedListener(navListener)
 
         /**
@@ -484,6 +493,7 @@ class MapActivity :
                 landInfoMap.put("legaldongCode", legaldongCode!!)
                 landInfoMap.put("incrprLnm", jibun)
                 log.d("land info url $landUrl")
+
 
                 try {
                     HttpUtil.getInstance(context)
@@ -814,10 +824,20 @@ class MapActivity :
                 // 조서 기본 조서 호출
 //                var landUrl = context!!.resources.getString(R.string.mobile_url) +"landInfo"
 //                var landInfoMap = HashMap<String, String>()
-                val landUrl = context.resources.getString(R.string.mobile_url) + "landInfo"
+//                val landUrl = context.resources.getString(R.string.mobile_url) + "landInfo"
+
+
+                log.d("restData ---------------------<><><><><><><><><><>< $restData")
+
+                val restDataJson = JSONObject(restData)
+
+
+                val landUrl = context.resources.getString(R.string.mobile_url) + "restLadSearch"
                 val landInfoMap = HashMap<String, String>()
-                landInfoMap.put("saupCode", currentSaupCode)
-                landInfoMap.put("incrprLnm", jibun)
+                landInfoMap.put("saupCode", restDataJson.getString("saupCode"))
+                landInfoMap.put("legaldongCode", restDataJson.getString("legaldongCode"))
+                landInfoMap.put("incrprLnm", restDataJson.getString("incrprLnm"))
+                landInfoMap.put("ladWtnCode", restDataJson.getString("ladWtnCode"))
                 log.d("land info url $landUrl")
 
 //                val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
@@ -839,13 +859,19 @@ class MapActivity :
                                 runOnUiThread {
 
                                     val jsonResponse = JSONObject(responseString)
-                                    if (jsonResponse.has("list") && jsonResponse.getJSONObject("list").has("LandInfo") && jsonResponse.getJSONObject("list").getJSONObject("LandInfo").isNull("landWtnCode")) {
-                                        settingViewPager(mapView, responseString)
-                                        WtnncBottomSheet()
-                                    }
-                                    else {
-                                        toast.msg("해당 토지에 조서가 존재 하지 않습니다.", 100)
-                                    }
+
+                                    RestLandInfoObject.landInfo = jsonResponse
+
+                                    settingViewPager(mapView, responseString)
+                                    WtnncBottomSheet()
+
+
+//                                    if (jsonResponse.has("list") && jsonResponse.getJSONObject("list").has("LandInfo") && jsonResponse.getJSONObject("list").getJSONObject("LandInfo").isNull("landWtnCode")) {
+//
+//                                    }
+//                                    else {
+//                                        toast.msg("해당 토지에 조서가 존재 하지 않습니다.", 100)
+//                                    }
 //                                    if (!JSONObject(responseString).getJSONObject("list").getJSONObject("LandInfo").isNull("landWtnCode")) {
 //                                        toastUtil.msg("해당 토지에 조서가 존재 하지 않습니다.", 100)
 //                                    } else {
@@ -863,50 +889,40 @@ class MapActivity :
             }
 
             REST_THING -> {
-                /** 물건 지장물 신규 생성
-                 * 1. 해당 토지 정보 표출
-                 * 2. Carto를 통한 Polygon 그리기
-                 * 3. 물건 내용 입력
-                 * 4. 저장
-                 */
-                val thingUrl = context.resources.getString(R.string.mobile_url) + "ThingInfo"
+                log.d("restData ------------------------------<><><><><><><><><><> $restData")
+
+                val restDataJson = JSONObject(restData)
+
+                val thingUrl = context.resources.getString(R.string.mobile_url) + "/restThingSearch"
                 val thingInfoMap = HashMap<String, String>()
+                thingInfoMap.put("saupCode", restDataJson.getString("saupCode"))
+                thingInfoMap.put("legaldongCode", restDataJson.getString("legaldongCode"))
+                thingInfoMap.put("incrprLnm", restDataJson.getString("incrprLnm"))
+                thingInfoMap.put("thingWtnCode", restDataJson.getString("thingWtnCode"))
 
-                thingInfoMap.put("saupCode", currentSaupCode)
-                thingInfoMap.put("incrprLnm", jibun)
+                HttpUtil.getInstance(context).callerUrlInfoPostWebServer(thingInfoMap, progressDialog, thingUrl,
+                object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        progressDialog?.dismiss()
+                        toast.msg_error(R.string.msg_server_connected_fail, 100)
+                    }
 
-                log.d("Thing Info url -------------------> $thingUrl")
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
 
-//                val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+                        log.d("thingRest Info response ----------------- $responseString")
+                        progressDialog?.dismiss()
+                        runOnUiThread{
+                            val jsonResponse = JSONObject(responseString)
+                            RestThingWtnObject.thingInfo = jsonResponse.getJSONObject("list")
 
-                HttpUtil.getInstance(context)
-                    .callerUrlInfoPostWebServer(thingInfoMap, progressDialog, thingUrl,
-                        object : Callback {
-                            override fun onFailure(call: Call, e: IOException) {
-                                progressDialog?.cancel()
-                                toast.msg_error(R.string.msg_server_connected_fail, 100)
-                            }
-
-                            override fun onResponse(call: Call, response: Response) {
-                                val responseString = response.body!!.string()
-
-                                log.d("thingInfo response ------------------------> $responseString")
-
-
-                                val dataObject = JSONObject(responseString)
-
-                                ThingWtnObject.thingInfo = dataObject
-
-                                runOnUiThread {
-                                    settingViewPager(mapView, responseString)
-                                    setThingSelectViewVisibility(true)
-                                    ThingWtnObject.thingNewSearch = "Y"
-                                    WtnncBottomSheet()
-                                    progressDialog?.dismiss()
-                                }
-                            }
+                            settingViewPager(mapView, responseString)
+                            WtnncBottomSheet()
                         }
-                    )
+
+                    }
+
+                })
             }
         }
     }
@@ -1063,7 +1079,7 @@ class MapActivity :
      */
     fun callerContextDocumentCamera() {
         log.d("camera(document)")
-        nextView(this, Constants.CAMERA_ACT, null, CameraEnum.DOCUMENT)
+        nextView(this, Constants.CAMERA_ACT, null, CameraEnum.DOCUMENT, null, null)
     }
 
     /**
@@ -1721,7 +1737,7 @@ class MapActivity :
                     realLandObject.put("realLndcgrCl", realData.getString("realLndcgrCl"))
                     realLandObject.put("realLndcgrCn", realData.getString("realLndcgrCn"))
                     realLandObject.put("realLndcgrAr", realData.getString("realLndcgrAr"))
-                    realLandObject.put("user", "12345")
+                    realLandObject.put("user", PreferenceUtil.getString(context!!, "id", "defaual"))
                     realLandObject.put("elemArray", "1,1003,1")
                     realLandObject.put("ordinateArray", geomString.toString())
 
@@ -1806,7 +1822,7 @@ class MapActivity :
                     realLandObject.put("realLndcgrCl", realData.getString("realLndcgrCl"))
                     realLandObject.put("realLndcgrCn", realData.getString("realLndcgrCn"))
                     realLandObject.put("realLndcgrAr", realData.getString("realLndcgrAr"))
-                    realLandObject.put("user", "12345")
+                    realLandObject.put("user", PreferenceUtil.getString(context!!, "id", "defaual"))
                     realLandObject.put("elemArray", "1,1003,1")
                     realLandObject.put("ordinateArray", geomString.toString())
 
@@ -1838,7 +1854,7 @@ class MapActivity :
         landInfoData.put("paclrMatter", LandInfoObject.paclrMatter) //특이사항
         landInfoData.put("referMatter", LandInfoObject.referMatter) //참고사항
         landInfoData.put("rm", LandInfoObject.rm) //비고
-        landInfoData.put("user","12345") // 수정자 추후 앱 로그인 사번으로 변경 5자리
+        landInfoData.put("user",PreferenceUtil.getString(context!!, "id", "defaual")) // 수정자 추후 앱 로그인 사번으로 변경 5자리
 
         //if(realLandPolygon == null){
         landInfoData.put("elemArray", muilitElemString)
@@ -1882,6 +1898,165 @@ class MapActivity :
                     }
                 }
             )
+
+    }
+    // 잔여건물
+    fun searchSaveRestThing() {
+        RestThingSearchFragment(this, this, this).addThingRestData()
+
+        val thingRestInfo = RestThingWtnObject.thingInfo as JSONObject
+        val thingInfo = thingRestInfo.getJSONObject("ThingSearch")
+
+        val ownerInfo = thingRestInfo!!.getJSONArray("ownerInfo") as JSONArray
+
+        var thingWtnOwnerCode = ArrayList<String>()
+
+        if(ownerInfo.length() > 0) {
+            for(i in 0 until ownerInfo.length() -1) {
+                val item = ownerInfo.getJSONObject(i)
+                thingWtnOwnerCode.add(item.getString("thingWtnOwnerCode"))
+            }
+        }
+
+        val thingRestRequstData = HashMap<String,String>()
+
+        thingRestRequstData["saupCode"] = thingInfo.getString("saupCode")
+        thingRestRequstData["thingWtnCode"] = thingInfo.getString("thingWtnCode")
+        thingRestRequstData["rewdAt"] = RestThingWtnObject.rewdAt.toString()
+        thingRestRequstData["resn"] = RestThingWtnObject.resn.toString()
+        thingRestRequstData["examin1Rslt"] = RestThingWtnObject.examin1Rslt.toString()
+        thingRestRequstData["examin2Rslt"] = RestThingWtnObject.examin2Rslt.toString()
+        thingRestRequstData["examin3Rslt"] = RestThingWtnObject.examin3Rslt.toString()
+        thingRestRequstData["examin4Rslt"] = RestThingWtnObject.examin4Rslt.toString()
+        thingRestRequstData["examin5Rslt"] = RestThingWtnObject.examin5Rslt.toString()
+        thingRestRequstData["examin6Rslt"] = RestThingWtnObject.examin6Rslt.toString()
+        thingRestRequstData["examin7Rslt"] = RestThingWtnObject.examin7Rslt.toString()
+        thingRestRequstData["examin8Rslt"] = RestThingWtnObject.examin8Rslt.toString()
+        thingRestRequstData["examin9Rslt"] = RestThingWtnObject.examin9Rslt.toString()
+        thingRestRequstData["examin10Rslt"] = RestThingWtnObject.examin10Rslt.toString()
+        thingRestRequstData["rqestPsn"] = RestThingWtnObject.rqestPsn.toString()
+        thingRestRequstData["rqestCn"] = RestThingWtnObject.rqestCn.toString()
+        thingRestRequstData["register"] = PreferenceUtil.getString(context!!, "id", "defaual")
+        thingRestRequstData["thingOwner"] = thingWtnOwnerCode.joinToString(separator = ",")
+
+        var thingRestUrl = ""
+
+        if(thingRestInfo.getJSONArray("restThing").length() > 0) {
+            thingRestUrl = context!!.resources.getString(R.string.mobile_url) + "/updateRestThing"
+        } else {
+            thingRestUrl = context!!.resources.getString(R.string.mobile_url) + "/registRestThing"
+        }
+
+        HttpUtil.getInstance(context).callerUrlInfoPostWebServer(thingRestRequstData, progressDialog, thingRestUrl,
+        object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                progressDialog?.dismiss()
+                log.d("fail")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseString = response.body!!.string()
+                val messageJSON = JSONObject(responseString).getJSONObject("list") as JSONObject
+                val messageNum = messageJSON.getString("messageNum")
+                val message = messageJSON.getString("message")
+
+
+                progressDialog?.dismiss()
+                if(messageNum.equals("-1")) {
+                    runOnUiThread { toast.msg_error(message.toString(), 500) }
+                } else {
+                    runOnUiThread {
+                        toast.msg_info("잔여건물 조서가 등록 되었습니다.", 500)
+                        RestThingWtnObject.cleanThingWtnObject()
+                        bottomPanelClose()
+                    }
+                }
+            }
+
+        })
+
+    }
+
+    // 잔여지
+    fun searchSaveRestLand() {
+
+        RestLandSearchFragment(this, this).addLandRestData()
+
+        val landRestInfo = RestLandInfoObject.landInfo!!.getJSONObject("list") as JSONObject
+        val landInfo = landRestInfo!!.getJSONObject("LandInfo")
+
+
+        val ownerInfo = landRestInfo!!.getJSONArray("ownerInfo") as JSONArray
+
+        var ladWtnOwnerCode = ArrayList<String>()
+        if(ownerInfo.length() > 0) {
+            for(i in 0 until ownerInfo.length() -1) {
+                val item = ownerInfo.getJSONObject(i)
+                ladWtnOwnerCode.add(item.getString("ladWtnOwnerCode"))
+
+            }
+        }
+
+
+        val landRestRequestData = HashMap<String, String>()
+        val landInfoData = JSONObject()
+
+        landRestRequestData["saupCode"] = landInfo.getString("saupCode")
+        landRestRequestData["ladWtnCode"] = landInfo.getString("ladWtnCode")
+        landRestRequestData["rewdAt"] = RestLandInfoObject.rewdAt.toString()
+        landRestRequestData["resn"] = RestLandInfoObject.resn.toString()
+        landRestRequestData["examin1Rslt"] = RestLandInfoObject.examin1Rslt.toString()
+        landRestRequestData["examin2Rslt"] = RestLandInfoObject.examin2Rslt.toString()
+        landRestRequestData["examin3Rslt"] = RestLandInfoObject.examin3Rslt.toString()
+        landRestRequestData["examin4Rslt"] = RestLandInfoObject.examin4Rslt.toString()
+        landRestRequestData["examin5Rslt"] = RestLandInfoObject.examin5Rslt.toString()
+        landRestRequestData["examin6Rslt"] = RestLandInfoObject.examin6Rslt.toString()
+        landRestRequestData["examin7Rslt"] = RestLandInfoObject.examin7Rslt.toString()
+        landRestRequestData["examin8Rslt"] = RestLandInfoObject.examin8Rslt.toString()
+        landRestRequestData["examin9Rslt"] = RestLandInfoObject.examin9Rslt.toString()
+        landRestRequestData["examin10Rslt"] = RestLandInfoObject.examin10Rslt.toString()
+        landRestRequestData["rqestPsn"] = RestLandInfoObject.rqestPsn.toString()
+        landRestRequestData["rqestCn"] = RestLandInfoObject.rqestCn.toString()
+        landRestRequestData["register"] = PreferenceUtil.getString(context!!, "id", "defaual")
+        landRestRequestData["ladOwner"] = ladWtnOwnerCode.joinToString(separator = ",")
+
+
+        var landRestLadUrl = ""
+
+        if(landRestInfo.getJSONArray("restLad").length() > 0) {
+            landRestLadUrl = context!!.resources.getString(R.string.mobile_url) + "/updateRestLad"
+        } else {
+            landRestLadUrl = context!!.resources.getString(R.string.mobile_url) + "/registRestLad"
+        }
+
+        HttpUtil.getInstance(context).callerUrlInfoPostWebServer(landRestRequestData, progressDialog, landRestLadUrl,
+        object: Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                progressDialog?.dismiss()
+                log.d("fail")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                val responseString = response.body!!.string()
+                 val messageJSON = JSONObject(responseString).getJSONObject("list") as JSONObject
+                val messageNum = messageJSON.getString("messageNum")
+                val message = messageJSON.getString("message")
+
+                progressDialog?.dismiss()
+                if (messageNum.equals("-1")) {
+                    runOnUiThread { toast.msg_error(message.toString(), 500) }
+                } else {
+                    runOnUiThread{
+                        toast.msg_info("잔여지 조서가 등록 되었습니다.", 500)
+                        RestLandInfoObject.clealRestLadObject()
+                        bottomPanelClose()
+                        //naverMap?.clearCartoPolygon()
+                    }
+                }
+
+            }
+
+        })
 
     }
 
@@ -1976,7 +2151,7 @@ class MapActivity :
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
                             thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) //실내외여부 1: 실내 2: 실외
-                            thingInfoData.put("register", "12345") //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                            thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                             thingInfoData.put("elemArray", mulitElemString)
                             thingInfoData.put("ordinateArray", mulitGeomString)
                             thingInfoData.put("buldNm", ThingWtnObject.buldName) //건물명
@@ -2020,7 +2195,7 @@ class MapActivity :
                             thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
                             thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) //실내여부
-                            thingInfoData.put("updusr", "12345") //업데이트 //임시 // 테블릿 이용자
+                            thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                             thingInfoData.put("elemArray", mulitElemString)
                             thingInfoData.put("ordinateArray", mulitGeomString)
                             thingInfoData.put("buldWtnCode", thingDataJson.getString("buldWtnCode")) //건물조서코드
@@ -2104,7 +2279,7 @@ class MapActivity :
                             thingInfoData.put("rm", ThingWtnObject.rm) //비고
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                            thingInfoData.put("register", "12345") //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                            thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                             thingInfoData.put("elemArray", mulitElemString)
                             thingInfoData.put("ordinateArray", mulitGeomString)
                             //수목 -> 정상식여부, 사유, 조사방식
@@ -2136,7 +2311,7 @@ class MapActivity :
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) //참고사항
                             thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                            thingInfoData.put("updusr", "12345") //업데이트 //임시 // 테블릿 이용자
+                            thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                             thingInfoData.put("elemArray", mulitElemString)
                             thingInfoData.put("ordinateArray", mulitGeomString)
                             //수목 -> 정상식여부, 사유
@@ -2201,7 +2376,7 @@ class MapActivity :
                                 thingInfoData.put("rm", ThingWtnObject.rm) //비고
                                 thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                                 thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                                thingInfoData.put("register", "12345") //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                                thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                                 thingInfoData.put("elemArray", mulitElemString)
                                 thingInfoData.put("ordinateArray", mulitGeomString)
                                 thingInfoData.put("ownerInfo", ThingWtnObject.thingOwnerInfoJson)
@@ -2231,7 +2406,7 @@ class MapActivity :
                                 thingInfoData.put("referMatter", ThingWtnObject.referMatter) //참고사항
                                 thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                                 thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                                thingInfoData.put("updusr", "12345") //업데이트 //임시 // 테블릿 이용자
+                                thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                                 thingInfoData.put("elemArray", mulitElemString)
                                 thingInfoData.put("ordinateArray", mulitGeomString)
                                 thingRequestData.put("thing", thingInfoData)
@@ -2357,7 +2532,7 @@ class MapActivity :
                         thingInfoData.put("bizrdtlsBizDe", ThingBsnObject.bizrdtlsBizDe)
                         thingInfoData.put("bizrdtlsRegAt", ThingBsnObject.bizrdtlsRegAt)
 
-                        thingInfoData.put("register", "12345")// 임시등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                         thingInfoData.put("elemArray", mulitElemString)
                         thingInfoData.put("ordinateArray", mulitGeomString)
                         thingInfoData.put("brdDtlsList", ThingBsnObject.addBsnBrdpdList)
@@ -2441,7 +2616,7 @@ class MapActivity :
                         thingInfoData.put("bizrdtlsBizDe", ThingBsnObject.bizrdtlsBizDe)
                         thingInfoData.put("bizrdtlsRegAt", ThingBsnObject.bizrdtlsRegAt)
 
-                        thingInfoData.put("register", "12345")// 임시등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                         thingInfoData.put("elemArray", mulitElemString)
                         thingInfoData.put("ordinateArray", mulitGeomString)
                         thingInfoData.put("brdDtlsList", ThingBsnObject.addBsnBrdpdList)
@@ -2600,7 +2775,7 @@ class MapActivity :
                             thingInfoData.put("posesnCntrctAr",ThingFarmObject.posesnCntrctAr)
                             thingInfoData.put("posesnSpccntr",ThingFarmObject.posesnSpccntr)
 
-                            thingInfoData.put("register","12345")// 임시등록자
+                            thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                             thingInfoData.put("elemArray",mulitElemString)
                             thingInfoData.put("ordinateArray",mulitGeomString)
                             thingInfoData.put("farmClvtdlList", ThingFarmObject.addFarmClvtdlList) // 경작여부
@@ -2668,7 +2843,7 @@ class MapActivity :
                             thingInfoData.put("posesnCntrctAr",ThingFarmObject.posesnCntrctAr)
                             thingInfoData.put("posesnSpccntr",ThingFarmObject.posesnSpccntr)
 
-                            thingInfoData.put("register","12345")// 임시등록자
+                            thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                             thingInfoData.put("elemArray",mulitElemString)
                             thingInfoData.put("ordinateArray",mulitGeomString)
                             thingInfoData.put("farmClvtdlList", ThingFarmObject.addFarmClvtdlList) // 경작여부
@@ -2792,7 +2967,7 @@ class MapActivity :
                     thingInfoData.put("ownerInfo", ThingResidntObject.thingOwnerInfoJson)
 
                     //기타.
-                    thingInfoData.put("register","12345")// 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -2852,7 +3027,7 @@ class MapActivity :
                     thingInfoData.put("residntBuldLink", ThingResidntObject.addBuldLinkList)
 
                     //기타.
-                    thingInfoData.put("register","12345")// 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -2946,7 +3121,7 @@ class MapActivity :
                         thingInfoData.put("burlDe", ThingTombObject.burlDe) // 매장일자
                         thingInfoData.put("balmCl", ThingTombObject.balmCl) //연고자 유무
                         thingInfoData.put("tombCl", ThingTombObject.tombCl) // 분묘유형
-                        thingInfoData.put("register", "12345") //등록자//임시로그인등록번호
+                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자//임시로그인등록번호
                         thingInfoData.put("elemArray", mulitElemString) // 폴리곤어레이
                         thingInfoData.put("ordinateArray", mulitGeomString) //폴리곤정보
                         thingInfoData.put("buriedPerson", ThingTombObject.addBuriedPerson) // 매장자
@@ -2987,7 +3162,7 @@ class MapActivity :
                         thingInfoData.put("burlDe", ThingTombObject.burlDe) // 매장일자
                         thingInfoData.put("balmCl", ThingTombObject.balmCl) //연고자 유무
                         thingInfoData.put("tombCl", ThingTombObject.tombCl) // 분묘유형
-                        thingInfoData.put("register", "12345") //등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자
                         thingInfoData.put("elemArray", mulitElemString) // 폴리곤어레이
                         thingInfoData.put("ordinateArray", mulitGeomString) //폴리곤정보
                         thingInfoData.put("buriedPerson", ThingTombObject.addBuriedPerson) // 매장자
@@ -3074,7 +3249,7 @@ class MapActivity :
                     thingInfoData.put("miningPlanCnfmDe",ThingMinrgtObject.miningPlanCnfmDe)  //채광계획(변경)인가일자
                     thingInfoData.put("mnrlPrdnRprtAt",ThingMinrgtObject.mnrlPrdnRprtAt)    //광물샌산자보고자료여부
                     thingInfoData.put("minrgtLgstr", ThingMinrgtObject.minrgtLgstr)     //광업지적
-                    thingInfoData.put("register","12345") // 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
                     thingInfoData.put("ownerInfo", ThingMinrgtObject.thingOwnerInfoJson)
@@ -3117,7 +3292,7 @@ class MapActivity :
                     thingInfoData.put("miningPlanCnfmDe",ThingMinrgtObject.miningPlanCnfmDe)  //채광계획(변경)인가일자
                     thingInfoData.put("mnrlPrdnRprtAt",ThingMinrgtObject.mnrlPrdnRprtAt)    //광물샌산자보고자료여부
                     thingInfoData.put("minrgtLgstr", ThingMinrgtObject.minrgtLgstr)     //광업지적
-                    thingInfoData.put("register","12345") // 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
                     thingInfoData.put("minrgtThing",ThingMinrgtObject.addMinrgtThing)   //광업권시설물
@@ -3207,7 +3382,7 @@ class MapActivity :
                         thingInfoData.put("fshrMth", ThingFyhtsObject.fshrMth)//어업의 방법
                         thingInfoData.put("srfwtrLcZoneAt", ThingFyhtsObject.srfwtrLcZoneAt)//수면의 위치 및 구역도 여부
 
-                        thingInfoData.put("register","12345") // 임시등록자
+                        thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
                         thingInfoData.put("elemArray",mulitElemString)
                         thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -3257,7 +3432,7 @@ class MapActivity :
                         thingInfoData.put("fshrMth", ThingFyhtsObject.fshrMth)//어업의 방법
                         thingInfoData.put("srfwtrLcZoneAt", ThingFyhtsObject.srfwtrLcZoneAt)//수면의 위치 및 구역도 여부
 
-                        thingInfoData.put("register","12345") // 임시등록자
+                        thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
                         thingInfoData.put("elemArray",mulitElemString)
                         thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -3286,6 +3461,8 @@ class MapActivity :
     private fun setWtnccTabReset() {
 
         Constants.GLOBAL_TAB_LAYOUT?.run {
+
+
             if (selectedTabPosition != 0) {
                 setScrollPosition(0, 0f, true)
                 runOnUiThread {
@@ -3450,7 +3627,7 @@ class MapActivity :
                     atchRequestMap.put("atflNm", saveImage.absolutePath)
                     atchRequestMap.put("fileseInfo", item.fileCode)
                     atchRequestMap.put("fileCodeNm", item.fileCodeNm)
-                    atchRequestMap.put("register", "12345") // 임시 등록자
+                    atchRequestMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 등록자
                     atchRequestMap.put("atflSize", "")
                     atchRequestMap.put("atflExtsn", ".png")
                     atchRequestMap.put("lon", item.lon)
@@ -3551,9 +3728,9 @@ class MapActivity :
                     // 조서 확인, 완료
                     R.id.viewSearchSaveBtn -> { //완료버튼
 
-                        when (intent!!.extras!!.get("saupCode")) {
+                        when (Constants.BIZ_SUBCATEGORY_KEY) {
 
-                            LAD -> {
+                            BizEnum.LAD -> {
                                 log.d("viewSearchSaveBtn Click")
                                 try {
                                     val landPolygonData = LandInfoObject.realLandPolygon
@@ -3570,7 +3747,7 @@ class MapActivity :
                                 }
                             }
 
-                            MINRGT -> { //광업
+                            BizEnum.MINRGT -> { //광업
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingMinrgtObject.thingMinrgtSketchPolygon
                                 log.d("Minrgt ThingPolygonData -----------------> $thingPolygonData")
@@ -3592,7 +3769,7 @@ class MapActivity :
 
                             }
 
-                            FYHTS -> { //어업
+                            BizEnum.FYHTS -> { //어업
                                 setWtnccTabReset()
                                 try {
                                     if(ThingFyhtsObject.thingNewSearch.equals("Y")) {
@@ -3611,7 +3788,7 @@ class MapActivity :
 
                             }
 
-                            THING -> { // 지장물
+                            BizEnum.THING -> { // 지장물
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingWtnObject.thingSketchPolygon
                                 log.d("thingPolygonData ---------------------> $thingPolygonData")
@@ -3632,7 +3809,7 @@ class MapActivity :
                                 }
                             }
 
-                            TOMB -> {
+                            BizEnum.TOMB -> {
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingTombObject.thingTombSketchPolyton
                                 log.d("Tomb thingPolygonData -----------------------> $thingPolygonData")
@@ -3658,7 +3835,7 @@ class MapActivity :
                                 }
                             }
 
-                            BSN -> {
+                            BizEnum.BSN -> {
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingBsnObject.thingBsnSketchPolygon
                                 log.d("Bsn thingPolygonData ---------------> $thingPolygonData")
@@ -3684,7 +3861,7 @@ class MapActivity :
                                 }
                             }
 
-                            FARM -> {
+                            BizEnum.FARM -> {
                                 setWtnccTabReset()
                                 try {
                                     if(ThingFarmObject.thingNewSearch == "Y") {
@@ -3702,7 +3879,7 @@ class MapActivity :
                                 }
                             }
 
-                            RESIDNT -> {
+                            BizEnum.RESIDNT -> {
                                 setWtnccTabReset()
                                 try {
                                     if (ThingResidntObject.thingNewSearch.equals("Y")) {
@@ -3720,6 +3897,21 @@ class MapActivity :
                                     log.e(e.toString())
                                 }
 
+                            }
+                            BizEnum.REST_LAD -> {
+                                try {
+                                    searchSaveRestLand()
+                                } catch (e: Exception) {
+                                    log.e(e.toString())
+                                }
+
+                            }
+                            BizEnum.REST_THING -> {
+                                try {
+                                    searchSaveRestThing()
+                                } catch (e: Exception) {
+                                    log.e(e.toString())
+                                }
                             }
 
                         }
@@ -3790,7 +3982,6 @@ class MapActivity :
          * residntClickPopup -> 거주자
          * thingViewClickPopup -> 지장물 필지 스케치 폴리곤 선택
          * thingBuldYes -> 지장물 건축물 여부 YES
-         * thingBuldNo -> 지장물 건축물 여부 NO
          */
 
         log.d("CustomContextPopup getPosition $setContextPopupPosition")
@@ -3820,7 +4011,8 @@ class MapActivity :
                         )
                     }
 
-                    "thingBuldYes", "thingBuldNo" -> {
+                    // 건축물 여부 'Y' 일 경우 실내스케치 진행
+                    "thingBuldYes" -> {
                         log.d("thingViewClickPopup -> 실내스케치 선택")
 
                         IndoorSketchFragment().show(supportFragmentManager, "indoorSketchFragment")
@@ -3835,6 +4027,7 @@ class MapActivity :
 
             1 -> {
                 when (popupType) {
+
                     "ladClickPopup", "bsnClickPopup", "farmClickPopup", "minrgtClickPopup", "residntClickPopup", "tombClickPopup", "fyhtsClickPopup" -> callerContextCamera()
 
                     "lotMapClickPopup" -> {
@@ -3851,9 +4044,10 @@ class MapActivity :
 
                         HttpUtil.getInstance(context).callerUrlInfoPostWebServer(thingSearchMap, progressDialog, thingLandConfirmUrl,
                             object : Callback {
-                                override fun onFailure(call: Call, e: IOException) =
+                                override fun onFailure(call: Call, e: IOException) {
+                                    progressDialog?.dismiss()
                                     log.d("fail")
-
+                                }
                                 override fun onResponse(call: Call, response: Response) {
                                     val responseString = response.body!!.string()
 

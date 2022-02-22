@@ -5,6 +5,7 @@
 
 package kr.or.kreb.ncms.mobile.data
 
+import org.json.JSONArray
 import org.json.JSONObject
 
 data class Biz(
@@ -26,5 +27,8 @@ data class Biz(
     val excDtls:String,
     val ncm:String,
     val cntrctDe:String,
-    val item: JSONObject
+    val item: JSONObject,
+    val landList: JSONArray?,
+    val thingList: JSONArray?,
+    val loginId: String
 )

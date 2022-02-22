@@ -275,7 +275,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                             relateAdddata.put("inhbtntCprNo", selectOwnerdata.inhbtntCprNo)
                                             relateAdddata.put("sameNameNo", selectOwnerdata.sameNameNo)
                                             relateAdddata.put("pcnRightRelate", pcnRightRelateString)
-                                            relateAdddata.put("register","12345")
+                                            relateAdddata.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAdddata)
                                             relateAddJson.put("ownerInfo", ownerData)
@@ -491,7 +491,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                                 addOwnerJson.put("unDcsnOwnerAt","N")
                                             }
                                             addOwnerJson.put("rgistAdres",rgistAddrString)
-                                            addOwnerJson.put("register","12345")
+                                            addOwnerJson.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
                                             addOwnerJson.put("hapyuGroupCode","")
                                             addOwnerJson.put("hapyuAt","")
                                             addOwnerJson.put("qotaAr","")
@@ -664,7 +664,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                         addOwnerJson.put("unDcsnOwnerAt","N")
                                     }
                                     addOwnerJson.put("rgistAdres",rgistAddrString)
-                                    addOwnerJson.put("register","12345")
+                                    addOwnerJson.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
                                     addOwnerJson.put("hapyuGroupCode","")
                                     addOwnerJson.put("hapyuAt","")
                                     addOwnerJson.put("qotaAr","")

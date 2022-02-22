@@ -4,6 +4,8 @@
  */
 
 package kr.or.kreb.ncms.mobile.data
+import org.json.JSONArray
+import org.json.JSONObject
 
 class AddOwnerListInfo {
     var indvdlGrpSe: String = ""    //구분코드

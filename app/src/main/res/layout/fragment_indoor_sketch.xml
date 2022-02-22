@@ -40,26 +40,18 @@
                     android:layout_height="wrap_content"
                     tools:ignore="MissingConstraints" />
 
-<!--            <TextView-->
-<!--                    android:id="@+id/tvIndoorStatus"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                    android:layout_margin="10dp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:padding="8dp"-->
-<!--                    android:autoSizeTextType="uniform"-->
-<!--                    app:autoSizeMinTextSize="3sp"-->
-<!--                    app:autoSizeMaxTextSize="18sp"-->
-<!--                    android:fontFamily="@font/nsquarebold"-->
-<!--                    android:background="@drawable/layout_round_btn_border"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:text="텍스트뷰 상태값"-->
-
-<!--                    />-->
-
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSketchThing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:padding="30dp"
+                    android:background="@drawable/bg_thing_dialog_radius_with_opacity"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

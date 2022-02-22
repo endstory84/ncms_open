@@ -147,7 +147,7 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                                 addNewOwnerSaveMap.put("delvyAdres", addNewOwnerDelvyaddressEdit.text.toString())
                                 addNewOwnerSaveMap.put("delvyAdresDetail", addNewOwnerDelvyaddressdetailEdit.text.toString())
                                 addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
-                                addNewOwnerSaveMap.put("register", "12345") // 임시 조사원 아이디
+                                addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
                             }
                             2 -> { //단체(법인)
                                 addNewOwnerSaveMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
@@ -182,7 +182,7 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                                 addNewOwnerSaveMap.put("delvyAdres",addNewGroupDelvyaddressEdit.text.toString())
                                 addNewOwnerSaveMap.put("delvyAdresDetail",addNewGroupDelvyaddressdetailEdit.text.toString())
                                 addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
-                                addNewOwnerSaveMap.put("register", "12345") // 임시 조사원 아이디
+                                addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
                             }
                             3 -> { //단체(은행)
                                 addNewOwnerSaveMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
@@ -209,7 +209,7 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                                 addNewOwnerSaveMap.put("delvyAdres",addNewBankDelvyaddressEdit.text.toString())
                                 addNewOwnerSaveMap.put("delvyAdresDetail",addNewBankDelvyaddressdetailEdit.text.toString())
                                 addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
-                                addNewOwnerSaveMap.put("register", "12345") // 임시 조사원 아이디
+                                addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
                             }
                         }
                         HttpUtil.getInstance(context!!)

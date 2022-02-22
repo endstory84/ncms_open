@@ -164,7 +164,7 @@ class HttpUtil() {
                 builder.add(data.key, data.value)
             }
 
-            if(progressBar?.isShowing == false) progressBar.show()
+            //if(progressBar?.isShowing == false) progressBar.show()
 
             val formBody: RequestBody = builder.build()
 

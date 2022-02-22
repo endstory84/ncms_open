@@ -273,7 +273,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                 thingDataJson!!.getJSONObject("ThingSearch").getString("thingSmallCl")
                                             )
 
-                                            relateAddData.put("register", "12345")
+                                            relateAddData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAddData)
                                             relateAddJson.put("ownerInfo", ownerData)
@@ -489,7 +489,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                 addOwnerJson.put("unDcsnOwnerAt", "N")
                                             }
                                             addOwnerJson.put("rgistAdres", rgistAddrString)
-                                            addOwnerJson.put("register", "12345")
+                                            addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                             addOwnerJson.put("hapyuGroupCode", "")
                                             addOwnerJson.put("hapyuAt", "")
                                             addOwnerJson.put("qotaAr", "")
@@ -658,7 +658,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                         addOwnerJson.put("unDcsnOwnerAt", "N")
                                     }
                                     addOwnerJson.put("rgistAdres", rgistAddrString)
-                                    addOwnerJson.put("register", "12345")
+                                    addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                     addOwnerJson.put("hapyuGroupCode", "")
                                     addOwnerJson.put("hapyuAt", "")
                                     addOwnerJson.put("qotaAr", "")
@@ -949,7 +949,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                             addOwnerJson.put("unDcsnOwnerAt", "N")
                                         }
                                         addOwnerJson.put("rgistAdres", rgistAddrString)
-                                        addOwnerJson.put("register", "12345")
+                                        addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                         addOwnerJson.put("hapyuGroupCode", "")
                                         addOwnerJson.put("hapyuAt", "")
                                         addOwnerJson.put("qotaAr", "")

@@ -8,6 +8,7 @@ package kr.or.kreb.ncms.mobile.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.TextureView
+import android.view.View
 
 /*
   TextureView 는 카메라 미리보기를 랜더링하기 위한 placeholder 이다.

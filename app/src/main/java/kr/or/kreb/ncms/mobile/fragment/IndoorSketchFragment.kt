@@ -17,14 +17,19 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.fragment_indoor_sketch.*
 import kotlinx.android.synthetic.main.include_indoorsketch_toolbar.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.R
+import kr.or.kreb.ncms.mobile.adapter.SketchThingBuldAdpater
 import kr.or.kreb.ncms.mobile.base.BaseDialogFragment
+import kr.or.kreb.ncms.mobile.data.SketchInfo
+import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.databinding.FragmentIndoorSketchBinding
 import kr.or.kreb.ncms.mobile.util.*
 import kr.or.kreb.ncms.mobile.view.IndoorCanvasView
@@ -43,6 +48,8 @@ class IndoorSketchFragment :
 
     private lateinit var dialogUtil: DialogUtil
     lateinit var dialogBuilder: MaterialAlertDialogBuilder
+
+    lateinit var adapter: SketchThingBuldAdpater
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,6 +95,21 @@ class IndoorSketchFragment :
         }
 
         fabIndoorArr.forEach { obj -> obj.setOnClickListener(this) }
+
+
+        // TODO: 2022-01-04 물건 스케치 리사이클러 뷰
+        val sketchInfoArr = mutableListOf<SketchInfo>()
+
+        for(i in 0 until ThingWtnObject.buldContainsArr!!.size){
+            sketchInfoArr.add(SketchInfo(ThingWtnObject.buldContainsArr!![i], ThingWtnObject.buldContainsWtnccCodeArr?.get(i)!!))
+        }
+
+        adapter = SketchThingBuldAdpater(sketchInfoArr)
+
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        rvSketchThing.layoutManager = layoutManager
+        rvSketchThing.adapter = adapter
 
     }
 

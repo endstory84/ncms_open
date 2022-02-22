@@ -68,7 +68,7 @@
     <string name="main_plus_menu_2">편입지번</string>
     <string name="main_plus_menu_3">당초면적</string>
     <string name="main_plus_menu_4">편입지번</string>
-    <string name="main_plus_menu_5">지목</string>z
+    <string name="main_plus_menu_5">지목</string>
     <string name="main_plus_menu_6">소유자</string>
     <string name="main_plus_menu_detail_1">50-2</string>
     <string name="main_plus_menu_detail_2">50</string>
@@ -76,6 +76,16 @@
     <string name="main_plus_menu_detail_4">50</string>
     <string name="main_plus_menu_detail_5">임야</string>
     <string name="main_plus_menu_detail_6">확인</string>
+
+    <string name="bizJibunSearchNo">조서(토지)번호</string>
+    <string name="bizJibunBgnnLnm">원래지번</string>
+    <string name="bizJibunIncrprLnm">편입지번</string>
+    <string name="bizJibunBgnnAr">원래면적</string>
+    <string name="bizJibunIncrprAr">편입면적</string>
+    <string name="bizJibunGobuLndcgrNm">지목</string>
+    <string name="bizJibunLegaldongNm">소재지</string>
+    <string name="bizJibunOwnerName">소유자</string>
+
 
     <!-- message -->
     <string name="msg_permission_title">앱 권한설정</string>
@@ -146,14 +156,14 @@
 
     <string name="msg_server_"></string>
 
-    <string name="geoserver_wms_url">http://192.168.51.146:8444/geoserver/ncms/wms?</string>
+    <string name="geoserver_wms_url">https://192.168.51.146:8444/geoserver/ncms/wms?</string>
 
-    <string name="geoserver_wfs_url">http://192.168.51.146:8444/geoserver/ncms/ows?"</string>
+    <string name="geoserver_wfs_url">https://192.168.51.146:8444/geoserver/ncms/ows?"</string>
     <string name="geoserver_kais_wfs_url">http://192.168.51.83/geoserver/cite/wfs?"</string>
 
-    <string name="server_bsns_mng_list">http://192.168.51.146:8444/bsns/bsnsChoiseList.do</string>
+    <string name="server_bsns_mng_list">https://192.168.51.146:8444/bsns/bsnsChoiseList.do</string>
 
-    <string name="mobile_url">http://192.168.51.146:8444/mobile/</string>
+    <string name="mobile_url">https://192.168.51.146:8444/mobile/</string>
 
     <string name="naver_geocoding_gc">https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc</string>
 
@@ -216,6 +226,8 @@
     <string name="wtnncCommCntnncPd">존속기간</string>
     <string name="wtnncCommCntnncPdBgnde">존속기간시작</string>
     <string name="wtnncCommCntnncPdEndde">존속기간끝</string>
+    <string name="wtnncCommbqestPsn">청구인</string>
+    <string name="wtnncCommbqestCn">청구내용</string>
 
     <string name="wtnncCommCnfirm">확인</string>
     <string name="wtnncCommSketch">스케치</string>
@@ -646,6 +658,22 @@
         <item>공익사업시행 또는 시설설치로 인한 배수/일조/조망 등 피해여부\n* 관련 조정, 심판, 소송 등 분재 절차 진행 및 결과</item>
         <item>기타\n* 종래 목적 사용가능 여부와 관련된 그 밖의 내용</item>
     </string-array>
+
+    <string-array name="restLandQeustArrHint">
+        <item>지목과 토지이용현황이 동일성</item>
+        <item>사업인정고시일 당시 현실적인 토지이용</item>
+        <item>동일하지 않은 경우 연접 토지 소유자와의 관계(친인척, 명의신탁 등)</item>
+        <item>잔여지 면적 및 편입비율</item>
+        <item>잔여토지의 진/출입로 또는 용/배수로 차단여부 및 진입로 개설 가능 여부</item>
+        <item>잔여지 형상 연접토지와의 차단</item>
+        <item>기계영농의 경우 농기계 폭/회전반경 등</item>
+        <item>건축 기능면적(분할제한 면적, 건폐율 적용면적 등)</item>
+        <item>공익사업시행 또는 시설설치로 인한 배수/일조/조망 등 피해여부</item>
+        <item>종래 목적 사용가능 여부와 관련된 그 밖의 내용</item>
+    </string-array>
+
+
+
     <string name="restLandRewardChkResult">확대보상여부 결과</string>
     <string name="restLandReason">이유</string>
 
@@ -672,11 +700,11 @@
 
     <!-- Array -->
     <string-array name="biz_confirm_category_array">
-        <item>사업 전체</item>
+        <item>사업전체</item>
         <item>현장조사</item>
-        <item>이의신청</item>
-        <item>감정평가</item>
-        <item>재결평가</item>
+<!--        <item>이의신청</item>-->
+<!--        <item>감정평가</item>-->
+<!--        <item>재결평가</item>-->
         <item>잔여지</item>
     </string-array>
 
@@ -1149,9 +1177,9 @@
 
 
     <string-array name="restThingRewardChkArray">
-        <item>선택(보상/선택)</item>
-        <item>보상</item>
         <item>선택</item>
+        <item>Y</item>
+        <item>N</item>
     </string-array>
 
     <string-array name="bsnClDivArray">

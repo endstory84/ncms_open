@@ -14,7 +14,6 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <uses-feature
@@ -64,7 +63,8 @@
         <activity
                 android:name="kr.or.kreb.ncms.mobile.MapActivity"
                 android:configChanges="orientation|screenSize"
-                android:windowSoftInputMode="stateHidden|adjustPan">
+                android:windowSoftInputMode="stateHidden|adjustPan"
+                android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -79,7 +79,8 @@
         <activity
                 android:name="kr.or.kreb.ncms.mobile.LoginActivity"
                 android:configChanges="orientation|screenSize"
-                android:theme="@style/NCMS.SplashTheme">
+                android:theme="@style/NCMS.SplashTheme"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -89,7 +90,8 @@
 
         <activity
                 android:name="kr.or.kreb.ncms.mobile.BizListActivity"
-                android:configChanges="orientation|screenSize">
+                android:configChanges="orientation|screenSize"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -102,7 +104,8 @@
         <activity
                 android:name="kr.or.kreb.ncms.mobile.BizCnfirmActivity"
                 android:configChanges="orientation|screenSize"
-                android:windowSoftInputMode="stateHidden|adjustPan" />
+                android:windowSoftInputMode="stateHidden|adjustPan"
+                android:exported="true"/>
 
         <activity
                 android:name="kr.or.kreb.ncms.mobile.CameraActivity" />

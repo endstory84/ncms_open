@@ -210,7 +210,7 @@ class DocumentEditViewFragment : DialogFragment(), View.OnClickListener {
                 atchRequestMap["atflNm"] = "$saveFileName.png"
                 atchRequestMap["fileseInfo"] = fileCode!!
                 atchRequestMap["fileCodeNm"] = fileCodeNm!!
-                atchRequestMap["register"] = "1234" // 등록자 임시 등록
+                atchRequestMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual")
                 atchRequestMap["atflSize"] = ""
                 atchRequestMap["atflExtsn"] = ".png"
                 atchRequestMap["lon"] = lon!!

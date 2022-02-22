@@ -56,6 +56,17 @@ class LandInfoFragment(context: Context) : Fragment() {
 
     fun init(view: View) {
 
+//        var dataString = ""
+
+//        when (Constants.BIZ_SUBCATEGORY_KEY) {
+//            BizEnum.LAD -> {
+//                dataString = requireActivity().intent!!.extras!!.get("LandInfo") as String
+//            }
+//            BizEnum.REST_LAD -> {
+//                dataString = requireActivity().intent!!.extras!!.get("LandInfo") as String
+//            }
+//        }
+
         val dataString = requireActivity().intent!!.extras!!.get("LandInfo") as String
         logUtil.d("LandInfo String ---------------------> $dataString")
 
@@ -64,6 +75,7 @@ class LandInfoFragment(context: Context) : Fragment() {
 
         val landInfoJson = dataJson.getJSONObject("LandInfo")
         LandInfoObject.landInfo = landInfoJson
+
 
         val landNo = checkStringNull(landInfoJson.getString("no"))
         val landSubNo = checkStringNull(landInfoJson.getString("subNo"))

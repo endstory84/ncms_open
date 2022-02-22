@@ -25,7 +25,6 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_biz_list_with_drawerlayout.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.include_drawnavigation.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -63,8 +62,13 @@ class BizListActivity :
     lateinit var db: NcmsDB
     lateinit var searchKeyword: SearchKeyword
 
+    var loginId: String? = null
+
     override fun initViewStart() {
         dialogUtil = DialogUtil(this, this)
+
+        loginId = intent!!.extras!!.get("id").toString()
+
         initUI()
     }
 
@@ -75,6 +79,10 @@ class BizListActivity :
     override fun onResume() {
         super.onResume()
         setPageCode(Constants.BIZ_LIST_ACT)
+
+
+
+
 
         db = NcmsDB.getInstance(context)!!
 
@@ -163,22 +171,6 @@ class BizListActivity :
                             searchViewBizSelect.setQuery(query, true)
                         }
 
-//                        setOnCloseIconClickListener {
-//                            val anim = AlphaAnimation(1f, 0f)
-//                            anim.duration = 250
-//                            anim.setAnimationListener(object : Animation.AnimationListener {
-//                                override fun onAnimationRepeat(animation: Animation?) {}
-//
-//                                override fun onAnimationEnd(animation: Animation?) {
-//                                    chipGroupBizMain.removeView(it)
-//                                }
-//
-//                                override fun onAnimationStart(animation: Animation?) {}
-//                            })
-//
-//                            it.startAnimation(anim)
-//                        }
-
                         var isChipVisable = false
 
                         searchKeyword = SearchKeyword(0, query)
@@ -255,9 +247,6 @@ class BizListActivity :
 
         setBizListAdapter()
 
-        val navListener = NavSetItemListener(this)
-        navigationViewMain.setNavigationItemSelectedListener(navListener) // set listener
-
         //tvBizMainGuide
         val requireArr = mutableListOf<TextView>(tvBizMainGuide)
         setRequireContent(requireArr)
@@ -273,6 +262,7 @@ class BizListActivity :
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinerBizSelect.adapter = adapter
+            spinerBizSelect.onItemSelectedListener = this
         }
 
         // RecylerView (가로, 세로 교차 레이아웃)
@@ -285,78 +275,268 @@ class BizListActivity :
             recylerViewBizMain.layoutManager = layoutManager
         }
 
+        settingBizAll()
+
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        log.d("spiner item -> $position")
+
+        when (parent?.id) {
+            R.id.spinerBizSelect -> {
+                when (position) {
+                    0 -> { // 사업전체
+                        settingBizAll()
+                    }
+                    1 -> { // 현장조사
+                        settingBizSearch()
+                    }
+                    2 -> { // 잔여지지
+                        settingBizRest()
+                    }
+
+
+                }
+           }
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+    }
+
+    fun settingBizAll() {
         val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseList"
         val bsnsChoiceMap = HashMap<String, String>()
         bsnsChoiceMap.put("searchBsnsPsCl","")
         bsnsChoiceMap.put("searchBsnsNm","")
         bsnsChoiceMap.put("searchNcm","")
         bsnsChoiceMap.put("searchComboBsnsPsCl","")
+        bsnsChoiceMap.put("register", loginId!!) // 로그인 id 임시 등록
+        bsnsChoiceMap.put("acntTy","") // 로그인 id 사용자의 계정 구분
 
         val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
 
         HttpUtil.getInstance(context)
             .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
-            object: Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    progressDialog.dismiss()
-                    toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
-                    val responseString = response.body!!.string()
-
-                    log.d("bsnsChoiceList response $responseString")
-
-                    val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
-                    progressDialog.dismiss()
-
-                    runOnUiThread {
-                        val tempDataList = mutableListOf<Biz>()
-                        for(i in 0 until dataJSON.length()) {
-                            val dataObject = dataJSON.getJSONObject(i)
-                            tempDataList.add(
-                                Biz(
-                                    dataObject.getString("saupCode"),
-                                    dataObject.getString("contCode"),
-                                    dataObject.getString("bsnsCl"),
-                                    dataObject.getString("bsnsClNm"),
-                                    dataObject.getString("bsnsNm"),
-                                    dataObject.getString("bsnsLocplc"),
-                                    dataObject.getString("bsnsPsCl"),
-                                    dataObject.getString("bsnsPsClNm"),
-                                    dataObject.getString("oclhgBnoraCl"),
-                                    dataObject.getString("oclhgBnoraClNm"),
-                                    dataObject.getString("bsnsLclasCl"),
-                                    dataObject.getString("oclhgBnora"),
-                                    dataObject.getString("excAceptncAt"),
-                                    dataObject.getString("excUseAt"),
-                                    dataObject.getString("excDtls"),
-                                    dataObject.getString("ncm"),
-                                    dataObject.getString("cntrctDe"),
-                                    dataObject
-                                )
-                            )
-                            adapter = BizAdapter(tempDataList)
-                            recylerViewBizMain.adapter = adapter
-                            ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
-                            adapter.filter.filter("")
+                object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        progressDialog.dismiss()
+                        runOnUiThread {
+                            toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
                         }
-                        GlobalScope.launch(Dispatchers.IO) {
-                            delay(500)
-                            runOnUiThread {
-                                tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
-                                setColorChar(tvBizMainCnt, adapter.filteredList.size.toString())
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        log.d("bsnsChoiceList response $responseString")
+
+                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+                        progressDialog.dismiss()
+
+                        runOnUiThread {
+                            val tempDataList = mutableListOf<Biz>()
+                            for(i in 0 until dataJSON.length()) {
+                                val dataObject = dataJSON.getJSONObject(i)
+                                tempDataList.add(
+                                    Biz(
+                                        dataObject.getString("saupCode"),
+                                        dataObject.getString("contCode"),
+                                        dataObject.getString("bsnsCl"),
+                                        dataObject.getString("bsnsClNm"),
+                                        dataObject.getString("bsnsNm"),
+                                        dataObject.getString("bsnsLocplc"),
+                                        dataObject.getString("bsnsPsCl"),
+                                        dataObject.getString("bsnsPsClNm"),
+                                        dataObject.getString("oclhgBnoraCl"),
+                                        dataObject.getString("oclhgBnoraClNm"),
+                                        dataObject.getString("bsnsLclasCl"),
+                                        dataObject.getString("oclhgBnora"),
+                                        dataObject.getString("excAceptncAt"),
+                                        dataObject.getString("excUseAt"),
+                                        dataObject.getString("excDtls"),
+                                        dataObject.getString("ncm"),
+                                        dataObject.getString("cntrctDe"),
+                                        dataObject,
+                                        null,
+                                        null,
+                                        loginId!!
+                                    )
+                                )
+                                adapter = BizAdapter(tempDataList, "all")
+                                recylerViewBizMain.adapter = adapter
+                                ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+                                adapter.filter.filter("")
+                            }
+                            GlobalScope.launch(Dispatchers.IO) {
+                                delay(500)
+                                runOnUiThread {
+                                    tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
+                                    setColorChar(tvBizMainCnt, adapter.filteredList.size.toString())
+                                }
                             }
                         }
                     }
+                })
+    }
+
+    fun settingBizSearch() {
+
+        recylerViewBizMain.adapter = null
+        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseSearchList"
+        val bsnsChoiceMap = HashMap<String, String>()
+        bsnsChoiceMap.put("searchBsnsPsCl","")
+        bsnsChoiceMap.put("searchBsnsNm","")
+        bsnsChoiceMap.put("searchNcm","")
+        bsnsChoiceMap.put("searchComboBsnsPsCl","")
+        bsnsChoiceMap.put("register",loginId!!) // 로그인 id 임시 등록
+        bsnsChoiceMap.put("acntTy","") // 로그인 id 사용자의 계정 구분
+
+        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+
+        HttpUtil.getInstance(context)
+            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
+                object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        progressDialog.dismiss()
+                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        log.d("bsnsChoiceList response $responseString")
+
+                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+                        progressDialog.dismiss()
+
+                        runOnUiThread {
+                            val tempDataList = mutableListOf<Biz>()
+                            for(i in 0 until dataJSON.length()) {
+                                val dataObject = dataJSON.getJSONObject(i)
+                                tempDataList.add(
+                                    Biz(
+                                        dataObject.getString("saupCode"),
+                                        dataObject.getString("contCode"),
+                                        dataObject.getString("bsnsCl"),
+                                        dataObject.getString("bsnsClNm"),
+                                        dataObject.getString("bsnsNm"),
+                                        dataObject.getString("bsnsLocplc"),
+                                        dataObject.getString("bsnsPsCl"),
+                                        dataObject.getString("bsnsPsClNm"),
+                                        dataObject.getString("oclhgBnoraCl"),
+                                        dataObject.getString("oclhgBnoraClNm"),
+                                        dataObject.getString("bsnsLclasCl"),
+                                        dataObject.getString("oclhgBnora"),
+                                        dataObject.getString("excAceptncAt"),
+                                        dataObject.getString("excUseAt"),
+                                        dataObject.getString("excDtls"),
+                                        dataObject.getString("ncm"),
+                                        dataObject.getString("cntrctDe"),
+                                        dataObject,
+                                        dataObject.getJSONArray("bsnsLandList"),
+                                        null,
+                                        loginId!!
+                                    )
+                                )
+                                adapter = BizAdapter(tempDataList,"search")
+                                recylerViewBizMain.adapter = adapter
+                                ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+                                adapter.filter.filter("")
+                            }
+                            GlobalScope.launch(Dispatchers.IO) {
+                                delay(500)
+                                runOnUiThread {
+                                    tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
+                                    setColorChar(tvBizMainCnt, adapter.filteredList.size.toString())
+                                }
+                            }
+                        }
+
+
+                    }
+
                 }
-            })
+                )
+
     }
 
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        log.d("spiner item -> $position")
-    }
+    fun settingBizRest() {
+        recylerViewBizMain.adapter = null
+        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseRestList"
+        val bsnsChoiceMap = HashMap<String, String>()
+        bsnsChoiceMap.put("searchBsnsPsCl","")
+        bsnsChoiceMap.put("searchBsnsNm","")
+        bsnsChoiceMap.put("searchNcm","")
+        bsnsChoiceMap.put("searchComboBsnsPsCl","")
+        bsnsChoiceMap.put("register",loginId!!) // 로그인 id 임시 등록
+        bsnsChoiceMap.put("acntTy","") // 로그인 id 사용자의 계정 구분
 
-    override fun onNothingSelected(parent: AdapterView<*>?) {
+        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+
+        HttpUtil.getInstance(context)
+            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
+                object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        progressDialog.dismiss()
+                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        log.d("bsnsChoiceList response $responseString")
+
+                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+                        progressDialog.dismiss()
+
+                        runOnUiThread {
+                            val tempDataList = mutableListOf<Biz>()
+                            for(i in 0 until dataJSON.length()) {
+                                val dataObject = dataJSON.getJSONObject(i)
+                                tempDataList.add(
+                                    Biz(
+                                        dataObject.getString("saupCode"),
+                                        dataObject.getString("contCode"),
+                                        dataObject.getString("bsnsCl"),
+                                        dataObject.getString("bsnsClNm"),
+                                        dataObject.getString("bsnsNm"),
+                                        dataObject.getString("bsnsLocplc"),
+                                        dataObject.getString("bsnsPsCl"),
+                                        dataObject.getString("bsnsPsClNm"),
+                                        dataObject.getString("oclhgBnoraCl"),
+                                        dataObject.getString("oclhgBnoraClNm"),
+                                        dataObject.getString("bsnsLclasCl"),
+                                        dataObject.getString("oclhgBnora"),
+                                        dataObject.getString("excAceptncAt"),
+                                        dataObject.getString("excUseAt"),
+                                        dataObject.getString("excDtls"),
+                                        dataObject.getString("ncm"),
+                                        dataObject.getString("cntrctDe"),
+                                        dataObject,
+                                        dataObject.getJSONArray("bsnsLandList"),
+                                        dataObject.getJSONArray("bsnsThingList"),
+                                        loginId!!
+                                    )
+                                )
+                                adapter = BizAdapter(tempDataList, "rest")
+                                recylerViewBizMain.adapter = adapter
+                                ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+                                adapter.filter.filter("")
+                            }
+                            GlobalScope.launch(Dispatchers.IO) {
+                                delay(500)
+                                runOnUiThread {
+                                    tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
+                                    setColorChar(tvBizMainCnt, adapter.filteredList.size.toString())
+                                }
+                            }
+                        }
+
+
+                    }
+
+                }
+            )
     }
 }

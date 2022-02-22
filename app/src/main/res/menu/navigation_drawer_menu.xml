@@ -24,17 +24,17 @@
                         android:id="@+id/drawer_farm"
                         android:title="@string/drawer_menu_5" />
                 <item
-                        android:id="@+id/drawer_fshr"
-                        android:title="@string/drawer_menu_6" />
-                <item
-                        android:id="@+id/drawer_mndist"
-                        android:title="@string/drawer_menu_7" />
-                <item
                         android:id="@+id/drawer_residnt"
                         android:title="@string/drawer_menu_8" />
                 <item
                         android:id="@+id/drawer_tomb"
                         android:title="@string/drawer_menu_9" />
+                <item
+                        android:id="@+id/drawer_minrgt"
+                        android:title="@string/drawer_menu_6" />
+                <item
+                        android:id="@+id/drawer_fyhts"
+                        android:title="@string/drawer_menu_7" />
             </group>
         </menu>
     </item>

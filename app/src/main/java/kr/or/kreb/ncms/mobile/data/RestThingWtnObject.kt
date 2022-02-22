@@ -11,202 +11,62 @@ import org.json.JSONObject
 
 object RestThingWtnObject {
 
-    // 물건조서 신규 여부
-    var restThingNewSearch: String? = ""
+    var thingInfo : JSONObject? = null
 
-    // 물건조서정보
-    var restThingInfo: JSONObject? = null
+    var thingWtnCode: String? = null
 
-    // 실내여부
-    var restThingIndoorTy: String = "2"
+    var saupCode: String? = null
 
-    // 물건 종류
-    var restThingKnd: String? = ""
+    var thingOwnerInfoJson: JSONArray? = null
+    // 청구인
+    var rqestPsn: String? = ""
+    // 청구내용
+    var rqestCn: String? = ""
+    //조서1
+    var examin1Rslt: String? = ""
+    //조서2
+    var examin2Rslt: String? = ""
+    //조서3
+    var examin3Rslt: String? = ""
+    //조서4
+    var examin4Rslt: String? = ""
+    //조서5
+    var examin5Rslt: String? = ""
+    //조서6
+    var examin6Rslt: String? = ""
+    //조서7
+    var examin7Rslt: String? = ""
+    //조서8
+    var examin8Rslt: String? = ""
+    //조서9
+    var examin9Rslt: String? = ""
+    //조서10
+    var examin10Rslt: String? = ""
 
-    // 물건건 대분류
-    var restThingLrgeCl: String? = ""
+    // 확대보상여부결과
+    var rewdAt: String? = ""
 
-    // 물건 소분류
-    var restThingSmallCl: String? = ""
-
-    // 수목 조사 방식
-    var restThingWdptSearchType: String? = ""
-
-    //구조 및 규격
-    var strctNdStndrd: String? = ""
-
-    // 구조 및 규격 수목 R
-    var strctNdStrndrdR: String? = ""
-
-    // 구조 및 규격 수목 H
-    var strctNdStrndrdH: String? = ""
-
-    // 원래면적(전체면적, 전체수량)
-    var bgnnAr: String? = ""
-
-    //편입면적
-    var incrprAr: String? = ""
-
-    //단위
-    var unitCl: String? = ""
-
-    //면적산출근거
-    var arComputBasis: String? = ""
-
-    //현황측량여부
-    var sttusMesrAt: String? = ""
-
-    //소유권이전여부
-    var ownshipBeforeAt: String? = ""
-
-    //보상대상여부
-    var rwTrgetAt: String? = ""
-
-    //감정평가대상여부
-    var apasmtTrgetAt: String? = ""
-
-    // 정상식 여부
-    var nrmltpltAt: String? = "N"
-
-    //수목사유
-    var wdptResn: String? = ""
-
-    //비고
-    var rm: String? = ""
-
-    //건물명
-    var buldName: String? = ""
-
-    // 건물동명
-    var buldDongName: String? = ""
-
-    // 건물 호명
-    var buldHoName: String? = ""
-
-    // 건물용도
-    var buldPrpos: String? = ""
-
-    // 건물층별
-    var buldFlrato: String? = ""
-
-    //건물구조
-    var buldStrct: String? = ""
-
-    var buldAr: String = ""
-
-    //특이사항
-    var paclrMatter: String? = ""
-
-    //참고사항
-    var referMatter: String? = ""
-
-    //변경사유
-    var changeResn: String? = ""
-    var examinMthd: String? = ""
-
-    // 허가근거
-    var prmisnAt: String? = ""
-
-    // 건축허가 분류
-    var bildngPrmisnCl: String? = ""
-
-    // 등기여부
-    var rgistAt: String = ""
-
-    // 주거용건물여부
-    var redeBingAt: String = ""
-
-    //스케치레이어데이터
-    var restThingSketchPolygon: MutableList<PolygonOverlay>? = null
-
-    //대장상 면적 상이여부
-    var regstrBuldArDfnAt: String? = "N"
-
-    //대장상 건물명 상이여부
-    var regstrBuldNmDfnAt: String? = "N"
-
-    //대장상 용도 상이여부
-    var regstrBuldPrposDfnAt: String? = "N"
-
-    //대장상 구조 상이여부
-    var regstrBuldStrctDfnAt: String? = "N"
-
-    //대장상 동명 상이여부
-    var regstrBuldDongDfnAt: String? = "N"
-
-    //대장상 층 상이여부
-    var regstrBuldFlratoDfnAt: String? = "N"
-
-    //대장상 호명 상이여부
-    var regstrBuldHoDfnAt: String? = "N"
-
-    //등기상 면적 상이여부
-    var rgistArDfnAt: String? = "N"
-
-    //등기상 건물명 상이여부
-    var rgistBuldNmDfnAt: String? = "N"
-
-    //등기상 용도 상이여부
-    var rgistBuldPrposDfnAt: String? = "N"
-
-    //등기상 구조 상이여부
-    var rgistBuldStrctDfnAt: String? = "N"
-
-    //등기상 동명 상이여부
-    var rgistBuldDongDfnAt: String? = "N"
-
-    //등기상 층 상이여부
-    var rgistBuldFlratoDfnAt: String? = "N"
-
-    //등기상 호명 상이여부
-    var rgistBuldHoDfnAt: String? = "N"
-
-    var regstrDfnDtls: String? = ""
-
-    var rgistDfnDtls: String? = ""
-
-    // 포함분류
-    var thingInclsCl: String? = ""
-
-    // 취득분류
-    var thingAcqsCl: String? = ""
-
-    //무허가건축물 여부
-    var thingNrtBuldAt: String = "N"
-
-
-
-    var restThingOwnerInfoJson: JSONArray? = null
-
-    var addOwnerListInfo: JSONArray? = null
+    // 이유
+    var resn: String? = ""
 
     fun cleanThingWtnObject() {
-        restThingNewSearch = ""
-        restThingInfo = null
-        restThingKnd = ""
-        restThingSmallCl = ""
-        restThingWdptSearchType = ""
-        strctNdStndrd = ""
-        strctNdStrndrdR = ""
-        strctNdStrndrdH = ""
-        bgnnAr = ""
-        incrprAr = ""
-        unitCl = null
-        arComputBasis = ""
-        nrmltpltAt = "N"
-        wdptResn = ""
-        rm = ""
-        buldName = ""
-        buldDongName = ""
-        buldHoName = ""
-        buldPrpos = ""
-        buldFlrato = ""
-        buldStrct = ""
-        paclrMatter = ""
-        referMatter = ""
-        changeResn = ""
-        restThingSketchPolygon = null
-        examinMthd = ""
-        restThingOwnerInfoJson = null
+        thingInfo = null
+        thingWtnCode = null
+        saupCode = null
+        thingOwnerInfoJson = null
+        rqestPsn = ""
+        rqestCn = ""
+        examin1Rslt = ""
+        examin2Rslt = ""
+        examin3Rslt = ""
+        examin4Rslt = ""
+        examin5Rslt = ""
+        examin6Rslt = ""
+        examin7Rslt = ""
+        examin8Rslt = ""
+        examin9Rslt = ""
+        examin10Rslt = ""
+        rewdAt = ""
+        resn = ""
     }
 }

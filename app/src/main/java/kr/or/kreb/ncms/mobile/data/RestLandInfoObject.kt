@@ -18,73 +18,65 @@ object RestLandInfoObject {
 
     // 토지 조서 정보
     var landInfo : JSONObject? = null
-    //자연림여부
-    var nrfrstAtChk : String? ="N"
-    //경작여부
-    var clvtAtChk : String? ="N"
-    //건축물여부
-    var buildAtChk : String? ="N"
-    //대지권여부
-    var plotAtChk : String? ="N"
-    //측량요청
-    var sttusMesrAtChk : String? ="N"
-    //특수용지
-    var spclLadCl : String? =""
-    //특수용지내용
-    var spclLadCn : String? = ""
-    //소유자확인근거
-    var ownerCnfirmBasisCl : String? = ""
 
-    var realLngrty : String? = "N"
-
-    //현실적이용현황
-    var searchRealLand : JSONArray? = null
-    //레이어데이터
-    var latLngArr : MutableList<LatLng>? = null
-    var realLandPolygon : MutableList<PolygonOverlay>? = null
-    var polygonData : ArrayList<HashMap<String, String>>? = null
-
-    // 편입지번
-    var incrprLnm: String = ""
-
-    // 특이사항
-    var paclrMatter : String? =""
-    // 참고사항
-    var referMatter : String? = ""
-
-    var rm : String? = ""
-
-    /////// 실제이용현황 ///////
-    var _isPolygonVisible = false // 실제이용현황 편집 alert check 여부
-    var selectPolygonCenterTxt = ""
-    var selectPolygonCurrentArea:  Int? = 0 // 실제이용현황 (수정 전) 임시 데이터 저장
-
-    var clickLatLng  = mutableListOf<MapPos>()
-    var mapPos  = mutableListOf<MapPos>()
-
-    var mapCenter: MapPos? = null
-    var lineCenterTxList = mutableListOf<Text>()
-    var currentArea: Int? = 0 // 실제이용현황 면적
-    var landSearchRealLngrAdpater: LandSearchRealngrAdapter? = null // 실제이용현황 어댑터
-    var landSearchRealLngrJsonArray: JSONArray? = null // 실제이용현황 JsonArray
+    var landWtnCode: String? = null
+    var saupCode: String? = null
 
     var landOwnerInfoJson: JSONArray? = null
 
-    var wtnCode = ""
-    var getSameWtnCode = ""  // 일치하는 wtnCode 임시저장
-    var getSameWtnCodeJsonArray = JsonArray() // 일치하는 wtncCode의 지오메트리 정보 임시저장
+    // 청구인
+    var rqestPsn: String? = ""
+    // 청구내용
+    var rqestCn: String? = ""
+    //조서1
+    var examin1Rslt: String? = ""
+    //조서2
+    var examin2Rslt: String? = ""
+    //조서3
+    var examin3Rslt: String? = ""
+    //조서4
+    var examin4Rslt: String? = ""
+    //조서5
+    var examin5Rslt: String? = ""
+    //조서6
+    var examin6Rslt: String? = ""
+    //조서7
+    var examin7Rslt: String? = ""
+    //조서8
+    var examin8Rslt: String? = ""
+    //조서9
+    var examin9Rslt: String? = ""
+    //조서10
+    var examin10Rslt: String? = ""
 
+    // 확대보상여부결과
+    var rewdAt: String? = ""
 
-    //사진1
-    //사진2
-    //사진3
-    //사진4
-    //사진5
-    //사진6
-    //사진7
-    //사진8
-    //사진9
-    //사진10
+    // 이유
+    var resn: String? = ""
+
+    fun clealRestLadObject() {
+
+        landInfo = null
+        landWtnCode = null
+        saupCode = null
+        landOwnerInfoJson = null
+        rqestPsn = ""
+        rqestCn = ""
+        examin1Rslt = ""
+        examin2Rslt = ""
+        examin3Rslt = ""
+        examin4Rslt = ""
+        examin5Rslt = ""
+        examin6Rslt = ""
+        examin7Rslt = ""
+        examin8Rslt = ""
+        examin9Rslt = ""
+        examin10Rslt = ""
+        rewdAt = ""
+        resn = ""
+    }
+
 
 
 }

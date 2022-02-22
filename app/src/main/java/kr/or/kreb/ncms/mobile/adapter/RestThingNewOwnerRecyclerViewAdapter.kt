@@ -148,7 +148,7 @@ class RestThingNewOwnerRecyclerViewAdapter(
 
     fun setJSONArray(data: JSONArray) {
         this.restThingOwnerInfo = data
-        RestThingWtnObject.restThingOwnerInfoJson = data
+        RestThingWtnObject.thingOwnerInfoJson = data
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else {

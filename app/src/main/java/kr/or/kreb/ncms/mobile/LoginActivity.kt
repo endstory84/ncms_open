@@ -134,8 +134,8 @@ class LoginActivity :
 
         textInputId.isCounterEnabled = true
         textInputId.counterMaxLength = 10
-        editTextLoginId.setText("admin")
-        editTextLoginPassword.setText("1234")
+//        editTextLoginId.setText("admin")
+//        editTextLoginPassword.setText("1234")
     }
 
     /**
@@ -153,7 +153,8 @@ class LoginActivity :
                 log.d("$idVal, $idPass")
 
                 toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-                nextView(this, Constants.BIZ_LIST_ACT, null, null)
+//                nextView(this, Constants.BIZ_LIST_ACT, null, null, null, null)
+                nextViewBizList(this, Constants.BIZ_LIST_ACT, idVal)
             } else {
 
                 toast.msg_error(getString(R.string.msg_login_validation_fail), 500)
@@ -186,14 +187,14 @@ class LoginActivity :
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
         override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
             if (view.id == R.id.editTextLoginPassword) {
-                if (editTextLoginPassword.text.toString().length > 4) {
+//                if (editTextLoginPassword.text.toString().length > 4) {
                     imageViewBtnLogin.setBackgroundColor(resources.getColor(R.color.light_orange, theme))
                     imageViewBtnLogin.isClickable = true
                     _isValidationCheck = true
-                } else {
-                    imageViewBtnLogin.setBackgroundColor(resources.getColor(R.color.gray, theme))
-                    imageViewBtnLogin.isClickable = false
-                }
+//                } else {
+//                    imageViewBtnLogin.setBackgroundColor(resources.getColor(R.color.gray, theme))
+//                    imageViewBtnLogin.isClickable = false
+//                }
             }
         }
 

@@ -9,6 +9,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,7 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.mobile.data.ThingTombObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -660,7 +662,8 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //                view.thingbuldArEdit.setText(checkStringNull(thingDataJson!!.getString("buld")))
                 view.regstrDfnDtlsEdit.setText(checkStringNull(thingDataJson!!.getString("regstrDfnDtls")))
                 view.rgistDfnDtlsEdit.setText(checkStringNull(thingDataJson!!.getString("rgistDfnDtls")))
-
+                val nrtBuldAtString = checkStringNull(thingDataJson!!.getString("nrtBuldAt"))
+                view.thingNrtBuldAt.isChecked = nrtBuldAtString.equals("Y")
 //                val acqsClString = checkStringNull(thingDataJson!!.getString("acqsCl"))
 //                if (acqsClString.equals("")) {
 //                    view.thingBuldAcqsClSpinner.setSelection(0)

@@ -96,15 +96,15 @@ class WtnncUtil(val activity: Activity, val context: Context) {
 
             // TODO : 잔여지
             BizEnum.REST_LAD -> {
-                tabNameArr = arrayListOf("토지조서", "토지 소유자 및 관계인")
-                viewPager2.adapter = RestLadViewPagerAdapter(activity, context, fragmentActivity, view)
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "RestLandInfo")
+                tabNameArr = arrayListOf("토지내역", "잔여지 조서", "토지 소유자 및 관계인")
+                viewPager2.adapter = RestLadViewPagerAdapter(activity, context, fragmentActivity)
+                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "LandInfo")
             }
 
             BizEnum.REST_THING -> {
-                tabNameArr = arrayListOf("지장물조서", "지장물 소유자 및 관계인")
+                tabNameArr = arrayListOf("잔여건물 조서", "지장물 소유자 및 관계인")
                 viewPager2.adapter = RestThingViewPagerAdapter(activity, context, fragmentActivity, view)
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "RestThingInfo")
+                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "ThingInfo")
             }
 
             else ->  {}

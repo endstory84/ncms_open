@@ -82,7 +82,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
     fun init(view: View) {
 
-        var dataString = requireActivity().intent!!.extras!!.get("RestThingInfo") as String
+        var dataString = requireActivity().intent!!.extras!!.get("ThingInfo") as String
 
         restThingDataJson = JSONObject(dataString!!)
 
@@ -90,24 +90,11 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
         restThingOwnerInfoJson = dataJson.getJSONArray("ownerInfo") as JSONArray
 
-        if(RestThingWtnObject.restThingNewSearch.equals("Y")) {
-            view.ownerRecyclerView.goneView()
-            view.newOwnerRecyclerView.visibleView()
-            dialogUtil?.run {
-                alertDialog(
-                    "소유자 등록",
-                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
-                    builder!!,
-                    "신규소유자"
-                ).show()
-            }
-        } else {
-            view.ownerRecyclerView.visibleView()
-            view.newOwnerRecyclerView.goneView()
-            restThingRecyclerViewAdapter = RestThingOwnerRecyclerViewAdapter(context!!, activity!!, restThingOwnerInfoJson!!, this, this, this)
-            view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = restThingRecyclerViewAdapter
-        }
+        view.ownerRecyclerView.visibleView()
+        view.newOwnerRecyclerView.goneView()
+        restThingRecyclerViewAdapter = RestThingOwnerRecyclerViewAdapter(context!!, activity!!, restThingOwnerInfoJson!!, this, this, this)
+        view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        view.ownerRecyclerView.adapter = restThingRecyclerViewAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -256,7 +243,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                                                 "A023003", "A023002" -> "A106010" //건축물
                                                 else -> ""
                                             })
-                                            relateAddData.put("register","12345")
+                                            relateAddData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAddData)
                                             relateAddJson.put("ownerInfo", ownerData)
@@ -383,171 +370,6 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                                 ownerInfoDialog.dismiss()
                             }
 
-                            view.selectInputBtn.setOnClickListener {
-                                val selectOwnerData = (view.addOwnerListView.adapter as AddOwnerInputAdapter).getSelectItem()
-
-                                ownerInfoDialog.dismiss()
-
-                                if(RestThingWtnObject.restThingNewSearch.equals("Y")) {
-                                    var ownerInfo = RestThingWtnObject.restThingOwnerInfoJson as JSONArray
-
-
-                                } else {
-
-                                    layoutInflater.inflate(R.layout.fragment_add_select_owner_dialog, null)
-                                        .let { view ->
-                                            val ownerOwnerSelectDialog = AddOwnerSelectDialogFragment(view).apply {
-                                                isCancelable = false
-                                                show(fragmentActivity.supportFragmentManager, "ownerSelectDialog")
-                                            }
-
-                                            view.ownerListInfoView.adapter = AddOwnerSelectDialogListAdapter(context!!)
-                                            val ownerInfo = restThingDataJson!!.getJSONArray("ownerInfo") as JSONArray
-                                            RestThingWtnObject.addOwnerListInfo = ownerInfo
-
-                                            for (i in 0 until ownerInfo.length() - 1) {
-                                                (view.ownerListInfoView.adapter as AddOwnerSelectDialogListAdapter).addItem(
-                                                    ownerInfo.getJSONObject(i)
-                                                )
-                                            }
-
-                                            view.ownerNoText.text = "추가"
-                                            view.ownerDivisionText.text = "소유자"
-
-                                            view.ownerNameText.text = selectOwnerData.indvdlGrpNm
-
-                                            val sameNameNoString = checkStringNull(selectOwnerData.sameNameNo)
-                                            if (sameNameNoString.equals("")) {
-                                                view.ownerSameNameText.text = "-"
-                                            } else {
-                                                view.ownerSameNameText.text = sameNameNoString
-                                            }
-
-
-                                            val inhbtntCprNoString = checkStringNull(selectOwnerData.inhbtntCprNo)
-                                            if (inhbtntCprNoString == "") {
-                                                view.ownerCrpNoText.text = inhbtntCprNoString
-                                            } else {
-                                                //val inhbtntCprNoStringSub = inhbtntCprNoString.substring(0, 8)
-                                                //view.ownerCrpNoText.text = "$inhbtntCprNoStringSub ******"
-                                                view.ownerCrpNoText.text = withIhidNumAsterRisk(inhbtntCprNoString)
-                                            }
-
-                                            view.ownerDelvyAddrText.text =
-                                                "${checkStringNull(selectOwnerData.delvyZip)} ${
-                                                    checkStringNull(selectOwnerData.delvyAdres)
-                                                } ${checkStringNull(selectOwnerData.delvyAdresDetail)}"
-
-                                            view.cancelBtn.setOnClickListener { ownerOwnerSelectDialog.dismiss() }
-
-                                            view.selectInputBtn.setOnClickListener {
-
-                                                logUtil.d("selectItemData ------------------->>>>>>>>>>>>>>>>>>>>>>>>>> ")
-
-                                                val posesnQotaString = view.addOwnerPosesnQota.text.toString()
-                                                val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
-                                                val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
-
-                                                if (posesnQotaString == "") {
-                                                    dialogUtil!!.wtnccAlertDialog(
-                                                        """추가 소유자의 지분이 입력되지 않았습니다.""".trimMargin(),
-                                                        builder!!,
-                                                        "소유자 추가"
-                                                    ).show()
-
-                                                } else if (rgistAddrString == "") {
-                                                    dialogUtil!!.wtnccAlertDialog(
-                                                        """추가 소유자의 지분이 입력되지 않았습니다.""".trimMargin(),
-                                                        builder!!,
-                                                        "소유자 추가"
-                                                    ).show()
-
-                                                } else {
-                                                    val recentOwnerInfo = RestThingWtnObject.addOwnerListInfo
-                                                    val addOwnerUrl =
-                                                        context!!.getString(R.string.mobile_url) + "addThingOwner"
-
-                                                    val addOwnerJson = JSONObject()
-                                                    val addRequestJson = JSONObject()
-
-                                                    addOwnerJson.put("delvyAdres", selectOwnerData.delvyAdres)
-                                                    addOwnerJson.put(
-                                                        "delvyAdresDetail",
-                                                        selectOwnerData.delvyAdresDetail
-                                                    )
-                                                    addOwnerJson.put("delvyZip", selectOwnerData.delvyZip)
-                                                    addOwnerJson.put("indvdlGrpCode", selectOwnerData.indvdlGrpCode)
-                                                    addOwnerJson.put("indvdlGrpSe", selectOwnerData.indvdlGrpSe)
-                                                    addOwnerJson.put("indvdlGrpNm", selectOwnerData.indvdlGrpNm)
-                                                    addOwnerJson.put("posesnQota", posesnQotaString)
-                                                    if (unDcsnOwnarAt) {
-                                                        addOwnerJson.put("unDcsnOwnerAt", "Y")
-                                                    } else {
-                                                        addOwnerJson.put("unDcsnOwnerAt", "N")
-                                                    }
-                                                    addOwnerJson.put("rgistAdres", rgistAddrString)
-                                                    addOwnerJson.put("register", "12345")
-                                                    addOwnerJson.put("hapyuGroupCode", "")
-                                                    addOwnerJson.put("hapyuAt", "")
-                                                    addOwnerJson.put("qotaAr", "")
-                                                    addOwnerJson.put("plotCode", "")
-                                                    val restThingData = restThingDataJson!!.getJSONObject("ThingSearch")
-                                                        .getString("thingSmallCl")
-                                                    addOwnerJson.put(
-                                                        "thingCl", when (restThingData) {
-                                                            "A023001", "A023004", "A023006", "A023007", "A023008", "A023009", "A023010", "A023011" -> "A106005" //지장물
-                                                            "A023005" -> "A106009" //수목
-                                                            "A023003", "A023002" -> "A106010" //건축물
-                                                            else -> ""
-                                                        }
-                                                    )
-
-                                                    addRequestJson.put("addOwner", addOwnerJson)
-                                                    addRequestJson.put("recentOwner", recentOwnerInfo)
-                                                    addRequestJson.put("ThingSearch", restThingDataJson)
-
-                                                    HttpUtil.getInstance(context!!)
-                                                        .callUrlJsonWebServer(addRequestJson,
-                                                            progressDialog,
-                                                            addOwnerUrl,
-                                                            object : Callback {
-                                                                override fun onFailure(call: Call, e: IOException) {
-                                                                    progressDialog!!.dismiss()
-                                                                    logUtil.e("fail")
-                                                                }
-
-                                                                override fun onResponse(
-                                                                    call: Call,
-                                                                    response: Response
-                                                                ) {
-                                                                    val responseString = response.body!!.string()
-
-                                                                    logUtil.d("addOwner response ------------------> $responseString")
-
-                                                                    progressDialog!!.dismiss()
-
-                                                                    activity!!.runOnUiThread {
-                                                                        val dataJsonObject =
-                                                                            JSONObject(responseString).getJSONObject("list")
-
-                                                                        restThingRecyclerViewAdapter.setJSONArray(
-                                                                            dataJsonObject.getJSONArray("ownerInfo")
-                                                                        )
-
-                                                                        restThingRecyclerViewAdapter.notifyDataSetChanged()
-                                                                    }
-
-                                                                    ownerOwnerSelectDialog.dismiss()
-                                                                }
-
-                                                            })
-
-                                                }
-
-                                            }
-                                        }
-                                }
-                            }
                             view.searchAddOwnerBtn.setOnClickListener {
 
                                 AddNewOwnerFragment(activity!!, context!!, this).show((context as MapActivity).supportFragmentManager, "addNewOwnerFragment")
@@ -674,7 +496,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                                             addOwnerJson.put("unDcsnOwnerAt", "N")
                                         }
                                         addOwnerJson.put("rgistAdres", rgistAddrString)
-                                        addOwnerJson.put("register", "12345")
+                                        addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                         addOwnerJson.put("hapyuGroupCode", "")
                                         addOwnerJson.put("hapyuAt", "")
                                         addOwnerJson.put("qotaAr", "")
@@ -737,115 +559,6 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                     }
                 })
     }
-    override fun onAddNewOwnerBtnClick() {
-        logUtil.d("new Owner Add Btn Click")
-
-        val ownerSearch = HashMap<String, String>()
-
-        ownerSearch.put("searchSaupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
-        ownerSearch.put("searchName", "")
-        ownerSearch.put("searchSameNameNo","")
-        ownerSearch.put("searchInhbtntCprNo","")
-
-        val ownerUrl = context!!.getString(R.string.mobile_url) + "ownerInfo"
-
-        HttpUtil.getInstance(context!!)
-            .callerUrlInfoPostWebServer(ownerSearch, progressDialog, ownerUrl,
-                object: Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        progressDialog!!.dismiss()
-                        logUtil.e("fail")
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val responseString = response.body!!.string()
-
-                        progressDialog!!.dismiss()
-
-                        val ownerInfoJson = JSONObject(responseString).getJSONObject("list").getJSONArray("owner")
-
-                        layoutInflater.inflate(R.layout.fragment_add_owner_dialog, null).let { view ->
-                            adapter = AddOwnerInputAdapter(context!!)
-
-                            activity?.runOnUiThread {
-                                val searchManager = context?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-                                view.searchViewOwner.run {
-                                    setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
-                                    setIconifiedByDefault(false)
-                                    isSubmitButtonEnabled = true
-                                    queryHint ="소유자 성명 및 기관명을 입력해주세요."
-                                }
-
-                                view.searchViewOwner.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
-                                    override fun onQueryTextSubmit(query: String?): Boolean {
-                                        return false
-                                    }
-
-                                    override fun onQueryTextChange(query: String?): Boolean {
-                                        adapter.filter.filter(query)
-                                        return true
-                                    }
-                                })
-
-                                adapter.filter.filter("")
-
-                                val layoutManager = LinearLayoutManager(context)
-                                layoutManager.orientation = LinearLayoutManager.VERTICAL
-                                view.addOwnerListView.layoutManager = layoutManager
-                            }
-                            for(i in 0 until ownerInfoJson.length()) {
-                                adapter.addItem(ownerInfoJson.getJSONObject(i))
-                            }
-
-                            view.addOwnerListView.adapter = adapter
-                            view.addOwnerTitleText.text = context!!.getString(R.string.wtnncCommAddOwner)
-
-
-                            val ownerInfoDialog = AddOwnerDialogFragment(context!!, activity!!, view).apply {
-                                isCancelable = false
-                                show(fragmentActivity.supportFragmentManager, "ownerInfoDialog")
-                            }
-
-                            view.cancelBtn.setOnClickListener {
-                                ownerInfoDialog.dismiss()
-                            }
-
-                            view.selectInputBtn.setOnClickListener {
-                                val selectOwnerData = adapter.getSelectItem()
-
-                                ownerInfoDialog.dismiss()
-
-                                logUtil.d("selectOwnerData $selectOwnerData")
-
-                                var selectOwnerJson = JSONObject()
-                                selectOwnerJson.put("ownerNm",selectOwnerData.indvdlGrpNm)
-                                selectOwnerJson.put("sameNameNo", selectOwnerData.sameNameNo)
-                                selectOwnerJson.put("delvyAdres", selectOwnerData.delvyAdres)
-                                selectOwnerJson.put("delvyZip", selectOwnerData.delvyZip)
-                                selectOwnerJson.put("delvyAdresDetail", selectOwnerData.delvyAdresDetail)
-                                selectOwnerJson.put("ihidnum", selectOwnerData.inhbtntCprNo)
-                                selectOwnerJson.put("posesnSe", selectOwnerData.indvdlGrpSe)
-                                selectOwnerJson.put("rgistAdres","")
-                                selectOwnerJson.put("posesnQota","")
-                                selectOwnerJson.put("unDcsnOwnerAt","N")
-                                selectOwnerJson.put("ownerRm","")
-                                selectOwnerJson.put("relate","")
-
-                                var ownerJsonArray = RestThingWtnObject.restThingOwnerInfoJson as JSONArray
-
-                                ownerJsonArray.put(selectOwnerJson)
-
-                                restThingNewOnwerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                                restThingNewOnwerRecyclerViewAdapter.notifyDataSetChanged()
-
-
-
-                            }
-                        }
-                    }
-
-                })
-    }
 
     fun getOwnerData() {
         val tempInt = restThingNewOnwerRecyclerViewAdapter.getItemCount()
@@ -853,92 +566,6 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
-    override fun onAddNewOnwerViewClick(position: Int) {
-        val addOwnerData = RestThingWtnObject.restThingOwnerInfoJson as JSONArray
-
-        val data = addOwnerData.getJSONObject(position)
-
-        layoutInflater.inflate(R.layout.fragment_add_new_modify_owner_dialog, null).let { view ->
-            val ownerAddSelectDialog = AddOwnerSelectDialogFragment(view).apply{
-                isCancelable = false
-                show(fragmentActivity.supportFragmentManager, "ownerAssSelectDialog")
-            }
-
-            var requireArr = mutableListOf<TextView>(view.tv_add_new_modify_owner_require1, view.tv_add_new_modify_owner_require2, view.tv_add_new_modify_owner_require3)
-            setRequireContent(requireArr)
-
-            view.newOwnerNoText.text = "추가"
-            val posesnSeString = checkStringNull(data.getString("posesnSe"))
-            view.newOwnerDivisionText.text = when (posesnSeString) {
-                "1" -> "개인"
-                "2" -> "단체"
-                else -> ""
-            }
-            view.newOwnerNameText.text = checkStringNull(data.getString("ownerNm"))
-            val newOwnerSameNameString = checkStringNull(data.getString("sameNameNo"))
-            if(newOwnerSameNameString.equals("")) {
-                view.newOwnerSameNameText.text = "-"
-            } else {
-                view.newOwnerSameNameText.text = newOwnerSameNameString
-            }
-            view.addOwnerRgistAddrText.setText(checkStringNull(data.getString("rgistAdres")))
-            view.newOwnerPosesnQota.setText(checkStringNull(data.getString("posesnQota")))
-            val newOwnerUnDcsnOwnerString = checkStringNull(data.getString("unDcsnOwnerAt"))
-            view.newOwnerUnDcsnOwnerAt.isChecked = when (newOwnerUnDcsnOwnerString) {
-                "Y" ->true
-                else ->false
-
-            }
-            val newOwnerCrpNoString = checkStringNull(data.getString("ihidnum"))
-            if(newOwnerCrpNoString.equals("")) {
-                view.newOwnerCrpNoText.text = newOwnerCrpNoString
-            } else {
-                //val newOwnerCrpNoStringSub = newOwnerCrpNoString.substring(0,8)
-                val newOwnerCrpNoStringSub = withIhidNumAsterRisk(newOwnerCrpNoString)
-                view.newOwnerCrpNoText.text = newOwnerCrpNoStringSub
-            }
-            //송달주소
-            view.newOwnerDelvyAddrText.text = "${checkStringNull(data.getString("delvyZip"))} ${checkStringNull(data.getString("delvyAdres"))} ${checkStringNull(data.getString("delvyAdresDetail"))}"
-
-            view.cancelBtn.setOnClickListener {ownerAddSelectDialog.dismiss() }
-
-            view.selectInputBtn.setOnClickListener {
-                var selectOwnerJson = JSONObject()
-                selectOwnerJson.put("ownerNm",data.getString("ownerNm"))
-                selectOwnerJson.put("sameNameNo", data.getString("sameNameNo"))
-                selectOwnerJson.put("delvyAdres", data.getString("delvyAdres"))
-                selectOwnerJson.put("delvyZip", data.getString("delvyZip"))
-                selectOwnerJson.put("delvyAdresDetail", data.getString("delvyAdresDetail"))
-                selectOwnerJson.put("ihidnum", data.getString("ihidnum"))
-                selectOwnerJson.put("posesnSe", data.getString("posesnSe"))
-                selectOwnerJson.put("rgistAdres",view.addOwnerRgistAddrText.text.toString())
-                selectOwnerJson.put("posesnQota",view.newOwnerPosesnQota.text.toString())
-                selectOwnerJson.put("unDcsnOwnerAt",when (view.newOwnerUnDcsnOwnerAt.isChecked) {
-                    true -> "Y"
-                    else -> "N"
-                })
-                selectOwnerJson.put("indvdlGrpCode", data.getString("indvdlGrpCode"))
-                selectOwnerJson.put("hapyuAt","")
-                selectOwnerJson.put("hapyuGroupCode","")
-                selectOwnerJson.put("qotaAr","")
-                selectOwnerJson.put("thingCl","")
-                selectOwnerJson.put("delvyChange","N")
-                selectOwnerJson.put("relate","")
-
-                var ownerJsonArray = RestThingWtnObject.restThingOwnerInfoJson as JSONArray
-
-                ownerJsonArray.put(position,selectOwnerJson)
-
-                restThingNewOnwerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                restThingNewOnwerRecyclerViewAdapter.notifyDataSetChanged()
-
-
-                ownerAddSelectDialog.dismiss()
-            }
-        }
-
-
-    }
 
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
         val choiceOwnerInfoUrl = context!!.resources.getString(R.string.mobile_url) + "choiceThingOwnerInfo"
@@ -1070,6 +697,12 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
         restThingNewOnwerRecyclerViewAdapter = RestThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = restThingNewOnwerRecyclerViewAdapter
+    }
+
+    override fun onAddNewOwnerBtnClick() {
+    }
+
+    override fun onAddNewOnwerViewClick(position: Int) {
     }
 
 }

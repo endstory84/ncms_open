@@ -136,6 +136,34 @@
                         android:layout_weight="1"
                         android:id="@+id/landSearchIncrprArText" />
             </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/landSearchFragmentL6"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/bqestPsn"
+                        android:text="@string/wtnncCommbqestPsn" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:layout_weight="1"
+                        android:id="@+id/bqestPsnText" />
+
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/bqestCn"
+                        android:text="@string/wtnncCommbqestCn" />
+
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
+                        android:layout_weight="2"
+                        android:id="@+id/bqestCnText" />
+
+            </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/landSearchFragmentLl4"
@@ -240,11 +268,11 @@
 
             </LinearLayout>
 
-            <include
-                    android:id="@+id/include_wtnncs_lad_camera"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/include_wtnnc_camera" />
+<!--            <include-->
+<!--                    android:id="@+id/include_wtnncs_lad_camera"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    layout="@layout/include_wtnnc_camera" />-->
 
         </LinearLayout>
 

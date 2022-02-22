@@ -59,9 +59,6 @@ class BizCnfirmActivity :
 
         layout_biz_cnfirm_drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
 
-        val navListener = NavSetItemListener(this)
-        navigationViewMain.setNavigationItemSelectedListener(navListener)
-
         buttonBizCnfirmLotMap.setOnClickListener(this)
         buttonBizCnfirmLad.setOnClickListener(this)
         buttonBizCnfirmThing.setOnClickListener(this)
@@ -74,8 +71,8 @@ class BizCnfirmActivity :
 
         // 21.11.1 By KDS
         // TODO : 임시 잔여지 버튼 추가
-        buttonBizCnfirmRestLAD.setOnClickListener(this)
-        buttonBizCnfirmRestThing.setOnClickListener(this)
+//        buttonBizCnfirmRestLAD.setOnClickListener(this)
+//        buttonBizCnfirmRestThing.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -90,59 +87,59 @@ class BizCnfirmActivity :
             R.id.buttonBizCnfirmLotMap -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","용지도")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.LOTMAP)
-                nextView(this, Constants.MAP_ACT, BizEnum.LOTMAP, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.LOTMAP, null, null, null)
             }
             R.id.buttonBizCnfirmLad -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","토지")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.LAD)
-                nextView( this, Constants.MAP_ACT, BizEnum.LAD, null)
+                nextView( this, Constants.MAP_ACT, BizEnum.LAD, null, null, null)
             }
             R.id.buttonBizCnfirmThing -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","지장물")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.THING)
-                nextView( this, Constants.MAP_ACT, BizEnum.THING, null)
+                nextView( this, Constants.MAP_ACT, BizEnum.THING, null, null, null)
             }
             R.id.buttonBizCnfirmBsn -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","영업ㆍ축산업ㆍ잠업")
                 PreferenceUtil.setBiz(applicationContext,"bizSubCategoryKey", BizEnum.BSN)
-                nextView( this, Constants.MAP_ACT, BizEnum.BSN, null)
+                nextView( this, Constants.MAP_ACT, BizEnum.BSN, null, null, null)
             }
             R.id.buttonBizCnfirmFarm -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","농업")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.FARM)
-                nextView(this, Constants.MAP_ACT, BizEnum.FARM, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.FARM, null, null, null)
             }
             R.id.buttonBizCnfirmMnidst -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","광업권")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.MINRGT)
-                nextView(this, Constants.MAP_ACT, BizEnum.MINRGT, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.MINRGT, null, null, null)
             }
             R.id.buttonBizCnfirmFshr -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","어업권")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.FYHTS)
-                nextView(this, Constants.MAP_ACT, BizEnum.FYHTS, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.FYHTS, null, null, null)
             }
             R.id.buttonBizCnfirmResidnt -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","거주자")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.RESIDNT)
-                nextView(this, Constants.MAP_ACT, BizEnum.RESIDNT, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.RESIDNT, null, null, null)
             }
             R.id.buttonBizCnfirmTomb -> {
                 PreferenceUtil.setString(applicationContext, "bizSubCategory","분묘")
                 PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.TOMB)
-                nextView(this, Constants.MAP_ACT, BizEnum.TOMB, null)
+                nextView(this, Constants.MAP_ACT, BizEnum.TOMB, null, null, null)
             }
             // TODO : (임시) 잔여지 / 잔여 건물
-            R.id.buttonBizCnfirmRestLAD -> {
-                PreferenceUtil.setString(applicationContext, "bizSubCategory", "잔여지")
-                PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.REST_LAD)
-                nextView(this, Constants.MAP_ACT, BizEnum.REST_LAD, null)
-            }
-            R.id.buttonBizCnfirmRestThing -> {
-                PreferenceUtil.setString(applicationContext, "bizSubCategory", "잔여 물건")
-                PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.REST_THING)
-                nextView(this, Constants.MAP_ACT, BizEnum.REST_THING, null)
-            }
+//            R.id.buttonBizCnfirmRestLAD -> {
+//                PreferenceUtil.setString(applicationContext, "bizSubCategory", "잔여지")
+//                PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.REST_LAD)
+//                nextView(this, Constants.MAP_ACT, BizEnum.REST_LAD, null, null, null)
+//            }
+//            R.id.buttonBizCnfirmRestThing -> {
+//                PreferenceUtil.setString(applicationContext, "bizSubCategory", "잔여건물")
+//                PreferenceUtil.setBiz(applicationContext, "bizSubCategoryKey", BizEnum.REST_THING)
+//                nextView(this, Constants.MAP_ACT, BizEnum.REST_THING, null, null, null)
+//            }
             else -> println("getBizCnfirmCode -> 1000")
         }
     }

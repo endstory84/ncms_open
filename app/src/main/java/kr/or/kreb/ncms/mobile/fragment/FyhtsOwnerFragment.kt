@@ -272,7 +272,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                             relateAddData.put("pcnRightRelate", pcnRightRelateString)
                                             relateAddData.put("thingCl",thingDataJson!!.getJSONObject("ThingSearch").getString("thingSmallCl"))
 
-                                            relateAddData.put("register", "12345")
+                                            relateAddData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAddData)
                                             relateAddJson.put("ownerInfo", ownerData)
@@ -521,7 +521,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                     addOwnerJson.put("unDcsnOwnerAt", "N")
                                                 }
                                                 addOwnerJson.put("rgistAdres", rgistAddrString)
-                                                addOwnerJson.put("register", "12345")
+                                                addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                                 addOwnerJson.put("hapyuGroupCode", "")
                                                 addOwnerJson.put("hapyuAt", "")
                                                 addOwnerJson.put("qotaAr", "")
@@ -758,7 +758,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                             addOwnerJson.put("unDcsnOwnerAt", "N")
                                         }
                                         addOwnerJson.put("rgistAdres", rgistAddrString)
-                                        addOwnerJson.put("register", "12345")
+                                        addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                         addOwnerJson.put("hapyuGroupCode", "")
                                         addOwnerJson.put("hapyuAt", "")
                                         addOwnerJson.put("qotaAr", "")
@@ -1053,7 +1053,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                             addOwnerJson.put("unDcsnOwnerAt", "N")
                                         }
                                         addOwnerJson.put("rgistAdres", rgistAddrString)
-                                        addOwnerJson.put("register", "12345")
+                                        addOwnerJson.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))
                                         addOwnerJson.put("hapyuGroupCode", "")
                                         addOwnerJson.put("hapyuAt", "")
                                         addOwnerJson.put("qotaAr", "")

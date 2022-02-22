@@ -14,15 +14,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import kr.or.kreb.ncms.mobile.fragment.*
 
 class RestLadViewPagerAdapter(
-    private val activity: Activity,
-    private val context: Context,
-    private val fragmentActivity: FragmentActivity,
-    private val view: View
-) : FragmentStateAdapter(fragmentActivity) {
+    val activity: Activity,
+    val context: Context,
+    val fragmentActivity: FragmentActivity) :
+    FragmentStateAdapter(fragmentActivity) {
 
-    private val search = 0
-    private val owner = 1
-    private var listPager: List<Int> = listOf(search, owner)
+    private val info = 0
+    private val search = 1
+    private val owner = 2
+    private var listPager: List<Int> = listOf(info, search, owner)
 
     override fun getItemCount(): Int {
         return listPager.size
@@ -31,6 +31,7 @@ class RestLadViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
 
         return when (position) {
+            info -> LandInfoFragment(context)
             search -> RestLandSearchFragment(activity, context)
             else -> RestLandOwnerFragment(fragmentActivity)
         }

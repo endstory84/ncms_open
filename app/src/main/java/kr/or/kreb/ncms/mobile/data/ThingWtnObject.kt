@@ -196,6 +196,9 @@ object ThingWtnObject {
 
     var wtnncImage: MutableList<WtnncImage>? = null
 
+    var buldContainsArr: MutableList<String>? = null
+    var buldContainsWtnccCodeArr: MutableList<String>? = null
+
 
     fun cleanThingWtnObject() {
         thingNewSearch = ""

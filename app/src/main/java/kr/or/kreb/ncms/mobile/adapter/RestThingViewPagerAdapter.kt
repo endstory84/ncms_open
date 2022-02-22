@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import kr.or.kreb.ncms.mobile.fragment.RestThingOwnerFragment
 import kr.or.kreb.ncms.mobile.fragment.RestThingSearchFragment
+import kr.or.kreb.ncms.mobile.fragment.ThingSearchFragment
 
 class RestThingViewPagerAdapter(
     private val activity: Activity,

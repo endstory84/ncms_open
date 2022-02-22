@@ -16,6 +16,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_land_info.view.*
 import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.fragment_restland_search.*
@@ -68,26 +69,28 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
 //        getData()
         initUi(view)
 
-        //토지조서 사진촬영버튼
-        includeCameraBtn.setOnClickListener {
-            nextView(
-                requireActivity(),
-                Constants.CAMERA_ACT,
-                null,
-                CameraEnum.DEFAULT
-            )
-        }
+//        //토지조서 사진촬영버튼
+//        includeCameraBtn.setOnClickListener {
+//            nextView(
+//                requireActivity(),
+//                Constants.CAMERA_ACT,
+//                null,
+//                CameraEnum.DEFAULT,
+//                null
+//                , null
+//            )
+//        }
 
-        // 특이사항
-        includePaclrMatterEdit.setOnEditorActionListener { textView, action, _ ->
-
-            if (action == EditorInfo.IME_ACTION_DONE) {
-                logUtil.d("확인버튼 이벤트 처리")
-                val txtString = textView.text.toString()
-                RestLandInfoObject.paclrMatter = txtString
-            }
-            false
-        }
+//        // 특이사항
+//        includePaclrMatterEdit.setOnEditorActionListener { textView, action, _ ->
+//
+//            if (action == EditorInfo.IME_ACTION_DONE) {
+//                logUtil.d("확인버튼 이벤트 처리")
+//                val txtString = textView.text.toString()
+//                RestLandInfoObject.paclrMatter = txtString
+//            }
+//            false
+//        }
         // 참고사항
 //        includeReferMatterEdit.setOnEditorActionListener { textView, action, _ ->
 //
@@ -115,7 +118,7 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
     fun initUi(view: View) {
         logUtil.d("init response String --" + responseString)
 
-        var dataString = requireActivity().intent!!.extras!!.get("RestLandInfo") as String
+        var dataString = requireActivity().intent!!.extras!!.get("LandInfo") as String
 
         logUtil.d("LandInfo String ---------------------> " + dataString.toString());
 
@@ -126,7 +129,11 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
         var landInfoDataJson = dataJson.getJSONObject("LandInfo")
         //토지 정보
         // No
-        view.landSearchNoText?.text = checkStringNull(landInfoDataJson!!.getString("ladWtnCode"))
+        val landNo = checkStringNull(landInfoDataJson!!.getString("no"))
+        val landSubNo = checkStringNull(landInfoDataJson!!.getString("subNo"))
+
+        view.landSearchNoText?.text = "$landNo-$landSubNo"
+//        view.landSearchNoText?.text = checkStringNull(landInfoDataJson!!.getString("ladWtnCode"))
         // 소재지
         view.landSearchLocationText?.text =
             checkStringNull(landInfoDataJson!!.getString("legaldongNm"))
@@ -148,19 +155,19 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
             checkStringNull(landInfoDataJson!!.getString("incrprAr"))
 
         // TODO : 잔여지 현장조사 내용
-        setRestSearchLayout()
+        setRestSearchLayout(dataJson)
 
-        RestLandInfoObject.landSearchRealLngrJsonArray =
-            dataJson.getJSONArray("realLandInfo") as JSONArray
-
-        RestLandInfoObject.searchRealLand =
-            RestLandInfoObject.landSearchRealLngrJsonArray
-
-        if (RestLandInfoObject.landSearchRealLngrJsonArray!!.getJSONObject(0)
-                .getString("realLndcgrNm").equals("NoData")
-        ) {
-            logUtil.d("real land json no data")
-        }
+//        RestLandInfoObject.landSearchRealLngrJsonArray =
+//            dataJson.getJSONArray("realLandInfo") as JSONArray
+//
+//        RestLandInfoObject.searchRealLand =
+//            RestLandInfoObject.landSearchRealLngrJsonArray
+//
+//        if (RestLandInfoObject.landSearchRealLngrJsonArray!!.getJSONObject(0)
+//                .getString("realLndcgrNm").equals("NoData")
+//        ) {
+//            logUtil.d("real land json no data")
+//        }
 
 
 //        landSearchaNrfrstAtChk = view.landSearchaNrfrstAtChk
@@ -169,20 +176,27 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
 //        landSearchPlotAtChk = view.landSearchPlotAtChk
 
         // 카메라 어댑터 세팅
-        for (i in 0..4) {
-            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "","","","","","","","",""))
-        }
-
-        Constants.CAMERA_ADAPTER = WtnncImageAdapter(requireContext(), Constants.CAMERA_IMAGE_ARR)
-        val layoutManager = LinearLayoutManager(requireContext())
-        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        includeImageViewRv.also {
-            it.layoutManager = layoutManager
-            it.adapter = Constants.CAMERA_ADAPTER
-        }
+//        for (i in 0..4) {
+//            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "","","","","","","","",""))
+//        }
+//
+//        Constants.CAMERA_ADAPTER = WtnncImageAdapter(requireContext(), Constants.CAMERA_IMAGE_ARR)
+//        val layoutManager = LinearLayoutManager(requireContext())
+//        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+//        includeImageViewRv.also {
+//            it.layoutManager = layoutManager
+//            it.adapter = Constants.CAMERA_ADAPTER
+//        }
     }
 
-    fun setRestSearchLayout() {
+    fun setRestSearchLayout(data: JSONObject) {
+
+        var restData = JSONArray()
+
+        if(!data.isNull("restLad")) {
+            restData = data.getJSONArray("restLad")
+        }
+
 
         val landSearchItem = arrayOf(
             landSearchItem01Layout,
@@ -204,6 +218,7 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
             // EditText의 inputType이 textMultiLine에서 imeOptions 값을 설정하기 위해서
             item.restLandSearchItemEditText.setRawInputType(InputType.TYPE_CLASS_TEXT)
             item.restLandSearchItemEditText.imeOptions = EditorInfo.IME_ACTION_DONE
+            item.restLandSearchItemEditText.hint = resources.getStringArray(R.array.restLandQeustArrHint).get(idx)
         }
 
         // EditText의 inputType이 textMultiLine에서 imeOptions 값을 설정하기 위해서
@@ -218,21 +233,37 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
             false
         }
 
-        // TODO : 기존 등록값 셋팅
-        landSearchItem01Layout.restLandSearchItemEditText.setText("1")
-        landSearchItem02Layout.restLandSearchItemEditText.setText("2")
-        landSearchItem03Layout.restLandSearchItemEditText.setText("3")
-        landSearchItem04Layout.restLandSearchItemEditText.setText("4")
-        landSearchItem05Layout.restLandSearchItemEditText.setText("5")
-        landSearchItem06Layout.restLandSearchItemEditText.setText("6")
-        landSearchItem07Layout.restLandSearchItemEditText.setText("7")
-        landSearchItem08Layout.restLandSearchItemEditText.setText("8")
-        landSearchItem09Layout.restLandSearchItemEditText.setText("9")
-        landSearchItem10Layout.restLandSearchItemEditText.setText("10")
-
         wtnncUtill.wtnncSpinnerAdapter(R.array.restThingRewardChkArray, landSearchResultAtChk, this) // 확대보상여부 결과
 
-        landSearchResultAtChk.setSelection(0)
+        // TODO : 기존 등록값 셋팅
+        if(restData.length() > 0) {
+            bqestPsnText.setText(checkStringNull(restData.getJSONObject(0).getString("rqestPsn")))
+            bqestCnText.setText(checkStringNull(restData.getJSONObject(0).getString("rqestCn")))
+            landSearchItem01Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin1Rslt")))
+            landSearchItem02Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin2Rslt")))
+            landSearchItem03Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin3Rslt")))
+            landSearchItem04Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin4Rslt")))
+            landSearchItem05Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin5Rslt")))
+            landSearchItem06Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin6Rslt")))
+            landSearchItem07Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin7Rslt")))
+            landSearchItem08Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin8Rslt")))
+            landSearchItem09Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin9Rslt")))
+            landSearchItem10Layout.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("examin10Rslt")))
+            val rewdAtString = checkStringNull(restData.getJSONObject(0).getString("rewdAt"))
+
+            landSearchResultAtChk.setSelection(when (rewdAtString) {
+                "Y" -> 1
+                "N" -> 2
+                else ->0
+            })
+            landSearchItemCause.restLandSearchItemEditText.setText(checkStringNull(restData.getJSONObject(0).getString("resn")))
+        } else {
+            landSearchResultAtChk.setSelection(0)
+        }
+
+
+
+
         
     }
 
@@ -240,110 +271,110 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
         nullString
     }
 
-    /**
-     * 토지 이용현황추가
-     */
-    fun landRealAdd() {
-        logUtil.d("토지실제이용 추가!!!!")
-
-        val lndData = RestLandInfoObject.landInfo as JSONObject
-
-
-        val realLndcgr = JSONObject()
-        realLndcgr.put("realLndcgrAr", RestLandInfoObject.currentArea)
-        realLndcgr.put("realLndcgrCl", "")
-        realLndcgr.put("realLndcgrCn", "")
-        realLndcgr.put("realLndcgrCode","")
-        realLndcgr.put("saupCode",lndData.getString("saupCode"))
-        realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
-
-        //val jArrLength = RestLandInfoObject.landSearchRealLngrJsonArray?.length()!!
-        //logUtil.d(jArrLength.toString())
-
-        RestLandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
-        RestLandInfoObject.searchRealLand = RestLandInfoObject.landSearchRealLngrJsonArray
-        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
-    }
+//    /**
+//     * 토지 이용현황추가
+//     */
+//    fun landRealAdd() {
+//        logUtil.d("토지실제이용 추가!!!!")
+//
+//        val lndData = RestLandInfoObject.landInfo as JSONObject
+//
+//
+//        val realLndcgr = JSONObject()
+//        realLndcgr.put("realLndcgrAr", RestLandInfoObject.currentArea)
+//        realLndcgr.put("realLndcgrCl", "")
+//        realLndcgr.put("realLndcgrCn", "")
+//        realLndcgr.put("realLndcgrCode","")
+//        realLndcgr.put("saupCode",lndData.getString("saupCode"))
+//        realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
+//
+//        //val jArrLength = RestLandInfoObject.landSearchRealLngrJsonArray?.length()!!
+//        //logUtil.d(jArrLength.toString())
+//
+//        RestLandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
+//        RestLandInfoObject.searchRealLand = RestLandInfoObject.landSearchRealLngrJsonArray
+//        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
+//    }
 
     /**
      * 토지 이용현황추가 (전체)
      */
-    fun landRealAddAll() {
-        logUtil.d("토지실제이용 전체 필지 추가!!!!")
-
-        val lndData = RestLandInfoObject.landInfo as JSONObject
-
-        val realLndcgr = JSONObject()
-        realLndcgr.put("realLndcgrAr", RestLandInfoObject.currentArea)
-        realLndcgr.put("realLndcgrCl", "")
-        realLndcgr.put("realLndcgrCn", "")
-        realLndcgr.put("realLndcgrCode","")
-        realLndcgr.put("saupCode",lndData.getString("saupCode"))
-        realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
-
-
-        //val jArrLength = RestLandInfoObject.landSearchRealLngrJsonArray?.length()!!
-        //logUtil.d(jArrLength.toString())
-
-        RestLandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
-        RestLandInfoObject.searchRealLand = RestLandInfoObject.landSearchRealLngrJsonArray
-        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
-    }
+//    fun landRealAddAll() {
+//        logUtil.d("토지실제이용 전체 필지 추가!!!!")
+//
+//        val lndData = RestLandInfoObject.landInfo as JSONObject
+//
+//        val realLndcgr = JSONObject()
+//        realLndcgr.put("realLndcgrAr", RestLandInfoObject.currentArea)
+//        realLndcgr.put("realLndcgrCl", "")
+//        realLndcgr.put("realLndcgrCn", "")
+//        realLndcgr.put("realLndcgrCode","")
+//        realLndcgr.put("saupCode",lndData.getString("saupCode"))
+//        realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
+//
+//
+//        //val jArrLength = RestLandInfoObject.landSearchRealLngrJsonArray?.length()!!
+//        //logUtil.d(jArrLength.toString())
+//
+//        RestLandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
+//        RestLandInfoObject.searchRealLand = RestLandInfoObject.landSearchRealLngrJsonArray
+//        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
+//    }
 
     /**
      * 토지 이용현황 면적 수정
      */
-    fun landRealUpdate() {
-        logUtil.d("토지실제이용 수정!!!!")
-
-        val jArray = RestLandInfoObject.landSearchRealLngrJsonArray
-
-        for (i in 0 until jArray?.length()!!) {
-            logUtil.d(jArray.get(i).toString())
-
-            logUtil.d(
-                "${RestLandInfoObject.currentArea.toString()}, ${
-                    (jArray.get(i) as JSONObject).get(
-                        "realLndcgrAr"
-                    )
-                }"
-            )
-            logUtil.d(
-                "${RestLandInfoObject.selectPolygonCurrentArea.toString()}, ${
-                    (jArray.get(i) as JSONObject).get(
-                        "realLndcgrAr"
-                    )
-                }"
-            )
-
-            when {
-                jArray.length() == 2 -> {
-                    (RestLandInfoObject.landSearchRealLngrJsonArray?.get(1) as JSONObject).put(
-                        "realLndcgrAr",
-                        RestLandInfoObject.currentArea
-                    )
-                }
-                else -> {
-                    if (RestLandInfoObject.selectPolygonCenterTxt == (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()) {
-                        logUtil.d("data 일치")
-                        (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put(
-                            "realLndcgrAr",
-                            RestLandInfoObject.currentArea
-                        )
-                    }
-                }
-            }
-
-
-            // loop문 속에서 선택한 면적과 일치하였을 경우에 실행
-//            if(RestLandInfoObject.selectPolygonCurrentArea.toString() == (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()){
-//                logUtil.d("data 일치")
-//                (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put("realLndcgrAr", RestLandInfoObject.currentArea)
+//    fun landRealUpdate() {
+//        logUtil.d("토지실제이용 수정!!!!")
+//
+//        val jArray = RestLandInfoObject.landSearchRealLngrJsonArray
+//
+//        for (i in 0 until jArray?.length()!!) {
+//            logUtil.d(jArray.get(i).toString())
+//
+//            logUtil.d(
+//                "${RestLandInfoObject.currentArea.toString()}, ${
+//                    (jArray.get(i) as JSONObject).get(
+//                        "realLndcgrAr"
+//                    )
+//                }"
+//            )
+//            logUtil.d(
+//                "${RestLandInfoObject.selectPolygonCurrentArea.toString()}, ${
+//                    (jArray.get(i) as JSONObject).get(
+//                        "realLndcgrAr"
+//                    )
+//                }"
+//            )
+//
+//            when {
+//                jArray.length() == 2 -> {
+//                    (RestLandInfoObject.landSearchRealLngrJsonArray?.get(1) as JSONObject).put(
+//                        "realLndcgrAr",
+//                        RestLandInfoObject.currentArea
+//                    )
+//                }
+//                else -> {
+//                    if (RestLandInfoObject.selectPolygonCenterTxt == (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()) {
+//                        logUtil.d("data 일치")
+//                        (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put(
+//                            "realLndcgrAr",
+//                            RestLandInfoObject.currentArea
+//                        )
+//                    }
+//                }
 //            }
-        }
-
-        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
-    }
+//
+//
+//            // loop문 속에서 선택한 면적과 일치하였을 경우에 실행
+////            if(RestLandInfoObject.selectPolygonCurrentArea.toString() == (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()){
+////                logUtil.d("data 일치")
+////                (RestLandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put("realLndcgrAr", RestLandInfoObject.currentArea)
+////            }
+//        }
+//
+//        RestLandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
+//    }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when(parent?.id) {
@@ -361,77 +392,32 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
     override fun onNothingSelected(parent: AdapterView<*>?) {
     }
 
-    fun addLandData() {
-        //자연림여부
+    fun addLandRestData() {
 
-        logUtil.d(Constants.GLOBAL_TAB_LAYOUT?.selectedTabPosition.toString())
+        RestLandInfoObject.rqestPsn = activity!!.bqestPsnText.text.toString()
 
-        RestLandInfoObject.nrfrstAtChk = when(activity!!.landSearchaNrfrstAtChk.isChecked) {
-            true -> "Y"
-            else -> "N"
-        }
+        RestLandInfoObject.rqestCn = activity!!.bqestCnText.text.toString()
 
-        //경작여부
-        RestLandInfoObject.clvtAtChk = when(activity!!.landSearchClvtAtChk.isChecked) {
-            true -> "Y"
-            else -> "N"
-        }
-        //건축물여부
-        RestLandInfoObject.buildAtChk = when(activity!!.landSearchBuildAtChk.isChecked) {
-            true -> "Y"
-            else -> "N"
-        }
-        //대지권여부
-        RestLandInfoObject.plotAtChk = when(activity!!.landSearchPlotAtChk.isChecked) {
-            true -> "Y"
-            else -> "N"
-        }
+        RestLandInfoObject.examin1Rslt = activity!!.landSearchItem01Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin2Rslt = activity!!.landSearchItem02Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin3Rslt = activity!!.landSearchItem03Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin4Rslt = activity!!.landSearchItem04Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin5Rslt = activity!!.landSearchItem05Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin6Rslt = activity!!.landSearchItem06Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin7Rslt = activity!!.landSearchItem07Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin8Rslt = activity!!.landSearchItem08Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin9Rslt = activity!!.landSearchItem09Layout.restLandSearchItemEditText.text.toString()
+        RestLandInfoObject.examin10Rslt = activity!!.landSearchItem10Layout.restLandSearchItemEditText.text.toString()
 
-        //측량요청
-        RestLandInfoObject.sttusMesrAtChk = when(activity!!.landSearchSttusMesrAtChk.isChecked) {
-            true -> "Y"
-            else -> "N"
-        }
-        //특수용지
-        RestLandInfoObject.spclLadCl = when(activity!!.landSearchSpclLadClAtChk.selectedItemPosition) {
-//            1 -> "A026001"
-//            2 -> "A026002"
-//            3 -> "A026003"
-//            4 -> "A026004"
-//            5 -> "A026005"
-//            6 -> "A026006"
-//            7 -> "A026007"
-//            8 -> "A026008"
-//            9 -> "A026009"
-//            10 -> "A026010"
-//            11 -> "A026011"
-//            12 -> "A026012"
-//            13 -> "A026013"
-            in 1..13 -> {
-                String.format("A0260%02d", activity!!.landSearchSpclLadClAtChk.selectedItemPosition)
-            }
+
+
+        RestLandInfoObject.rewdAt = when(activity!!.landSearchResultAtChk.selectedItemPosition) {
+            1 -> "Y"
+            2 -> "N"
             else -> ""
         }
-        //특수용지내용
-        RestLandInfoObject.spclLadCn = activity!!.landSearchSpclLadCnEditText.text.toString()
-        //소우자확인근거
-        RestLandInfoObject.ownerCnfirmBasisCl = when(activity!!.landSearchOwnerCnfirmBasisClChk.selectedItemPosition) {
-//            1 -> "A035001"
-//            2 -> "A035002"
-//            3 -> "A035003"
-//            4 -> "A035004"
-//            5 -> "A035005"
-            in 1..5 -> {
-                String.format("A0350$02d", activity!!.landSearchOwnerCnfirmBasisClChk.selectedItemPosition)
-            }
-            else -> ""
-        }
-        //특이사항
-        RestLandInfoObject.paclrMatter = activity!!.includePaclrMatterEdit.text.toString()
-        //참고사항
-        RestLandInfoObject.referMatter = activity!!.includeReferMatterEdit.text.toString()
-        //비고
-        RestLandInfoObject.rm = activity!!.includeRmEdit.text.toString()
+
+        RestLandInfoObject.resn = activity!!.landSearchItemCause.restLandSearchItemEditText.text.toString()
 
     }
 }

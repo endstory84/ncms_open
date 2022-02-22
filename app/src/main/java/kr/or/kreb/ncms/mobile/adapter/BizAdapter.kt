@@ -13,21 +13,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.*
 import kotlinx.android.synthetic.main.include_biz_all.view.*
+import kr.or.kreb.ncms.mobile.data.BizJibunListInfo
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.Biz
 import kr.or.kreb.ncms.mobile.util.*
+import org.json.JSONArray
 import java.util.*
 
 
 class BizAdapter(
-    callDataArr: MutableList<Biz>
+    callDataArr: MutableList<Biz>,
+    val type: String
 ) : RecyclerView.Adapter<BizAdapter.ViewHolder>(), Filterable {
 
     var pos: Int = 0
 
-    var unfFlteredList:MutableList<Biz> = callDataArr
+    var unfFlteredList: MutableList<Biz> = callDataArr
     var filteredList = mutableListOf<Biz>()
 
     private var selectedItems: SparseBooleanArray = SparseBooleanArray()
@@ -40,7 +45,8 @@ class BizAdapter(
 //    var saupCode = "보상0008-0008-1" // 사업코드 광업, 어업 진행
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.include_biz_all, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.include_biz_all, parent, false)
         return ViewHolder(view)
     }
 
@@ -58,36 +64,131 @@ class BizAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(item: Biz) {
 
-            with(itemView){
+            with(itemView) {
 
                 textViewBizListCategory.text = item.bsnsClNm
                 textViewBizSaupCode.text = checkStringNull(item.saupCode)
                 textViewBizListName.text = checkStringNull(item.bsnsNm)
                 textViewBizListAddr.text = checkStringNull(item.bsnsLocplc)
-                textViewBizListManager.text ="(${checkStringNull(item.ncm)}) | ${checkStringNull(item.bsnsPsClNm)} | ${checkStringNull(item.oclhgBnora)} | ${checkStringNull(item.excDtls)} | ${checkStringNull(item.cntrctDe)}"
+                textViewBizListManager.text = "(${checkStringNull(item.ncm)}) | ${checkStringNull(item.bsnsPsClNm)} | ${checkStringNull(item.oclhgBnora)} | ${checkStringNull(item.excDtls)} | ${checkStringNull(item.cntrctDe)}"
+                textViewBizListDept.text = "해당필지"
 
-                textViewBizListDept.text ="해당필지"
-
+                if (type == "all") {
+                    bizListSubJibun.goneView()
+                    detailJibunListView.goneView()
+                } else {
+                    bizListSubJibun.visibleView()
+                }
                 // TODO: 2021-12-28 사업선택 내 지번 표출 이벤트
-                imageViewBizListSubMenuArrow.setOnClickListener { view ->
+                bizListSubJibun.setOnClickListener { view ->
 
                     view.isActivated = !view.isActivated
 
                     if (view.isActivated) {
                         imageViewBizListSubMenuArrow.animate().rotation(180f).setDuration(200).start() // on
-                        layout_jibun_label.visibleView()
-                        layout_jibun_value.visibleView()
+                        detailJibunListView.visibleView()
+
+                        PreferenceUtil.apply {
+                            setString(context, "bizCategory", item.bsnsClNm)
+                            setString(context, "bsnsNm", item.bsnsNm)
+                            setString(context, "saupCode", item.saupCode)
+                            setString(context, "bizItem", item.item.toString())
+                            setString(context, "id", item.loginId)
+                        }
+
+
+                        val jibunSearchDataArr = mutableListOf<BizJibunListInfo>()
+
+                        if(item.landList != null) {
+                            val jibunSearchLadData = item.landList as JSONArray
+                            if (jibunSearchLadData.length() > 0) {
+                                for (i in 0 until jibunSearchLadData.length()) {
+                                    val dataObject = jibunSearchLadData.getJSONObject(i)
+
+                                    dataObject.apply {
+                                        jibunSearchDataArr.add(
+                                            BizJibunListInfo(
+                                                "LAD",
+                                                checkStringNull(getString("ladWtnCode")),
+                                                null,
+                                                checkStringNull(getString("saupCode")),
+                                                checkStringNull(getString("legaldongCode")),
+                                                checkStringNull(getString("gobuLndcgrCl")),
+                                                checkStringNull(getString("gobuLndcgrNm")),
+                                                checkStringNull(getString("bgnnAr")),
+                                                checkStringNull(getString("incrprAr")),
+                                                checkStringNull(getString("no")),
+                                                checkStringNull(getString("subNo")),
+                                                checkStringNull(getString("legaldongNm")),
+                                                checkStringNull(getString("bgnnLnm")),
+                                                checkStringNull(getString("incrprLnm")),
+                                                checkStringNull(getString("ownerName")),
+                                                checkStringNull(getString("ownerCnt")),
+                                                checkStringNull(getString("relatesName")),
+                                                checkStringNull(getString("relatesCnt")),
+                                                type
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        if(item.thingList != null) {
+                            val jibunSearchThingData = item.thingList as JSONArray
+
+                            if(jibunSearchThingData.length() > 0) {
+                                for(i in 0 until jibunSearchThingData.length()) {
+                                    val dataObject = jibunSearchThingData.getJSONObject(i)
+
+
+                                    dataObject.apply {
+                                        jibunSearchDataArr.add(
+                                            BizJibunListInfo(
+                                                "THING",
+                                                null,
+                                                checkStringNull(getString("thingWtnCode")),
+                                                checkStringNull(getString("saupCode")),
+                                                checkStringNull(getString("legaldongCode")),
+                                                checkStringNull(getString("gobuLndcgrCl")),
+                                                checkStringNull(getString("gobuLndcgrNm")),
+                                                checkStringNull(getString("bgnnAr")),
+                                                checkStringNull(getString("incrprAr")),
+                                                null,
+                                                null,
+                                                checkStringNull(getString("legaldongNm")),
+                                                checkStringNull(getString("bgnnLnm")),
+                                                checkStringNull(getString("incrprLnm")),
+                                                checkStringNull(getString("ownerName")),
+                                                checkStringNull(getString("ownerCnt")),
+                                                checkStringNull(getString("relatesName")),
+                                                checkStringNull(getString("relateCnt")),
+                                                type
+                                            )
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                        val layoutManager = LinearLayoutManager(context)
+                        layoutManager.orientation = LinearLayoutManager.VERTICAL
+                        detailJibunList.layoutManager = layoutManager
+                        detailJibunList.adapter = BizJibunAdapter(jibunSearchDataArr)
+
+//                        layout_jibun_label.visibleView()
+//                        layout_jibun_value.visibleView()
 
                     } else {
                         imageViewBizListSubMenuArrow.animate().rotation(0f).setDuration(200).start() // off
-                        layout_jibun_label.goneView()
-                        layout_jibun_value.goneView()
+                        detailJibunListView.goneView()
+//                        layout_jibun_label.goneView()
+//                        layout_jibun_value.goneView()
                     }
 
                 }
 
                 // 사업확인 이동
-                cardViewdBizItem.setOnClickListener {
+                cardViewdBizItemLayout.setOnClickListener {
 
                     // TODO: 2021-06-08  임시적으로 Preference 에 넣어놈 (전역)
 
@@ -96,9 +197,10 @@ class BizAdapter(
                         setString(context, "bsnsNm", item.bsnsNm)
                         setString(context, "saupCode", item.saupCode)
                         setString(context, "bizItem", item.item.toString())
+                        setString(context, "id", item.loginId)
                     }
 
-                    nextView(context, Constants.BIZ_CNFIRM_ACT, null, null)
+                    nextView(context, Constants.BIZ_CNFIRM_ACT, null, null, null, null)
                 }
 
             }
@@ -131,7 +233,9 @@ class BizAdapter(
                 } else {
                     val filteringList = mutableListOf<Biz>()
                     for (item in unfFlteredList) {
-                        if (item.bsnsNm.lowercase(Locale.ROOT).contains(charString.lowercase(Locale.ROOT).trim())) filteringList.add(item)
+                        if (item.bsnsNm.lowercase(Locale.ROOT)
+                                .contains(charString.lowercase(Locale.ROOT).trim())
+                        ) filteringList.add(item)
                     }
                     filteringList
                 }

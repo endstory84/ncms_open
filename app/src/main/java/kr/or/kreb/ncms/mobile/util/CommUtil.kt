@@ -40,9 +40,11 @@ import kotlinx.android.synthetic.main.fragment_bsn_search.*
 import kotlinx.android.synthetic.main.include_drawer_header.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 import kr.or.kreb.ncms.mobile.*
+import kr.or.kreb.ncms.mobile.data.BizJibunListInfo
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
 import okhttp3.*
+import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
@@ -95,7 +97,7 @@ fun getDisplayDistance(dialog: Dialog?, activity: Activity?, width: Float, heigh
  * @param saupCode : 사업코드
  * @param cameraCode: 카메라 코드(현장, 서류)
  */
-fun nextView(context: Context, actNo: Int, saupCode: BizEnum?, cameraCode: CameraEnum?) {
+fun nextView(context: Context, actNo: Int, saupCode: BizEnum?, cameraCode: CameraEnum?, coord: String?, restData: JSONObject?) {
     val i = Intent()
     when (actNo) {
         Constants.LOGIN_ACT -> {
@@ -117,12 +119,25 @@ fun nextView(context: Context, actNo: Int, saupCode: BizEnum?, cameraCode: Camer
         Constants.MAP_ACT -> {
             i.setClass(context, MapActivity::class.java)
             i.putExtra("saupCode", saupCode)
+            i.putExtra("coord", coord)
+            i.putExtra("restData", restData.toString())
             context.startActivity(i)
         }
 
         Constants.CAMERA_ACT -> {
             i.setClass(context, CameraActivity::class.java)
             i.putExtra("cameraCode", cameraCode)
+            context.startActivity(i)
+        }
+    }
+}
+
+fun nextViewBizList(context: Context, actNo: Int, id: String?) {
+    val i = Intent()
+    when (actNo) {
+        Constants.BIZ_LIST_ACT -> {
+            i.setClass(context, BizListActivity::class.java)
+            i.putExtra("id", id)
             context.startActivity(i)
         }
     }
