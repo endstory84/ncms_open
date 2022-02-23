@@ -156,16 +156,16 @@
 
     <string name="msg_server_"></string>
 
-    <string name="geoserver_wms_url">https://192.168.51.146:8444/geoserver/ncms/wms?</string>
+    <string name="geoserver_wms_url">httpeeee://192.168.51.146:8444/geoserver/ncms/wms?</string>
 
-    <string name="geoserver_wfs_url">https://192.168.51.146:8444/geoserver/ncms/ows?"</string>
+    <string name="geoserver_wfs_url">http://192.168.51.146:8444/geoserver/ncms/ows?"</string>
     <string name="geoserver_kais_wfs_url">http://192.168.51.83/geoserver/cite/wfs?"</string>
 
-    <string name="server_bsns_mng_list">https://192.168.51.146:8444/bsns/bsnsChoiseList.do</string>
+    <string name="server_bsns_mng_list">http://192.168.51.146:8444/bsns/bsnsChoiseList.do</string>
 
-    <string name="mobile_url">https://192.168.51.146:8444/mobile/</string>
+    <string name="mobile_url">http://192.168.51.146:8444/mobile/</string>
 
-    <string name="naver_geocoding_gc">https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc</string>
+    <string name="naver_geocoding_gc">http://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc</string>
 
     <string name="login_err_msg_id">잘못된 형식입니다.</string>
     <string name="login_err_msg_pw">잘못된 비밀번호 형식입니다.</string>
