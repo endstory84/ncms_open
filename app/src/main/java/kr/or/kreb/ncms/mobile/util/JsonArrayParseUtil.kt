@@ -131,7 +131,13 @@ object JsonArrayParseUtil {
 
                 when {
                     infoValueArr != null -> {
-                        infoValueArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // Geojson -> WTN Code
+                        /**
+                         * AS-IS = 물건조서 코드
+                         * TO-BE = MO_NO (모바일 번호)
+                         */
+
+                        //infoValueArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // Geojson -> WTN Code
+                        infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString)
                     }
                 }
 

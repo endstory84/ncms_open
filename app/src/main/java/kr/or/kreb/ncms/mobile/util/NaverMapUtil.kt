@@ -1786,6 +1786,7 @@ class NaverMapUtil(
                 infoView.setText(resultArr[i], "wtncc")
                 infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
                 infoWindow.position = findPolygonCenter(latLngArr[i])
+                infoWindow.offsetX = -100
                 infoWindowArr.add(infoWindow)
             }
 
