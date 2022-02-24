@@ -8,21 +8,28 @@ package kr.or.kreb.ncms.mobile
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.jiransoft.mdm.library.MDMLib
+import com.jiransoft.mdm.library.Services.OnMangoappleCompleteListener
+import com.jiransoft.mdm.library.Services.OnMangobananaCompleteListener
 import kotlinx.android.synthetic.main.activity_login.*
 import kr.or.kreb.ncms.mobile.base.BaseActivity
 import kr.or.kreb.ncms.mobile.databinding.ActivityLoginBinding
 import kr.or.kreb.ncms.mobile.fragment.ConfirmDialogFragment
 import kr.or.kreb.ncms.mobile.util.*
+import java.util.HashMap
 import java.util.concurrent.ExecutionException
 
 class LoginActivity :
     BaseActivity<ActivityLoginBinding>(R.layout.activity_login, LoginActivity::class.java.simpleName),
-    ConfirmDialogFragment.ConfirmDialogListener {
+    ConfirmDialogFragment.ConfirmDialogListener,
+    OnMangobananaCompleteListener {
+
 
     lateinit var confirmDialogFragment: ConfirmDialogFragment
 
@@ -33,7 +40,23 @@ class LoginActivity :
     private lateinit var preferences: SharedPreferences
     private lateinit var editor: SharedPreferences.Editor
 
-    override fun initViewStart() = initUI()
+    private var loginId: String = ""
+
+    private var mdmLib: MDMLib? = null
+
+    private var mdmHandler: Handler? = null
+
+    private var MDM_HOST: String = "mdm.reb.or.kr:44300"
+    private var MDM_COMPANY: String = "20032300"
+
+
+    override fun initViewStart() {
+
+        settingMDM();
+
+
+//        initUI()
+    }
 
     override fun initDataBinding() {}
 
@@ -148,13 +171,13 @@ class LoginActivity :
                 if (!validateName()) return
                 if (!validatePassword()) return
                 saveId() //아이디 저장
-                val idVal: String = editTextLoginId.text.toString()
+                loginId = editTextLoginId.text.toString()
                 val idPass: String = editTextLoginPassword.text.toString()
-                log.d("$idVal, $idPass")
+                log.d("$loginId, $idPass")
 
-                toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-//                nextView(this, Constants.BIZ_LIST_ACT, null, null, null, null)
-                nextViewBizList(this, Constants.BIZ_LIST_ACT, idVal)
+
+                mdmLib?.mangobanana(this, mdmHandler, loginId)
+
             } else {
 
                 toast.msg_error(getString(R.string.msg_login_validation_fail), 500)
@@ -239,4 +262,37 @@ class LoginActivity :
     companion object {
         private val TAG: String? = LoginActivity::class.simpleName
     }
+
+    fun settingMDM() {
+        mdmLib = MDMLib.getInstance(this, MDM_HOST, MDM_COMPANY)
+        mdmLib?.setUserNotificationIcon(R.drawable.ic_stat_device_blocking)
+
+        MDMLib.setDebugMode(true); // 실 운영서버 시 fasle
+
+        mdmHandler = Handler()
+
+        mdmLib?.setOnMangobananaCompleteListener(this)
+        mdmLib?.startCurrentStatusCheckService(this, null)
+
+
+
+//        val type: Int = MDMLib.MANGO_APPLE_TYPE_D
+//
+//        mdmLib?.mangoapple(this, type, this)
+
+    }
+
+    override fun onMangobananaComplete(code: String?, message: String?) {
+
+        if ("0x00000000" == code) {
+
+            toast.msg_success(getString(R.string.msg_login_validation_success), 500)
+//                nextView(this, Constants.BIZ_LIST_ACT, null, null, null, null)
+            nextViewBizList(this, Constants.BIZ_LIST_ACT, loginId)
+        } else {
+            toast.msg_error(getString(R.string.msg_mdm_fail), 100)
+            finish()
+        }
+    }
+
 }
