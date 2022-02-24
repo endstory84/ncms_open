@@ -494,7 +494,7 @@ class NaverMapUtil(
 
                                             when(tagName){
                                                 "편집지적도" -> clearWFS(wfsEditCadastralOverlayArr, tagName)
-                                                else -> clearWFS(wfsBsnAreaOverlayArr, tagName)
+                                                //else -> clearWFS(wfsBsnAreaOverlayArr, tagName)
                                             }
 
                                             if (getNaverMapZoom() > 13) {
@@ -785,7 +785,7 @@ class NaverMapUtil(
                                                     getActivity().isBsnLayerChecked = false
                                                     getActivity().bsnLayerSwitch.isChecked = false
                                                     progressDialog?.dismiss()
-                                                    toastUtil.msg_warning(context?.resources?.getString(R.string.msg_server_connected_resut_bsn_empty)!!, 100)
+                                                    //toastUtil.msg_warning(context?.resources?.getString(R.string.msg_server_connected_resut_bsn_empty)!!, 100)
                                                 }
                                             }
                                             return@runOnUiThread
@@ -2858,7 +2858,7 @@ class NaverMapUtil(
 
             if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도"); getActivity().cadstralEditLayerSwitch.isChecked = true } else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
 
-            if (getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
+            //if (getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
 
 
         } else if (naverCameraidleCnt > 1) {
