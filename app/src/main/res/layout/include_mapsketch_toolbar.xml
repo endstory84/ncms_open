@@ -17,7 +17,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
             app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
             app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
-            android:tooltipText="@string/fab_toolbar_8" />
+            android:tooltipText="@string/fab_toolbar_9" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Widget.NCMS.FloatingActionButton"
@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
             app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
             app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
-            android:tooltipText="@string/fab_toolbar_7" />
+            android:tooltipText="@string/fab_toolbar_8" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Widget.NCMS.FloatingActionButton"
@@ -37,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
             app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
             app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
-            android:tooltipText="@string/fab_toolbar_5" />
+            android:tooltipText="@string/fab_toolbar_7" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Widget.NCMS.FloatingActionButton"
@@ -47,7 +47,27 @@
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
             app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
             app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
-            android:tooltipText="@string/fab_toolbar_4" />
+            android:tooltipText="@string/fab_toolbar_6" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.NCMS.FloatingActionButton"
+        android:id="@+id/floatingActionButtonLine"
+        app:srcCompat="@drawable/ic_line"
+        app:layout_constraintTop_toTopOf="@id/floatingActionButtonToolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
+        app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
+        app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
+        android:tooltipText="@string/fab_toolbar_5" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        style="@style/Widget.NCMS.FloatingActionButton"
+        android:id="@+id/floatingActionButtonPoint"
+        app:srcCompat="@drawable/ic_point"
+        app:layout_constraintTop_toTopOf="@id/floatingActionButtonToolbar"
+        app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonToolbar"
+        app:layout_constraintStart_toStartOf="@id/floatingActionButtonToolbar"
+        app:layout_constraintEnd_toEndOf="@id/floatingActionButtonToolbar"
+        android:tooltipText="@string/fab_toolbar_4" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Widget.NCMS.FloatingActionButton"

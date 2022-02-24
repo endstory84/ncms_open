@@ -1601,7 +1601,7 @@ class NaverMapUtil(
                                     LandInfoObject.wtnCodeLegaldongCode = legaldongCode
 
                                     // 19레벨 이상부터 레이어 클릭 시 조서 열람 가능
-                                    if(getNaverMapZoom() > 18){
+                                    if(getNaverMapZoom() > 17){
 
                                         getActivity().callerContextPopupFunc(null, null, incrprLnm, 0, legaldongCode) // 조서 불러오기
 

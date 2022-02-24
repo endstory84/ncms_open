@@ -276,6 +276,8 @@ class MapActivity :
             floatingActionButtonToolbar,
             floatingActionButtonUndo,
             floatingActionButtonRedo,
+            floatingActionButtonPoint,
+            floatingActionButtonLine,
             floatingActionButtonModify,
             floatingActionButtonRemove,
             floatingActionButtonCancel,
@@ -287,11 +289,13 @@ class MapActivity :
             floatingActionButtonCancel,
             floatingActionButtonRemove,
             floatingActionButtonModify,
+            floatingActionButtonLine,
+            floatingActionButtonPoint,
             floatingActionButtonRedo,
             floatingActionButtonUndo
         )
 
-        fabTranslationXArr = mutableListOf(-900f, -750f, -600f, -450f, -300f, -150f)
+        fabTranslationXArr = mutableListOf(-1200f ,-1050f, -900f, -750f, -600f, -450f, -300f, -150f)
 
         floatingActionButtonToolbar.setOnClickListener {
             isFabOpen = fabAnimateFunc(floatingActionButtonToolbar, !isFabOpen)
@@ -3707,6 +3711,9 @@ class MapActivity :
                     // 필지 스케치
                     R.id.floatingActionButtonUndo -> cartoMap?.setMode(SketchEnum.UNDO)
                     R.id.floatingActionButtonRedo -> cartoMap?.setMode(SketchEnum.REDO)
+                    // TODO: 2022-02-23 스케치 툴바기능 추가 (점, 선)
+                    R.id.floatingActionButtonPoint -> cartoMap?.setMode(SketchEnum.POINT)
+                    R.id.floatingActionButtonLine -> cartoMap?.setMode(SketchEnum.LINE)
                     R.id.floatingActionButtonModify -> cartoMap?.setMode(SketchEnum.MODIFY)
                     R.id.floatingActionButtonRemove -> cartoMap?.setMode(SketchEnum.REMOVE)
                     R.id.floatingActionButtonCancel -> cartoMap?.setMode(SketchEnum.CANCEL)
