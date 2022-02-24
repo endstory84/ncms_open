@@ -24,6 +24,7 @@ import com.carto.ui.*
 import com.carto.utils.BitmapUtils
 import com.carto.vectorelements.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.jhlabs.map.Point2D
 import com.naver.maps.geometry.Coord
 import com.naver.maps.geometry.LatLng
 import kotlinx.android.synthetic.main.activity_map.*
@@ -36,9 +37,10 @@ import kr.or.kreb.ncms.mobile.fragment.FarmSearchFragment
 import kr.or.kreb.ncms.mobile.fragment.LandSearchFragment
 import kr.or.kreb.ncms.mobile.listener.ThingViewPagerInterface
 import java.math.BigDecimal
+import kotlin.math.log
 import kotlin.math.roundToInt
 
-class CartoMapUtil: DialogUtil.ClickListener {
+class CartoMapUtil : DialogUtil.ClickListener {
 
     // App Util
     private lateinit var gpsUtil: GPSUtil
@@ -57,10 +59,10 @@ class CartoMapUtil: DialogUtil.ClickListener {
     // Carto
     var cartoMapView: MapView? = null
     private lateinit var mapOpt: Options
-    var cartoProj : Projection? = null
+    var cartoProj: Projection? = null
     private var distanceAreaDataSource: LocalVectorDataSource? = null
     private var locatVectorText: LocalVectorDataSource? = null
-    
+
     private var mClickRedoMapPos = mutableListOf<MapPos>() // 임시 MapPos (redo)
     private var mapControlLayers = mutableListOf<VectorLayer>()
 
@@ -86,19 +88,82 @@ class CartoMapUtil: DialogUtil.ClickListener {
     private var naverMapUtil: NaverMapUtil? = null
     private var coord: Coord? = null
 
-    private var searchType : BizEnum? = null
-    private var sktechType : Int = -1
-    private var thingListener : ThingViewPagerInterface? = null
-    var currentArea : Int? = null
+    private var searchType: BizEnum? = null
+    private var sktechType: Int = -1
+    private var thingListener: ThingViewPagerInterface? = null
+    var currentArea: Int? = null
+
+    var _isSketchDrawType: String = "LINE"
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    constructor(context: Context, activity: Activity, mapView: MapView?) { this.context = context; this.activity = activity; this.cartoMapView = mapView; init() }
-    constructor(context: Context, activity: Activity, mapView: MapView, minPos: MapPos, maxPos: MapPos) { this.context = context; this.activity = activity; this.cartoMapView = mapView; this.naverMinPos = minPos; this.naverMaxPos = maxPos; init() }
-    constructor(context: Context, activity: Activity, mapView: MapView, naverMap: NaverMapUtil, coord: Coord) { this.context = context; this.activity = activity; this.cartoMapView = mapView; this.naverMapUtil = naverMap; this.coord = coord; init() }
-    constructor(context: Context, activity: Activity, mapView: MapView, naverMap: NaverMapUtil, coord: Coord, searchType: BizEnum) { this.context = context; this.activity = activity; this.cartoMapView = mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType = searchType; init() }
-    constructor(context: Context, activity: Activity, mapView: MapView, naverMap: NaverMapUtil, coord: Coord, searchType: BizEnum, fragment: FarmSearchFragment?) { this.context = context; this.activity = activity; this.cartoMapView = mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType = searchType; this.mFarmFragment = fragment; init() }
-    constructor(context: Context, activity: Activity, mapView: MapView, naverMap: NaverMapUtil, coord: Coord, searchType: BizEnum, sketchType: Int, thingListener: ThingViewPagerInterface) { this.context = context; this.activity = activity; this.cartoMapView = mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType = searchType; this.sktechType = sketchType; this.thingListener = thingListener; init() }
+    constructor(context: Context, activity: Activity, mapView: MapView?) {
+        this.context = context; this.activity = activity; this.cartoMapView = mapView; init()
+    }
+
+    constructor(
+        context: Context,
+        activity: Activity,
+        mapView: MapView,
+        minPos: MapPos,
+        maxPos: MapPos
+    ) {
+        this.context = context; this.activity = activity; this.cartoMapView =
+            mapView; this.naverMinPos = minPos; this.naverMaxPos = maxPos; init()
+    }
+
+    constructor(
+        context: Context,
+        activity: Activity,
+        mapView: MapView,
+        naverMap: NaverMapUtil,
+        coord: Coord
+    ) {
+        this.context = context; this.activity = activity; this.cartoMapView =
+            mapView; this.naverMapUtil = naverMap; this.coord = coord; init()
+    }
+
+    constructor(
+        context: Context,
+        activity: Activity,
+        mapView: MapView,
+        naverMap: NaverMapUtil,
+        coord: Coord,
+        searchType: BizEnum
+    ) {
+        this.context = context; this.activity = activity; this.cartoMapView =
+            mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType =
+            searchType; init()
+    }
+
+    constructor(
+        context: Context,
+        activity: Activity,
+        mapView: MapView,
+        naverMap: NaverMapUtil,
+        coord: Coord,
+        searchType: BizEnum,
+        fragment: FarmSearchFragment?
+    ) {
+        this.context = context; this.activity = activity; this.cartoMapView =
+            mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType =
+            searchType; this.mFarmFragment = fragment; init()
+    }
+
+    constructor(
+        context: Context,
+        activity: Activity,
+        mapView: MapView,
+        naverMap: NaverMapUtil,
+        coord: Coord,
+        searchType: BizEnum,
+        sketchType: Int,
+        thingListener: ThingViewPagerInterface
+    ) {
+        this.context = context; this.activity = activity; this.cartoMapView =
+            mapView; this.naverMapUtil = naverMap; this.coord = coord; this.searchType =
+            searchType; this.sktechType = sketchType; this.thingListener = thingListener; init()
+    }
 
     private fun init() {
 
@@ -124,13 +189,19 @@ class CartoMapUtil: DialogUtil.ClickListener {
         val mMaxPos = cartoProj?.fromWgs84(naverMapUtil!!.getMaxPos())
 
         val bounds = MapBounds(mMinPos, mMaxPos)
-        val screenBounds = ScreenBounds(ScreenPos(0f, 0f), ScreenPos(naverMapUtil!!.naverMap.contentWidth.toFloat(), naverMapUtil!!.naverMap.contentHeight.toFloat()))
+        val screenBounds = ScreenBounds(
+            ScreenPos(0f, 0f),
+            ScreenPos(
+                naverMapUtil!!.naverMap.contentWidth.toFloat(),
+                naverMapUtil!!.naverMap.contentHeight.toFloat()
+            )
+        )
 
         /**
          * 2021-05-17  레벨 20 지정 (Naver Map Lv ==  Carto Map Lv)
          */
 
-        mapOpt.apply{
+        mapOpt.apply {
             backgroundBitmap = overlayBitmap
             zoomRange = MapRange(20f, 20f) // 줌 지정
             tiltRange = MapRange(90f, 90f) // 틸트 고정
@@ -139,10 +210,13 @@ class CartoMapUtil: DialogUtil.ClickListener {
             tileThreadPoolSize = 2
         }
 
-        cartoMapView!!.apply{
+        cartoMapView!!.apply {
             holder.setFormat(PixelFormat.TRANSPARENT) // 맵 투명화
             moveToFitBounds(bounds, screenBounds, false, 0.5f)
-            setFocusPos(cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0f) // 현재 위치 이동
+            setFocusPos(
+                cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)),
+                0f
+            ) // 현재 위치 이동
             isHorizontalFadingEdgeEnabled = false
             isHorizontalScrollBarEnabled = false
             isVerticalFadingEdgeEnabled = false
@@ -160,7 +234,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 레이어 스케치 모듈화
      */
-    fun setMode(sketchEnumMode:SketchEnum){
+    fun setMode(sketchEnumMode: SketchEnum) {
         this.sketchEnumMode = sketchEnumMode
         sketchFunc()
     }
@@ -169,28 +243,40 @@ class CartoMapUtil: DialogUtil.ClickListener {
      * 이전, 다음, 수정, 삭제, 취소(네이버맵 전환), 폴리곤(필지도면) 생성
      */
     private fun sketchFunc() {
-        when(sketchEnumMode){
+        when (sketchEnumMode) {
             SketchEnum.UNDO -> undo()
             SketchEnum.REDO -> redo()
+            SketchEnum.POINT -> point()
+            SketchEnum.LINE -> line()
             SketchEnum.MODIFY -> modify(mCatroEditLayer)
             SketchEnum.CANCEL -> {
 
                 dialogUtil.run {
-                    alertDialog("스케치 모드", "스케치모드에서 작업중인 내용은 초기화됩니다. \n 스케치 모드에서 나가시겠습니까?", dialogBuilder, "스케치모드").show()
+                    alertDialog(
+                        "스케치 모드",
+                        "스케치모드에서 작업중인 내용은 초기화됩니다. \n 스케치 모드에서 나가시겠습니까?",
+                        dialogBuilder,
+                        "스케치모드"
+                    ).show()
                 }
             }
             SketchEnum.REMOVE -> remove()
-            else ->  {
+            else -> {
 
                 val getPolygonArray = polygon() //Carto에서 그려진 폴리곤의 data
 
-                try{
+                try {
                     if (getPolygonArray.size > 0) {
+
                         for (i in getPolygonArray.indices) {
                             naverMapUtil!!.setNaverMapPolygon(getPolygonArray[i], searchType)
                         }
 
-                        currentArea = (mathUtil.layersForArea(LandInfoObject.clickLatLng, radius) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
+
+                        currentArea = (mathUtil.layersForArea(
+                            LandInfoObject.clickLatLng,
+                            radius
+                        ) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
 
                         // TODO: 2021-09-01 모든 객체 클래스화 진행 (리스너 삭제)
                         when (searchType) {
@@ -204,7 +290,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
                                  *  실제이용현황 편집모드 진일 했을 시에 update 실행
                                  *  그 외 add 실행
                                  */
-                                if(!LandInfoObject._isPolygonVisible){
+                                if (!LandInfoObject._isPolygonVisible) {
                                     LandSearchFragment(activity, context).landRealAdd()
                                 } else {
                                     LandSearchFragment(activity, context).landRealUpdate()
@@ -230,7 +316,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
                         }
 
                     }
-                }catch (e:Exception){
+                } catch (e: Exception) {
                     logtUtil.d(e.toString())
                 }
             }
@@ -238,7 +324,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
     }
 
     /** 촤초 마커포인트 */
-    fun initStartPoint(){
+    fun initStartPoint() {
 
         when (searchType) {
             BizEnum.LOTMAP -> {
@@ -284,8 +370,8 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 오브젝트 초기화
      */
-    fun empty(){
-        if(mCatroEditLayer != null){
+    fun empty() {
+        if (mCatroEditLayer != null) {
             cartoMapView!!.layers.remove(mCatroEditLayer)
 
             distanceAreaDataSource!!.clear()
@@ -307,11 +393,11 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 이전
      */
-    fun undo(){
+    fun undo() {
 
-        if(LandInfoObject.mapPos.size > 0){
+        if (LandInfoObject.mapPos.size > 0) {
 
-            mClickRedoMapPos.add(LandInfoObject.mapPos.removeAt(LandInfoObject.mapPos.size -1))
+            mClickRedoMapPos.add(LandInfoObject.mapPos.removeAt(LandInfoObject.mapPos.size - 1))
             mapPosVector?.clear()
 
             LandInfoObject.mapPos.forEach { mapPos -> mapPosVector?.add(mapPos) }
@@ -324,9 +410,9 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 다음
      */
-    fun redo(){
+    fun redo() {
 
-        if(mClickRedoMapPos.size > 0){
+        if (mClickRedoMapPos.size > 0) {
 
             LandInfoObject.mapPos.add(mClickRedoMapPos.removeAt(mClickRedoMapPos.size - 1))
             mapPosVector?.clear()
@@ -336,6 +422,25 @@ class CartoMapUtil: DialogUtil.ClickListener {
         } else {
             toastUtil.msg_warning(context!!.getString(R.string.msg_redo), 500)
         }
+    }
+
+    /**
+     * 스케치 유형 (점)
+     */
+    fun point() {
+        logtUtil.d("point")
+        toastUtil.msg_info("스케치 유형이 (점)으로 설정되었습니다.", 300)
+        _isSketchDrawType = "POINT"
+    }
+
+
+    /**
+     * 스케치 유형 (선)
+     */
+    fun line() {
+        logtUtil.d("line")
+        toastUtil.msg_info("스케치 유형이 (선)으로 설정되었습니다.", 300)
+        _isSketchDrawType = "LINE"
     }
 
     /** 수정 */
@@ -350,13 +455,13 @@ class CartoMapUtil: DialogUtil.ClickListener {
     }
 
     /** 삭제 */
-    fun remove(){
+    fun remove() {
         empty()
         initStartPoint()
     }
 
     /** 취소 */
-    fun cancel(){
+    fun cancel() {
         empty()
         initStartPoint()
 
@@ -370,11 +475,13 @@ class CartoMapUtil: DialogUtil.ClickListener {
     }
 
     /** 선택모드 */
-    fun select(element: VectorElement?) { mCatroEditLayer?.selectedVectorElement = element; logtUtil.d("select") }
+    fun select(element: VectorElement?) {
+        mCatroEditLayer?.selectedVectorElement = element; logtUtil.d("select")
+    }
 
 
     /** 선택모드 해제 */
-    fun deselect( ) {
+    fun deselect() {
         //editLayer?.selectedVectorElement = null
         //editLayer?.vectorEditEventListener  = editListener
         //mCartoMapView?.mapEventListener = null
@@ -394,7 +501,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
             initStartPoint()
 
-            when(mapClickInfo.clickType){
+            when (mapClickInfo.clickType) {
 
                 // 스케치
                 ClickType.CLICK_TYPE_SINGLE -> {
@@ -469,27 +576,42 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
     /**
      * Catro 스케치 표현
+     * @param _isSketchDrawType 스케치유형 [POINT, LINE]
      */
     fun sketchDistanceArea() {
+
+        var point: Point? = null
 
         // 초기화
         removeDrawDistanceArea()
 
-        for(pos in LandInfoObject.mapPos) {
-            val point = Point(pos, getPointStyle())
-             distanceAreaDataSource!!.add(point)
+        for (pos in LandInfoObject.mapPos) {
+            point = Point(pos, getPointStyle())
+            distanceAreaDataSource!!.add(point)
         }
 
-        val ply = Polygon(mapPosVector, getPolygonStyle())
-        LandInfoObject.mapCenter = ply.bounds.center
+        if (_isSketchDrawType == "LINE") {
+            val ply = Polygon(mapPosVector, getPolygonStyle())
+            LandInfoObject.mapCenter = ply.bounds.center
+            distanceAreaDataSource!!.add(ply)
+        } else {
+            logtUtil.d("sketchDistanceArea Point val -> $point")
+        }
 
-        distanceAreaDataSource!!.add(ply)
+        logtUtil.d("LandInfoObject.mapPos.size -> ${LandInfoObject.mapPos.size}")
 
         // 거리
-        if(LandInfoObject.mapPos.size > 1) setDistanceLineText("sketch")
+        if (_isSketchDrawType == "LINE") {
+            if (LandInfoObject.mapPos.size > 1) setDistanceLineText("sketch")
+        }
 
         // 면적
-        if (LandInfoObject.mapPos.size > 2) setDistancePolyText(LandInfoObject.mapCenter, "sketch")
+        if (_isSketchDrawType == "LINE") {
+            if (LandInfoObject.mapPos.size > 2) setDistancePolyText(
+                LandInfoObject.mapCenter,
+                "sketch"
+            )
+        }
 
         mCatroEditLayer = EditableVectorLayer(distanceAreaDataSource)
 
@@ -497,7 +619,8 @@ class CartoMapUtil: DialogUtil.ClickListener {
         mapControlLayers.add(mCatroEditLayer!!)
     }
 
-    inner class VectorElementSelectEventListener internal constructor() : VectorElementEventListener() {
+    inner class VectorElementSelectEventListener internal constructor() :
+        VectorElementEventListener() {
         override fun onVectorElementClicked(clickInfo: VectorElementClickInfo): Boolean {
             select(clickInfo.vectorElement)
             return true
@@ -560,7 +683,10 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
                 LandInfoObject.mapCenter = element.bounds.center
                 setDistanceLineText("modify") //거리
-                if (LandInfoObject.clickLatLng.size > 2) setDistancePolyText(LandInfoObject.mapCenter, "modify") //면적
+                if (LandInfoObject.clickLatLng.size > 2) setDistancePolyText(
+                    LandInfoObject.mapCenter,
+                    "modify"
+                ) //면적
             }
         }
 
@@ -571,7 +697,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
         override fun onElementSelect(element: VectorElement?): Boolean {
             _isModify = true
-            if(element is Polygon ) {
+            if (element is Polygon) {
                 element.poses.size()
             }
             return super.onElementSelect(element)
@@ -623,30 +749,56 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 거리 Text
      */
-    private fun setDistanceLineText(type:String) {
+    private fun setDistanceLineText(type: String) {
         LandInfoObject.lineCenterTxList.clear()
         for (i in 1..LandInfoObject.mapPos.size) {
             var lineCenterPos: MapPos?
             var lineCenterTx: Text?
 
             if (i == LandInfoObject.mapPos.size) {
-                lineCenterPos = MapPos((LandInfoObject.mapPos[i-1].x + LandInfoObject.mapPos[0].x)/2, (LandInfoObject.mapPos[i-1].y + LandInfoObject.mapPos[0].y)/2)
-                lineCenterTx = Text(lineCenterPos, polyTextBuilderStyle, "${(mathUtil.getLineDistance(LandInfoObject.clickLatLng[i - 1], LandInfoObject.clickLatLng[0], radius) * 100.0 / 100.0).roundToInt()}m")
+                lineCenterPos = MapPos(
+                    (LandInfoObject.mapPos[i - 1].x + LandInfoObject.mapPos[0].x) / 2,
+                    (LandInfoObject.mapPos[i - 1].y + LandInfoObject.mapPos[0].y) / 2
+                )
+                lineCenterTx = Text(
+                    lineCenterPos,
+                    polyTextBuilderStyle,
+                    "${
+                        (mathUtil.getLineDistance(
+                            LandInfoObject.clickLatLng[i - 1],
+                            LandInfoObject.clickLatLng[0],
+                            radius
+                        ) * 100.0 / 100.0).roundToInt()
+                    }m"
+                )
             } else {
-                lineCenterPos = MapPos((LandInfoObject.mapPos[i-1].x + LandInfoObject.mapPos[i].x)/2, (LandInfoObject.mapPos[i-1].y + LandInfoObject.mapPos[i].y)/2)
-                lineCenterTx = Text(lineCenterPos, polyTextBuilderStyle, "${(mathUtil.getLineDistance(LandInfoObject.clickLatLng[i - 1], LandInfoObject.clickLatLng[i], radius) * 100.0 / 100.0).roundToInt()}m")
+                lineCenterPos = MapPos(
+                    (LandInfoObject.mapPos[i - 1].x + LandInfoObject.mapPos[i].x) / 2,
+                    (LandInfoObject.mapPos[i - 1].y + LandInfoObject.mapPos[i].y) / 2
+                )
+                lineCenterTx = Text(
+                    lineCenterPos,
+                    polyTextBuilderStyle,
+                    "${
+                        (mathUtil.getLineDistance(
+                            LandInfoObject.clickLatLng[i - 1],
+                            LandInfoObject.clickLatLng[i],
+                            radius
+                        ) * 100.0 / 100.0).roundToInt()
+                    }m"
+                )
             }
             LandInfoObject.lineCenterTxList.add(lineCenterTx)
 
             // 스케치
-            if (type == "sketch"){
+            if (type == "sketch") {
                 distanceAreaDataSource!!.add(lineCenterTx)
             }
         }
 
         // 편집
-        if(type == "modify"){
-            for(i in 0 until LandInfoObject.lineCenterTxList.size){
+        if (type == "modify") {
+            for (i in 0 until LandInfoObject.lineCenterTxList.size) {
                 distanceAreaDataSource!!.add(LandInfoObject.lineCenterTxList[i])
             }
         }
@@ -655,11 +807,14 @@ class CartoMapUtil: DialogUtil.ClickListener {
     /**
      * 면적 Text
      */
-    private fun setDistancePolyText(mapCenter: MapPos?, type:String) {
+    private fun setDistancePolyText(mapCenter: MapPos?, type: String) {
 
         // 편집
-        if(type == "modify") distanceAreaDataSource!!.remove(centerTx)
-        currentArea = (mathUtil.layersForArea(LandInfoObject.clickLatLng, radius) * 100.0 / 100.0).roundToInt()
+        if (type == "modify") distanceAreaDataSource!!.remove(centerTx)
+        currentArea = (mathUtil.layersForArea(
+            LandInfoObject.clickLatLng,
+            radius
+        ) * 100.0 / 100.0).roundToInt()
 
         centerTx = Text(mapCenter, polyTextBuilderStyle, "${currentArea}㎡")
         distanceAreaDataSource!!.add(centerTx)
@@ -684,7 +839,14 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
         cartoMapView!!.moveToFitBounds(bounds, screenBounds, false, 0.5f)
         cartoMapView!!.setZoom(20f, 0f) // 20레벨 지정 (네이버 맵과 일치)
-        cartoMapView!!.setFocusPos(cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0f) // 현재 위치 이동
+        cartoMapView!!.setFocusPos(
+            cartoProj?.fromWgs84(
+                MapPos(
+                    naverMapUtil!!.lon,
+                    naverMapUtil!!.lat
+                )
+            ), 0f
+        ) // 현재 위치 이동
     }
 
     /**
@@ -698,7 +860,7 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
     private fun removeMapControlLayers(mapView: MapView) {
         for (i in 0 until mapView.layers.count()) {
-          mapView.layers.remove(mapView.layers[i])
+            mapView.layers.remove(mapView.layers[i])
         }
     }
 
@@ -706,43 +868,85 @@ class CartoMapUtil: DialogUtil.ClickListener {
      * 사용자 폴리곤(스케치) 생성
      */
     fun polygon(): MutableList<ArrayList<LatLng>> {
-
         removeDrawDistanceArea() // 그려진 data 초기화
 
         val getLatLng = ArrayList<LatLng>()
         val addVectorLayer = VectorLayer(distanceAreaDataSource)
         cartoMapView!!.layers.insert(cartoMapView!!.layers.count(), addVectorLayer)
 
-
-        if(LandInfoObject.mapPos.size == 1) {   // 포인트 정의
-            logtUtil.d("mapPos.size ${LandInfoObject.mapPos.size}")
+        if (LandInfoObject.mapPos.size == 1) {            // 포인트 정의
             setMarkerPointToPolygon()
-        } else if(LandInfoObject.mapPos.size ==2) {     // 라인 정의
-            logtUtil.d("mapPos.size ${LandInfoObject.mapPos.size}")
-            setMarkerLineToPolygon()
+        } else if (LandInfoObject.mapPos.size == 2) {     // 라인 정의
+            if (_isSketchDrawType == "LINE") {
+                setMarkerLineToPolygon()
+            } else {
+                setMarkerPointToPolygon()
+            }
         }
 
-        if(LandInfoObject.mapPos.size > 2){
-            for (i in 0 until LandInfoObject.mapPos.size) {
-                logtUtil.d("getCartoWgs84() ---------------------> ")
-                //getLatLng.add(LatLng(LandInfoObject.clickLatLng[i].y, LandInfoObject.clickLatLng[i].x))
+        if (LandInfoObject.mapPos.size > 2) {
+            /**
+             * 선 유형일 경우
+             */
+            if (_isSketchDrawType == "LINE") {
+                logtUtil.d("line :: MapPos Size -> ${LandInfoObject.mapPos.size}")
+                for (i in 0 until LandInfoObject.mapPos.size) {
+                    val convertWGS84Coord = convertWGS84(LandInfoObject.mapPos[i].x, LandInfoObject.mapPos[i].y)
+                    getLatLng.add(LatLng(convertWGS84Coord.y, convertWGS84Coord.x))
+                }
+                makePolygonArr.add(getLatLng)
 
-                //val x = LandInfoObject.clickLatLng[i].x
-                //val y = LandInfoObject.clickLatLng[i].y
+            /**
+             * 점 유형일 경우
+             */
+            } else {
+                logtUtil.d("point :: MapPos Size -> ${LandInfoObject.mapPos.size}")
+                var tempMapPos: MapPos
+                val tempMapPosArr = mutableListOf<MapPos>()
 
-                val convertWGS84Coord  = convertWGS84(LandInfoObject.mapPos[i].x, LandInfoObject.mapPos[i].y)
-                getLatLng.add(LatLng(convertWGS84Coord.y, convertWGS84Coord.x))
+                for (i in 0 until LandInfoObject.mapPos.size) {
+                    tempMapPos = LandInfoObject.mapPos[i]
+                    tempMapPosArr.add(tempMapPos)
+                }
+
+                val mapPosArray = arrayListOf<MutableList<MapPos>>()
+                for (j in 0 until tempMapPosArr.size) {
+                    val basicX = 0.5
+                    val basicY = 0.5
+
+                    val x = BigDecimal(tempMapPosArr[j].x)
+                    val y = BigDecimal(tempMapPosArr[j].y)
+
+                    val mapPosArr = mutableListOf<MapPos>()
+                    for (i in 1 until 4) {
+                        var addPoint: MapPos? = null
+                        when (i) {
+                            1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble(), 0.0)
+                            2 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
+                            3 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
+                        }
+                        mapPosArr.add(addPoint!!)
+                    }
+                    mapPosArray.add(mapPosArr)
+                }
+
+                val convertWGS84LatLngArr = mutableListOf<ArrayList<LatLng>>()
+                var convertWGS84Coord: Point2D.Double?
+                for (k in 0 until mapPosArray.size) {
+                    val latLngArr = ArrayList<LatLng>()
+                    //logtUtil.d(mapPosArray.toString())
+                    for (l in 0 until mapPosArray[k].size) {
+                        convertWGS84Coord = convertWGS84(mapPosArray[k][l].x, mapPosArray[k][l].y)
+                        latLngArr.add(LatLng(convertWGS84Coord.y, convertWGS84Coord.x))
+                    }
+                    convertWGS84LatLngArr.add(latLngArr)
+                }
+
+                makePolygonArr = convertWGS84LatLngArr
+
             }
 
-            // 2번째 배열 진행
-            //mLatLngArrFirstDepth.add(mLatLngArrSecondDepth)
-
-            makePolygonArr.add(getLatLng)
-
-            logtUtil.d("makePolygonArr Size -> ${makePolygonArr.size}")
         }
-
-        //empty()
         return makePolygonArr
     }
 
@@ -764,7 +968,14 @@ class CartoMapUtil: DialogUtil.ClickListener {
             val drawMapPos = MapPos(editPolygon.longitude, editPolygon.latitude)
             LandInfoObject.mapPos.add(drawMapPos)
 
-            drawPolygonPoses.add(cartoProj?.fromWgs84(MapPos(editPolygon.longitude, editPolygon.latitude)))
+            drawPolygonPoses.add(
+                cartoProj?.fromWgs84(
+                    MapPos(
+                        editPolygon.longitude,
+                        editPolygon.latitude
+                    )
+                )
+            )
             //drawPolygonPoses.add(MapPos(editPolygon.longitude, editPolygon.latitude))
         }
 
@@ -778,7 +989,10 @@ class CartoMapUtil: DialogUtil.ClickListener {
         LandInfoObject.mapCenter = drawPolygon.bounds.center
 
         // 면적
-        if(LandInfoObject.mapCenter != null) setDistancePolyText(LandInfoObject.mapCenter, "sketch")
+        if (LandInfoObject.mapCenter != null) setDistancePolyText(
+            LandInfoObject.mapCenter,
+            "sketch"
+        )
 
         cartoMapView!!.layers.insert(cartoMapView!!.layers.count(), mCatroEditLayer)
 
@@ -787,50 +1001,38 @@ class CartoMapUtil: DialogUtil.ClickListener {
     }
 
     fun setMarkerPointToPolygon() {
-//        val basicX = 0.00000000000001
         val basicX = 0.5
-//        val basicY = 0.0000000000000000001
         val basicY = 0.5
 
-        var mapPos = LandInfoObject.mapPos
-        var clickPoint = LandInfoObject.clickLatLng
+        val mapPos = LandInfoObject.mapPos
 
-        var x = BigDecimal(mapPos[0].x)
-        var y = BigDecimal(mapPos[0].y)
+        val x = BigDecimal(mapPos[0].x)
+        val y = BigDecimal(mapPos[0].y)
 
-        logtUtil.d("x -----------------------> $x")
-        logtUtil.d("y -----------------------> $y")
-        for(i in 1 until 4){
+        for (i in 1 until 4) {
             var addPoint: MapPos? = null
-//            addPoint.x = (x + basicX).toDouble()
             when (i) {
                 1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble(), 0.0)
                 2 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
                 3 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
             }
-//            addPoint = MapPos((x + basicX).toDouble(), (y+basicY).toDouble(), 0.0)
 
             LandInfoObject.mapPos.add(addPoint!!)
             val wgs84Point = cartoProj!!.toWgs84(addPoint)
 
             LandInfoObject.clickLatLng.add(wgs84Point)
-
         }
-
-
     }
+
     fun setMarkerLineToPolygon() {
-//        val basicX = 0.00000000000001
         val basicX = 0.5
-//        val basicY = 0.0000000000000000001
         val basicY = 0.5
 
-        var mapPos = LandInfoObject.mapPos
-        var clickPoint = LandInfoObject.clickLatLng
+        val mapPos = LandInfoObject.mapPos
 
-        for(i in 0 until mapPos.size) {
-            var x = BigDecimal(mapPos[i].x)
-            var y = BigDecimal(mapPos[i].y)
+        for (i in 0 until mapPos.size) {
+            val x = BigDecimal(mapPos[i].x)
+            val y = BigDecimal(mapPos[i].y)
 
             var addPoint: MapPos? = null
 
@@ -841,13 +1043,12 @@ class CartoMapUtil: DialogUtil.ClickListener {
 
             LandInfoObject.mapPos.add(addPoint!!)
             val wgs84Point = cartoProj!!.toWgs84(addPoint)
-
             LandInfoObject.clickLatLng.add(wgs84Point)
         }
     }
 
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
-        when(type) {
+        when (type) {
             "스케치모드" -> cancel()
         }
     }

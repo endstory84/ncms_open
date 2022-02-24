@@ -70,6 +70,7 @@ object LandInfoObject {
     var selectPolygonCurrentArea:  Int? = 0 // 실제이용현황 (수정 전) 임시 데이터 저장
 
     var clickLatLng  = mutableListOf<MapPos>()
+    var clickLatLngArr = arrayListOf<MutableList<MapPos>>()
     var mapPos  = mutableListOf<MapPos>()
 
     var mapCenter: MapPos? = null
