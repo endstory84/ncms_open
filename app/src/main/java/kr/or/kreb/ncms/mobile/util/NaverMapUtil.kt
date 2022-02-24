@@ -306,58 +306,64 @@ class NaverMapUtil(
             withContext(Dispatchers.Main) {
                 when(Constants.BIZ_SUBCATEGORY_KEY){
                     BizEnum.LAD -> {
-
                         getActivity().apply {
-                           ladLayerSwitch.isChecked = true
-                           isLadLayerChecked = true
+                            ladLayerSwitch.isChecked = true
+                            isLadLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.THING -> {
-
                         getActivity().apply {
                             thingLayerSwitch.isChecked = true
                             isThingLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.TOMB -> {
-
                         getActivity().apply {
                             tombLayerSwitch.isChecked = true
                             isTombLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.FARM -> {
-
                         getActivity().apply {
-                           farmLayerSwitch.isChecked = true
-                           isFarmLayerChecked = true
+                            farmLayerSwitch.isChecked = true
+                            isFarmLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.RESIDNT -> {
-
                         getActivity().apply {
-                           residntLayerSwitch.isChecked = true
-                           isResidntLayerChecked = true
+                            residntLayerSwitch.isChecked = true
+                            isResidntLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.BSN, BizEnum.MINRGT, BizEnum.FYHTS -> {
-
                         getActivity().apply {
-                           bsnLayerSwitch.isChecked = true
-                           isBsnLayerChecked = true
+                            bsnLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
+                            bsnsAreaLayerSwitch.isChecked = true
+                            isBsnLayerChecked = true
                         }
-
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
+                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     else -> {}
                 }
