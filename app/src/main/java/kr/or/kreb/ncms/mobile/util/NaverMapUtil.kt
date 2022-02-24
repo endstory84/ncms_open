@@ -310,7 +310,7 @@ class NaverMapUtil(
                             ladLayerSwitch.isChecked = true
                             isLadLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -320,7 +320,7 @@ class NaverMapUtil(
                             thingLayerSwitch.isChecked = true
                             isThingLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -330,7 +330,7 @@ class NaverMapUtil(
                             tombLayerSwitch.isChecked = true
                             isTombLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -340,7 +340,7 @@ class NaverMapUtil(
                             farmLayerSwitch.isChecked = true
                             isFarmLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -350,7 +350,7 @@ class NaverMapUtil(
                             residntLayerSwitch.isChecked = true
                             isResidntLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -360,7 +360,7 @@ class NaverMapUtil(
                             bsnLayerSwitch.isChecked = true
                             isBsnLayerChecked = true
                             bsnsAreaLayerSwitch.isChecked = true
-                            isBsnLayerChecked = true
+                            isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
                         getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
@@ -515,7 +515,6 @@ class NaverMapUtil(
                                                     setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, null)
 
                                                 } else {
-                                                    // event
                                                     progressDialog?.dismiss()
                                                 }
 
@@ -785,7 +784,7 @@ class NaverMapUtil(
                                                     getActivity().isBsnLayerChecked = false
                                                     getActivity().bsnLayerSwitch.isChecked = false
                                                     progressDialog?.dismiss()
-                                                    //toastUtil.msg_warning(context?.resources?.getString(R.string.msg_server_connected_resut_bsn_empty)!!, 100)
+                                                    toastUtil.msg_warning(context?.resources?.getString(R.string.msg_server_connected_resut_bsn_empty)!!, 100)
                                                 }
                                             }
                                             return@runOnUiThread
@@ -2858,7 +2857,7 @@ class NaverMapUtil(
 
             if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도"); getActivity().cadstralEditLayerSwitch.isChecked = true } else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
 
-            //if (getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
+            if (getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
 
 
         } else if (naverCameraidleCnt > 1) {
