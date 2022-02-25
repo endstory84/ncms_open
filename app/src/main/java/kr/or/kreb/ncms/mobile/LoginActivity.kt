@@ -14,15 +14,18 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jiransoft.mdm.library.MDMLib
-import com.jiransoft.mdm.library.Services.OnMangoappleCompleteListener
 import com.jiransoft.mdm.library.Services.OnMangobananaCompleteListener
 import kotlinx.android.synthetic.main.activity_login.*
 import kr.or.kreb.ncms.mobile.base.BaseActivity
 import kr.or.kreb.ncms.mobile.databinding.ActivityLoginBinding
 import kr.or.kreb.ncms.mobile.fragment.ConfirmDialogFragment
 import kr.or.kreb.ncms.mobile.util.*
-import java.util.HashMap
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 import java.util.concurrent.ExecutionException
 
 class LoginActivity :
@@ -46,21 +49,31 @@ class LoginActivity :
 
     private var mdmHandler: Handler? = null
 
-    private var MDM_HOST: String = "mdm.reb.or.kr:44300"
-    private var MDM_COMPANY: String = "20032300"
+//    private var MDM_HOST: String = "mdm.reb.or.kr:44300"
+//    private var MDM_COMPANY: String = "20032300"
+
+    /**
+     * MDM 사용유무
+     */
+    private val USE_MDM: Boolean = false
 
 
     override fun initViewStart() {
 
-        settingMDM();
+        initUI()
 
+        if (USE_MDM) {
+            settingMDM()
+        }
 
-//        initUI()
     }
 
     override fun initDataBinding() {}
 
     override fun initViewFinal() {
+
+        dialogUtil = DialogUtil(this, this)
+
         editTextLoginId.addTextChangedListener(CustomTextWatcher(editTextLoginId))
         editTextLoginPassword.addTextChangedListener(CustomTextWatcher(editTextLoginPassword))
         imageViewBtnLogin.setOnClickListener { connectLogin() }
@@ -157,8 +170,7 @@ class LoginActivity :
 
         textInputId.isCounterEnabled = true
         textInputId.counterMaxLength = 10
-//        editTextLoginId.setText("admin")
-//        editTextLoginPassword.setText("1234")
+
     }
 
     /**
@@ -175,8 +187,12 @@ class LoginActivity :
                 val idPass: String = editTextLoginPassword.text.toString()
                 log.d("$loginId, $idPass")
 
-
-                mdmLib?.mangobanana(this, mdmHandler, loginId)
+                if (USE_MDM) {
+                    mdmLib?.mangobanana(this, mdmHandler, loginId)
+                }
+                else {
+                    reqLogin(loginId, idPass)
+                }
 
             } else {
 
@@ -189,6 +205,43 @@ class LoginActivity :
             log.e(e.toString())
         }
 
+    }
+
+    fun reqLogin(id: String, pwd: String) {
+        val reqLoginUrl = resources.getString(R.string.mobile_url) + "reqLogin"//"auth.do"
+        val loginMap = HashMap<String, String>()
+        loginMap.put("id", encryptCBC(id))
+        loginMap.put("pwd", encryptCBC(pwd))
+
+        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+
+        HttpUtil.getInstance(this)
+            .callerUrlInfoPostWebServer(loginMap, progressDialog, reqLoginUrl,
+                object: Callback {
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        progressDialog.dismiss()
+                        runOnUiThread {
+                            toast.msg_error(R.string.msg_server_login_fail, 100)
+                        }
+
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        log.d("auth response $responseString")
+
+//                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+                        progressDialog.dismiss()
+
+                        runOnUiThread {
+                            toast.msg_success(getString(R.string.msg_login_validation_success), 500)
+                            nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+                        }
+
+                    }
+                })
     }
 
     private fun saveId() {
@@ -263,8 +316,11 @@ class LoginActivity :
         private val TAG: String? = LoginActivity::class.simpleName
     }
 
+    /**
+     * MDM 관련 설정
+     */
     fun settingMDM() {
-        mdmLib = MDMLib.getInstance(this, MDM_HOST, MDM_COMPANY)
+        mdmLib = MDMLib.getInstance(this, getString(R.string.MDM_HOST), getString(R.string.MDM_COMPANY))
         mdmLib?.setUserNotificationIcon(R.drawable.ic_stat_device_blocking)
 
         MDMLib.setDebugMode(true); // 실 운영서버 시 fasle
@@ -286,9 +342,14 @@ class LoginActivity :
 
         if ("0x00000000" == code) {
 
-            toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-//                nextView(this, Constants.BIZ_LIST_ACT, null, null, null, null)
-            nextViewBizList(this, Constants.BIZ_LIST_ACT, loginId)
+//            toast.msg_success(getString(R.string.msg_login_validation_success), 500)
+////                nextView(this, Constants.BIZ_LIST_ACT, null, null, null, null)
+//            nextViewBizList(this, Constants.BIZ_LIST_ACT, loginId)
+
+            loginId = editTextLoginId.text.toString()
+            val idPass: String = editTextLoginPassword.text.toString()
+            reqLogin(loginId, idPass)
+
         } else {
             toast.msg_error(getString(R.string.msg_mdm_fail), 100)
             finish()

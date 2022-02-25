@@ -48,6 +48,9 @@ import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.Charset
 import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 
 /**
@@ -435,4 +438,20 @@ fun clearCameraValue(){
     Constants.CAMERA_ADAPTER = null
     Constants.CAMERA_IMGAE_INDEX = 0
     Constants.CAMERA_IMAGE_ARR.clear()
+}
+
+/**
+ * AES 256 암호화
+ */
+fun encryptCBC(text: String) : String {
+
+    val keySpec = SecretKeySpec(Constants.SECRET_KEY.toByteArray(), "AES")
+    val iv = IvParameterSpec(Constants.IV.toByteArray())
+    val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+    cipher.init(Cipher.ENCRYPT_MODE, keySpec, iv)
+    val crypted = cipher.doFinal(text.toByteArray())
+    val encodeByte = Base64.getEncoder().encode(crypted)
+
+    return String(encodeByte)
+
 }

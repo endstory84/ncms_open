@@ -40,6 +40,12 @@ object Constants {
     var GLOBAL_VIEW_PAGER: ViewPager2? = null
 
     /**
+     * AES 256 암호화 키
+     */
+    var SECRET_KEY: String = "9w\$wd@71z2I87a@i8j%7z%0R16Gayl^2"
+    var IV: String = "op\$C4&2PmGezfx#4"
+
+    /**
      *  Google Mercator: 구글지도/빙지도/야후지도/OSM 등 에서 사용중인 좌표계
      */
     val PROJ4_3857 = arrayOf("+proj=merc", "+a=6378137", "+b=6378137", "+lat_ts=0.0", "+lon_0=0.0", "+x_0=0.0", "+y_0=0", "+k=1.0", "+units=m", "+nadgrids=@null", "+Fwktext", "+no_defs")

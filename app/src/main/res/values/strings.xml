@@ -3,6 +3,10 @@
     <string name="app_sub_name">보상정보시스템 현장조사 모바일</string>
     <string name="app_copyright">copyright ⓒ korea real estate board. all rights reserved.</string>
 
+    <!-- MDM  -->
+    <string name="MDM_HOST">mdm.reb.or.kr:44300</string>
+    <string name="MDM_COMPANY">20032300</string>
+
     <!-- login -->
     <string name="login_loading">앱 로딩중입니다.</string>
 
@@ -97,9 +101,11 @@
     <string name="msg_permsission_status_fail">요청한 권한이 승인되지 않았습니다.</string>
     <string name="msg_mdm_fail">MDM 앱 인증이 실패 하였습니다. 앱이 실행되지 않습니다 \n 관리자에서 문의 후 사용해 주시기 바람니다</string>
 
+    <string name="msg_server_login_fail">로그인에 실패하였습니다. \n 아이디 및 비밀번호 확인 후 다시 시도해ㅐ 주시기 바랍니다.</string>
+
     <string name="msg_server_connected_text">잠시만 기다려주세요. \n 서버데이터를 불러오는중입니다.</string>
     <string name="msg_server_connected_fail">서버 접속이 불안정합니다. \n 확인 후 작업해주세요.</string>
-    <string name="msg_server_bsns_connected_fail">보상사업을 불러 오지 못했습니다 \n 잠시 후 다시 시도해 주시기 바람니다.</string>
+    <string name="msg_server_bsns_connected_fail">보상사업을 불러 오지 못했습니다 \n 잠시 후 다시 시도해 주시기 바랍니다.</string>
     <string name="msg_server_connected_resut_empty">데이터가 존재하지 않습니다.</string>
     <string name="msg_server_connected_resut_Lad_empty">현재 지역에는 토지 데이터가 존재하지 않습니다.</string>
     <string name="msg_server_connected_resut_realLad_empty">현재 지역에는 토지실제이용 데이터가 존재하지 않습니다.</string>
