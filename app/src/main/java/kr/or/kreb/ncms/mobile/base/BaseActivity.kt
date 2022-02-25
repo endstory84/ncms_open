@@ -21,10 +21,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 import kr.or.kreb.ncms.mobile.BizListActivity
-import kr.or.kreb.ncms.mobile.util.Constants
-import kr.or.kreb.ncms.mobile.util.DialogUtil
-import kr.or.kreb.ncms.mobile.util.LogUtil
-import kr.or.kreb.ncms.mobile.util.ToastUtil
+import kr.or.kreb.ncms.mobile.util.*
 import kotlin.system.exitProcess
 
 abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, activityName: String) : AppCompatActivity() {
@@ -144,9 +141,11 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
         when (getPageCode()) {
             Constants.BIZ_LIST_ACT -> {
                 if(System.currentTimeMillis() - backPressedTime < 2000){
+                    PreferenceUtil.removeAllUserInfo(this)
                     ActivityCompat.finishAffinity(this)
                     System.runFinalization()
                     exitProcess(0)
+                    return
                 }
                 ToastUtil(this).msg_warning("뒤로가기 버튼을 한번 더 누르면 종료됩니다.", 1000)
                 backPressedTime = System.currentTimeMillis()

@@ -5,7 +5,6 @@
 
 package kr.or.kreb.ncms.mobile
 
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Handler
@@ -25,6 +24,7 @@ import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
+import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.ExecutionException
 
@@ -33,6 +33,13 @@ class LoginActivity :
     ConfirmDialogFragment.ConfirmDialogListener,
     OnMangobananaCompleteListener {
 
+    private val USERINFO_EMP_CD     = "empCd"
+    private val USERINFO_EMP_NM     = "empNm"
+    private val USERINFO_DEPT_CD    = "deptCd"
+    private val USERINFO_DEPT_NM    = "deptNm"
+    private val USERINFO_OFCPS      = "ofcps"
+    private val USERINFO_CLSF       = "clsf"
+
 
     lateinit var confirmDialogFragment: ConfirmDialogFragment
 
@@ -40,8 +47,8 @@ class LoginActivity :
     private var _isValidationCheck = false
     private var _isPermissionCheck = false
 
-    private lateinit var preferences: SharedPreferences
-    private lateinit var editor: SharedPreferences.Editor
+//    private lateinit var preferences: SharedPreferences
+//    private lateinit var editor: SharedPreferences.Editor
 
     private var loginId: String = ""
 
@@ -81,17 +88,28 @@ class LoginActivity :
             if (buttonView.id == R.id.checkboxLoginSaverUser) _isIdSaveCheck = isChecked
         }
 
-        preferences = getSharedPreferences("appLogin", 0)
-        editor = preferences.edit()
-
         // 로그인정보 저장
-        if (preferences.getBoolean("loginCheck", false)) {
-            editTextLoginId.setText(preferences.getString("ID",""))
+        if (PreferenceUtil.getLoginIsSaveId(this)) {
+            editTextLoginId.setText( PreferenceUtil.getLoginId(this) )
             checkboxLoginSaverUser.isChecked = true
             editTextLoginPassword.requestFocus()
-        } else {
+        }
+        else {
+            checkboxLoginSaverUser.isChecked = false
             editTextLoginId.requestFocus()
         }
+
+//        preferences = getSharedPreferences("appLogin", 0)
+//        editor = preferences.edit()
+//
+//        // 로그인정보 저장
+//        if (preferences.getBoolean("loginCheck", false)) {
+//            editTextLoginId.setText(preferences.getString("ID",""))
+//            checkboxLoginSaverUser.isChecked = true
+//            editTextLoginPassword.requestFocus()
+//        } else {
+//            editTextLoginId.requestFocus()
+//        }
 
         permissionCheck()
 
@@ -182,10 +200,11 @@ class LoginActivity :
             if (_isValidationCheck) {
                 if (!validateName()) return
                 if (!validatePassword()) return
-                saveId() //아이디 저장
+
                 loginId = editTextLoginId.text.toString()
                 val idPass: String = editTextLoginPassword.text.toString()
                 log.d("$loginId, $idPass")
+                saveId() //아이디 저장
 
                 if (USE_MDM) {
                     mdmLib?.mangobanana(this, mdmHandler, loginId)
@@ -197,6 +216,7 @@ class LoginActivity :
             } else {
 
                 toast.msg_error(getString(R.string.msg_login_validation_fail), 500)
+
             }
 
         } catch (e: ExecutionException) {
@@ -230,14 +250,24 @@ class LoginActivity :
                     override fun onResponse(call: Call, response: Response) {
                         val responseString = response.body!!.string()
 
-                        log.d("auth response $responseString")
+                        log.d("auth response : $responseString")
 
 //                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
                         progressDialog.dismiss()
 
+                        val resultJSON = JSONObject(responseString).getJSONObject("userInfo")
+                        val empCd = resultJSON.getString(USERINFO_EMP_CD)
+                        val empNm = resultJSON.getString(USERINFO_EMP_NM)
+                        val deptCd = resultJSON.getString(USERINFO_DEPT_CD)
+                        val deptNm = resultJSON.getString(USERINFO_DEPT_NM)
+                        val ofcps = resultJSON.getString(USERINFO_OFCPS)
+                        val clsf = resultJSON.getString(USERINFO_CLSF)
+
+                        PreferenceUtil.setUserInfo(this@LoginActivity, empCd, empNm, deptCd, deptNm, ofcps, clsf)
+
                         runOnUiThread {
                             toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-                            nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+//                            nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
                         }
 
                     }
@@ -246,15 +276,19 @@ class LoginActivity :
 
     private fun saveId() {
         if (_isIdSaveCheck) {
-            val loginID: String = editTextLoginId.text.toString()
-            editor.putString("ID", loginID)
-            editor.putBoolean("loginCheck", true)
-            editor.commit()
+//            val loginID: String = editTextLoginId.text.toString()
+//            editor.putString("ID", loginID)
+//            editor.putBoolean("loginCheck", true)
+//            editor.commit()
+
+            PreferenceUtil.setLoginInfo(this, true, loginId)
         } else {
-            editor.remove("ID")
-            editor.remove("loginCheck")
-            editor.clear()
-            editor.commit()
+//            editor.remove("ID")
+//            editor.remove("loginCheck")
+//            editor.clear()
+//            editor.commit()
+
+            PreferenceUtil.removeLoginInfo(this)
         }
     }
 
