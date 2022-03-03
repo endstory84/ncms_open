@@ -372,6 +372,7 @@
     <string name="thingDialogCommBuild">일반건축물</string>
     <string name="thingDialogCollectiveBuild">집합건축물</string>
     <string name="thingDialogWorkpiece">공작물</string>
+    <string name="thingDialogMaterial">자재</string>
     <string name="thingDialogBuild">건물</string>
     <string name="thingDialogWdpt">수목</string>
     <string name="thingDialogClearing">개간비</string>
@@ -403,6 +404,83 @@
     <string name="thingRgistAt">등기여부</string>
     <string name="thingResideBuldAt">주거용건물여부</string>
     <string name="thingAr">면적</string>
+    <string name="thingTreeAll">전체</string>
+    <string name="thingTree00">전국</string>
+    <string name="thingTree11">서울</string>
+    <string name="thingTree26">부산</string>
+    <string name="thingTree27">대구</string>
+    <string name="thingTree28">인천</string>
+    <string name="thingTree29">광주</string>
+    <string name="thingTree30">대전</string>
+    <string name="thingTree31">울산</string>
+    <string name="thingTree36">세종</string>
+    <string name="thingTree41">경기</string>
+    <string name="thingTree42">강원</string>
+    <string name="thingTree43">충북</string>
+    <string name="thingTree44">충남</string>
+    <string name="thingTree45">전북</string>
+    <string name="thingTree46">전남</string>
+    <string name="thingTree47">경북</string>
+    <string name="thingTree48">경남</string>
+    <string name="thingTree50">제주</string>
+
+
+    <string name="materialSubAll">전체</string>
+    <string name="materialSubStructural">구조재</string>
+    <string name="materialSubRoofing">지붕재</string>
+    <string name="materialSubWall">내외벽재</string>
+    <string name="materialSubFlooring">바닥재</string>
+    <string name="materialSubZenith">천정재</string>
+    <string name="materialSubInsulator">단열재</string>
+    <string name="materialSubWindow">창호</string>
+
+    <string name="buildSubAll">전체</string>
+    <string name="buildSubHouse">일반주택</string>
+    <string name="buildSubHanok">전통한옥</string>
+    <string name="buildSubNewHanOk">신한옥</string>
+    <string name="buildSubLuxuryHouse">고급주택</string>
+    <string name="buildSubMulitHouse">다가구주택</string>
+    <string name="buildSubApartment">아파트</string>
+    <string name="buildSubComplexApartment">주상복합</string>
+    <string name="buildSubRowHouse">연립주택</string>
+    <string name="buildSubLuxuryRowHouse">연립주택 고급타운형</string>
+    <string name="buildSubMulitFamilyHouse">다세대주택</string>
+    <string name="buildSubDormitory">기숙사</string>
+    <string name="buildSubStore">점포 및 상가</string>
+    <string name="buildSubBath">목욕장</string>
+    <string name="buildSubSauna">목욕장 사우나시설포함</string>
+    <string name="buildSubWarehouse">일반창고</string>
+    <string name="buildSubColdStorage">저온창고</string>
+    <string name="buildSubFactory">일반공장</string>
+    <string name="buildSubRefrigenration">냉동공장</string>
+    <string name="buildSubSemiconductor">반도체공장</string>
+    <string name="buildSubApartmentFactory">아파트형공장</string>
+    <string name="buildSubMotel">여관</string>
+    <string name="buildSubHotel">호텔</string>
+    <string name="buildSubCondHotel">콘도미니엄 호텔형</string>
+    <string name="buildSubCondVilla">콘도미니엄 빌라형</string>
+    <string name="buildSubGeneralBusiness">일반업무시설</string>
+    <string name="buildSubOfficetels">오피스텔</string>
+    <string name="buildSubPublicBusiness">공공업무시설</string>
+    <string name="buildSubDepartment">백화점</string>
+    <string name="buildSubDisCountStore">대형할인점</string>
+    <string name="buildSubBowling">볼링장</string>
+    <string name="buildSubGym">체육관</string>
+    <string name="buildSubLeisure">레저시설</string>
+    <string name="buildSubHospital">병원</string>
+    <string name="buildSubFuneral">장례식장</string>
+    <string name="buildSubBanquet">예식장</string>
+    <string name="buildSubCinema">영화관</string>
+    <string name="buildSubSchool">학교</string>
+    <string name="buildSubGas">주유소</string>
+    <string name="buildSubParking">주차빌딩</string>
+    <string name="buildSubChurch">교회</string>
+    <string name="buildSubOccupancy">재실</string>
+    <string name="buildSubKindergarden">유치원</string>
+    <string name="buildSubBarn">축사</string>
+
+
+
 
     <!--지장물 대장조회-->
     <string name="thingTitle">선택</string>

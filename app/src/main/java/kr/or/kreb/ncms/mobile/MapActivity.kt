@@ -86,7 +86,7 @@ class MapActivity :
     var isLiLayerChecked: Boolean = false
 
     var isNaverCadastralLayerChecked: Boolean = false
-    var isBsnsAreaLayerChecked: Boolean = false
+    var isBsnsAreaLayerChecked: Boolean = true
     var isCadastralEditLayerpChecked: Boolean = false
     var isLadLayerChecked: Boolean = false
     var isLadRealLayerChecked: Boolean = false
@@ -1589,6 +1589,9 @@ class MapActivity :
         log.d("loadViewPage jibun ----------------------> $jibun")
 
 
+        bottomPanelClose()
+
+
         val mapView = layoutInflater.inflate(R.layout.activity_map, null)
 
         val currentSaupCode = PreferenceUtil.getString(applicationContext, "saupCode","default")
@@ -1637,7 +1640,8 @@ class MapActivity :
             //지장물 dialog
             thingDialogsStBtn.setOnClickListener {
                 layoutInflater.inflate(R.layout.thing_dialog, null).let { view ->
-                    val thingdialog = ThingDialogFragment(context, this, view, 1, this, "").apply { // value 1: 물건선택 버튼 선택
+                    val jibun = ThingWtnObject.thingInfo?.getString("incrprLnm")
+                    val thingdialog = ThingDialogFragment(context, this, view, 1, this, jibun).apply { // value 1: 물건선택 버튼 선택
                         isCancelable = false
                         show(supportFragmentManager, "Thing_Dialog")
                     }

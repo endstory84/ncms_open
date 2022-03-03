@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.dev.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.thing_dialog_item1.view.*
 import kr.or.kreb.ncms.mobile.R
 
 
-class ThingDialogRvAdapter1 (private val arrayList: ArrayList<Int>, var context: Context) :
-    RecyclerView.Adapter<ThingDialogRvAdapter1.ThingViewHolder>() {
+class ThingKndTitleListAdapter (private val arrayList: ArrayList<Int>, var context: Context) :
+    RecyclerView.Adapter<ThingKndTitleListAdapter.ThingViewHolder>() {
 
     private fun ViewGroup.inflate(layoutRes: Int): View = LayoutInflater.from(context).inflate(layoutRes, this, false)
     private var dialogBtnPosition: Int = 0

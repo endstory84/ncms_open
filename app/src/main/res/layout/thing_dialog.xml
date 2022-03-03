@@ -76,7 +76,7 @@
                     android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewThingDialog01"
+                        android:id="@+id/thingKndList"
                         android:layout_margin="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -84,6 +84,22 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/thingKndSubList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -91,7 +107,7 @@
                     android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerViewThingDialog02"
+                        android:id="@+id/thingKndDetailList"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
