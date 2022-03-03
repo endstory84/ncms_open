@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.carto.utils.BitmapUtils
 import kotlinx.android.synthetic.main.thing_dialog_item2.view.*
 import kotlinx.android.synthetic.main.thing_search_gnrl.*
 import kr.or.kreb.ncms.mobile.R
@@ -186,44 +185,44 @@ import org.json.JSONArray
                      }
                  }else if(thingType.equals("2")) {
                      val thingImageCode = thingListCode.substring(0,2)
-                     imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm1))
-                     imagaSubThingKnd1.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm1))
+                     imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm1))
+                     imagaSubThingKnd1.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm1))
                      imagaSubThingKnd1.setOnClickListener {
-                         imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm1))
+                         imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm1))
                      }
                      if (checkStringNull(atflNm2) == "") {
                          imagaSubThingKnd2.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd2.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm2))
+                         imagaSubThingKnd2.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm2))
                          imagaSubThingKnd2.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm2))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm2))
                          }
 
                      }
                      if (checkStringNull(atflNm3) == "") {
                          imagaSubThingKnd3.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd3.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm3))
+                         imagaSubThingKnd3.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm3))
                          imagaSubThingKnd3.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm3))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm3))
                          }
 
                      }
                      if (checkStringNull(atflNm4) == "") {
                          imagaSubThingKnd4.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd4.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm4))
+                         imagaSubThingKnd4.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm4))
                          imagaSubThingKnd4.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm4))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm4))
                          }
 
                      }
                      if (checkStringNull(atflNm5) == "") {
                          imagaSubThingKnd5.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd5.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm5))
+                         imagaSubThingKnd5.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm5))
                          imagaSubThingKnd5.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("build/" + thingImageCode + "/" + atflNm5))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("buildt/" + thingImageCode + "/" + atflNm5))
                          }
                      }
                  }

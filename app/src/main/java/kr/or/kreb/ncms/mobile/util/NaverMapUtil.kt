@@ -392,8 +392,23 @@ class NaverMapUtil(
         when (type) {
             "basic" -> this.naverMap.mapType = NaverMap.MapType.Basic
             "hybrid" -> this.naverMap.mapType = NaverMap.MapType.Hybrid
-            "cadastralOn" -> { getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도"); isCadastralVisable = true; getActivity().cadstralEditLayerSwitch.isChecked = true }
-            "cadastralOff" -> { clearWFS(wfsCadastralOverlayArr, "연속지적도"); clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); isCadastralVisable = false; getActivity().cadstralEditLayerSwitch.isChecked = false }
+            "cadastralOn" -> {
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도");
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도");
+                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
+                getActivity().bsnsAreaLayerSwitch.isChecked = true
+                isCadastralVisable = true;
+                getActivity().cadstralEditLayerSwitch.isChecked = true
+
+            }
+            "cadastralOff" -> {
+                clearWFS(wfsCadastralOverlayArr, "연속지적도");
+                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
+                isCadastralVisable = false;
+                getActivity().cadstralEditLayerSwitch.isChecked = false
+                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
+                getActivity().bsnsAreaLayerSwitch.isChecked = false
+            }
         }
     }
 
@@ -2839,7 +2854,15 @@ class NaverMapUtil(
 
             if (getActivity().isLiLayerChecked && getNaverMapZoom() in 15..21) getWMSLayer(GeoserverLayerEnum.LI.value) else clearWMS(wmsLiOverlayArr,"리경계") // 리경계
 
-            if (isCadastralVisable && getNaverMapZoom() in 18..21) { clearWFS(wfsCadastralOverlayArr, "연속지적도"); clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도") } else { clearWFS(wfsCadastralOverlayArr, "연속지적도"); clearWFS(wfsEditCadastralOverlayArr, "편집지적도") }
+            if (isCadastralVisable && getNaverMapZoom() in 18..21) {
+                clearWFS(wfsCadastralOverlayArr, "연속지적도");
+                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도");
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도")
+            } else {
+                clearWFS(wfsCadastralOverlayArr, "연속지적도");
+                clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
+            }
 
             if (getActivity().isLadLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsLadOverlayArr, "토지"); getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지"); getActivity().ladLayerSwitch.isChecked = true } else clearWFS(wfsLadOverlayArr, "토지")
 
@@ -2855,9 +2878,19 @@ class NaverMapUtil(
 
             if (getActivity().isBsnLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsBsnOverlayArr, "영업"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업"); getActivity().bsnLayerSwitch.isChecked = true } else clearWFS(wfsBsnOverlayArr, "영업")
 
-            if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도"); getActivity().cadstralEditLayerSwitch.isChecked = true } else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
+            if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18..21){
+                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도");
+                getActivity().cadstralEditLayerSwitch.isChecked = true
+            }
 
-            if (getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
+            else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
+
+            if (isCadastralVisable && getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){
+                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
+                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
+                getActivity().bsnsAreaLayerSwitch.isChecked = true
+            } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
 
 
         } else if (naverCameraidleCnt > 1) {
