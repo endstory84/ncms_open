@@ -255,19 +255,36 @@ class LoginActivity :
 //                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
                         progressDialog.dismiss()
 
-                        val resultJSON = JSONObject(responseString).getJSONObject("userInfo")
-                        val empCd = resultJSON.getString(USERINFO_EMP_CD)
-                        val empNm = resultJSON.getString(USERINFO_EMP_NM)
-                        val deptCd = resultJSON.getString(USERINFO_DEPT_CD)
-                        val deptNm = resultJSON.getString(USERINFO_DEPT_NM)
-                        val ofcps = resultJSON.getString(USERINFO_OFCPS)
-                        val clsf = resultJSON.getString(USERINFO_CLSF)
+                        val dataJSON = JSONObject(responseString)
+                        if (dataJSON.has("userInfo")) {
 
-                        PreferenceUtil.setUserInfo(this@LoginActivity, empCd, empNm, deptCd, deptNm, ofcps, clsf)
+                            val resultJSON = JSONObject(responseString).getJSONObject("userInfo")
+                            val empCd = resultJSON.getString(USERINFO_EMP_CD)
+                            val empNm = resultJSON.getString(USERINFO_EMP_NM)
+                            val deptCd = resultJSON.getString(USERINFO_DEPT_CD)
+                            val deptNm = resultJSON.getString(USERINFO_DEPT_NM)
+                            val ofcps = resultJSON.getString(USERINFO_OFCPS)
+                            val clsf = resultJSON.getString(USERINFO_CLSF)
 
-                        runOnUiThread {
-                            toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-//                            nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+                            PreferenceUtil.setUserInfo(
+                                this@LoginActivity,
+                                empCd,
+                                empNm,
+                                deptCd,
+                                deptNm,
+                                ofcps,
+                                clsf
+                            )
+
+                            runOnUiThread {
+                                toast.msg_success(getString(R.string.msg_login_validation_success), 500)
+                                nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+                            }
+                        }
+                        else {
+                            runOnUiThread {
+                                toast.msg_error(R.string.msg_server_login_fail, 100)
+                            }
                         }
 
                     }

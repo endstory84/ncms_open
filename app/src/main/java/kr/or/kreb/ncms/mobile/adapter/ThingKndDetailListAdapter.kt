@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.dev.adapter
+package kr.or.kreb.ncms.mobile.adapter
 
 import android.app.Activity
 import android.content.Context
@@ -22,6 +22,7 @@ import kr.or.kreb.ncms.mobile.fragment.ThingDialogFragment
 import kr.or.kreb.ncms.mobile.listener.ThingViewPagerInterface
 import kr.or.kreb.ncms.mobile.util.PermissionUtil.logUtil
 import org.json.JSONArray
+import org.json.JSONObject
 
  class ThingKndDetailListAdapter(
     private val mActivity: Activity,

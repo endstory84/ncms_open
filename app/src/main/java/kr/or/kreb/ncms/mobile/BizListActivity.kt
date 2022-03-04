@@ -336,43 +336,52 @@ class BizListActivity :
 
                         runOnUiThread {
                             val tempDataList = mutableListOf<Biz>()
-                            for(i in 0 until dataJSON.length()) {
-                                val dataObject = dataJSON.getJSONObject(i)
-                                tempDataList.add(
-                                    Biz(
-                                        dataObject.getString("saupCode"),
-                                        dataObject.getString("contCode"),
-                                        dataObject.getString("bsnsCl"),
-                                        dataObject.getString("bsnsClNm"),
-                                        dataObject.getString("bsnsNm"),
-                                        dataObject.getString("bsnsLocplc"),
-                                        dataObject.getString("bsnsPsCl"),
-                                        dataObject.getString("bsnsPsClNm"),
-                                        dataObject.getString("oclhgBnoraCl"),
-                                        dataObject.getString("oclhgBnoraClNm"),
-                                        dataObject.getString("bsnsLclasCl"),
-                                        dataObject.getString("oclhgBnora"),
-                                        dataObject.getString("excAceptncAt"),
-                                        dataObject.getString("excUseAt"),
-                                        dataObject.getString("excDtls"),
-                                        dataObject.getString("ncm"),
-                                        dataObject.getString("cntrctDe"),
-                                        dataObject,
-                                        null,
-                                        null,
-                                        loginId!!
+                            if (dataJSON.length() > 0) {
+                                for (i in 0 until dataJSON.length()) {
+                                    val dataObject = dataJSON.getJSONObject(i)
+                                    tempDataList.add(
+                                        Biz(
+                                            dataObject.getString("saupCode"),
+                                            dataObject.getString("contCode"),
+                                            dataObject.getString("bsnsCl"),
+                                            dataObject.getString("bsnsClNm"),
+                                            dataObject.getString("bsnsNm"),
+                                            dataObject.getString("bsnsLocplc"),
+                                            dataObject.getString("bsnsPsCl"),
+                                            dataObject.getString("bsnsPsClNm"),
+                                            dataObject.getString("oclhgBnoraCl"),
+                                            dataObject.getString("oclhgBnoraClNm"),
+                                            dataObject.getString("bsnsLclasCl"),
+                                            dataObject.getString("oclhgBnora"),
+                                            dataObject.getString("excAceptncAt"),
+                                            dataObject.getString("excUseAt"),
+                                            dataObject.getString("excDtls"),
+                                            dataObject.getString("ncm"),
+                                            dataObject.getString("cntrctDe"),
+                                            dataObject,
+                                            null,
+                                            null,
+                                            loginId!!
+                                        )
                                     )
-                                )
-                                adapter = BizAdapter(tempDataList, "all")
-                                recylerViewBizMain.adapter = adapter
-                                ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
-                                adapter.filter.filter("")
+
+                                }
+
                             }
+
+                            adapter = BizAdapter(tempDataList, "all")
+                            recylerViewBizMain.adapter = adapter
+                            ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+                            adapter.filter.filter("")
                             GlobalScope.launch(Dispatchers.IO) {
                                 delay(500)
                                 runOnUiThread {
-                                    tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
-                                    setColorChar(tvBizMainCnt, adapter.filteredList.size.toString())
+                                    tvBizMainCnt.text =
+                                        "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
+                                    setColorChar(
+                                        tvBizMainCnt,
+                                        adapter.filteredList.size.toString()
+                                    )
                                 }
                             }
                         }

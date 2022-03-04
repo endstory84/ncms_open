@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.dev.adapter
+package kr.or.kreb.ncms.mobile.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
