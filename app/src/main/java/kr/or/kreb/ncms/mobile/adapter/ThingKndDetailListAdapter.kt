@@ -242,9 +242,9 @@ import org.json.JSONArray
 
 
                 if(value == 2) {
-                    thingOpenViewPager(view, thingListCode)
+                    thingOpenViewPager(view, thingListCode,detailItemJson)
                 } else if(value == 1) {
-                    settingThingViewPager(view, thingListCode)
+                    settingThingViewPager(view, thingListCode,detailItemJson)
                 }
 
              }
@@ -254,7 +254,7 @@ import org.json.JSONArray
          }
      }
 
-    fun thingOpenViewPager(view: View, thingListCode: String) {
+    fun thingOpenViewPager(view: View, thingListCode: String, data: JSONObject) {
         val setTextValue = view.thingDetailTitle.text
         ThingWtnObject.thingNewSearch = "Y"
         when (thingType) {
@@ -287,10 +287,10 @@ import org.json.JSONArray
                 thingListCode.equals("BK01")||
                 thingListCode.equals("BK02")) {
 
-                    thingListener.loadViewPage("A023003", thingKndSub.toString(), jibun!!)
+                    thingListener.loadViewPage("A023003", data.getString("thingSclasTy"), jibun!!)
                     v.dismiss()
                 } else {
-                    thingListener.loadViewPage("A023002", thingKndSub.toString(), jibun!!)
+                    thingListener.loadViewPage("A023002", data.getString("thingSclasTy"), jibun!!)
                     v.dismiss()
                 }
             }
@@ -302,7 +302,7 @@ import org.json.JSONArray
     }
 
 
-    fun settingThingViewPager(view: View?, thingListCode: String) {
+    fun settingThingViewPager(view: View?, thingListCode: String, data:JSONObject) {
 
         val setTextValue = view!!.thingDetailTitle.text
         ThingWtnObject.thingNewSearch = "Y"
@@ -337,10 +337,10 @@ import org.json.JSONArray
                     thingListCode.equals("BK01")||
                     thingListCode.equals("BK02")) {
 
-                    thingListener.loadViewPage("A023003", thingKndSub.toString(), jibun!!)
+                    thingListener.loadViewPage("A023003", data.getString("thingSclasTy"), jibun!!)
                     v.dismiss()
                 } else {
-                    thingListener.loadViewPage("A023002", thingKndSub.toString(), jibun!!)
+                    thingListener.loadViewPage("A023002", data.getString("thingSclasTy"), jibun!!)
                     v.dismiss()
                 }
             }
