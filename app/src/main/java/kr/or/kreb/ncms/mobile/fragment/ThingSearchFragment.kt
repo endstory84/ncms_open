@@ -1525,7 +1525,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                         true -> append("정상식, ")
                         else -> {
                             append("비정상식(")
-                            append(thingwdptResnEdit.text.toString())
+                            append(mActivity.thingwdptResnEdit.text.toString())
                             append("), ")
                         }
 
