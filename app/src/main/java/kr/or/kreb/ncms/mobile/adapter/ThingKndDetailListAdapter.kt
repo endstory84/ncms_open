@@ -256,6 +256,7 @@ import org.json.JSONArray
 
     fun thingOpenViewPager(view: View, thingListCode: String) {
         val setTextValue = view.thingDetailTitle.text
+        ThingWtnObject.thingNewSearch = "Y"
         when (thingType) {
             "0" -> { // 수목
                 thingListener.loadViewPage("A023005", setTextValue.toString(), jibun!!)
@@ -304,6 +305,7 @@ import org.json.JSONArray
     fun settingThingViewPager(view: View?, thingListCode: String) {
 
         val setTextValue = view!!.thingDetailTitle.text
+        ThingWtnObject.thingNewSearch = "Y"
 
         when (thingType) {
             "0" -> { // 수목
