@@ -615,14 +615,29 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     view.thingNoText?.text =
                         checkStringNull(thingDataJson!!.getString("thingWtnCode").toString())
                 }
-                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
+//                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
 
-                view.thingStrctNdStndrdEdit?.setText(
-                    checkStringNull(
-                        thingDataJson!!.getString("strctNdStndrd").toString()
-                    )
-                )
-                ThingWtnObject.strctNdStndrd = checkStringNull(thingDataJson!!.getString("strctNdStndrd").toString())
+                if(!ThingWtnObject.thingKnd.equals("")) {
+                    view.thingKndEdit.setText(ThingWtnObject.thingKnd)
+                } else {
+                    view.thingKndEdit.setText(checkStringNull(thingDataJson!!.getString("thingKnd")))
+                }
+//                view.thingStrctNdStndrdEdit?.setText(
+//                    checkStringNull(
+//                        thingDataJson!!.getString("strctNdStndrd").toString()
+//                    )
+//                )
+//                ThingWtnObject.strctNdStndrd = checkStringNull(thingDataJson!!.getString("strctNdStndrd").toString())
+                if(!ThingWtnObject.strctNdStndrd.equals("")) {
+                    view.thingStrctNdStndrdEdit.setText(ThingWtnObject.strctNdStndrd)
+                } else {
+                    view.thingStrctNdStndrdEdit?.setText(
+                            checkStringNull(
+                                thingDataJson!!.getString("strctNdStndrd").toString()
+                            )
+                        )
+                    ThingWtnObject.strctNdStndrd = checkStringNull(thingDataJson!!.getString("strctNdStndrd").toString())
+                }
                 view.thingBuildBgnnArEdit?.setText(checkStringNull(thingDataJson!!.getString("bgnnAr").toString()))
                 ThingWtnObject.bgnnAr = checkStringNull(thingDataJson!!.getString("bgnnAr").toString())
                 view.thingBuildIncrprArEdit?.setText(checkStringNull(thingDataJson!!.getString("incrprAr").toString()))
@@ -717,8 +732,13 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     view.thingNoText?.text =
                         checkStringNull(thingDataJson!!.getString("thingWtnCode").toString())
                 }
-                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
+//                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
 
+                if(!ThingWtnObject.thingKnd.equals("")) {
+                    view.thingKndEdit.setText(ThingWtnObject.thingKnd)
+                } else {
+                    view.thingKndEdit.setText(checkStringNull(thingDataJson!!.getString("thingKnd")))
+                }
                 view.thingStrctNdStndrdEdit?.setText(
                     checkStringNull(
                         thingDataJson!!.getString("strctNdStndrd").toString()
@@ -729,9 +749,9 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingBgnnArEdit.setText(checkStringNull(thingDataJson!!.getString("bgnnAr")))
                 view.thingIncrprArEdit.setText(checkStringNull(thingDataJson!!.getString("incrprAr")))
 
-                val unitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
-                val unitClStringSub = unitClString.substring(5, 7)
-                view.thingUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
+//                val unitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
+//                val unitClStringSub = unitClString.substring(5, 7)
+//                view.thingUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
 
                 view.thingArComputBasisEdit.setText(checkStringNull(thingDataJson!!.getString("arComputBasis")))
 
@@ -797,7 +817,12 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 }
 
 
-                view.thingWdpdKndEdit.setText(checkStringNull(thingDataJson!!.getString("thingKnd")))
+                if(!ThingWtnObject.thingKnd.equals("")) {
+                    view.thingWdpdKndEdit.setText(ThingWtnObject.thingKnd)
+                } else {
+                    view.thingWdpdKndEdit.setText(checkStringNull(thingDataJson!!.getString("thingKnd")))
+                }
+
 
                 view.thingWdptBgnnArEdit.setText(checkStringNull(thingDataJson!!.getString("bgnnAr")))
                 view.thingWdptincrprArEdit.setText(checkStringNull(thingDataJson!!.getString("incrprAr")))
@@ -1496,7 +1521,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 val strctNdStrndrdWString = mActivity.thingStrctNdStndrdEditW.text.toString()
 
                 ThingWtnObject.strctNdStndrd = StringBuilder().apply {
-                    when(thingNrmltpltAtChk.isChecked) {
+                    when(mActivity.thingNrmltpltAtChk.isChecked) {
                         true -> append("정상식, ")
                         else -> {
                             append("비정상식(")
@@ -1506,7 +1531,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                     }
 
-                    when (thingExaminMthSpnr.selectedItemPosition) {
+                    when (mActivity.thingExaminMthSpnr.selectedItemPosition) {
                         1 -> append("개별조사방식(")
                         2 -> append("면적조사방식(")
                         else -> append("기타조사방식(")
@@ -1552,7 +1577,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     }
 
                     append(",")
-                    append(thingwdpArComputBasisEdit.text.toString())
+                    append(mActivity.thingwdpArComputBasisEdit.text.toString())
                     append(")")
                 }.toString()
 
