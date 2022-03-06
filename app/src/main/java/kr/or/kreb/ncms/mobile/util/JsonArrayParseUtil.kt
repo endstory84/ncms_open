@@ -137,15 +137,7 @@ object JsonArrayParseUtil {
                          */
 
                         //infoValueArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // Geojson -> WTN Code
-
-                        /**
-                         * 시연용 임시방편 수목만 표시
-                         */
-                        if(it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023005"){
-                            infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString)
-                        } else {
-                            infoValueArr.add("none")
-                        }
+                        infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString)
                     }
                 }
 

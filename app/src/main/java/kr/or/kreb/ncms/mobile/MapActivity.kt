@@ -2244,20 +2244,38 @@ class MapActivity :
                         log.d("thingPolygonData ---------------------------------><><><><><><")
 
                         mulitElemString += "1, 1003, 1"
-                        for (coord in thingPolygonData[0].coords) {
+                        if(ThingWtnObject.pointYn == "POINT") {
+                            for (i in 0 until thingPolygonData.size) {
+                                var coord = thingPolygonData[i].coords[0]
 
-                            val webMercatorCoord = WebMercatorCoord.valueOf(coord)
+                                val webMercatorCoord = WebMercatorCoord.valueOf(coord)
 
-                            val x = BigDecimal.valueOf(webMercatorCoord.x)
-                            val y = BigDecimal.valueOf(webMercatorCoord.y)
+                                val x = BigDecimal.valueOf(webMercatorCoord.x)
+                                val y = BigDecimal.valueOf(webMercatorCoord.y)
 
-                            coordSize++
+                                coordSize++
 
-                            mulitGeomString += "$x,$y"
-                            if (coordSize != thingPolygonData[0].coords.size) {
-                                mulitGeomString += ","
+                                mulitGeomString += "$x,$y"
+                                if (coordSize != thingPolygonData.size) {
+                                    mulitGeomString += ","
+                                }
                             }
+                        } else {
+                            for (coord in thingPolygonData[0].coords) {
 
+                                val webMercatorCoord = WebMercatorCoord.valueOf(coord)
+
+                                val x = BigDecimal.valueOf(webMercatorCoord.x)
+                                val y = BigDecimal.valueOf(webMercatorCoord.y)
+
+                                coordSize++
+
+                                mulitGeomString += "$x,$y"
+                                if (coordSize != thingPolygonData[0].coords.size) {
+                                    mulitGeomString += ","
+                                }
+
+                            }
                         }
 
                         log.d("ThingPolygon String geom " + mulitGeomString.toString())
