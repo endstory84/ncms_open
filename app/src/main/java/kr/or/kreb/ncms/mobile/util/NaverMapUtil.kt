@@ -702,7 +702,7 @@ class NaverMapUtil(
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
 
                                                     setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
-                                                    setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoFarmViewArr, resultFarmLatLngArr)
+                                                    //setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoFarmViewArr, resultFarmLatLngArr)
 
                                                     progressDialog?.dismiss()
 
@@ -731,7 +731,7 @@ class NaverMapUtil(
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
 
                                                     setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
-                                                    setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoTombmViewArr, resultTombLatLngArr)
+                                                    //setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoTombmViewArr, resultTombLatLngArr)
 
                                                     progressDialog?.dismiss()
 
@@ -760,7 +760,7 @@ class NaverMapUtil(
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
 
                                                     setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
-                                                    setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoResidntViewArr, resultResidntLatLngArr)
+                                                    //setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoResidntViewArr, resultResidntLatLngArr)
 
                                                     progressDialog?.dismiss()
 
@@ -791,7 +791,7 @@ class NaverMapUtil(
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
 
                                                     setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
-                                                    setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoBsnViewArr, resultBsnLatLngArr)
+                                                    //setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoBsnViewArr, resultBsnLatLngArr)
 
                                                     progressDialog?.dismiss()
 
@@ -824,7 +824,6 @@ class NaverMapUtil(
         var filterArr: List<JsonElement>? = null
 
         when(tagName){
-
             "지장물", "농업", "거주자", "분묘" -> {
                 filterArr = jsonArr.filter {
                     ((it as JsonObject).get("properties") as JsonObject).get("THING_LRGE_CL").asString == wtnccCode
@@ -1800,14 +1799,16 @@ class NaverMapUtil(
 
             /* 주소목록에 따라 loop를 돌려 Map에 표출함. */
             for (i in 0 until resultArr.size) {
-                val infoWindow = InfoWindow()
-                var infoView: InfoView?
-                infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
-                infoView.setText(resultArr[i], "wtncc")
-                infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
-                infoWindow.position = findPolygonCenter(latLngArr[i])
-                infoWindow.offsetX = -100
-                infoWindowArr.add(infoWindow)
+                if(resultArr[i] != "none"){
+                    val infoWindow = InfoWindow()
+                    var infoView: InfoView?
+                    infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
+                    infoView.setText(resultArr[i], "wtncc")
+                    infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
+                    infoWindow.position = findPolygonCenter(latLngArr[i])
+                    infoWindow.offsetX = -100
+                    infoWindowArr.add(infoWindow)
+                }
             }
 
             logUtil.d("wtnccInfoViewArr Size -> ${infoWindowArr.size}")
