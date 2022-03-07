@@ -697,7 +697,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
-                    view.thingBuldOwnerCnfirmBasisClSpinner.setSelection(0)
+                    view.thingBuldOwnerCnfirmBasisClSpinner.setSelection(5)
                 } else {
                     val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5, 7)
                     view.thingBuldOwnerCnfirmBasisClSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -707,9 +707,19 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingBuldSttusMesrAtChk.isChecked = buldSttusMesrString.equals("Y")
 
                 val buldOwnshipBeforeAtString = checkStringNull(thingDataJson!!.getString("ownshipBeforeAt"))
-                view.thingBuldOwnshipBeforeAtChk.isChecked = buldOwnshipBeforeAtString.equals("Y")
+                if(buldOwnshipBeforeAtString.equals("")) {
+                    view.thingBuldOwnshipBeforeAtChk.isChecked = true
+                } else {
+                    view.thingBuldOwnshipBeforeAtChk.isChecked = buldOwnshipBeforeAtString.equals("Y")
+                }
+
 
                 val buldRwTrgetAtString = checkStringNull(thingDataJson!!.getString("rwTrgetAt"))
+                if(buldRwTrgetAtString.equals("")) {
+                    view.thingBuldRwTrgetAtChk.isChecked = true
+                } else {
+                    view.thingBuldRwTrgetAtChk.isChecked = buldRwTrgetAtString.equals("Y")
+                }
                 view.thingBuldRwTrgetAtChk.isChecked = buldRwTrgetAtString.equals("Y")
 
                 val buldApasmtTrgetAtString = checkStringNull(thingDataJson!!.getString("apasmtTrgetAt"))
@@ -773,7 +783,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
-                    view.thingOwnerCnfirmBasisClSpinner.setSelection(0)
+                    view.thingOwnerCnfirmBasisClSpinner.setSelection(5)
                 } else {
                     val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5, 7)
                     view.thingOwnerCnfirmBasisClSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -783,10 +793,18 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingSttusMesrAtChk.isChecked = sttusMestAtString.equals("Y")
 
                 val ownshipBeforeAtString = checkStringNull(thingDataJson!!.getString("ownshipBeforeAt"))
-                view.thingOwnshipBeforeAtChk.isChecked = ownshipBeforeAtString.equals("Y")
+                if(ownshipBeforeAtString.equals("")) {
+                    view.thingOwnshipBeforeAtChk.isChecked = true
+                } else {
+                    view.thingOwnshipBeforeAtChk.isChecked = ownshipBeforeAtString.equals("Y")
+                }
 
                 val rwTrgetAtString = checkStringNull(thingDataJson!!.getString("rwTrgetAt"))
-                view.thingRwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+                if(rwTrgetAtString.equals("")) {
+                    view.thingRwTrgetAtChk.isChecked = true
+                } else {
+                    view.thingRwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+                }
 
                 val apasmtTrgetAtString = checkStringNull(thingDataJson!!.getString("apasmtTrgetAt"))
                 view.thingApasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
@@ -840,7 +858,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 val thingWdpdExaminMthdString = checkStringNull(thingDataJson!!.getString("examinMthd"))
                 if (thingWdpdExaminMthdString.equals("")) {
-                    view.thingExaminMthSpnr.setSelection(0)
+                    view.thingExaminMthSpnr.setSelection(1)
                 } else {
                     view.thingExaminMthSpnr.setSelection(
                         when (thingWdpdExaminMthdString) {
@@ -889,7 +907,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
-                    view.thingWdpdOwnerCnfirmBasisClSpinner.setSelection(0)
+                    view.thingWdpdOwnerCnfirmBasisClSpinner.setSelection(5)
                 } else {
                     val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5, 7)
                     view.thingWdpdOwnerCnfirmBasisClSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -899,10 +917,18 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingWdpdSttusMesrAtChk.isChecked = buldSttusMesrString.equals("Y")
 
                 val buldOwnshipBeforeAtString = checkStringNull(thingDataJson!!.getString("ownshipBeforeAt"))
-                view.thingWdpdOwnshipBeforeAtChk.isChecked = buldOwnshipBeforeAtString.equals("Y")
+                if(buldOwnshipBeforeAtString.equals("")) {
+                    view.thingWdpdOwnshipBeforeAtChk.isChecked = true
+                } else {
+                    view.thingWdpdOwnshipBeforeAtChk.isChecked = buldOwnshipBeforeAtString.equals("Y")
+                }
 
                 val buldRwTrgetAtString = checkStringNull(thingDataJson!!.getString("rwTrgetAt"))
-                view.thingWdpdRwTrgetAtChk.isChecked = buldRwTrgetAtString.equals("Y")
+                if(buldRwTrgetAtString.equals("")) {
+                    view.thingWdpdRwTrgetAtChk.isChecked = true
+                } else {
+                    view.thingWdpdRwTrgetAtChk.isChecked = buldRwTrgetAtString.equals("Y")
+                }
 
                 val buldApasmtTrgetAtString = checkStringNull(thingDataJson!!.getString("apasmtTrgetAt"))
                 view.thingWdpdApasmtTrgetAtChk.isChecked = buldApasmtTrgetAtString.equals("Y")
@@ -1790,6 +1816,11 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 thingSearchGnrlBaseView.visibility = View.GONE
                 wtnncCommIndoorTy.visibleView()
                 wtnncCommIndoorTyLl.visibleView()
+                thingBuldOwnerCnfirmBasisClSpinner.setSelection(5)
+                thingBuldOwnshipBeforeAtChk.isChecked = true
+                thingBuldRwTrgetAtChk.isChecked = true
+                thingBuldApasmtTrgetAtChk.isChecked = true
+
             }
             2 -> { //일반
                 thingSearchBaseViewLl.visibleView()
@@ -1798,6 +1829,9 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 thingSearchGnrlBaseView.visibleView()
                 wtnncCommIndoorTy.visibleView()
                 wtnncCommIndoorTyLl.visibleView()
+                thingOwnerCnfirmBasisClSpinner.setSelection(5)
+                thingRwTrgetAtChk.isChecked = true
+                thingApasmtTrgetAtChk.isChecked = true
             }
             3 -> { //수목
                 thingSearchBaseViewLl.visibility = View.GONE
@@ -1807,6 +1841,10 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 wtnncCommIndoorTy.visibility = View.GONE
                 wtnncCommIndoorTyLl.visibility = View.GONE
                 thingWtnWdpdStrctLinear.visibleView()
+                thingExaminMthSpnr.setSelection(1)
+                thingWdpdOwnerCnfirmBasisClSpinner.setSelection(5)
+                thingWdpdApasmtTrgetAtChk.isChecked = true
+                thingWdpdRwTrgetAtChk.isChecked = true
             }
         }
 

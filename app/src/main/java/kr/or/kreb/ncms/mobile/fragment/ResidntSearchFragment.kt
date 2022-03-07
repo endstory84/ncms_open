@@ -772,7 +772,7 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 
         val ownerCnfirmBasisClString = checkStringNull(thingDataJson.getString("ownerCnfirmBasisCl"))
         if(ownerCnfirmBasisClString.equals("")) {
-            view.residntOwnerCnfirmBasisSpinner.setSelection(0)
+            view.residntOwnerCnfirmBasisSpinner.setSelection(5)
         } else {
             val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5,7)
             view.residntOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -796,7 +796,12 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 
 
         val rwTrgetAtString = checkStringNull(thingDataJson.getString("rwTrgetAt"))
-        view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        if(rwTrgetAtString.equals("")) {
+            view.rwTrgetAtChk.isChecked = true
+        } else {
+            view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        }
+
 
         val apasmtTrgetAtString = checkStringNull(thingDataJson.getString("apasmtTrgetAt"))
         view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")

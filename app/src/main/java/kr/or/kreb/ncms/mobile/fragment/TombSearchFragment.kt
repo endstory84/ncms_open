@@ -1141,7 +1141,7 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
 
         val ownerCnfirmBasisClString = checkStringNull(tombDataJson.getString("ownerCnfirmBasisCl"))
         if(ownerCnfirmBasisClString.equals("")) {
-            view.tombOwnerCnfirmBasisSpinner.setSelection(0)
+            view.tombOwnerCnfirmBasisSpinner.setSelection(5)
         } else {
             val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5,7)
             view.tombOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -1164,7 +1164,12 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
 //        }
 
         val rwTrgetAtString = checkStringNull(tombDataJson.getString("rwTrgetAt"))
-        view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        if(rwTrgetAtString.equals("")) {
+            view.rwTrgetAtChk.isChecked = true
+        } else {
+            view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        }
+//        view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
 
         val apasmtTrgetAtString = checkStringNull(tombDataJson.getString("apasmtTrgetAt"))
         view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")

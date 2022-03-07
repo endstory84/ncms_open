@@ -505,24 +505,24 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
 
         val ownerCnfirmString = checkStringNull(thingDataJson.getString("ownerCnfirmBasisCl"))
         if(ownerCnfirmString.equals("")) {
-            view.minrgtOwnerCnfirmBasisSpinner.setSelection(0)
+            view.minrgtOwnerCnfirmBasisSpinner.setSelection(4)
         } else {
             val ownerCnfirmStringSub = ownerCnfirmString.substring(5,7)
             view.minrgtOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmStringSub))
         }
 
         val rwTrgetAtString = checkStringNull(thingDataJson.getString("rwTrgetAt"))
-        if(rwTrgetAtString.equals("Y")) {
+        if(rwTrgetAtString.equals("")) {
             view.rwTrgetAtChk.isChecked = true
         } else {
-            view.rwTrgetAtChk.isChecked = false
+            view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
         }
 
         val apasmtTrgetAtString = checkStringNull(thingDataJson.getString("apasmtTrgetAt"))
-        if(apasmtTrgetAtString.equals("Y")) {
+        if(apasmtTrgetAtString.equals("")) {
             view.apasmtTrgetAtChk.isChecked = true
         } else {
-            view.apasmtTrgetAtChk.isChecked = false
+            view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
         }
 
         view.includePaclrMatterEdit.setText(checkStringNull(thingDataJson.getString("paclrMatter")))

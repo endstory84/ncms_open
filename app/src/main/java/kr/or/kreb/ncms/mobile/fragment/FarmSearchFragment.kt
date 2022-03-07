@@ -877,7 +877,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
         val ownerCnfirmBasisClString = checkStringNull(farmDataJson.getString("ownerCnfirmBasisCl"))
         if(ownerCnfirmBasisClString.equals("")) {
-            view.farmOwnerCnfirmBasisSpinner.setSelection(0)
+            view.farmOwnerCnfirmBasisSpinner.setSelection(5)
         } else {
             val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5,7)
             view.farmOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -901,17 +901,17 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val rwTrgetAtString = checkStringNull(farmDataJson.getString("rwTrgetAt"))
-        if(rwTrgetAtString.equals("Y")) {
+        if(rwTrgetAtString.equals("")) {
             view.rwTrgetAtChk.isChecked = true
         } else {
-            view.rwTrgetAtChk.isChecked = false
+            view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
         }
 
         val apasmtTrgetAtString = checkStringNull(farmDataJson.getString("apasmtTrgetAt"))
         if(apasmtTrgetAtString.equals("Y")) {
             view.apasmtTrgetAtChk.isChecked = true
         } else {
-            view.apasmtTrgetAtChk.isChecked = false
+            view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
         }
 
         view.includePaclrMatterEdit.setText(checkStringNull(farmDataJson.getString("paclrMatter")))

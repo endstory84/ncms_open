@@ -1039,7 +1039,7 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
         val ownerCnfirmBasisClString = checkStringNull(thingDataJson.getString("ownerCnfirmBasisCl"))
         if(ownerCnfirmBasisClString.equals("")) {
-            view.bsnOwnerCnfirmBasisSpinner.setSelection(0)
+            view.bsnOwnerCnfirmBasisSpinner.setSelection(4)
         } else {
             val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5,7)
             view.bsnOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
@@ -1062,10 +1062,20 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 //        }
 
         val rwTrgetAtString = checkStringNull(thingDataJson.getString("rwTrgetAt"))
-        view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        if(rwTrgetAtString.equals("")) {
+            view.rwTrgetAtChk.isChecked = true
+        } else {
+            view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
+        }
+
 
         val apasmtTrgetAtString = checkStringNull(thingDataJson.getString("apasmtTrgetAt"))
-        view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
+        if(apasmtTrgetAtString.equals("")) {
+            view.apasmtTrgetAtChk.isChecked = true
+        }else {
+            view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
+        }
+
 
         view.includePaclrMatterEdit.setText(checkStringNull(thingDataJson.getString("paclrMatter")))
         view.includeReferMatterEdit.setText(checkStringNull(thingDataJson.getString("referMatter")))

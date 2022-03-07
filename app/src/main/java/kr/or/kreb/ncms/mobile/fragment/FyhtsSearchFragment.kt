@@ -536,7 +536,7 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
 
             val ownerCnfirmBasisString = checkStringNull(fyhtsDataJson.getString("ownerCnfirmBasisCl"))
             if(ownerCnfirmBasisString.equals("")) {
-                view.fyhtsOwnerCnfirmBasisSpinner.setSelection(0)
+                view.fyhtsOwnerCnfirmBasisSpinner.setSelection(4)
             } else {
                 val ownerCnfirmBasisStringsub = ownerCnfirmBasisString.substring(5,7)
                 view.fyhtsOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisStringsub))
@@ -559,17 +559,17 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
 //            }
 
             val rwTrgetAtString = checkStringNull(fyhtsDataJson.getString("rwTrgetAt"))
-            if(rwTrgetAtString.equals("Y")) {
+            if(rwTrgetAtString.equals("")) {
                 view.rwTrgetAtChk.isChecked = true
             } else {
-                view.rwTrgetAtChk.isChecked = false
+                view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
             }
 
             val apasmtTrgetAtString = checkStringNull(fyhtsDataJson.getString("apasmtTrgetAt"))
-            if(apasmtTrgetAtString.equals("Y")) {
+            if(apasmtTrgetAtString.equals("")) {
                 view.apasmtTrgetAtChk.isChecked = true
             } else {
-                view.apasmtTrgetAtChk.isChecked = false
+                view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
             }
 
             view.includePaclrMatterEdit.setText(checkStringNull(fyhtsDataJson.getString("paclrMatter")))
