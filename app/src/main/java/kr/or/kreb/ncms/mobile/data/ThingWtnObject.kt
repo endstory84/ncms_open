@@ -199,6 +199,8 @@ object ThingWtnObject {
     var buldContainsArr: MutableList<String>? = null
     var buldContainsWtnccCodeArr: MutableList<String>? = null
 
+    var pointYn: String? = null
+
 
     fun cleanThingWtnObject() {
         thingNewSearch = ""
@@ -232,5 +234,6 @@ object ThingWtnObject {
         acqsCl = ""
         inclsCl = ""
         wtnncImage = null
+        pointYn = null
     }
 }

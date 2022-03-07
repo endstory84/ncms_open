@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_map.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.dev.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.SketchEnum
 import kr.or.kreb.ncms.mobile.fragment.FarmSearchFragment
@@ -301,6 +302,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
 //                                if(mSketchType == 0) {
 //                                    mThingListener!!.loadViewPage()
 //                                }
+                                ThingWtnObject.pointYn = _isSketchDrawType
                             }
                             BizEnum.TOMB -> {
 
