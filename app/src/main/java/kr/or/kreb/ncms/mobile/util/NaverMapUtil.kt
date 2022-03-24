@@ -45,6 +45,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URLEncoder
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -85,8 +86,8 @@ class NaverMapUtil(
      * 추후 부동산원 네이버지도 ID / KEY 변경
      */
 
-    private var naverID ="9870wtmg57"
-    private var naverKey ="6P8mtbdWgrxovVlv9L9dYwAqYMKNgRVCIlXd5DXj"
+    private var naverID ="9mek16psq2"
+    private var naverKey ="1yoMMipAFWX37VohQWgXULY3AjPOGAwouy7feZqo"
     lateinit var naverMap: NaverMap
     private lateinit var naverUiSettings: UiSettings
     private lateinit var fusedLocationSource: FusedLocationSource
@@ -382,7 +383,7 @@ class NaverMapUtil(
      * Zoom Lv 가져오기
      * @return zoom -> 지도 줌
      */
-    fun getNaverMapZoom(): Int = this.naverMap.cameraPosition.zoom.toInt()
+    fun getNaverMapZoom(): Int = (round(this.naverMap.cameraPosition.zoom).roundToInt())
 
     /**
      * 네이버 맵 Type Switch
@@ -505,7 +506,7 @@ class NaverMapUtil(
 
                                     when(tagName) {
 
-                                        "편집지적도", "사업구역(용지도)" -> {
+                                        "편집지적도" /*, "사업구역(용지도)"*/ -> {
 
                                             when(tagName){
                                                 "편집지적도" -> clearWFS(wfsEditCadastralOverlayArr, tagName)
@@ -566,6 +567,28 @@ class NaverMapUtil(
                                                 progressDialog?.dismiss()
                                                 activity!!.toggleButtonCadstral.background = ContextCompat.getDrawable(context!!, R.drawable.img_toggle_cadastral)
                                                 toastUtil.msg_error(context?.resources?.getString(R.string.map_wfs_cadastral_minzoom)!!, 100)
+                                            }
+                                            return@runOnUiThread
+                                        }
+                                        "사업구역(용지도)" -> {
+                                            clearWFS(wfsBsnAreaOverlayArr, tagName)
+                                            if (getNaverMapZoom() > 13) {
+                                                if (resultCnt > 0) {
+                                                    val getGeomArr = JsonArrayParseUtil.getGeomertyArrayParseBsn(resultArr, null, null, resultGeomArr)
+
+                                                    resultBsnsAreaLatLngArr = getGeomArr
+
+                                                    val polyColor = setWFSLayerColorStyle(tagName)
+                                                    val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
+
+                                                    setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, null)
+
+                                                } else {
+                                                    progressDialog?.dismiss()
+                                                }
+
+                                            } else {
+                                                progressDialog?.dismiss()
                                             }
                                             return@runOnUiThread
                                         }
@@ -669,9 +692,20 @@ class NaverMapUtil(
                                                     val polyColor = setWFSLayerColorStyle(tagName)
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
 
-//                                                    setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
-//                                                    setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoThingViewArr, resultThingLatLngArr)
-                                                    setWtncclLayerInfoPoint(resultThingPropertiesWtnCodeArr, wtnccInfoThingViewArr, resultThingLatLngArr)
+//                                                    var moPointYn = resultArr.asJsonObject.get("properties").asJsonObject.get("MO_POINT_YN").asString
+
+
+//                                                    var moPointYn = "1"
+//                                                    if(moPointYn.equals("1")) {
+//                                                        setWtncclLayerInfoPoint(resultThingPropertiesWtnCodeArr, wtnccInfoThingViewArr, resultThingLatLngArr)
+//                                                    } else {
+//                                                        setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
+//                                                        setWtncclLayerInfo(resultThingPropertiesWtnCodeArr, wtnccInfoThingViewArr, resultThingLatLngArr)
+//                                                    }
+//
+                                                    setDrawPolygon(getGeomArr, tagName, polyColor, polyLineColor, filterArr)
+                                                    setWtncclLayerInfoPoint(filterArr, resultThingPropertiesWtnCodeArr, wtnccInfoThingViewArr, resultThingLatLngArr)
+
 
                                                 } else {
                                                     getActivity().isThingLayerChecked = false
@@ -945,20 +979,8 @@ class NaverMapUtil(
 
     private fun setDrawPolygonOptions(latLngArr: MutableList<ArrayList<LatLng>>, polyColor:Int, strokeColor: Int, getZindex: Int, tagName: String, setLayerPolygonArr: MutableList<PolygonOverlay>, jsonArr: List<JsonElement>?){
 
-        latLngArr.forEach {
-            val drawPolygonOverlay  = PolygonOverlay()
-            drawPolygonOverlay.apply {
-                coords = it
-                color = polyColor
-                outlineWidth = 3
-                outlineColor = strokeColor
-                tag = tagName
-                globalZIndex = getZindex
-                map = naverMap
-            }
 
-            setLayerPolygonArr.add(drawPolygonOverlay)
-
+        latLngArr.forEachIndexed { latlngIndex, it ->
             when (tagName) {
 
                 /**
@@ -966,6 +988,17 @@ class NaverMapUtil(
                  */
 
                 "연속지적도", "편집지적도" -> {
+                    val drawPolygonOverlay  = PolygonOverlay()
+                    drawPolygonOverlay.apply {
+                        coords = it
+                        color = polyColor
+                        outlineWidth = 3
+                        outlineColor = strokeColor
+                        tag = tagName
+                        globalZIndex = getZindex
+                        map = naverMap
+                    }
+                    setLayerPolygonArr.add(drawPolygonOverlay)
                     try {
                         setLayerPolygonArr.forEachIndexed { index, arrData ->
                             arrData.setOnClickListener {
@@ -1607,6 +1640,17 @@ class NaverMapUtil(
                 }
 
                 "토지" -> {
+                    val drawPolygonOverlay  = PolygonOverlay()
+                    drawPolygonOverlay.apply {
+                        coords = it
+                        color = polyColor
+                        outlineWidth = 3
+                        outlineColor = strokeColor
+                        tag = tagName
+                        globalZIndex = getZindex
+                        map = naverMap
+                    }
+                    setLayerPolygonArr.add(drawPolygonOverlay)
                     setLayerPolygonArr.forEachIndexed { index, arrData ->
                         arrData.setOnClickListener {
 
@@ -1654,46 +1698,84 @@ class NaverMapUtil(
                 }
 
                 "지장물" -> {
-                    setLayerPolygonArr.forEachIndexed { index, arrData ->
-                        arrData.setOnClickListener {
+                   var pointYn = jsonArr!![latlngIndex].asJsonObject.get("properties").asJsonObject.get("MO_POINT_YN")
 
-                            try {
-                                jsonArr?.forEachIndexed { idx, it ->
-
-                                    if (index == idx) {
-
-                                        logUtil.d("지장물 select -> $it")
-
-                                        /**
-                                         * 지장물 data중에 일반건축믈, 집합건축물 체크 로직
-                                         * 지장물 레이어 클릭했을 시에. 일반건축물, 집합건축물일 경우에는 별도의 팝업이 나와야함.
-                                         * @description [A023002, A023003] 일 경우는 건축물에 포함.
-                                         */
-
-                                        val sumsBuldContainrArr = mutableListOf<String>()
-                                        val sumsBuldContainrWtnccCodeArr = mutableListOf<String>()
-
-                                        // 대분류가 지장물 , 소분류가 건축물에 포함될 경우
-                                        val buldContainsArr =  ThingWtnObject.thingWtnncJsonArray?.filter {
-                                            it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023003"
-                                        }
-
-                                        buldContainsArr?.forEach {
-                                            sumsBuldContainrArr.add(it.asJsonObject.get("properties").asJsonObject.get("THING_KND").asString)
-                                            sumsBuldContainrWtnccCodeArr.add(it.asJsonObject.get("id").asString.split(".")[1])
-                                        }
-
-                                        ThingWtnObject.buldContainsArr = sumsBuldContainrArr
-                                        ThingWtnObject.buldContainsWtnccCodeArr = sumsBuldContainrWtnccCodeArr
-
-                                        logUtil.d("건축물 포함 여부 Arr -> $sumsBuldContainrArr")
-                                        logUtil.d("건축물 포함 여부 조서코드 Arr -> $sumsBuldContainrWtnccCodeArr")
+                    if(pointYn.asString.equals("2")) {
+                        val drawPolygonOverlay = PolygonOverlay()
+                        drawPolygonOverlay.apply {
+                            coords = it
+                            color = polyColor
+                            outlineWidth = 3
+                            outlineColor = strokeColor
+                            tag = tagName
+                            globalZIndex = getZindex
+                            map = naverMap
+                        }
 
 
-                                        //if(getNaverMapZoom() > 18){
-                                            if(it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023003"){
+                        setLayerPolygonArr.forEachIndexed { index, arrData ->
+                            arrData.setOnClickListener {
+
+                                try {
+
+                                    jsonArr?.forEachIndexed { idx, it ->
+
+                                        if (index == idx) {
+
+                                            logUtil.d("지장물 select -> $it")
+
+                                            /**
+                                             * 지장물 data중에 일반건축믈, 집합건축물 체크 로직
+                                             * 지장물 레이어 클릭했을 시에. 일반건축물, 집합건축물일 경우에는 별도의 팝업이 나와야함.
+                                             * @description [A023002, A023003] 일 경우는 건축물에 포함.
+                                             */
+
+                                            val sumsBuldContainrArr = mutableListOf<String>()
+                                            val sumsBuldContainrWtnccCodeArr = mutableListOf<String>()
+
+                                            // 대분류가 지장물 , 소분류가 건축물에 포함될 경우
+                                            val buldContainsArr = ThingWtnObject.thingWtnncJsonArray?.filter {
+                                                it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get(
+                                                    "properties"
+                                                ).asJsonObject.get("THING_SMALL_CL").asString == "A023003"
+                                            }
+
+                                            buldContainsArr?.forEach {
+                                                sumsBuldContainrArr.add(
+                                                    it.asJsonObject.get("properties").asJsonObject.get(
+                                                        "THING_KND"
+                                                    ).asString
+                                                )
+                                                sumsBuldContainrWtnccCodeArr.add(
+                                                    it.asJsonObject.get("id").asString.split(
+                                                        "."
+                                                    )[1]
+                                                )
+                                            }
+
+                                            ThingWtnObject.buldContainsArr = sumsBuldContainrArr
+                                            ThingWtnObject.buldContainsWtnccCodeArr = sumsBuldContainrWtnccCodeArr
+
+                                            logUtil.d("건축물 포함 여부 Arr -> $sumsBuldContainrArr")
+                                            logUtil.d("건축물 포함 여부 조서코드 Arr -> $sumsBuldContainrWtnccCodeArr")
+
+
+                                            //if(getNaverMapZoom() > 18){
+                                            if (it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get(
+                                                    "properties"
+                                                ).asJsonObject.get("THING_SMALL_CL").asString == "A023003"
+                                            ) {
                                                 contextDialogItems = mutableListOf("실내 스케치")
-                                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_build, "건축물 상세메뉴", contextDialogItems, null, null,  null,null,"thingBuldYes")
+                                                contextPopupFragment = ContextDialogFragment(
+                                                    R.drawable.ic_build,
+                                                    "건축물 상세메뉴",
+                                                    contextDialogItems,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    null,
+                                                    "thingBuldYes"
+                                                )
                                                 (contextPopupFragment as ContextDialogFragment).apply {
                                                     show(contextPopupFragmentManager!!, "contextPopup")
                                                     isCancelable = false
@@ -1703,29 +1785,41 @@ class NaverMapUtil(
                                                 toastUtil.msg_error("건축물이 존재하지 않습니다.", 500)
                                             }
 
-                                        //}
+                                            //}
 
-//                                        } else {
-//                                            activity?.runOnUiThread {
-//                                                toastUtil.msg_info("19레벨 이상부터 건축물이 있을경우, 실내스케치를 진행할 수 있습니다.", 500)
-//                                            }
-//                                        }
+                                            //                                        } else {
+                                            //                                            activity?.runOnUiThread {
+                                            //                                                toastUtil.msg_info("19레벨 이상부터 건축물이 있을경우, 실내스케치를 진행할 수 있습니다.", 500)
+                                            //                                            }
+                                            //                                        }
 
+
+                                        }
 
                                     }
-
+                                } catch (e: Exception) {
+                                    logUtil.d(e.toString())
                                 }
-                            } catch (e: Exception){
-                                logUtil.d(e.toString())
-                            }
 
-                            true
+                                true
+                            }
                         }
                     }
 
                 }
 
                 "영업" -> {
+                    val drawPolygonOverlay  = PolygonOverlay()
+                    drawPolygonOverlay.apply {
+                        coords = it
+                        color = polyColor
+                        outlineWidth = 3
+                        outlineColor = strokeColor
+                        tag = tagName
+                        globalZIndex = getZindex
+                        map = naverMap
+                    }
+                    setLayerPolygonArr.add(drawPolygonOverlay)
                     setLayerPolygonArr.forEachIndexed { index, arrData ->
                         arrData.setOnClickListener {
 
@@ -1749,6 +1843,19 @@ class NaverMapUtil(
                         }
                     }
                 }
+                else -> {
+                    val drawPolygonOverlay = PolygonOverlay()
+                        drawPolygonOverlay.apply {
+                            coords = it
+                            color = polyColor
+                            outlineWidth = 3
+                            outlineColor = strokeColor
+                            tag = tagName
+                            globalZIndex = getZindex
+                            map = naverMap
+                        }
+                }
+
             }
 
         }
@@ -1825,7 +1932,7 @@ class NaverMapUtil(
             throw IllegalAccessException (e.toString())
         }
     }
-    fun setWtncclLayerInfoPoint(resultArr: MutableList<String>, infoWindowArr: MutableList<InfoWindow>, latLngArr: MutableList<ArrayList<LatLng>>) {
+    fun setWtncclLayerInfoPoint(jsonArr: List<JsonElement>?, resultArr: MutableList<String>, infoWindowArr: MutableList<InfoWindow>, latLngArr: MutableList<ArrayList<LatLng>>) {
 
         infoWindowArr.forEach { it.map = null }
         infoWindowArr.clear()
@@ -1834,21 +1941,38 @@ class NaverMapUtil(
 
             /* 주소목록에 따라 loop를 돌려 Map에 표출함. */
             for (i in 0 until resultArr.size) {
-                for(j in 0 until latLngArr[i].size) {
-                    val infoWindow = InfoWindow()
-                    var infoView: InfoView?
-                    infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
-                    infoView.setText(resultArr[i], "wtncc")
-                    infoWindow.adapter = object : InfoWindow.ViewAdapter() {
-                        override fun getView(p0: InfoWindow): View = infoView
+                var pointYn = jsonArr!![i].asJsonObject.get("properties").asJsonObject.get("MO_POINT_YN")
+
+                if(pointYn.asString.equals("1")) {
+                    for(j in 0 until latLngArr[i].size) {
+                        val infoWindow = InfoWindow()
+                        var infoView: InfoView?
+
+                        infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
+                        infoView.setText(resultArr[i], "wtncc")
+                        infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View =
+                            infoView as InfoView
+                        }
+                        //                infoWindow.position = findPolygonCenter(latLngArr[i])
+                        infoWindow.position = latLngArr[i][j]
+    //                    latitude = 37.74335264
+    //                            longitude = 126.70393214
+                        infoWindow.offsetX = 0
+                        infoWindowArr.add(infoWindow)
                     }
-                    //                infoWindow.position = findPolygonCenter(latLngArr[i])
-                    infoWindow.position = latLngArr[i][j]
-//                    latitude = 37.74335264
-//                            longitude = 126.70393214
-                    infoWindow.offsetX = 0
-                    infoWindowArr.add(infoWindow)
+                } else {
+                    for (i in 0 until resultArr.size) {
+                        val infoWindow = InfoWindow()
+                        var infoView: InfoView?
+                        infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
+                        infoView.setText(resultArr[i], "wtncc")
+                        infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
+                        infoWindow.position = findPolygonCenter(latLngArr[i])
+                        infoWindow.offsetX = 0
+                        infoWindowArr.add(infoWindow)
+                    }
                 }
+
             }
 
             logUtil.d("wtnccInfoViewArr Size -> ${infoWindowArr.size}")
@@ -2883,6 +3007,8 @@ class NaverMapUtil(
             logUtil.d("zoom -> ${getNaverMapZoom()}")
 
             progressDialog?.dismiss()
+
+            getActivity().cartoMap?.setScreenSync()
 
             getActivity().btnMapZoom.text = getNaverMapZoom().toString()
 

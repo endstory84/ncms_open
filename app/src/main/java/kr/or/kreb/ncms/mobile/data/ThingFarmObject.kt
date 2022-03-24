@@ -145,6 +145,7 @@ object ThingFarmObject {
 
     var wtnncImage: MutableList<WtnncImage>? = null
 
+    var pointYn: String? = "2"
     fun cleanThingFarmObject() {
         thingInfo = null
         thingNewSearch  = "Y"
@@ -209,5 +210,6 @@ object ThingFarmObject {
         addFarmClvtdlList  = null
         addFarmThignList  = null
         wtnncImage = null
+        pointYn = "2"
     }
 }

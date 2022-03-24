@@ -136,6 +136,8 @@ object ThingTombObject {
 
     var wtnncImage: MutableList<WtnncImage>? = null
 
+    var pointYn: String? = "2"
+
     fun cleanThingTombObject() {
          thingInfo = null
          thingNewSearch = "N"
@@ -176,6 +178,7 @@ object ThingTombObject {
          addBuriedPerson = null
          addBuriedThing = null
         wtnncImage = null
+        pointYn = "2"
 
 
 

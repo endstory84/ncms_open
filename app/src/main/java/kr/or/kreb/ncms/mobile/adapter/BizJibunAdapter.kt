@@ -74,7 +74,7 @@ class BizJibunAdapter(val callDataArr: MutableList<BizJibunListInfo>) : Recycler
                     with(item){ sumAddr = "$legaldongNm $bgnnLnm" }
 
                     HttpUtil.getInstance(context!!)
-                        .urlGetNaver("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$sumAddr", "9870wtmg57", "6P8mtbdWgrxovVlv9L9dYwAqYMKNgRVCIlXd5DXj",
+                        .urlGetNaver("https://naveropenapi.apigw.ntruss.com/map-geocode/v2/geocode?query=$sumAddr", "9mek16psq2", "1yoMMipAFWX37VohQWgXULY3AjPOGAwouy7feZqo",
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) = logUtil.d("fail")
                                 override fun onResponse(call: Call, response: Response) {

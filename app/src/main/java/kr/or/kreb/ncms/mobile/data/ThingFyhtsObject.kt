@@ -108,6 +108,8 @@ object ThingFyhtsObject {
 
     var wtnncImage: MutableList<WtnncImage>? = null
 
+    var pointYn: String? = "2"
+
     fun clealThingFyhtsObject() {
         thingInfo = null
         thingNewSearch = "Y"
@@ -149,6 +151,7 @@ object ThingFyhtsObject {
         thingFyhtsSketchArea= 0
         addFyhtsThing= null // 어업권 시설물
         wtnncImage = null
+        pointYn = "2"
     }
 
 }

@@ -120,6 +120,8 @@ object ThingMinrgtObject {
 
         var wtnncImage: MutableList<WtnncImage>? = null
 
+        var pointYn: String? = "2"
+
         fun cleanThingMinrgtObject() {
                 thingInfo = null
                 thingNewSearch = "N"
@@ -162,6 +164,7 @@ object ThingMinrgtObject {
                 thingMinrgtSketchArea = 0
                 addMinrgtThing = null
                 wtnncImage = null
+                pointYn = "2"
         }
 
 

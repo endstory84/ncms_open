@@ -113,6 +113,8 @@ object ThingResidntObject {
     var thingOwnerInfoJson: JSONArray? = null
 
     var wtnncImage: MutableList<WtnncImage>? = null
+
+    var pointYn: String? = "2"
     
     fun cleanThingResidntObject() {
         thingInfo = null
@@ -159,6 +161,7 @@ object ThingResidntObject {
         addResidntDtlsList = null
         addBuldLinkList = null
         wtnncImage = null
+        pointYn = "2"
     }
 
 }

@@ -231,6 +231,8 @@ object ThingBsnObject {
 
     var wtnncImage: MutableList<WtnncImage>? = null
 
+    var pointYn: String? = "2"
+
     fun cleanThingBsnObject() {
         thingInfo = null
         thingNewSearch = "Y"
@@ -307,5 +309,6 @@ object ThingBsnObject {
         selectBuldLinkData = null
         addBuldLinkList = null
         wtnncImage = null
+        pointYn = "2"
     }
 }

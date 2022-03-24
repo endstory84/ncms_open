@@ -31,14 +31,13 @@ import kotlinx.android.synthetic.main.activity_map.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
-import kr.or.kreb.ncms.dev.data.ThingWtnObject
+import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.SketchEnum
 import kr.or.kreb.ncms.mobile.fragment.FarmSearchFragment
 import kr.or.kreb.ncms.mobile.fragment.LandSearchFragment
 import kr.or.kreb.ncms.mobile.listener.ThingViewPagerInterface
 import java.math.BigDecimal
-import kotlin.math.log
 import kotlin.math.roundToInt
 
 class CartoMapUtil : DialogUtil.ClickListener {
@@ -204,7 +203,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
         mapOpt.apply {
             backgroundBitmap = overlayBitmap
-            zoomRange = MapRange(20f, 20f) // 줌 지정
+            //zoomRange = MapRange(20f, 20f) // 줌 지정
             tiltRange = MapRange(90f, 90f) // 틸트 고정
             isRotatable = false // 회전
             isZoomGestures = false
@@ -305,14 +304,24 @@ class CartoMapUtil : DialogUtil.ClickListener {
                                 ThingWtnObject.pointYn = _isSketchDrawType
                             }
                             BizEnum.TOMB -> {
-
+                                ThingTombObject.pointYn = _isSketchDrawType
                             }
                             BizEnum.FARM -> {
+                                ThingFarmObject.pointYn = _isSketchDrawType
                                 logtUtil.d("농업입니다.")
                                 logtUtil.d("농업 필지면적 -> $currentArea")
                                 mFarmFragment?.addTableRow(currentArea)
                                 //removeDrawDistanceArea()
                                 empty()
+                            }
+                            BizEnum.BSN -> {
+                                ThingBsnObject.pointYn = _isSketchDrawType
+                            }
+                            BizEnum.RESIDNT -> {
+                                ThingResidntObject.pointYn = _isSketchDrawType
+                            }
+                            BizEnum.MINRGT -> {
+                                ThingMinrgtObject.pointYn = _isSketchDrawType
                             }
                             else -> logtUtil.d("none")
                         }
@@ -840,14 +849,12 @@ class CartoMapUtil : DialogUtil.ClickListener {
         )
 
         cartoMapView!!.moveToFitBounds(bounds, screenBounds, false, 0.5f)
-        cartoMapView!!.setZoom(20f, 0f) // 20레벨 지정 (네이버 맵과 일치)
+        //cartoMapView!!.setZoom(20f, 0f) // 20레벨 지정 (네이버 맵과 일치)
+
+        // TODO: 2022-03-22 기존 20레벨 fix -> 네이버 줌 레벨 + 1.1 수정 
+        cartoMapView!!.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat() + 1.1).toFloat(), 0.5f)
         cartoMapView!!.setFocusPos(
-            cartoProj?.fromWgs84(
-                MapPos(
-                    naverMapUtil!!.lon,
-                    naverMapUtil!!.lat
-                )
-            ), 0f
+            cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0.5f
         ) // 현재 위치 이동
     }
 

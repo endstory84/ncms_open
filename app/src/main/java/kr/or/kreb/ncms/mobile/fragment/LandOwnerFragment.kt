@@ -275,6 +275,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                             relateAdddata.put("inhbtntCprNo", selectOwnerdata.inhbtntCprNo)
                                             relateAdddata.put("sameNameNo", selectOwnerdata.sameNameNo)
                                             relateAdddata.put("pcnRightRelate", pcnRightRelateString)
+                                            relateAdddata.put("ladWtnOwnerCode", ownerData.getString("ladWtnOwnerCode"))
                                             relateAdddata.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
 
                                             relateAddJson.put("addRelate", relateAdddata)

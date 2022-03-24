@@ -26,6 +26,7 @@ import java.util.*
 
 
 class BizAdapter(
+    val context: Context,
     callDataArr: MutableList<Biz>,
     val type: String
 ) : RecyclerView.Adapter<BizAdapter.ViewHolder>(), Filterable {
@@ -246,18 +247,12 @@ class BizAdapter(
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 filteredList = results!!.values as MutableList<Biz>
+                (context as BizListActivity).tvBizMainCnt.text = "총 ${this@BizAdapter.filteredList.size}건 의 사업명이 조회되었습니다."
+                setColorChar(context.tvBizMainCnt, this@BizAdapter.filteredList.size.toString())
                 notifyDataSetChanged()
             }
         }
-        //tvBizMainCnt.text = "총 ${adapter.filteredList.size}건 의 사업명이 조회되었습니다."
     }
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
-    }
-
+    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 }

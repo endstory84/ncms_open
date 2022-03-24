@@ -8,9 +8,10 @@ package kr.or.kreb.ncms.mobile.util
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.naver.maps.geometry.LatLng
+import org.json.JSONArray
 
 object JsonArrayParseUtil {
-
+    private var logUtil: LogUtil = LogUtil(JsonArrayParseUtil::class.java.simpleName)
 
     /**
      * Geoserver에서 가져온 GeoJson을 파싱하여 LatLng로 변환하여 return
@@ -60,6 +61,71 @@ object JsonArrayParseUtil {
 
             tempGeomStringArr.forEach {
                 tempGeomLatLngArr.add(LatLng(it.split(",")[0].toDouble(), it.split(",")[1].toDouble()))
+            }
+
+            resultLatLngArr.add(tempGeomLatLngArr as ArrayList<LatLng>)
+        }
+
+        return resultLatLngArr
+    }
+
+    fun getGeomertyArrayParseBsn(
+        resultArr: JsonArray,
+        resultAddrArr: MutableList<String>?,
+        resultLadWtnCodeArr: MutableList<String>?,
+        geomArr: MutableList<JsonArray>
+    ): MutableList<ArrayList<LatLng>> {
+
+        val resultLatLngArr = mutableListOf<ArrayList<LatLng>>()
+        var polygonType = "";
+
+        resultArr.forEachIndexed { _, dataArr ->
+            if (dataArr.asJsonObject.get("geometry").toString() != "null") {
+//                when {
+//                    resultAddrArr != null -> {
+//                        resultAddrArr.add(dataArr.asJsonObject.get("properties").asJsonObject.get("jibun").asString) // WFS DATA (지적도 지번)
+//                    }
+//                }
+                geomArr.add(dataArr.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray) // WFS DATA (지오메트리)
+                polygonType = dataArr.asJsonObject.get("geometry").asJsonObject.get("type").toString()
+            }
+
+            when {
+                resultLadWtnCodeArr != null -> {
+                    resultLadWtnCodeArr.add(dataArr.asJsonObject.get("properties").asJsonObject.get("LAD_WTN_CODE").asString)
+                }
+            }
+        }
+
+        geomArr.forEachIndexed { _, jsonArray ->
+
+
+            val tempGeomStringArr = mutableListOf<String>()
+            val tempGeomLatLngArr = mutableListOf<LatLng>()
+            var geomJsonArr = JSONArray()
+
+            if(polygonType.equals("\"Polygon\"")) {
+
+                val geomJsonArr = jsonArray[0].asJsonArray
+
+                geomJsonArr.forEach { obj ->
+                    val splitStr = obj.toString().replace("[", "").replace("]", "").split(",")
+                    val sumStr = "${splitStr[1]}, ${splitStr[0]}"
+                    tempGeomStringArr.add(sumStr)
+                }
+
+            } else {
+                val geomJsonArr = jsonArray[0].asJsonArray.get(0).asJsonArray
+                geomJsonArr.forEach { obj ->
+                    val splitStr = obj.toString().replace("[", "").replace("]", "").split(",")
+                    val sumStr = "${splitStr[1]}, ${splitStr[0]}"
+                    tempGeomStringArr.add(sumStr)
+                }
+            }
+
+
+            tempGeomStringArr.forEach {
+                tempGeomLatLngArr.add(LatLng(it.split(",")[0].toDouble(), it.split(",")[1].toDouble())) // convert
             }
 
             resultLatLngArr.add(tempGeomLatLngArr as ArrayList<LatLng>)
