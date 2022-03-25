@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.ViewDataBinding
@@ -21,6 +22,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 import kr.or.kreb.ncms.mobile.BizListActivity
+import kr.or.kreb.ncms.mobile.R
+import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.util.*
 import kotlin.system.exitProcess
 
@@ -28,6 +31,8 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
 
     lateinit var binding: T
     private var isSetBackButtonValid = false
+
+    protected var progressDialog: AlertDialog? = null
 
     lateinit var dialogUtil: DialogUtil
     lateinit var dialogBuilder: MaterialAlertDialogBuilder
@@ -169,6 +174,37 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    protected fun dismissProgress() {
+
+        runOnUiThread {
+            progressDialog?.dismiss()
+        }
+
+    }
+
+    protected fun showToastError() {
+        showToast(ToastType.ERROR, R.string.msg_server_connected_fail, 100)
+    }
+
+    protected fun showToast(type: ToastType, resId: Int, duration: Int) {
+        showToast(type, getString(resId), duration)
+    }
+
+    protected fun showToast(type: ToastType, text: String, duration: Int) {
+
+        runOnUiThread {
+
+            when(type) {
+                ToastType.NORMAL -> toast.msg(text, duration)
+                ToastType.SUCCESS -> toast.msg_success(text, duration)
+                ToastType.ERROR -> toast.msg_error(text, duration)
+                ToastType.WARNING -> toast.msg_warning(text, duration)
+                ToastType.INFO -> toast.msg_info(text, duration)
+            }
+
+        }
     }
 
 }
