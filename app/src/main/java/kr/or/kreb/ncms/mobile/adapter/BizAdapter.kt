@@ -22,6 +22,7 @@ import kr.or.kreb.ncms.mobile.BizListActivity
 import kr.or.kreb.ncms.mobile.data.BizJibunListInfo
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.Biz
+import kr.or.kreb.ncms.mobile.enums.BizListType
 import kr.or.kreb.ncms.mobile.util.*
 import org.json.JSONArray
 import java.util.*
@@ -30,7 +31,7 @@ import java.util.*
 class BizAdapter(
     val context: Context,
     callDataArr: MutableList<Biz>,
-    val type: String
+    val bizListType: BizListType
 ) : RecyclerView.Adapter<BizAdapter.ViewHolder>(), Filterable {
 
     var pos: Int = 0
@@ -76,12 +77,21 @@ class BizAdapter(
                 textViewBizListManager.text = "(${checkStringNull(item.ncm)}) | ${checkStringNull(item.bsnsPsClNm)} | ${checkStringNull(item.oclhgBnora)} | ${checkStringNull(item.excDtls)} | ${checkStringNull(item.cntrctDe)}"
                 textViewBizListDept.text = "해당필지"
 
-                if (type == "all") {
-                    bizListSubJibun.goneView()
-                    detailJibunListView.goneView()
-                } else {
-                    bizListSubJibun.visibleView()
+                when(bizListType) {
+                    BizListType.ALL -> {
+                        bizListSubJibun.goneView()
+                        detailJibunListView.goneView()
+                    }
+                    else -> {
+                        bizListSubJibun.visibleView()
+                    }
                 }
+//                if (type == "all") {
+//                    bizListSubJibun.goneView()
+//                    detailJibunListView.goneView()
+//                } else {
+//                    bizListSubJibun.visibleView()
+//                }
                 // TODO: 2021-12-28 사업선택 내 지번 표출 이벤트
                 bizListSubJibun.setOnClickListener { view ->
 
@@ -129,7 +139,8 @@ class BizAdapter(
                                                 checkStringNull(getString("ownerCnt")),
                                                 checkStringNull(getString("relatesName")),
                                                 checkStringNull(getString("relatesCnt")),
-                                                type
+//                                                type
+                                                bizListType.value
                                             )
                                         )
                                     }
@@ -166,7 +177,8 @@ class BizAdapter(
                                                 checkStringNull(getString("ownerCnt")),
                                                 checkStringNull(getString("relatesName")),
                                                 checkStringNull(getString("relateCnt")),
-                                                type
+//                                                type
+                                                bizListType.value
                                             )
                                         )
                                     }

@@ -119,7 +119,7 @@ class MapActivity :
     private var fabTranslationXArr = mutableListOf<Float>()
 
     //네트워크통신 다이얼로그
-    private var progressDialog: AlertDialog? = null
+//    private var progressDialog: AlertDialog? = null
 
     val selectWtnccPolygonArr = mutableListOf<PolygonOverlay>()
 

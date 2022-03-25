@@ -89,14 +89,20 @@ class LoginActivity :
         }
 
         // 로그인정보 저장
-        if (PreferenceUtil.getLoginIsSaveId(this)) {
-            editTextLoginId.setText( PreferenceUtil.getLoginId(this) )
-            checkboxLoginSaverUser.isChecked = true
+        val isSavedId = PreferenceUtil.getLoginIsSaveId(this)
+        val savedId = PreferenceUtil.getLoginId(this)
+
+        checkboxLoginSaverUser.isChecked = isSavedId
+
+        // ID 저장 & 저장된 ID가 존재
+        if ( isSavedId && savedId.isNotEmpty() ) {
+            editTextLoginId.setText( savedId )
             editTextLoginPassword.requestFocus()
+            editTextLoginPassword.setSelection(0)
         }
         else {
-            checkboxLoginSaverUser.isChecked = false
             editTextLoginId.requestFocus()
+            editTextLoginId.setSelection(0)
         }
 
 //        preferences = getSharedPreferences("appLogin", 0)

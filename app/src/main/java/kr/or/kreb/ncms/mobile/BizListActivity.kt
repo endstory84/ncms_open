@@ -11,6 +11,7 @@ import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.database.Cursor
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -35,6 +36,8 @@ import kr.or.kreb.ncms.mobile.data.Biz
 import kr.or.kreb.ncms.mobile.data.SearchKeyword
 import kr.or.kreb.ncms.mobile.data.db.NcmsDB
 import kr.or.kreb.ncms.mobile.databinding.ActivityBizListWithDrawerlayoutBinding
+import kr.or.kreb.ncms.mobile.enums.BizListType
+import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.listener.NavSetItemListener
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
@@ -68,9 +71,14 @@ class BizListActivity :
     var searchQuery: String? = null
 
     override fun initViewStart() {
+
         dialogUtil = DialogUtil(this, this)
         loginId = intent!!.extras!!.get("id").toString()
+
+        progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+
         initUI()
+
     }
 
     override fun initDataBinding() {}
@@ -273,24 +281,30 @@ class BizListActivity :
             recylerViewBizMain.layoutManager = layoutManager
         }
 
-        settingBizAll(searchQuery)
+//        settingBizAll(searchQuery)
+        reqBizList(BizListType.ALL, searchQuery)
 
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         log.d("spiner item -> $position")
 
+        val queryString = searchViewBizSelect.query.toString()
+
         when (parent?.id) {
             R.id.spinerBizSelect -> {
                 when (position) {
                     0 -> { // 사업전체
-                        settingBizAll(searchViewBizSelect.query.toString())
+//                        settingBizAll(searchViewBizSelect.query.toString())
+                        reqBizList(BizListType.ALL, queryString)
                     }
                     1 -> { // 현장조사
-                        settingBizSearch(searchViewBizSelect.query.toString())
+//                        settingBizSearch(searchViewBizSelect.query.toString())
+                        reqBizList(BizListType.SEARCH, queryString)
                     }
                     2 -> { // 잔여지지
-                        settingBizRest(searchViewBizSelect.query.toString())
+//                        settingBizRest(searchViewBizSelect.query.toString())
+                        reqBizList(BizListType.REST, queryString)
                     }
 
 
@@ -302,16 +316,24 @@ class BizListActivity :
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     /**
-     * 사업전체
+     * 사업 목록 조회
      */
-    fun settingBizAll(query: String?) {
+    fun reqBizList(type: BizListType, query: String?) {
         val searchQuery = if(query === null){
             ""
         } else {
             query
         }
 
-        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseList"
+        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + when(type) {
+            BizListType.ALL -> "bsnsChoiseList"
+            BizListType.SEARCH -> "bsnsChoiseSearchList"
+            BizListType.REST -> "bsnsChoiseRestList"
+        }
+
+
+        log.d("====>>>>     reqBizList - Biz Type : ${type}, Value : ${type.value}, URL : ${bsnsChoiceUrl}")
+
         val bsnsChoiceMap = HashMap<String, String>()
         bsnsChoiceMap.put("searchBsnsPsCl", "")
         bsnsChoiceMap.put("searchBsnsNm", "")
@@ -320,16 +342,12 @@ class BizListActivity :
         bsnsChoiceMap.put("register", loginId!!) // 로그인 id 임시 등록
         bsnsChoiceMap.put("acntTy", "") // 로그인 id 사용자의 계정 구분
 
-        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
-
         HttpUtil.getInstance(context)
             .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
                 object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        progressDialog.dismiss()
-                        runOnUiThread {
-                            toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
-                        }
+                        dismissProgress()
+                        showToast(ToastType.ERROR, R.string.msg_server_bsns_connected_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -337,219 +355,318 @@ class BizListActivity :
 
                         log.d("bsnsChoiceList response $responseString")
 
-                        val dataJSON =
-                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
-                        progressDialog.dismiss()
+                        dismissProgress()
 
-                        runOnUiThread {
-                            val tempDataList = mutableListOf<Biz>()
-                            for (i in 0 until dataJSON.length()) {
-                                val dataObject = dataJSON.getJSONObject(i)
-                                tempDataList.add(
-                                    Biz(
-                                        dataObject.getString("saupCode"),
-                                        dataObject.getString("contCode"),
-                                        dataObject.getString("bsnsCl"),
-                                        dataObject.getString("bsnsClNm"),
-                                        dataObject.getString("bsnsNm"),
-                                        dataObject.getString("bsnsLocplc"),
-                                        dataObject.getString("bsnsPsCl"),
-                                        dataObject.getString("bsnsPsClNm"),
-                                        dataObject.getString("oclhgBnoraCl"),
-                                        dataObject.getString("oclhgBnoraClNm"),
-                                        dataObject.getString("bsnsLclasCl"),
-                                        dataObject.getString("oclhgBnora"),
-                                        dataObject.getString("excAceptncAt"),
-                                        dataObject.getString("excUseAt"),
-                                        dataObject.getString("excDtls"),
-                                        dataObject.getString("ncm"),
-                                        dataObject.getString("cntrctDe"),
-                                        dataObject,
-                                        null,
-                                        null,
-                                        loginId!!
+                        try {
+
+                            val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+
+                            runOnUiThread {
+                                val tempDataList = mutableListOf<Biz>()
+                                for (i in 0 until dataJSON.length()) {
+                                    val dataObject = dataJSON.getJSONObject(i)
+                                    tempDataList.add(
+                                        Biz(
+                                            dataObject.getString("saupCode"),
+                                            dataObject.getString("contCode"),
+                                            dataObject.getString("bsnsCl"),
+                                            dataObject.getString("bsnsClNm"),
+                                            dataObject.getString("bsnsNm"),
+                                            dataObject.getString("bsnsLocplc"),
+                                            dataObject.getString("bsnsPsCl"),
+                                            dataObject.getString("bsnsPsClNm"),
+                                            dataObject.getString("oclhgBnoraCl"),
+                                            dataObject.getString("oclhgBnoraClNm"),
+                                            dataObject.getString("bsnsLclasCl"),
+                                            dataObject.getString("oclhgBnora"),
+                                            dataObject.getString("excAceptncAt"),
+                                            dataObject.getString("excUseAt"),
+                                            dataObject.getString("excDtls"),
+                                            dataObject.getString("ncm"),
+                                            dataObject.getString("cntrctDe"),
+                                            dataObject,
+                                            when(type) {
+                                                BizListType.ALL -> null
+                                                BizListType.SEARCH, BizListType.REST -> dataObject.getJSONArray("bsnsLandList")
+                                            },
+                                            when(type) {
+                                                BizListType.ALL, BizListType.SEARCH -> null
+                                                BizListType.REST -> dataObject.getJSONArray("bsnsThingList")
+                                            },
+                                            loginId!!
+                                        )
                                     )
-                                )
-                            }
-                            GlobalScope.launch(Dispatchers.IO) {
-                                delay(500)
-                                runOnUiThread {
-                                    adapter = BizAdapter(context, tempDataList, "all")
-                                    recylerViewBizMain.adapter = adapter
-                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
-                                    adapter.filter.filter(searchQuery)
+                                }
+                                GlobalScope.launch(Dispatchers.IO) {
+                                    delay(500)
+                                    runOnUiThread {
+                                        adapter = BizAdapter(context, tempDataList, type)
+                                        recylerViewBizMain.adapter = adapter
+                                        ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+                                        adapter.filter.filter(searchQuery)
+                                    }
                                 }
                             }
                         }
+                        catch(e: Exception) {
+                            e.printStackTrace()
+                            showToastError()
+                        }
+
                     }
                 })
     }
 
-    /**
-     * 현장조사
-     */
-    fun settingBizSearch(query: String?) {
-        val searchQuery = if(query === null){
-            ""
-        } else {
-            query
-        }
-        recylerViewBizMain.adapter = null
-        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseSearchList"
-        val bsnsChoiceMap = HashMap<String, String>()
-        bsnsChoiceMap["searchBsnsPsCl"] = ""
-        bsnsChoiceMap["searchBsnsNm"] = ""
-        bsnsChoiceMap["searchNcm"] = ""
-        bsnsChoiceMap["searchComboBsnsPsCl"] = ""
-        bsnsChoiceMap["register"] = loginId!! // 로그인 id 임시 등록
-        bsnsChoiceMap["acntTy"] = "" // 로그인 id 사용자의 계정 구분
 
-        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
-
-        HttpUtil.getInstance(context)
-            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
-                object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        progressDialog.dismiss()
-                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val responseString = response.body!!.string()
-
-                        log.d("bsnsChoiceList response $responseString")
-
-                        val dataJSON =
-                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
-                        progressDialog.dismiss()
-
-                        runOnUiThread {
-                            val tempDataList = mutableListOf<Biz>()
-                            for (i in 0 until dataJSON.length()) {
-                                val dataObject = dataJSON.getJSONObject(i)
-                                tempDataList.add(
-                                    Biz(
-                                        dataObject.getString("saupCode"),
-                                        dataObject.getString("contCode"),
-                                        dataObject.getString("bsnsCl"),
-                                        dataObject.getString("bsnsClNm"),
-                                        dataObject.getString("bsnsNm"),
-                                        dataObject.getString("bsnsLocplc"),
-                                        dataObject.getString("bsnsPsCl"),
-                                        dataObject.getString("bsnsPsClNm"),
-                                        dataObject.getString("oclhgBnoraCl"),
-                                        dataObject.getString("oclhgBnoraClNm"),
-                                        dataObject.getString("bsnsLclasCl"),
-                                        dataObject.getString("oclhgBnora"),
-                                        dataObject.getString("excAceptncAt"),
-                                        dataObject.getString("excUseAt"),
-                                        dataObject.getString("excDtls"),
-                                        dataObject.getString("ncm"),
-                                        dataObject.getString("cntrctDe"),
-                                        dataObject,
-                                        dataObject.getJSONArray("bsnsLandList"),
-                                        null,
-                                        loginId!!
-                                    )
-                                )
-                            }
-                            GlobalScope.launch(Dispatchers.IO) {
-                                delay(500)
-                                runOnUiThread {
-                                    adapter = BizAdapter(context, tempDataList, "search")
-                                    recylerViewBizMain.adapter = adapter
-                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
-                                    adapter.filter.filter(searchQuery)
-                                }
-                            }
-                        }
-
-
-                    }
-
-                }
-            )
-
-    }
-
-    fun settingBizRest(query: String?) {
-        val searchQuery = if(query === null){
-            ""
-        } else {
-            query
-        }
-        recylerViewBizMain.adapter = null
-        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseRestList"
-        val bsnsChoiceMap = HashMap<String, String>()
-        bsnsChoiceMap.put("searchBsnsPsCl", "")
-        bsnsChoiceMap.put("searchBsnsNm", "")
-        bsnsChoiceMap.put("searchNcm", "")
-        bsnsChoiceMap.put("searchComboBsnsPsCl", "")
-        bsnsChoiceMap.put("register", loginId!!) // 로그인 id 임시 등록
-        bsnsChoiceMap.put("acntTy", "") // 로그인 id 사용자의 계정 구분
-
-        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
-
-        HttpUtil.getInstance(context)
-            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
-                object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        progressDialog.dismiss()
-                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
-                    }
-
-                    override fun onResponse(call: Call, response: Response) {
-                        val responseString = response.body!!.string()
-
-                        log.d("bsnsChoiceList response $responseString")
-
-                        val dataJSON =
-                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
-                        progressDialog.dismiss()
-
-                        runOnUiThread {
-                            val tempDataList = mutableListOf<Biz>()
-                            for (i in 0 until dataJSON.length()) {
-                                val dataObject = dataJSON.getJSONObject(i)
-                                tempDataList.add(
-                                    Biz(
-                                        dataObject.getString("saupCode"),
-                                        dataObject.getString("contCode"),
-                                        dataObject.getString("bsnsCl"),
-                                        dataObject.getString("bsnsClNm"),
-                                        dataObject.getString("bsnsNm"),
-                                        dataObject.getString("bsnsLocplc"),
-                                        dataObject.getString("bsnsPsCl"),
-                                        dataObject.getString("bsnsPsClNm"),
-                                        dataObject.getString("oclhgBnoraCl"),
-                                        dataObject.getString("oclhgBnoraClNm"),
-                                        dataObject.getString("bsnsLclasCl"),
-                                        dataObject.getString("oclhgBnora"),
-                                        dataObject.getString("excAceptncAt"),
-                                        dataObject.getString("excUseAt"),
-                                        dataObject.getString("excDtls"),
-                                        dataObject.getString("ncm"),
-                                        dataObject.getString("cntrctDe"),
-                                        dataObject,
-                                        dataObject.getJSONArray("bsnsLandList"),
-                                        dataObject.getJSONArray("bsnsThingList"),
-                                        loginId!!
-                                    )
-                                )
-                            }
-                            GlobalScope.launch(Dispatchers.IO) {
-                                delay(500)
-                                runOnUiThread {
-                                    adapter = BizAdapter(context, tempDataList, "rest")
-                                    recylerViewBizMain.adapter = adapter
-                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
-                                    adapter.filter.filter(searchQuery)
-                                }
-                            }
-                        }
-                    }
-
-                }
-            )
-    }
+//    /**
+//     * 사업전체
+//     */
+//    fun settingBizAll(query: String?) {
+//        val searchQuery = if(query === null){
+//            ""
+//        } else {
+//            query
+//        }
+//
+//        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseList"
+//        val bsnsChoiceMap = HashMap<String, String>()
+//        bsnsChoiceMap.put("searchBsnsPsCl", "")
+//        bsnsChoiceMap.put("searchBsnsNm", "")
+//        bsnsChoiceMap.put("searchNcm", "")
+//        bsnsChoiceMap.put("searchComboBsnsPsCl", "")
+//        bsnsChoiceMap.put("register", loginId!!) // 로그인 id 임시 등록
+//        bsnsChoiceMap.put("acntTy", "") // 로그인 id 사용자의 계정 구분
+//
+//        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+//
+//        HttpUtil.getInstance(context)
+//            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
+//                object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        progressDialog.dismiss()
+//                        runOnUiThread {
+//                            toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
+//                        }
+//                    }
+//
+//                    override fun onResponse(call: Call, response: Response) {
+//                        val responseString = response.body!!.string()
+//
+//                        log.d("bsnsChoiceList response $responseString")
+//
+//                        val dataJSON =
+//                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+//                        progressDialog.dismiss()
+//
+//                        runOnUiThread {
+//                            val tempDataList = mutableListOf<Biz>()
+//                            for (i in 0 until dataJSON.length()) {
+//                                val dataObject = dataJSON.getJSONObject(i)
+//                                tempDataList.add(
+//                                    Biz(
+//                                        dataObject.getString("saupCode"),
+//                                        dataObject.getString("contCode"),
+//                                        dataObject.getString("bsnsCl"),
+//                                        dataObject.getString("bsnsClNm"),
+//                                        dataObject.getString("bsnsNm"),
+//                                        dataObject.getString("bsnsLocplc"),
+//                                        dataObject.getString("bsnsPsCl"),
+//                                        dataObject.getString("bsnsPsClNm"),
+//                                        dataObject.getString("oclhgBnoraCl"),
+//                                        dataObject.getString("oclhgBnoraClNm"),
+//                                        dataObject.getString("bsnsLclasCl"),
+//                                        dataObject.getString("oclhgBnora"),
+//                                        dataObject.getString("excAceptncAt"),
+//                                        dataObject.getString("excUseAt"),
+//                                        dataObject.getString("excDtls"),
+//                                        dataObject.getString("ncm"),
+//                                        dataObject.getString("cntrctDe"),
+//                                        dataObject,
+//                                        null,
+//                                        null,
+//                                        loginId!!
+//                                    )
+//                                )
+//                            }
+//                            GlobalScope.launch(Dispatchers.IO) {
+//                                delay(500)
+//                                runOnUiThread {
+//                                    adapter = BizAdapter(context, tempDataList, "all")
+//                                    recylerViewBizMain.adapter = adapter
+//                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+//                                    adapter.filter.filter(searchQuery)
+//                                }
+//                            }
+//                        }
+//                    }
+//                })
+//    }
+//
+//    /**
+//     * 현장조사
+//     */
+//    fun settingBizSearch(query: String?) {
+//        val searchQuery = if(query === null){
+//            ""
+//        } else {
+//            query
+//        }
+//        recylerViewBizMain.adapter = null
+//        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseSearchList"
+//        val bsnsChoiceMap = HashMap<String, String>()
+//        bsnsChoiceMap["searchBsnsPsCl"] = ""
+//        bsnsChoiceMap["searchBsnsNm"] = ""
+//        bsnsChoiceMap["searchNcm"] = ""
+//        bsnsChoiceMap["searchComboBsnsPsCl"] = ""
+//        bsnsChoiceMap["register"] = loginId!! // 로그인 id 임시 등록
+//        bsnsChoiceMap["acntTy"] = "" // 로그인 id 사용자의 계정 구분
+//
+//        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+//
+//        HttpUtil.getInstance(context)
+//            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
+//                object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        progressDialog.dismiss()
+//                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
+//                    }
+//
+//                    override fun onResponse(call: Call, response: Response) {
+//                        val responseString = response.body!!.string()
+//
+//                        log.d("bsnsChoiceList response $responseString")
+//
+//                        val dataJSON =
+//                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+//                        progressDialog.dismiss()
+//
+//                        runOnUiThread {
+//                            val tempDataList = mutableListOf<Biz>()
+//                            for (i in 0 until dataJSON.length()) {
+//                                val dataObject = dataJSON.getJSONObject(i)
+//                                tempDataList.add(
+//                                    Biz(
+//                                        dataObject.getString("saupCode"),
+//                                        dataObject.getString("contCode"),
+//                                        dataObject.getString("bsnsCl"),
+//                                        dataObject.getString("bsnsClNm"),
+//                                        dataObject.getString("bsnsNm"),
+//                                        dataObject.getString("bsnsLocplc"),
+//                                        dataObject.getString("bsnsPsCl"),
+//                                        dataObject.getString("bsnsPsClNm"),
+//                                        dataObject.getString("oclhgBnoraCl"),
+//                                        dataObject.getString("oclhgBnoraClNm"),
+//                                        dataObject.getString("bsnsLclasCl"),
+//                                        dataObject.getString("oclhgBnora"),
+//                                        dataObject.getString("excAceptncAt"),
+//                                        dataObject.getString("excUseAt"),
+//                                        dataObject.getString("excDtls"),
+//                                        dataObject.getString("ncm"),
+//                                        dataObject.getString("cntrctDe"),
+//                                        dataObject,
+//                                        dataObject.getJSONArray("bsnsLandList"),
+//                                        null,
+//                                        loginId!!
+//                                    )
+//                                )
+//                            }
+//                            GlobalScope.launch(Dispatchers.IO) {
+//                                delay(500)
+//                                runOnUiThread {
+//                                    adapter = BizAdapter(context, tempDataList, "search")
+//                                    recylerViewBizMain.adapter = adapter
+//                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+//                                    adapter.filter.filter(searchQuery)
+//                                }
+//                            }
+//                        }
+//
+//
+//                    }
+//
+//                }
+//            )
+//
+//    }
+//
+//    fun settingBizRest(query: String?) {
+//        val searchQuery = if(query === null){
+//            ""
+//        } else {
+//            query
+//        }
+//        recylerViewBizMain.adapter = null
+//        val bsnsChoiceUrl = context.resources.getString(R.string.mobile_url) + "bsnsChoiseRestList"
+//        val bsnsChoiceMap = HashMap<String, String>()
+//        bsnsChoiceMap.put("searchBsnsPsCl", "")
+//        bsnsChoiceMap.put("searchBsnsNm", "")
+//        bsnsChoiceMap.put("searchNcm", "")
+//        bsnsChoiceMap.put("searchComboBsnsPsCl", "")
+//        bsnsChoiceMap.put("register", loginId!!) // 로그인 id 임시 등록
+//        bsnsChoiceMap.put("acntTy", "") // 로그인 id 사용자의 계정 구분
+//
+//        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+//
+//        HttpUtil.getInstance(context)
+//            .callerUrlInfoPostWebServer(bsnsChoiceMap, progressDialog, bsnsChoiceUrl,
+//                object : Callback {
+//                    override fun onFailure(call: Call, e: IOException) {
+//                        progressDialog.dismiss()
+//                        toast.msg_error(R.string.msg_server_bsns_connected_fail, 100)
+//                    }
+//
+//                    override fun onResponse(call: Call, response: Response) {
+//                        val responseString = response.body!!.string()
+//
+//                        log.d("bsnsChoiceList response $responseString")
+//
+//                        val dataJSON =
+//                            JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
+//                        progressDialog.dismiss()
+//
+//                        runOnUiThread {
+//                            val tempDataList = mutableListOf<Biz>()
+//                            for (i in 0 until dataJSON.length()) {
+//                                val dataObject = dataJSON.getJSONObject(i)
+//                                tempDataList.add(
+//                                    Biz(
+//                                        dataObject.getString("saupCode"),
+//                                        dataObject.getString("contCode"),
+//                                        dataObject.getString("bsnsCl"),
+//                                        dataObject.getString("bsnsClNm"),
+//                                        dataObject.getString("bsnsNm"),
+//                                        dataObject.getString("bsnsLocplc"),
+//                                        dataObject.getString("bsnsPsCl"),
+//                                        dataObject.getString("bsnsPsClNm"),
+//                                        dataObject.getString("oclhgBnoraCl"),
+//                                        dataObject.getString("oclhgBnoraClNm"),
+//                                        dataObject.getString("bsnsLclasCl"),
+//                                        dataObject.getString("oclhgBnora"),
+//                                        dataObject.getString("excAceptncAt"),
+//                                        dataObject.getString("excUseAt"),
+//                                        dataObject.getString("excDtls"),
+//                                        dataObject.getString("ncm"),
+//                                        dataObject.getString("cntrctDe"),
+//                                        dataObject,
+//                                        dataObject.getJSONArray("bsnsLandList"),
+//                                        dataObject.getJSONArray("bsnsThingList"),
+//                                        loginId!!
+//                                    )
+//                                )
+//                            }
+//                            GlobalScope.launch(Dispatchers.IO) {
+//                                delay(500)
+//                                runOnUiThread {
+//                                    adapter = BizAdapter(context, tempDataList, "rest")
+//                                    recylerViewBizMain.adapter = adapter
+//                                    ViewCompat.setNestedScrollingEnabled(recylerViewBizMain, false)
+//                                    adapter.filter.filter(searchQuery)
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }
+//            )
+//    }
 }
