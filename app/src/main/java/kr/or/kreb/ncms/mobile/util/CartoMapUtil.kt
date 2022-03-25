@@ -30,8 +30,7 @@ import com.naver.maps.geometry.LatLng
 import kotlinx.android.synthetic.main.activity_map.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
-import kr.or.kreb.ncms.mobile.data.LandInfoObject
-import kr.or.kreb.ncms.mobile.data.ThingWtnObject
+import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.SketchEnum
 import kr.or.kreb.ncms.mobile.fragment.FarmSearchFragment

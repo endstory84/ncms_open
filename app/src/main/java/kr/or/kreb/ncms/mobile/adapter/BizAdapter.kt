@@ -15,8 +15,10 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.*
 import kotlinx.android.synthetic.main.include_biz_all.view.*
+import kr.or.kreb.ncms.mobile.BizListActivity
 import kr.or.kreb.ncms.mobile.data.BizJibunListInfo
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.Biz
