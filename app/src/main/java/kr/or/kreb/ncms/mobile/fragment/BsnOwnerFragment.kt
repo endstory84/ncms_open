@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingBsnObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,15 +48,17 @@ import org.json.JSONObject
 import java.io.IOException
 
 class BsnOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-        ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-        ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-        ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-        ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-        ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
         DialogUtil.ClickListener {
 
-    private lateinit var bsnRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var bsnNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var bsnRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+//    private lateinit var bsnNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+    private lateinit var bsnRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var bsnNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("BsnOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -103,8 +106,9 @@ class BsnOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
         } else {
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            bsnRecyclerViewAdapter = ThingOwnerRecyclerViewAdapter(
+            bsnRecyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
+                BizEnum.BSN,
                 thingOwnerInfoJson!!,
                 this,
                 this,
@@ -1235,7 +1239,7 @@ class BsnOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingBsnObject.thingOwnerInfoJson = array
-        bsnNewOwnerRecyclerViewAdapter = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        bsnNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = bsnNewOwnerRecyclerViewAdapter
     }

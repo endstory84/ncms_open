@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingFarmObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,17 +48,19 @@ import org.json.JSONObject
 import java.io.IOException
 
 class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
     DialogUtil.ClickListener
 {
 
 //    private lateinit var farmRecyclerViewAdapter: FarmOwnerRecyclerViewAdapter
-    private lateinit var farmRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var farmNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var farmRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+//    private lateinit var farmNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+    private lateinit var farmRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var farmNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("farmOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -120,8 +123,9 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            farmRecyclerViewAdapter = ThingOwnerRecyclerViewAdapter(
+            farmRecyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
+                BizEnum.FARM,
                 thingOwnerInfoJson!!,
                 this,
                 this,
@@ -1240,7 +1244,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingFarmObject.thingOwnerInfoJson = array
-        farmNewOwnerRecyclerViewAdapter = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        farmNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = farmNewOwnerRecyclerViewAdapter
 

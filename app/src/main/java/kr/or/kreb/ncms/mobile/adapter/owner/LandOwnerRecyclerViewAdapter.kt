@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.mobile.adapter.owner
 
 
 import android.app.Activity
@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_add_owner_item.view.*
 import kotlinx.android.synthetic.main.fragment_add_owner_item_footer.view.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
+import kr.or.kreb.ncms.mobile.adapter.RelateOwnerListAdapter
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.fragment.DelvyAddrChangeFragment
 import kr.or.kreb.ncms.mobile.util.*

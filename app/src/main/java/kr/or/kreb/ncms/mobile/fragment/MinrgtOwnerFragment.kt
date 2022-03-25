@@ -37,6 +37,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingMinrgtObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -46,17 +47,19 @@ import org.json.JSONObject
 import java.io.IOException
 
 class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
     DialogUtil.ClickListener
 {
 //    private lateinit var mnidstRecyclerViewAdapter: MinrgtOwnerRecyclerViewAdapter
 
-    private lateinit var minrgtRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var minrgtNewOwnerRecyclerViewAdpater: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var minrgtRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+//    private lateinit var minrgtNewOwnerRecyclerViewAdpater: ThingNewOwnerRecyclerViewAdapter
+    private lateinit var minrgtRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var minrgtNewOwnerRecyclerViewAdpater: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("MinrgtOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -112,8 +115,9 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
         } else {
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            minrgtRecyclerViewAdapter = ThingOwnerRecyclerViewAdapter(
+            minrgtRecyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
+                BizEnum.MINRGT,
                 thingOwnerInfoJson!!,
                 this,
                 this,
@@ -817,11 +821,10 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
         newOwnerAdapterCall(thingOwnerInfoJson!!)
     }
 
-
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingMinrgtObject.thingOwnerInfoJson = array
 
-        minrgtNewOwnerRecyclerViewAdpater = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        minrgtNewOwnerRecyclerViewAdpater = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = minrgtNewOwnerRecyclerViewAdpater
     }

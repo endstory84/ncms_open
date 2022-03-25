@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingTombObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,16 +48,17 @@ import org.json.JSONObject
 import java.io.IOException
 
 class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
         DialogUtil.ClickListener
 {
 //    private lateinit var tombRecyclerViewAdapter: TombOwnerRecyclerViewAdapter
-    private lateinit var tombRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var tombNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var tombRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+    private lateinit var tombRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var tombNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("TombOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -107,8 +109,9 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
             }
         } else {
 
-            tombRecyclerViewAdapter = ThingOwnerRecyclerViewAdapter(
+            tombRecyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
+                BizEnum.TOMB,
                 thingOwnerInfoJson!!,
                 this,
                 this,
@@ -861,7 +864,7 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingTombObject.thingOwnerInfoJson = array
-        tombNewOwnerRecyclerViewAdapter = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        tombNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = tombNewOwnerRecyclerViewAdapter
 

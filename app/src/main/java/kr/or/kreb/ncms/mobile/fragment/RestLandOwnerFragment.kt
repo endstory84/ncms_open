@@ -32,8 +32,11 @@ import kotlinx.android.synthetic.main.fragment_restland_owner.view.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
+import kr.or.kreb.ncms.mobile.adapter.BaseOwnerRecyclerViewAdapter
+import kr.or.kreb.ncms.mobile.adapter.OwnerRecyclerViewAdapter
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
 import kr.or.kreb.ncms.mobile.data.RestLandInfoObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -43,11 +46,12 @@ import org.json.JSONObject
 import java.io.IOException
 
 class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-    RestLandOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    RestLandOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    RestLandOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
 
-    private lateinit var recyclerViewAdapter: RestLandOwnerRecyclerViewAdapter
+//    private lateinit var recyclerViewAdapter: RestLandOwnerRecyclerViewAdapter
+    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
 
     private var logUtil: LogUtil = LogUtil("RestLandOwnerFragment")
     private var progressDialog: AlertDialog? = null
@@ -80,8 +84,9 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
 
         RestLandInfoObject.landOwnerInfoJson = landOwnerInfoJson
 
-        recyclerViewAdapter = RestLandOwnerRecyclerViewAdapter(
+        recyclerViewAdapter = OwnerRecyclerViewAdapter(
             context!!,
+            BizEnum.REST_LAD,
             landOwnerInfoJson,
             this,
             this,

@@ -18,11 +18,11 @@ import kr.or.kreb.ncms.mobile.util.ToastUtil
 import kr.or.kreb.ncms.mobile.util.withIhidNumAsterRisk
 import org.json.JSONArray
 
-class ThingNewOwnerRecyclerViewAdapter(
-        context: Context,
-        private var thingOwnerInfo: JSONArray,
-        val addOwnerBtnListener: onItemClickAddOwnerBtnListener,
-        val addOwnerViewListener: onItemClickAddOwnerViewListener
+class NewOwnerRecyclerViewAdapter(
+    context: Context,
+    private var newOwnerInfo: JSONArray,
+    val addOwnerBtnListener: onItemClickAddOwnerBtnListener,
+    val addOwnerViewListener: onItemClickAddOwnerViewListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val TYPE_ITEM = 1
@@ -31,7 +31,7 @@ class ThingNewOwnerRecyclerViewAdapter(
 
     private fun ViewGroup.inflate(layoutRes: Int): View = LayoutInflater.from(context).inflate(layoutRes, this, false)
 
-    inner class ThingOwnerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class NewOwnerViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
     }
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,16 +47,16 @@ class ThingNewOwnerRecyclerViewAdapter(
 
         return when (viewType) {
             TYPE_FOOTER -> FooterViewHolder(parent.inflate(R.layout.fragment_add_owner_item_footer))
-            else -> ThingOwnerViewHolder(parent.inflate(R.layout.fragment_add_new_owner_item))
+            else -> NewOwnerViewHolder(parent.inflate(R.layout.fragment_add_new_owner_item))
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is ThingOwnerViewHolder -> {
+            is NewOwnerViewHolder -> {
                 holder.itemView.apply {
-                    val ownerInfoJson = thingOwnerInfo.getJSONObject(position)
+                    val ownerInfoJson = newOwnerInfo.getJSONObject(position)
 
 
                     //No
@@ -121,22 +121,12 @@ class ThingNewOwnerRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return thingOwnerInfo.length()
+        return newOwnerInfo.length()
     }
 
     override fun getItemViewType(position: Int): Int {
 
-//        if(thingOwnerInfo == null) {
-//            return TYPE_FOOTER
-//        } else {
-//            var itemMaxCount = thingOwnerInfo.length() - 1
-//
-//            return when (position) {
-//                itemMaxCount  -> TYPE_FOOTER
-//                else -> TYPE_ITEM
-//            }
-//        }
-        if(thingOwnerInfo.length() == 1) {
+        if(newOwnerInfo.length() == 1) {
             return TYPE_FOOTER
         }
         return when(position) {
@@ -146,7 +136,7 @@ class ThingNewOwnerRecyclerViewAdapter(
     }
 
     fun setJSONArray(data: JSONArray) {
-        this.thingOwnerInfo = data
+        this.newOwnerInfo = data
         ThingWtnObject.thingOwnerInfoJson = data
     }
 
@@ -160,4 +150,5 @@ class ThingNewOwnerRecyclerViewAdapter(
     interface onItemClickAddOwnerViewListener {
         fun onAddNewOnwerViewClick(position: Int)
     }
+
 }

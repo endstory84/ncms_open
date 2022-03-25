@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingFyhtsObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,17 +48,19 @@ import org.json.JSONObject
 import java.io.IOException
 
 class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
     DialogUtil.ClickListener
 {
 
 //    private lateinit var fyhtsRecyclerViewAdapter: FyhtsOwnerRecyclerViewAdapter
-    private lateinit var fyhtsRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var fyhtsRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+//    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+    private lateinit var fyhtsRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("fyhtsOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -115,8 +118,9 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
         } else {
             thingDataJson = JSONObject(dataString!!)
             thingOwnerInfoJson = thingDataJson!!.getJSONArray("ownerInfo") as JSONArray
-            fyhtsRecyclerViewAdapter = ThingOwnerRecyclerViewAdapter(
+            fyhtsRecyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
+                BizEnum.FYHTS,
                 thingOwnerInfoJson!!,
                 this,
                 this,
@@ -1341,7 +1345,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingFyhtsObject.thingOwnerInfoJson = array
-        fyhtsNewOwnerRecyclerViewAdapter = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        fyhtsNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = fyhtsNewOwnerRecyclerViewAdapter
     }

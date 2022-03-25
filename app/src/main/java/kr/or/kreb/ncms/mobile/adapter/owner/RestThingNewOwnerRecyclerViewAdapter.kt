@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.mobile.adapter.owner
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -19,10 +19,10 @@ import kr.or.kreb.ncms.mobile.util.withIhidNumAsterRisk
 import org.json.JSONArray
 
 class RestThingNewOwnerRecyclerViewAdapter(
-        context: Context,
-        private var restThingOwnerInfo: JSONArray,
-        val addOwnerBtnListener: onItemClickAddOwnerBtnListener,
-        val addOwnerViewListener: onItemClickAddOwnerViewListener
+    context: Context,
+    private var restThingOwnerInfo: JSONArray,
+    val addOwnerBtnListener: onItemClickAddOwnerBtnListener,
+    val addOwnerViewListener: onItemClickAddOwnerViewListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val TYPE_ITEM = 1

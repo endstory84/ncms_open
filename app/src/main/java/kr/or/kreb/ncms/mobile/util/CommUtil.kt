@@ -427,6 +427,26 @@ fun lastCommaRemove(str: String?): String = str?.substring(0, str.length - 1)!!
  * @param ihidNum
  */
 fun withIhidNumAsterRisk(ihidNum: String?): String {
+    return withIhidNumAsterRisk(true, ihidNum)
+}
+
+fun withIhidNumAsterRisk(indvdl: Boolean, ihidNum: String?): String {
+
+    if (null != ihidNum && ihidNum.isNotEmpty()) {
+        if (ihidNum!!.indexOf("-") > -1 && ihidNum.length == 14) {
+            return when(indvdl) {
+                true -> "${ihidNum.substring(0, 8)}******"
+                else -> "${ihidNum.substring(0, 7)}*******"
+            }
+        }
+        else if (ihidNum.length == 13) {
+            return when(indvdl) {
+                true -> "${ihidNum.substring(0, 6)}-${ihidNum.substring(6,7)}******"
+                else -> "${ihidNum.substring(0, 6)}-*******"
+            }
+        }
+    }
+
     return if (ihidNum?.length!! < 14) {
         ihidNum
     } else {

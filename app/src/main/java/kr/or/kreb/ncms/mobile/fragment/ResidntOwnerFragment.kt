@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingResidntObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,17 +48,19 @@ import org.json.JSONObject
 import java.io.IOException
 
 class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    ThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    ThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    ThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
     DialogUtil.ClickListener
 {
 
     //    private lateinit var residntRecyclerViewAdapter: ResidntOwnerRecyclerViewAdapter
-    private lateinit var residntRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var residntNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+//    private lateinit var residntRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
+//    private lateinit var residntNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
+    private lateinit var residntRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var residntNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("ResidntOwnerFragment")
     private var progressDialog: AlertDialog? = null
 //    private var toastUtil: ToastUtil = ToastUtil(context!!)
@@ -118,7 +121,7 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
             residntRecyclerViewAdapter =
-                ThingOwnerRecyclerViewAdapter(context!!, thingOwnerInfoJson!!, this, this, this)
+                OwnerRecyclerViewAdapter(context!!, BizEnum.RESIDNT, thingOwnerInfoJson!!, this, this, this)
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             view.ownerRecyclerView.adapter = residntRecyclerViewAdapter
 
@@ -1261,7 +1264,7 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingResidntObject.thingOwnerInfoJson = array
-        residntNewOwnerRecyclerViewAdapter = ThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        residntNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = residntNewOwnerRecyclerViewAdapter
     }

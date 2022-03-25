@@ -35,8 +35,10 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.AddOwnerInputAdapter
 import kr.or.kreb.ncms.mobile.adapter.AddOwnerSelectDialogListAdapter
-import kr.or.kreb.ncms.mobile.adapter.LandOwnerRecyclerViewAdapter
+import kr.or.kreb.ncms.mobile.adapter.BaseOwnerRecyclerViewAdapter
+import kr.or.kreb.ncms.mobile.adapter.OwnerRecyclerViewAdapter
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -46,11 +48,12 @@ import org.json.JSONObject
 import java.io.IOException
 
 class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-    LandOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    LandOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    LandOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
+    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
 
-    private lateinit var recyclerViewAdapter: LandOwnerRecyclerViewAdapter
+//    private lateinit var recyclerViewAdapter: LandOwnerRecyclerViewAdapter
+    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
 
     private var logUtil: LogUtil = LogUtil("LandOwnerFragment")
     private var progressDialog: AlertDialog? = null
@@ -83,7 +86,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
         LandInfoObject.landOwnerInfoJson = landOwnerInfoJson
 
-        recyclerViewAdapter = LandOwnerRecyclerViewAdapter(context!!, activity!!, landOwnerInfoJson, this, this, this)
+        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.LAD, landOwnerInfoJson, this, this, this)
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         view.ownerRecyclerView.adapter = recyclerViewAdapter
 

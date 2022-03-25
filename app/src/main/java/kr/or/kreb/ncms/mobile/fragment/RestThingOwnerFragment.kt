@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_add_choice_owner_dialog.view.*
-import kotlinx.android.synthetic.main.fragment_add_new_modify_owner_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.cancelBtn
 import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.selectInputBtn
@@ -37,8 +35,8 @@ import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.own
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
-import kr.or.kreb.ncms.mobile.data.RestThingWtnObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
+import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -48,16 +46,18 @@ import org.json.JSONObject
 import java.io.IOException
 
 class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-        RestThingOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-        RestThingOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-        RestThingOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-        RestThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-        RestThingNewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
+        BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
+        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
+        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
         DialogUtil.ClickListener
 {
 
-    private lateinit var restThingRecyclerViewAdapter: RestThingOwnerRecyclerViewAdapter
-    private lateinit var restThingNewOnwerRecyclerViewAdapter: RestThingNewOwnerRecyclerViewAdapter
+//    private lateinit var restThingRecyclerViewAdapter: RestThingOwnerRecyclerViewAdapter
+//    private lateinit var restThingNewOnwerRecyclerViewAdapter: RestThingNewOwnerRecyclerViewAdapter
+    private lateinit var restThingRecyclerViewAdapter: OwnerRecyclerViewAdapter
+    private lateinit var restThingNewOnwerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
     private var logUtil: LogUtil = LogUtil("RestThingOwnerFragment")
     private var progressDialog: AlertDialog? = null
     var builder: MaterialAlertDialogBuilder? = null
@@ -92,7 +92,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
         view.ownerRecyclerView.visibleView()
         view.newOwnerRecyclerView.goneView()
-        restThingRecyclerViewAdapter = RestThingOwnerRecyclerViewAdapter(context!!, activity!!, restThingOwnerInfoJson!!, this, this, this)
+        restThingRecyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.REST_THING, restThingOwnerInfoJson!!, this, this, this)
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         view.ownerRecyclerView.adapter = restThingRecyclerViewAdapter
     }
@@ -694,7 +694,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingWtnObject.thingOwnerInfoJson = array
-        restThingNewOnwerRecyclerViewAdapter = RestThingNewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        restThingNewOnwerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = restThingNewOnwerRecyclerViewAdapter
     }
