@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.mobile.adapter.viewpager
 
 import android.app.Activity
 import android.content.Context

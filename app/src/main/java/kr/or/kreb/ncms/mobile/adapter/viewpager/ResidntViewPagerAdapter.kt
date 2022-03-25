@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.mobile.adapter.viewpager
 
 import android.app.Activity
 import android.content.Context
@@ -11,10 +11,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import kr.or.kreb.ncms.mobile.fragment.BsnOwnerFragment
-import kr.or.kreb.ncms.mobile.fragment.BsnSearchFragment
+import kr.or.kreb.ncms.mobile.fragment.ResidntOwnerFragment
+import kr.or.kreb.ncms.mobile.fragment.ResidntSearchFragment
 
-class BsnViewPagerAdapter (
+class ResidntViewPagerAdapter(
     private val activity: Activity,
     private val context: Context,
     private val fragmentActivity: FragmentActivity,
@@ -32,8 +32,8 @@ class BsnViewPagerAdapter (
     override fun createFragment(position: Int): Fragment {
 
         return when (position) {
-            search -> BsnSearchFragment(activity, context, fragmentActivity)
-            else -> BsnOwnerFragment(fragmentActivity)
+            search -> ResidntSearchFragment(activity, context, fragmentActivity)
+            else -> ResidntOwnerFragment(fragmentActivity)
         }
     }
 }

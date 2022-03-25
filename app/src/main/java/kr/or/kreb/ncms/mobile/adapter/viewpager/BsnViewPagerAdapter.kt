@@ -3,7 +3,7 @@
  * Copyright (c) 2021. sgablc. All rights reserved.
  */
 
-package kr.or.kreb.ncms.mobile.adapter
+package kr.or.kreb.ncms.mobile.adapter.viewpager
 
 import android.app.Activity
 import android.content.Context
@@ -11,11 +11,10 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import kr.or.kreb.ncms.mobile.fragment.RestThingOwnerFragment
-import kr.or.kreb.ncms.mobile.fragment.RestThingSearchFragment
-import kr.or.kreb.ncms.mobile.fragment.ThingSearchFragment
+import kr.or.kreb.ncms.mobile.fragment.BsnOwnerFragment
+import kr.or.kreb.ncms.mobile.fragment.BsnSearchFragment
 
-class RestThingViewPagerAdapter(
+class BsnViewPagerAdapter (
     private val activity: Activity,
     private val context: Context,
     private val fragmentActivity: FragmentActivity,
@@ -33,10 +32,8 @@ class RestThingViewPagerAdapter(
     override fun createFragment(position: Int): Fragment {
 
         return when (position) {
-            // 조사
-            search -> RestThingSearchFragment(activity, context, fragmentActivity)
-            // 소유자 및 관계인
-            else -> RestThingOwnerFragment(fragmentActivity)
+            search -> BsnSearchFragment(activity, context, fragmentActivity)
+            else -> BsnOwnerFragment(fragmentActivity)
         }
     }
 }
