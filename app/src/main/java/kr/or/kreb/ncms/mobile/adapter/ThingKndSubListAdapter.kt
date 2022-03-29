@@ -16,7 +16,7 @@ import kr.or.kreb.ncms.mobile.fragment.ThingDialogFragment
 import kr.or.kreb.ncms.mobile.listener.ThingViewPagerInterface
 
 class ThingKndSubListAdapter (
-    private val thingSubList: ArrayList<Int>,
+    private val thingSubList: ArrayList<String>,
     var context: Context,
     private val thingType: Int,
     val v: ThingDialogFragment,

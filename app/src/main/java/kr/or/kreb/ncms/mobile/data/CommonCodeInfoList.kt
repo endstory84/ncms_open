@@ -106,6 +106,21 @@ object CommonCodeInfoList {
         }
     }
 
+    fun isEmpty() : Boolean {
+
+        val iterator = commonCodeMap.keys.iterator()
+        while (iterator.hasNext()) {
+            val key = iterator.next()
+            val codeInfoList = commonCodeMap.get(key)
+            if (null != codeInfoList && codeInfoList.size > 0) {
+                return true;
+            }
+        }
+
+        return false
+
+    }
+
     fun getCodeDcList(groupCode: String) : List<String> {
 
         var list = ArrayList<String>()

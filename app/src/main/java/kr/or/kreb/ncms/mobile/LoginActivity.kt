@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
@@ -243,6 +244,11 @@ class LoginActivity :
      * DB 공통코드 목록을 가져온다
      */
     private fun reqCommonCodeList() {
+
+        if (!CommonCodeInfoList.isEmpty()) {
+            return
+        }
+
         val reqUrl = resources.getString(R.string.mobile_url) + "selectCommonCodeList"
         val map = HashMap<String, String>()
         map.put("codeGroupId", "")
@@ -279,6 +285,10 @@ class LoginActivity :
      * 로그인을 요청한다
      */
     fun reqLogin(id: String, pwd: String) {
+
+        // 혹시, 공통코드정보를 받아오지 못하였다면 새로 받아온다
+        reqCommonCodeList()
+
         val reqLoginUrl = resources.getString(R.string.mobile_url) + "reqLogin"//"auth.do"
         val loginMap = HashMap<String, String>()
         loginMap.put("id", encryptCBC(id))

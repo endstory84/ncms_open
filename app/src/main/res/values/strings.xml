@@ -404,81 +404,86 @@
     <string name="thingRgistAt">등기여부</string>
     <string name="thingResideBuldAt">주거용건물여부</string>
     <string name="thingAr">면적</string>
-    <string name="thingTreeAll">전체</string>
-    <string name="thingTree00">전국</string>
-    <string name="thingTree11">서울</string>
-    <string name="thingTree26">부산</string>
-    <string name="thingTree27">대구</string>
-    <string name="thingTree28">인천</string>
-    <string name="thingTree29">광주</string>
-    <string name="thingTree30">대전</string>
-    <string name="thingTree31">울산</string>
-    <string name="thingTree36">세종</string>
-    <string name="thingTree41">경기</string>
-    <string name="thingTree42">강원</string>
-    <string name="thingTree43">충북</string>
-    <string name="thingTree44">충남</string>
-    <string name="thingTree45">전북</string>
-    <string name="thingTree46">전남</string>
-    <string name="thingTree47">경북</string>
-    <string name="thingTree48">경남</string>
-    <string name="thingTree50">제주</string>
 
+    <string-array name="thingTreeArr">
+        <item>전체</item>
+        <item>전국</item>
+        <item>서울</item>
+        <item>부산</item>
+        <item>대구</item>
+        <item>인천</item>
+        <item>광주</item>
+        <item>대전</item>
+        <item>울산</item>
+        <item>세종</item>
+        <item>경기</item>
+        <item>강원</item>
+        <item>충북</item>
+        <item>충남</item>
+        <item>전북</item>
+        <item>전남</item>
+        <item>경북</item>
+        <item>경남</item>
+        <item>제주</item>
+    </string-array>
 
-    <string name="materialSubAll">전체</string>
-    <string name="materialSubStructural">구조재</string>
-    <string name="materialSubRoofing">지붕재</string>
-    <string name="materialSubWall">내외벽재</string>
-    <string name="materialSubFlooring">바닥재</string>
-    <string name="materialSubZenith">천정재</string>
-    <string name="materialSubInsulator">단열재</string>
-    <string name="materialSubWindow">창호</string>
+    <string-array name="materialArr">
+        <item>전체</item>
+        <item>구조재</item>
+        <item>지붕재</item>
+        <item>내외벽재</item>
+        <item>바닥재</item>
+        <item>천정재</item>
+        <item>단열재</item>
+        <item>창호</item>
+    </string-array>
 
-    <string name="buildSubAll">전체</string>
-    <string name="buildSubHouse">일반주택</string>
-    <string name="buildSubHanok">전통한옥</string>
-    <string name="buildSubNewHanOk">신한옥</string>
-    <string name="buildSubLuxuryHouse">고급주택</string>
-    <string name="buildSubMulitHouse">다가구주택</string>
-    <string name="buildSubApartment">아파트</string>
-    <string name="buildSubComplexApartment">주상복합</string>
-    <string name="buildSubRowHouse">연립주택</string>
-    <string name="buildSubLuxuryRowHouse">연립주택 고급타운형</string>
-    <string name="buildSubMulitFamilyHouse">다세대주택</string>
-    <string name="buildSubDormitory">기숙사</string>
-    <string name="buildSubStore">점포 및 상가</string>
-    <string name="buildSubBath">목욕장</string>
-    <string name="buildSubSauna">목욕장 사우나시설포함</string>
-    <string name="buildSubWarehouse">일반창고</string>
-    <string name="buildSubColdStorage">저온창고</string>
-    <string name="buildSubFactory">일반공장</string>
-    <string name="buildSubRefrigenration">냉동공장</string>
-    <string name="buildSubSemiconductor">반도체공장</string>
-    <string name="buildSubApartmentFactory">아파트형공장</string>
-    <string name="buildSubMotel">여관</string>
-    <string name="buildSubHotel">호텔</string>
-    <string name="buildSubCondHotel">콘도미니엄 호텔형</string>
-    <string name="buildSubCondVilla">콘도미니엄 빌라형</string>
-    <string name="buildSubGeneralBusiness">일반업무시설</string>
-    <string name="buildSubOfficetels">오피스텔</string>
-    <string name="buildSubPublicBusiness">공공업무시설</string>
-    <string name="buildSubDepartment">백화점</string>
-    <string name="buildSubDisCountStore">대형할인점</string>
-    <string name="buildSubBowling">볼링장</string>
-    <string name="buildSubGym">체육관</string>
-    <string name="buildSubLeisure">레저시설</string>
-    <string name="buildSubHospital">병원</string>
-    <string name="buildSubFuneral">장례식장</string>
-    <string name="buildSubBanquet">예식장</string>
-    <string name="buildSubCinema">영화관</string>
-    <string name="buildSubSchool">학교</string>
-    <string name="buildSubGas">주유소</string>
-    <string name="buildSubParking">주차빌딩</string>
-    <string name="buildSubChurch">교회</string>
-    <string name="buildSubOccupancy">재실</string>
-    <string name="buildSubKindergarden">유치원</string>
-    <string name="buildSubBarn">축사</string>
-
+    <string-array name="buildArr">
+        <item>전체</item>
+        <item>일반주택</item>
+        <item>전통한옥</item>
+        <item>신한옥</item>
+        <item>고급주택</item>
+        <item>다가구주택</item>
+        <item>아파트</item>
+        <item>주상복합</item>
+        <item>연립주택</item>
+        <item>연립주택 고급타운형</item>
+        <item>다세대주택</item>
+        <item>기숙사</item>
+        <item>점포 및 상가</item>
+        <item>목욕장</item>
+        <item>목욕장 사우나시설포함</item>
+        <item>일반창고</item>
+        <item>저온창고</item>
+        <item>일반공장</item>
+        <item>냉동공장</item>
+        <item>반도체공장</item>
+        <item>아파트형공장</item>
+        <item>여관</item>
+        <item>호텔</item>
+        <item>콘도미니엄 호텔형</item>
+        <item>콘도미니엄 빌라형</item>
+        <item>일반업무시설</item>
+        <item>오피스텔</item>
+        <item>공공업무시설</item>
+        <item>백화점</item>
+        <item>대형할인점</item>
+        <item>볼링장</item>
+        <item>체육관</item>
+        <item>레저시설</item>
+        <item>병원</item>
+        <item>장례식장</item>
+        <item>예식장</item>
+        <item>영화관</item>
+        <item>학교</item>
+        <item>주유소</item>
+        <item>주차빌딩</item>
+        <item>교회</item>
+        <item>재실</item>
+        <item>유치원</item>
+        <item>축사</item>
+    </string-array>
 
 
 
@@ -1385,5 +1390,84 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="camera_info_title">현장지원모바일 현장조사 사진 촬영모드입니다.</string>
+
+    // 물건 Sub Type 명
+    // 수목 - 지역
+    <string name="thing_knd_sub_nm_0_0">-1</string>     <!-- 전체 -->
+    <string name="thing_knd_sub_nm_0_1">10</string>     <!-- 전국 -->
+    <string name="thing_knd_sub_nm_0_2">11</string>     <!-- 서울 -->
+    <string name="thing_knd_sub_nm_0_3">26</string>     <!-- 부산 -->
+    <string name="thing_knd_sub_nm_0_4">27</string>     <!-- 대구 -->
+    <string name="thing_knd_sub_nm_0_5">28</string>     <!-- 인천 -->
+    <string name="thing_knd_sub_nm_0_6">29</string>     <!-- 광주 -->
+    <string name="thing_knd_sub_nm_0_7">30</string>     <!-- 대전 -->
+    <string name="thing_knd_sub_nm_0_8">31</string>     <!-- 울산 -->
+    <string name="thing_knd_sub_nm_0_9">36</string>     <!-- 세종 -->
+    <string name="thing_knd_sub_nm_0_10">41</string>    <!-- 경기 -->
+    <string name="thing_knd_sub_nm_0_11">42</string>    <!-- 전체 -->
+    <string name="thing_knd_sub_nm_0_12">43</string>    <!-- 충북 -->
+    <string name="thing_knd_sub_nm_0_13">44</string>    <!-- 충남 -->
+    <string name="thing_knd_sub_nm_0_14">45</string>    <!-- 전북 -->
+    <string name="thing_knd_sub_nm_0_15">46</string>    <!-- 전남 -->
+    <string name="thing_knd_sub_nm_0_16">47</string>    <!-- 경북 -->
+    <string name="thing_knd_sub_nm_0_17">48</string>    <!-- 경남 -->
+    <string name="thing_knd_sub_nm_0_18">50</string>    <!-- 제주 -->
+
+    // 자재 - 자재
+    <string name="thing_knd_sub_nm_1_0">-1</string>
+    <string name="thing_knd_sub_nm_1_1">구조재</string>
+    <string name="thing_knd_sub_nm_1_2">지붕재</string>
+    <string name="thing_knd_sub_nm_1_3">내외벽재</string>
+    <string name="thing_knd_sub_nm_1_4">바닥재</string>
+    <string name="thing_knd_sub_nm_1_5">전청재</string>
+    <string name="thing_knd_sub_nm_1_6">단열재</string>
+    <string name="thing_knd_sub_nm_1_7">창호</string>
+
+    // 건물
+    <string name="thing_knd_sub_nm_2_0">-1</string>
+    <string name="thing_knd_sub_nm_2_1">일반주택</string>
+    <string name="thing_knd_sub_nm_2_2">전통한옥_소형</string>
+    <string name="thing_knd_sub_nm_2_3">신한옥</string>
+    <string name="thing_knd_sub_nm_2_4">고급주택</string>
+    <string name="thing_knd_sub_nm_2_5">다가구주택</string>
+    <string name="thing_knd_sub_nm_2_6">아파트</string>
+    <string name="thing_knd_sub_nm_2_7">주상복합아파트</string>
+    <string name="thing_knd_sub_nm_2_8">연립주택</string>
+    <string name="thing_knd_sub_nm_2_9">연립주택 고급타운형</string>
+    <string name="thing_knd_sub_nm_2_10">다세대주택</string>
+    <string name="thing_knd_sub_nm_2_11">기숙사</string>
+    <string name="thing_knd_sub_nm_2_12">점포 및 상가</string>
+    <string name="thing_knd_sub_nm_2_13">목욕장</string>
+    <string name="thing_knd_sub_nm_2_14">목욕장_사우나시설포함</string>
+    <string name="thing_knd_sub_nm_2_15">일반창고</string>
+    <string name="thing_knd_sub_nm_2_16">저온창고</string>
+    <string name="thing_knd_sub_nm_2_17">냉동창고</string>
+    <string name="thing_knd_sub_nm_2_18">일반공장</string>
+    <string name="thing_knd_sub_nm_2_19">냉동공장</string>
+    <string name="thing_knd_sub_nm_2_20">반도체공장</string>
+    <string name="thing_knd_sub_nm_2_21">아파트형공장</string>
+    <string name="thing_knd_sub_nm_2_22">여관</string>
+    <string name="thing_knd_sub_nm_2_23">호텔</string>
+    <string name="thing_knd_sub_nm_2_24">콘도미니엄_호텔형</string>
+    <string name="thing_knd_sub_nm_2_25">콘도미니엄_빌라형</string>
+    <string name="thing_knd_sub_nm_2_26">일반업무시설</string>
+    <string name="thing_knd_sub_nm_2_27">오피스텔</string>
+    <string name="thing_knd_sub_nm_2_28">공공업무시설</string>
+    <string name="thing_knd_sub_nm_2_29">백화점</string>
+    <string name="thing_knd_sub_nm_2_30">대형할인점</string>
+    <string name="thing_knd_sub_nm_2_31">볼링장</string>
+    <string name="thing_knd_sub_nm_2_32">체육관</string>
+    <string name="thing_knd_sub_nm_2_33">레저시설</string>
+    <string name="thing_knd_sub_nm_2_34">병원</string>
+    <string name="thing_knd_sub_nm_2_35">장례식장</string>
+    <string name="thing_knd_sub_nm_2_36">예식장</string>
+    <string name="thing_knd_sub_nm_2_37">영화관</string>
+    <string name="thing_knd_sub_nm_2_38">학교</string>
+    <string name="thing_knd_sub_nm_2_39">주유소</string>
+    <string name="thing_knd_sub_nm_2_40">주차빌딩</string>
+    <string name="thing_knd_sub_nm_2_41">교회</string>
+    <string name="thing_knd_sub_nm_2_42">재실</string>
+    <string name="thing_knd_sub_nm_2_43">유치원</string>
+    <string name="thing_knd_sub_nm_2_44">축사</string>
 
 </resources>
