@@ -314,7 +314,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.THING -> {
                         getActivity().apply {
@@ -324,7 +324,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.TOMB -> {
                         getActivity().apply {
@@ -334,7 +334,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.FARM -> {
                         getActivity().apply {
@@ -344,7 +344,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.RESIDNT -> {
                         getActivity().apply {
@@ -354,7 +354,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     BizEnum.BSN, BizEnum.MINRGT, BizEnum.FYHTS -> {
                         getActivity().apply {
@@ -364,7 +364,7 @@ class NaverMapUtil(
                             isBsnsAreaLayerChecked = true
                         }
                         getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
-                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+//                        getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
                     }
                     else -> {}
                 }
@@ -506,24 +506,16 @@ class NaverMapUtil(
 
                                     when(tagName) {
 
-                                        "편집지적도" /*, "사업구역(용지도)"*/ -> {
+                                        "편집지적도" -> {
 
-                                            when(tagName){
-                                                "편집지적도" -> clearWFS(wfsEditCadastralOverlayArr, tagName)
-                                                //else -> clearWFS(wfsBsnAreaOverlayArr, tagName)
-                                            }
+                                            clearWFS(wfsEditCadastralOverlayArr, tagName)
 
                                             if (getNaverMapZoom() > 13) {
                                                 if (resultCnt > 0) {
                                                     val getGeomArr = JsonArrayParseUtil.getGeomertyArrayParse(resultArr, null, null, resultGeomArr)
 
-                                                    when(tagName){
-                                                        "편집지적도" -> {
-                                                            LandInfoObject.ladEditCadastralJsonArray = resultArr
-                                                            resultEditCadastralLatLngArr = getGeomArr
-                                                        }
-                                                        else -> resultBsnsAreaLatLngArr = getGeomArr
-                                                    }
+                                                    LandInfoObject.ladEditCadastralJsonArray = resultArr
+                                                    resultEditCadastralLatLngArr = getGeomArr
 
                                                     val polyColor = setWFSLayerColorStyle(tagName)
                                                     val polyLineColor = setWFSLayerColorStrokeStyle(tagName)
@@ -1854,6 +1846,7 @@ class NaverMapUtil(
                             globalZIndex = getZindex
                             map = naverMap
                         }
+                    setLayerPolygonArr.add(drawPolygonOverlay)
                 }
 
             }
@@ -1943,8 +1936,10 @@ class NaverMapUtil(
             for (i in 0 until resultArr.size) {
                 var pointYn = jsonArr!![i].asJsonObject.get("properties").asJsonObject.get("MO_POINT_YN")
 
+                logUtil.d("pointYn -> $pointYn")
+
                 if(pointYn.asString.equals("1")) {
-                    for(j in 0 until latLngArr[i].size) {
+                    for(j in 0 until latLngArr[i].size-1) {
                         val infoWindow = InfoWindow()
                         var infoView: InfoView?
 
@@ -1958,10 +1953,11 @@ class NaverMapUtil(
     //                    latitude = 37.74335264
     //                            longitude = 126.70393214
                         infoWindow.offsetX = 0
+                        infoWindow.offsetY = 0
                         infoWindowArr.add(infoWindow)
                     }
                 } else {
-                    for (i in 0 until resultArr.size) {
+//                    for (i in 0 until resultArr.size-1) {
                         val infoWindow = InfoWindow()
                         var infoView: InfoView?
                         infoView = InfoView(context!!, null, R.layout.include_wtncc_info_view)
@@ -1969,8 +1965,9 @@ class NaverMapUtil(
                         infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
                         infoWindow.position = findPolygonCenter(latLngArr[i])
                         infoWindow.offsetX = 0
+                        infoWindow.offsetY = 0
                         infoWindowArr.add(infoWindow)
-                    }
+//                    }
                 }
 
             }
@@ -2052,7 +2049,7 @@ class NaverMapUtil(
             val point = LatLng(arr[i].latitude, arr[i].longitude)
             bounds.include(point)
         }
-        //logUtil.d("findPolygonCenter -> ${bounds.build().center}")
+        logUtil.d("findPolygonCenter -> ${bounds.build().center}")
         return bounds.build().center
     }
 
@@ -2099,19 +2096,21 @@ class NaverMapUtil(
                      *  @param SAUP_CODE
                      */
 
-                    GeoserverLayerEnum.TB_LAD_WTN.value, GeoserverLayerEnum.TB_THING_WTN.value, GeoserverLayerEnum.CADASTRAL_EDIT.value, GeoserverLayerEnum.TL_BSNS_AREA.value -> {
+                    GeoserverLayerEnum.TB_LAD_WTN.value, GeoserverLayerEnum.TB_THING_WTN.value,
+                    GeoserverLayerEnum.CADASTRAL_EDIT.value, GeoserverLayerEnum.TL_BSNS_AREA.value,
+                    GeoserverLayerEnum.TB_LAD_REALNGR.value -> {
                         queryArr["FILTER"] = """(<Filter xmlns="$wfsFilterUrl"><And><PropertyIsEqualTo><PropertyName>SAUP_CODE</PropertyName><Literal>${PreferenceUtil.getString(context!!, "saupCode", "")}</Literal></PropertyIsEqualTo><BBOX><PropertyName>GEOM</PropertyName><Envelope xmlns="$wfsFilterEnvelopeUrl" srsName="${CoordinatesEnum.WGS84.value}"><lowerCorner>${naverMap.coveringBounds.southWest.longitude} ${naverMap.coveringBounds.southWest.latitude}</lowerCorner><upperCorner>${naverMap.coveringBounds.northEast.longitude} ${naverMap.coveringBounds.northEast.latitude}</upperCorner></Envelope></BBOX></And></Filter>)"""
                         logUtil.d(queryArr["FILTER"].toString())
                     }
                     // 토지실제이용
-                    GeoserverLayerEnum.TB_LAD_REALNGR.value -> {
-                        //queryArr["FILTER"] = """(<Filter xmlns="$wfsFilterUrl"><PropertyIsEqualTo><PropertyName>SAUP_CODE</PropertyName><Literal>${prefUtil?.getString("saupCode", "")}</Literal></PropertyIsEqualTo></Filter>)"""
-
-                        /**
-                         *  @param LandInfoObject.getSameWtnCode (조서코드)
-                         */
-                        queryArr["FILTER"] = """(<Filter xmlns="$wfsFilterUrl"><And><PropertyIsEqualTo><PropertyName>LAD_WTN_CODE</PropertyName><Literal>${LandInfoObject.getSameWtnCode}</Literal></PropertyIsEqualTo></And></Filter>)"""
-                    }
+//                    GeoserverLayerEnum.TB_LAD_REALNGR.value -> {
+//                        //queryArr["FILTER"] = """(<Filter xmlns="$wfsFilterUrl"><PropertyIsEqualTo><PropertyName>SAUP_CODE</PropertyName><Literal>${prefUtil?.getString("saupCode", "")}</Literal></PropertyIsEqualTo></Filter>)"""
+//
+//                        /**
+//                         *  @param LandInfoObject.getSameWtnCode (조서코드)
+//                         */
+//                        queryArr["FILTER"] = """(<Filter xmlns="$wfsFilterUrl"><And><PropertyIsEqualTo><PropertyName>LAD_WTN_CODE</PropertyName><Literal>${LandInfoObject.getSameWtnCode}</Literal></PropertyIsEqualTo></And></Filter>)"""
+//                    }
 
                     // 그 외 (SAUP_CODE 필터링이 필요하지 않을 때
                     else -> {

@@ -119,7 +119,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
         HttpUtil.getInstance(context!!)
             .callerUrlInfoPostWebServer(ownerSearch, progressDialog, ownerUrl,
-                object:Callback {
+                object:Callback, AddNewOwnerFragment.addNewOwnerSaveInterface  {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog!!.dismiss()
                         logUtil.e("fail")
@@ -313,25 +313,134 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                                     })
                                         }
+                                    }
+                                }
+                            }
+                            view.searchAddOwnerBtn.setOnClickListener {
+                                logUtil.d("searchAddOwnerBtn <><><><><><><><><><><><><><><><><><><><><><><><><>")
 
+                                AddNewOwnerFragment(activity!!, context!!, this).show((context as MapActivity).supportFragmentManager, "addNewOwnerFragment")
+                                ownerInfoDialog.dismiss()
+                            }
+                        }
+                    }
 
+                    override fun onSaveOwner(dataInfo: JSONObject, ownerType: Int) {
+                        layoutInflater.inflate(R.layout.fragment_add_select_relate_dialog, null).let{view ->
+                            val ownerRelateSelectDialog = AddOwnerSelectDialogFragment(view).apply {
+                                isCancelable = false
+                                show(fragmentActivity.supportFragmentManager, "ownerRelateSeleectDialog")
+                            }
 
+                            if(ownerType == 1) {
+                                view.ownerDivisionText.text = "개인"
+                                val crpNoString = checkStringNull(dataInfo.getString("ihidnum"))
+                                if(crpNoString.equals("")) {
+                                    view.ownerCrpNoText.text = crpNoString
+                                } else {
+                                    //val crpNoStringSub = crpNoString.substring(0,8)
+                                    val crpNoStringSub = withIhidNumAsterRisk(crpNoString)
+                                    view.ownerCrpNoText.text = crpNoStringSub
+                                }
+                                view.addOwnerRelateBankAt.isEnabled = false
+                                view.ownerRelateBankSpotNm.isEnabled = false
+                            } else {
+                                view.ownerDivisionText.text = "단체"
+                                val crpNoString = checkStringNull(dataInfo.getString("jurirno"))
+                                if(crpNoString.equals("")) {
+                                    view.ownerCrpNoText.text = crpNoString
+                                } else {
+                                    //val crpNoStringSub = crpNoString.substring(0,8)
+                                    val crpNoStringSub = withIhidNumAsterRisk(crpNoString)
+                                    view.ownerCrpNoText.text = crpNoStringSub
+                                }
+                                view.addOwnerRelateBankAt.isEnabled = true
+                                view.ownerRelateBankSpotNm.isEnabled = true
+                            }
 
+                            view.ownerNameText.text = checkStringNull(dataInfo.getString("name"))
+                            val sameNameNoString = checkStringNull(dataInfo.getString("sameNameNo"))
+                            if(sameNameNoString == "") {
+                                view.ownerSameNameText.text = "-"
+                            } else {
+                                view.ownerSameNameText.text = sameNameNoString
+                            }
 
+                            view.ownerDelvyAddrText.text = "${checkStringNull(dataInfo.getString("delvyZip"))} ${checkStringNull(dataInfo.getString("delvyAdres"))} ${checkStringNull(dataInfo.getString("delvyAdresDetail"))}"
 
+                            view.selectInputBtn.setOnClickListener {
+
+                                val pcnRightRelateString = view.ownerPcnRightRelate.text.toString()
+
+                                if(pcnRightRelateString == "") {
+                                    dialogUtil!!.wtnccAlertDialog("""관계인 권리관례가 입력되지 않았습니다.""".trimMargin(), builder!!, "관계자추가").show()
+
+                                } else {
+                                    val addRelateUrl = context!!.resources.getString(R.string.mobile_url) + "addLandRelate"
+
+                                    val relateAddJson = JSONObject()
+                                    val relateAdddata = JSONObject()
+
+                                    relateAdddata.put("delvyAdres", checkStringNull(dataInfo.getString("delvyAdres")))
+                                    relateAdddata.put("delvyAdresDetail", checkStringNull(dataInfo.getString("delvyAdresDetail")))
+                                    relateAdddata.put("delvyZip", checkStringNull(dataInfo.getString("delvyZip")))
+                                    if(ownerType == 1) {
+                                        relateAdddata.put("indvdlGrpCode", checkStringNull(dataInfo.getString("onivCode")))
+                                        relateAdddata.put("indvdlGrpNm", checkStringNull(dataInfo.getString("name")))
+                                        relateAdddata.put("indvdlGrpSe", "1")
+                                    } else {
+                                        relateAdddata.put("indvdlGrpCode", checkStringNull(dataInfo.getString("grpEntrpsCode")))
+                                        relateAdddata.put("indvdlGrpNm", checkStringNull(dataInfo.getString("grpNm")))
+                                        relateAdddata.put("indvdlGrpSe", "2")
                                     }
 
+                                    relateAdddata.put("sameNameNo", checkStringNull(dataInfo.getString("sameNameNo")))
+                                    relateAdddata.put("pcnRightRelate", pcnRightRelateString)
+                                    relateAdddata.put("ladWtnOwnerCode", ownerData.getString("ladWtnOwnerCode"))
+                                    relateAdddata.put("spotNm", view.ownerRelateBankSpotNm.text.toString())
+                                    relateAdddata.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))
+
+                                    relateAddJson.put("addRelate", relateAdddata)
+                                    relateAddJson.put("ownerInfo", ownerData)
+                                    relateAddJson.put("landInfo", landDataJson)
+
+                                    HttpUtil.getInstance(context!!)
+                                        .callUrlJsonWebServer(relateAddJson, progressDialog, addRelateUrl,
+                                            object : Callback {
+                                                override fun onFailure(call: Call, e: IOException) {
+                                                    progressDialog!!.dismiss()
+                                                    logUtil.d("fail")
+                                                }
+
+                                                override fun onResponse(call: Call, response: Response) {
+                                                    val responseString = response.body!!.string()
+
+                                                    logUtil.d("addRelate response --------------> $responseString")
+
+                                                    progressDialog!!.dismiss()
+
+                                                    activity!!.runOnUiThread{
+                                                        val dataJsonObject = JSONObject(responseString).getJSONObject("list")
+
+                                                        recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+
+                                                        recyclerViewAdapter.notifyDataSetChanged()
+                                                    }
+
+                                                    ownerRelateSelectDialog.dismiss()
+                                                }
+
+                                        })
                                 }
 
-
-
+                            }
+                            view.cancelBtn.setOnClickListener {
+                                ownerRelateSelectDialog.dismiss()
 
                             }
 
+
                         }
-
-
-
                     }
 
                 })
@@ -461,11 +570,19 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                     view.ownerDelvyAddrText.text = "${checkStringNull(selectOwnerData.delvyZip)} ${checkStringNull(selectOwnerData.delvyAdres)} ${checkStringNull(selectOwnerData.delvyAdresDetail)}"
 
+                                    if(selectOwnerData.indvdlGrpSe.equals("1")) {
+                                        view.addOwnerGroupBankAt.isEnabled = false
+                                        view.addOwnerGeoupBankSpotNm.isEnabled = false
+                                    } else {
+                                        view.addOwnerGroupBankAt.isEnabled = true
+                                        view.addOwnerGeoupBankSpotNm.isEnabled = true
+                                    }
+
                                     view.cancelBtn.setOnClickListener { ownerOwnerSelectDialog.dismiss() }
                                     view.selectInputBtn.setOnClickListener {
                                         logUtil.d("selectItemData------------------------<>><><><><><><><><")
 
-                                        val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                        val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                         val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                         val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 
@@ -612,6 +729,11 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                     //view.ownerCrpNoText.text = "$inhbtntCprNoStringSub ******"
                                     view.ownerCrpNoText.text = withIhidNumAsterRisk(inhbtntCprNoString)
                                 }
+//                                view.addOwnerbaknAtLinear.setE
+//                                view.addOwnerUnDcsnOwnerAt.isEnabled = false
+//                                view.addOwnerBankAt.isEnabled = false
+                                view.addOwnerGroupBankAt.isEnabled = false
+                                view.addOwnerGeoupBankSpotNm.isEnabled = false
                             } else {
 
                                 val inhbtntCprNoString = checkStringNull(dataInfo.getString("jurirno"))
@@ -622,6 +744,8 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                     //view.ownerCrpNoText.text = "$inhbtntCprNoStringSub ******"
                                     view.ownerCrpNoText.text = withIhidNumAsterRisk(inhbtntCprNoString)
                                 }
+                                view.addOwnerGroupBankAt.isEnabled = true
+                                view.addOwnerGeoupBankSpotNm.isEnabled = true
                             }
 
 
@@ -631,7 +755,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                             view.selectInputBtn.setOnClickListener {
                                 logUtil.d("selectItemData------------------------<>><><><><><><><><")
 
-                                val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                 val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                 val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 

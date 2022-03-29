@@ -270,7 +270,7 @@
     <string name="wtnncCommAddRelate">관계자 추가</string>
     <string name="wtnncCommAddOwner">소유자 추가</string>
     <string name="wtnncCommAddChoiceOwner">소유자 선택</string>
-    <string name="wtnncCommAddSelectRelate">선택된 관계자 확인</string>
+    <string name="wtnncCommAddSelectRelate">관계자 확인</string>
     <string name="wtnncCommAddOwnerNew">신규소유자추가</string>
     <string name="wtnncCommAddRelateNew">신규관계자추가</string>
     <string name="wtnncCommAddNewOwnerInput">신규소유자입력</string>
@@ -733,6 +733,7 @@
     <string name="ownerCprNo">주민(법인)번호</string>
     <string name="ownerDelvyAddr">송달주소</string>
     <string name="ownerPcnRightRelate">관계인권리관계</string>
+    <string name="ownerBankYn">은행여부</string>
     <string name="ownerSearchDiv">조서\n구분</string>
     <string name="ownerRgistAdres">등기부주소</string>
 

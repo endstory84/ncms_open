@@ -481,7 +481,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                     view.selectInputBtn.setOnClickListener {
                                         logUtil.d("selectItemData ------------------------")
 
-                                        val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                        val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                         val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                         val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 
@@ -710,7 +710,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                             view.selectInputBtn.setOnClickListener {
                                 logUtil.d("selectItemData ------------------------")
 
-                                val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                 val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                 val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 
@@ -1000,7 +1000,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                 view.selectInputBtn.setOnClickListener {
                                     logUtil.d("selectItemData ------------------------")
 
-                                    val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                    val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                     val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                     val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 
@@ -1162,7 +1162,15 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 view.newOwnerSameNameText.text = newOwnerSameNameString
             }
             view.addOwnerRgistAddrText.setText(checkStringNull(data.getString("rgistAdres")))
-            view.newOwnerPosesnQota.setText(checkStringNull(data.getString("posesnQota")))
+            val posesnQota = checkStringNull(data.getString("posesnQota"))
+            if(posesnQota != "") {
+                val posesnQotaSplit = posesnQota.split("/")
+                view.newOwnerPosesnQotaNum.setText(posesnQotaSplit[0].toString())
+                view.newOwnerPosesnQotaDeno.setText(posesnQotaSplit[1].toString())
+            } else {
+                view.newOwnerPosesnQotaNum.setText("")
+                view.newOwnerPosesnQotaDeno.setText("")
+            }
             val newOwnerUnDcsnOwnerString = checkStringNull(data.getString("unDcsnOwnerAt"))
             view.newOwnerUnDcsnOwnerAt.isChecked = when (newOwnerUnDcsnOwnerString) {
                 "Y" ->true
@@ -1194,7 +1202,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 selectOwnerJson.put("ihidnum", data.getString("ihidnum"))
                 selectOwnerJson.put("posesnSe", data.getString("posesnSe"))
                 selectOwnerJson.put("rgistAdres",view.addOwnerRgistAddrText.text.toString())
-                selectOwnerJson.put("posesnQota",view.newOwnerPosesnQota.text.toString())
+                val posesnQotaString = view.newOwnerPosesnQotaNum.text.toString() + "/" + view.newOwnerPosesnQotaDeno.text.toString()
+                selectOwnerJson.put("posesnQota",posesnQotaString)
                 selectOwnerJson.put("unDcsnOwnerAt",when (view.newOwnerUnDcsnOwnerAt.isChecked) {
                     true -> "Y"
                     else -> "N"

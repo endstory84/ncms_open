@@ -4012,7 +4012,7 @@ class MapActivity :
                         }
                     }
 
-                    R.id.viewSearchConfirmBtn -> { // 확인버튼
+                    R.id.viewSearchConfirmBtn -> { // 취소버튼
                         log.d("viewSearchconfirmBtn Click")
                         naverMap?.apply {
                             selectCadastralPolygonArr.forEach {
@@ -4022,6 +4022,7 @@ class MapActivity :
                         }
 
                         naverMap?.clearWtnncMarker()
+                        naverMap?.clearCartoPolygon()
 
                         when(Constants.BIZ_SUBCATEGORY_KEY){
                             THING -> ThingWtnObject.cleanThingWtnObject()
