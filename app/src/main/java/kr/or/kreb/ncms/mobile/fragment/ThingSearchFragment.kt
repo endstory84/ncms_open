@@ -918,7 +918,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 val buldOwnshipBeforeAtString = checkStringNull(thingDataJson!!.getString("ownshipBeforeAt"))
                 if(buldOwnshipBeforeAtString.equals("")) {
-                    view.thingWdpdOwnshipBeforeAtChk.isChecked = true
+                    view.thingWdpdOwnshipBeforeAtChk.isChecked = false
                 } else {
                     view.thingWdpdOwnshipBeforeAtChk.isChecked = buldOwnshipBeforeAtString.equals("Y")
                 }
@@ -1840,7 +1840,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 thingSearchGnrlBaseView.visibility = View.GONE
                 wtnncCommIndoorTy.visibility = View.GONE
                 wtnncCommIndoorTyLl.visibility = View.GONE
-                thingWtnWdpdStrctLinear.visibleView()
+//                thingWtnWdpdStrctLinear.visibleView()
                 thingExaminMthSpnr.setSelection(1)
                 thingWdpdOwnerCnfirmBasisClSpinner.setSelection(5)
                 thingWdpdApasmtTrgetAtChk.isChecked = true

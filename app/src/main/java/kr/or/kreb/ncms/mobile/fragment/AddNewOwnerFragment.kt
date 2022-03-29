@@ -87,15 +87,15 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
 
         wtnncUtill.wtnncSpinnerAdapter(R.array.indvdlClArray, addNewOwnerGubunSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.indvdlDtilClArray, addNewOwnerDetailGubunSpinner, this)
-        wtnncUtill.wtnncSpinnerAdapter(R.array.ownerClArray, addNewBankGubunSpinner, this)
-        wtnncUtill.wtnncSpinnerAdapter(R.array.grpClBankArray, addNewBankDetailGubunSpinner, this)
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.ownerClArray, addNewBankGubunSpinner, this)
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.grpClBankArray, addNewBankDetailGubunSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.ownerClArray, addNewGroupGubunSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.grpClArray, addNewGroupDetailGubunSpinner, this)
 
         addNewOwnerSave.setOnClickListener(this)
         addNewOwnerCancel.setOnClickListener(this)
         addNewOwnerCheckNameBtn.setOnClickListener(this)
-        addNewBankCheckNameBtn.setOnClickListener(this)
+//        addNewBankCheckNameBtn.setOnClickListener(this)
         addNewGroupCheckNameBtn.setOnClickListener(this)
 
     }
@@ -184,33 +184,33 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                                 addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
                                 addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
                             }
-                            3 -> { //단체(은행)
-                                addNewOwnerSaveMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
-                                addNewOwnerSaveMap.put("ownerCl",when (addNewBankGubunSpinner.selectedItemPosition) {
-                                    1 -> "A015001"
-                                    2 -> "A015002"
-                                    3 -> "A015003"
-                                    4 -> "A015004"
-                                    else -> ""
-                                })
-                                addNewOwnerSaveMap.put("grpCl",when (addNewBankDetailGubunSpinner.selectedItemPosition) {
-                                    1 -> "A030006"
-                                    else -> ""
-                                })
-                                addNewOwnerSaveMap["grpNm"] = addNewBankNameEdit.text.toString()
-                                addNewOwnerSaveMap["sameNameNo"] = addNewBankSameNameEdit.text.toString()
-                                var jurirnoString = addNewGroupIhidnumEdit1.text.toString() + addNewGroupIhidnumEdit2.text.toString() + addNewGroupIhidnumEdit3.text.toString()
-                                if(jurirnoString == "-") {
-                                    jurirnoString = ""
-                                }
-                                addNewOwnerSaveMap.put("jurirno",jurirnoString)
-                                addNewOwnerSaveMap.put("spotNm",addNewBankBranchnameEdit.text.toString())
-                                addNewOwnerSaveMap.put("delvyZip",addNewBankDelvyzipEdit.text.toString())
-                                addNewOwnerSaveMap.put("delvyAdres",addNewBankDelvyaddressEdit.text.toString())
-                                addNewOwnerSaveMap.put("delvyAdresDetail",addNewBankDelvyaddressdetailEdit.text.toString())
-                                addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
-                                addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
-                            }
+//                            3 -> { //단체(은행)
+//                                addNewOwnerSaveMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
+//                                addNewOwnerSaveMap.put("ownerCl",when (addNewBankGubunSpinner.selectedItemPosition) {
+//                                    1 -> "A015001"
+//                                    2 -> "A015002"
+//                                    3 -> "A015003"
+//                                    4 -> "A015004"
+//                                    else -> ""
+//                                })
+//                                addNewOwnerSaveMap.put("grpCl",when (addNewBankDetailGubunSpinner.selectedItemPosition) {
+//                                    1 -> "A030006"
+//                                    else -> ""
+//                                })
+//                                addNewOwnerSaveMap["grpNm"] = addNewBankNameEdit.text.toString()
+//                                addNewOwnerSaveMap["sameNameNo"] = addNewBankSameNameEdit.text.toString()
+//                                var jurirnoString = addNewGroupIhidnumEdit1.text.toString() + addNewGroupIhidnumEdit2.text.toString() + addNewGroupIhidnumEdit3.text.toString()
+//                                if(jurirnoString == "-") {
+//                                    jurirnoString = ""
+//                                }
+//                                addNewOwnerSaveMap.put("jurirno",jurirnoString)
+//                                addNewOwnerSaveMap.put("spotNm",addNewBankBranchnameEdit.text.toString())
+//                                addNewOwnerSaveMap.put("delvyZip",addNewBankDelvyzipEdit.text.toString())
+//                                addNewOwnerSaveMap.put("delvyAdres",addNewBankDelvyaddressEdit.text.toString())
+//                                addNewOwnerSaveMap.put("delvyAdresDetail",addNewBankDelvyaddressdetailEdit.text.toString())
+//                                addNewOwnerSaveMap.put("selectRaido", selectRaido.toString())
+//                                addNewOwnerSaveMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 조사원 아이디
+//                            }
                         }
                         HttpUtil.getInstance(context!!)
                             .callerUrlInfoPostWebServer(addNewOwnerSaveMap, progressDialog, addNewOwnerSaveUrl,
@@ -250,7 +250,7 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                 dialog!!.dismiss()
             }
             R.id.addNewOwnerCheckNameBtn ,
-            R.id.addNewBankCheckNameBtn,
+//            R.id.addNewBankCheckNameBtn,
             R.id.addNewGroupCheckNameBtn -> {
                 if(selectRaido != 0) {
                     when (selectRaido) {
@@ -350,54 +350,54 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
                                         })
                             }
                         }
-                        3 -> {
-                            // 단체(은행) 이름 확인
-                            if(addNewBankNameEdit.text.toString().equals("")) {
-                                toastUtil.msg_error("단체(개인) 소유자 이름을 입력 해주시기 바람니다.", 500)
-                            } else {
-                                val confirmBankNameMap = HashMap<String, String>()
-                                confirmBankNameMap.put("name", addNewBankNameEdit.text.toString())
-                                confirmBankNameMap.put("sameNameNo", addNewBankSameNameEdit.text.toString())
-
-                                val ihidnumString = addNewBankIhidnumEdit1.text.toString() +
-                                        addNewBankIhidnumEdit2.text.toString() +
-                                        addNewBankIhidnumEdit3.text.toString()
-                                confirmBankNameMap.put("ihidnum", ihidnumString)
-                                confirmBankNameMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode","default"))
-
-                                val confirmBankNameUrl = context!!.resources.getString(R.string.mobile_url) + "confirmBankName"
-
-                                HttpUtil.getInstance(context!!)
-                                    .callerUrlInfoPostWebServer(confirmBankNameMap, progressDialog, confirmBankNameUrl,
-                                        object: Callback {
-                                            override fun onFailure(call: Call, e: IOException) {
-                                                progressDialog!!.dismiss()
-                                                logUtil.e("fail")
-                                            }
-
-                                            override fun onResponse(call: Call, response: Response) {
-                                                val responseString = response.body!!.string()
-
-                                                logUtil.d("confirmBankName response String -------------------> $responseString")
-
-                                                val responseJson = JSONObject(responseString).getJSONObject("list")
-
-                                                if(responseJson.getString("messageNum").equals("1")) {
-                                                    checkName = false
-                                                } else {
-                                                    checkName = true
-                                                }
-
-                                                progressDialog!!.dismiss()
-
-                                                activity?.runOnUiThread {
-                                                    dialogUtil!!.confirmDialog(responseJson.getString("message"), builder!!, "확인").show()
-                                                }
-                                            }
-
-                                        })
-                            }
-                        }
+//                        3 -> {
+//                            // 단체(은행) 이름 확인
+//                            if(addNewBankNameEdit.text.toString().equals("")) {
+//                                toastUtil.msg_error("단체(개인) 소유자 이름을 입력 해주시기 바람니다.", 500)
+//                            } else {
+//                                val confirmBankNameMap = HashMap<String, String>()
+//                                confirmBankNameMap.put("name", addNewBankNameEdit.text.toString())
+//                                confirmBankNameMap.put("sameNameNo", addNewBankSameNameEdit.text.toString())
+//
+//                                val ihidnumString = addNewBankIhidnumEdit1.text.toString() +
+//                                        addNewBankIhidnumEdit2.text.toString() +
+//                                        addNewBankIhidnumEdit3.text.toString()
+//                                confirmBankNameMap.put("ihidnum", ihidnumString)
+//                                confirmBankNameMap.put("saupCode", PreferenceUtil.getString(context!!, "saupCode","default"))
+//
+//                                val confirmBankNameUrl = context!!.resources.getString(R.string.mobile_url) + "confirmBankName"
+//
+//                                HttpUtil.getInstance(context!!)
+//                                    .callerUrlInfoPostWebServer(confirmBankNameMap, progressDialog, confirmBankNameUrl,
+//                                        object: Callback {
+//                                            override fun onFailure(call: Call, e: IOException) {
+//                                                progressDialog!!.dismiss()
+//                                                logUtil.e("fail")
+//                                            }
+//
+//                                            override fun onResponse(call: Call, response: Response) {
+//                                                val responseString = response.body!!.string()
+//
+//                                                logUtil.d("confirmBankName response String -------------------> $responseString")
+//
+//                                                val responseJson = JSONObject(responseString).getJSONObject("list")
+//
+//                                                if(responseJson.getString("messageNum").equals("1")) {
+//                                                    checkName = false
+//                                                } else {
+//                                                    checkName = true
+//                                                }
+//
+//                                                progressDialog!!.dismiss()
+//
+//                                                activity?.runOnUiThread {
+//                                                    dialogUtil!!.confirmDialog(responseJson.getString("message"), builder!!, "확인").show()
+//                                                }
+//                                            }
+//
+//                                        })
+//                            }
+//                        }
                     }
 
                 } else {
@@ -411,22 +411,22 @@ class AddNewOwnerFragment(val activity: Activity?, context: Context?,
        when(id) {
            R.id.addNewSelectOwner -> {
                addNewOwner.visibility = View.VISIBLE
-               addNewBank.visibility = View.GONE
+//               addNewBank.visibility = View.GONE
                addNewGroup.visibility = View.GONE
                selectRaido = 1
            }
            R.id.addNewSelectGroup -> {
                addNewOwner.visibility = View.GONE
-               addNewBank.visibility = View.GONE
+//               addNewBank.visibility = View.GONE
                addNewGroup.visibility = View.VISIBLE
                selectRaido = 2
            }
-           R.id.addNewSelectBank -> {
-               addNewOwner.visibility = View.GONE
-               addNewBank.visibility = View.VISIBLE
-               addNewGroup.visibility = View.GONE
-               selectRaido = 3
-           }
+//           R.id.addNewSelectBank -> {
+//               addNewOwner.visibility = View.GONE
+//               addNewBank.visibility = View.VISIBLE
+//               addNewGroup.visibility = View.GONE
+//               selectRaido = 3
+//           }
        }
     }
 

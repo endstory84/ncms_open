@@ -431,7 +431,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
                                     view.selectInputBtn.setOnClickListener {
                                         logUtil.d("selectItemData------------------------<>><><><><><><><><")
 
-                                        val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                        val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                         val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                         val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 
@@ -596,7 +596,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
                             view.selectInputBtn.setOnClickListener {
                                 logUtil.d("selectItemData------------------------<>><><><><><><><><")
 
-                                val posesnQotaString = view.addOwnerPosesnQota.text.toString()
+                                val posesnQotaString = view.addOwnerPosesnQotaNum.text.toString() +"-"+ view.addOwnerPosesnQotaDeno.text.toString()
                                 val rgistAddrString = view.addOwnerRgistAddrText.text.toString()
                                 val unDcsnOwnarAt = view.addOwnerUnDcsnOwnerAt.isChecked
 

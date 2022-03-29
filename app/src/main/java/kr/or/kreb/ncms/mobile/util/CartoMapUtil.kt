@@ -851,7 +851,8 @@ class CartoMapUtil : DialogUtil.ClickListener {
         //cartoMapView!!.setZoom(20f, 0f) // 20레벨 지정 (네이버 맵과 일치)
 
         // TODO: 2022-03-22 기존 20레벨 fix -> 네이버 줌 레벨 + 1.1 수정 
-        cartoMapView!!.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat() + 1.1).toFloat(), 0.5f)
+//        cartoMapView!!.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat() + 1.09).toFloat(), 0.5f)
+        cartoMapView!!.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat()+0.9955).toFloat(), 0.5f)
         cartoMapView!!.setFocusPos(
             cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0.5f
         ) // 현재 위치 이동
@@ -1044,11 +1045,11 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
             var addPoint: MapPos? = null
 
-            when (i) {
-                0 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
-                1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
-            }
-
+//            when (i) {
+//                0 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
+//                1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
+//            }
+            addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
             LandInfoObject.mapPos.add(addPoint!!)
             val wgs84Point = cartoProj!!.toWgs84(addPoint)
             LandInfoObject.clickLatLng.add(wgs84Point)
