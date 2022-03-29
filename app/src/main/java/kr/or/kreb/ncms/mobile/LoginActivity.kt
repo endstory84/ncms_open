@@ -18,7 +18,9 @@ import com.jiransoft.mdm.library.MDMLib
 import com.jiransoft.mdm.library.Services.OnMangobananaCompleteListener
 import kotlinx.android.synthetic.main.activity_login.*
 import kr.or.kreb.ncms.mobile.base.BaseActivity
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.databinding.ActivityLoginBinding
+import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.fragment.ConfirmDialogFragment
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
@@ -119,6 +121,8 @@ class LoginActivity :
 
         permissionCheck()
 
+        reqCommonCodeList()
+
     }
 
     override fun onResume() {
@@ -162,10 +166,12 @@ class LoginActivity :
                     if(!_isPermissionCheck){
                         val resultPermission = PermissionUtil.shouldShowRequestPermissionRationale(this)
                         if (resultPermission) {
-                            toast.msg_error(getString(R.string.msg_permsission_status_fail), 100)
+//                            toast.msg_error(getString(R.string.msg_permsission_status_fail), 100)
+                            showToast(ToastType.ERROR, R.string.msg_permsission_status_fail, 100)
                             setPermissionAlert()
                         } else {
-                            toast.msg_error(getString(R.string.msg_permission_fail), 100)
+//                            toast.msg_error(getString(R.string.msg_permission_fail), 100)
+                            showToast(ToastType.ERROR, R.string.msg_permission_fail, 100)
                             finish()
                         }
                     }
@@ -233,24 +239,60 @@ class LoginActivity :
 
     }
 
+    /**
+     * DB 공통코드 목록을 가져온다
+     */
+    private fun reqCommonCodeList() {
+        val reqUrl = resources.getString(R.string.mobile_url) + "selectCommonCodeList"
+        val map = HashMap<String, String>()
+        map.put("codeGroupId", "")
+        progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+
+        HttpUtil.getInstance(this)
+            .callerUrlInfoPostWebServer(map, progressDialog, reqUrl,
+                object: Callback {
+
+                    override fun onFailure(call: Call, e: IOException) {
+                        dismissProgress()
+                        showToast(ToastType.ERROR, R.string.msg_server_connected_fail, 100)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        try {
+                            val dataJSON = JSONObject(responseString)
+                            val dataList = dataJSON.getJSONObject("list")
+                            CommonCodeInfoList.addCode(dataList)
+                        }
+                        catch(e: Exception) {
+                            e.printStackTrace()
+                            showToast(ToastType.ERROR, R.string.msg_server_connected_fail, 100)
+                        }
+                        dismissProgress()
+
+                    }
+                })
+    }
+
+    /**
+     * 로그인을 요청한다
+     */
     fun reqLogin(id: String, pwd: String) {
         val reqLoginUrl = resources.getString(R.string.mobile_url) + "reqLogin"//"auth.do"
         val loginMap = HashMap<String, String>()
         loginMap.put("id", encryptCBC(id))
         loginMap.put("pwd", encryptCBC(pwd))
 
-        val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
+        progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
 
         HttpUtil.getInstance(this)
             .callerUrlInfoPostWebServer(loginMap, progressDialog, reqLoginUrl,
                 object: Callback {
 
                     override fun onFailure(call: Call, e: IOException) {
-                        progressDialog.dismiss()
-                        runOnUiThread {
-                            toast.msg_error(R.string.msg_server_login_fail, 100)
-                        }
-
+                        dismissProgress()
+                        showToast(ToastType.ERROR, R.string.msg_server_login_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -259,38 +301,41 @@ class LoginActivity :
                         log.d("auth response : $responseString")
 
 //                        val dataJSON = JSONObject(responseString).getJSONObject("list").getJSONArray("bsnsChoise") as JSONArray
-                        progressDialog.dismiss()
+                        dismissProgress()
 
-                        val dataJSON = JSONObject(responseString)
-                        if (dataJSON.has("userInfo")) {
+                        try {
+                            val dataJSON = JSONObject(responseString)
+                            if (dataJSON.has("userInfo")) {
 
-                            val resultJSON = JSONObject(responseString).getJSONObject("userInfo")
-                            val empCd = resultJSON.getString(USERINFO_EMP_CD)
-                            val empNm = resultJSON.getString(USERINFO_EMP_NM)
-                            val deptCd = resultJSON.getString(USERINFO_DEPT_CD)
-                            val deptNm = resultJSON.getString(USERINFO_DEPT_NM)
-                            val ofcps = resultJSON.getString(USERINFO_OFCPS)
-                            val clsf = resultJSON.getString(USERINFO_CLSF)
+                                val resultJSON = JSONObject(responseString).getJSONObject("userInfo")
+                                val empCd = resultJSON.getString(USERINFO_EMP_CD)
+                                val empNm = resultJSON.getString(USERINFO_EMP_NM)
+                                val deptCd = resultJSON.getString(USERINFO_DEPT_CD)
+                                val deptNm = resultJSON.getString(USERINFO_DEPT_NM)
+                                val ofcps = resultJSON.getString(USERINFO_OFCPS)
+                                val clsf = resultJSON.getString(USERINFO_CLSF)
 
-                            PreferenceUtil.setUserInfo(
-                                this@LoginActivity,
-                                empCd,
-                                empNm,
-                                deptCd,
-                                deptNm,
-                                ofcps,
-                                clsf
-                            )
+                                PreferenceUtil.setUserInfo(
+                                    this@LoginActivity,
+                                    empCd,
+                                    empNm,
+                                    deptCd,
+                                    deptNm,
+                                    ofcps,
+                                    clsf
+                                )
+                                showToast(ToastType.SUCCESS, getString(R.string.msg_login_validation_success), 500)
 
-                            runOnUiThread {
-                                toast.msg_success(getString(R.string.msg_login_validation_success), 500)
-                                nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+                                runOnUiThread {
+                                    nextViewBizList(this@LoginActivity, Constants.BIZ_LIST_ACT, loginId)
+                                }
+                            } else {
+                                showToast(ToastType.ERROR, R.string.msg_server_login_fail, 100)
                             }
                         }
-                        else {
-                            runOnUiThread {
-                                toast.msg_error(R.string.msg_server_login_fail, 100)
-                            }
+                        catch(e: Exception) {
+                            e.printStackTrace()
+                            showToast(ToastType.ERROR, R.string.msg_server_login_fail, 100)
                         }
 
                     }
@@ -354,8 +399,7 @@ class LoginActivity :
 
     private fun validatePassword(): Boolean {
         if (editTextLoginPassword.text.toString().isEmpty()) {
-            textInputPassword.error =
-                getString(R.string.login_err_msg_pw); requestFocus(editTextLoginPassword); return false
+            textInputPassword.error = getString(R.string.login_err_msg_pw); requestFocus(editTextLoginPassword); return false
         } else {
             textInputPassword.isErrorEnabled = false; _isValidationCheck = true
         }; return true
