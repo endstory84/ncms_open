@@ -111,7 +111,9 @@ object PreferenceUtil {
     fun setUserInfo(context: Context, empCd: String, empNm: String, deptCd: String, deptNm: String, ofcps: String, clsf: String) {
 
         var edit: SharedPreferences.Editor = getUserInfoPref(context).edit()
+        val loginId = getLoginPref(context).getString(KEY_NM_LOGIN_ID, "")
 
+        edit.putString(KEY_NM_LOGIN_ID, loginId)
         edit.putString(KEY_NM_USER_EMP_CD, empCd)
         edit.putString(KEY_NM_USER_EMP_NM, empNm)
         edit.putString(KEY_NM_USER_DEPT_CD, deptCd)
