@@ -883,6 +883,7 @@
         <item>기타</item>
     </string-array>
 
+    <!-- A009 -->
     <string-array name="thingUnitArray">
         <item>선택</item>
         <item>개</item>
@@ -1216,6 +1217,7 @@
     </string-array>
 
     <!--영업 허가등 구분 -->
+    <!-- A028 -->
     <string-array name="bsnPrmisnSeArray">
         <item>선택</item>
         <item>자유업</item>

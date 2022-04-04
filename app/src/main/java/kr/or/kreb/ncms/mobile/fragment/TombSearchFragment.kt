@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingTombObject
 import kr.or.kreb.ncms.mobile.data.ThingTombObject.balmCl
 import kr.or.kreb.ncms.mobile.data.ThingTombObject.balmClText
@@ -131,7 +132,8 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
             val tombThingAddThingUnit = tombThingAddItemFirst.getChildAt(4) as ViewGroup
             val tombThingAddThingUnitSpinner = tombThingAddThingUnit.getChildAt(0) as Spinner
 
-            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray,tombThingAddThingUnitSpinner, this)
+//            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray,tombThingAddThingUnitSpinner, this)
+            wtnncUtill.wtnncSpinnerAdapter("A009", tombThingAddThingUnitSpinner, this)
 
 
 
@@ -649,77 +651,78 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
                 }
             }
             R.id.thingTombUnitSpinner -> {
-                when (position) {
-                    1 -> ThingTombObject.unitCl = "A009001"
-                    2 -> ThingTombObject.unitCl = "A009002"
-                    3 -> ThingTombObject.unitCl = "A009003"
-                    4 -> ThingTombObject.unitCl = "A009004"
-                    5 -> ThingTombObject.unitCl = "A009005"
-                    6 -> ThingTombObject.unitCl = "A009006"
-                    7 -> ThingTombObject.unitCl = "A009007"
-                    8 -> ThingTombObject.unitCl = "A009008"
-                    9 -> ThingTombObject.unitCl = "A009009"
-                    10 -> ThingTombObject.unitCl = "A009010"
-                    11 -> ThingTombObject.unitCl = "A009011"
-                    12 -> ThingTombObject.unitCl = "A009012"
-                    13 -> ThingTombObject.unitCl = "A009013"
-                    14 -> ThingTombObject.unitCl = "A009014"
-                    15 -> ThingTombObject.unitCl = "A009015"
-                    16 -> ThingTombObject.unitCl = "A009016"
-                    17 -> ThingTombObject.unitCl = "A009017"
-                    18 -> ThingTombObject.unitCl = "A009018"
-                    19 -> ThingTombObject.unitCl = "A009019"
-                    20 -> ThingTombObject.unitCl = "A009020"
-                    21 -> ThingTombObject.unitCl = "A009021"
-                    22 -> ThingTombObject.unitCl = "A009022"
-                    23 -> ThingTombObject.unitCl = "A009023"
-                    24 -> ThingTombObject.unitCl = "A009024"
-                    25 -> ThingTombObject.unitCl = "A009025"
-                    26 -> ThingTombObject.unitCl = "A009026"
-                    27 -> ThingTombObject.unitCl = "A009027"
-                    28 -> ThingTombObject.unitCl = "A009028"
-                    29 -> ThingTombObject.unitCl = "A009029"
-                    30 -> ThingTombObject.unitCl = "A009030"
-                    31 -> ThingTombObject.unitCl = "A009031"
-                    32 -> ThingTombObject.unitCl = "A009032"
-                    33 -> ThingTombObject.unitCl = "A009033"
-                    34 -> ThingTombObject.unitCl = "A009034"
-                    35 -> ThingTombObject.unitCl = "A009035"
-                    36 -> ThingTombObject.unitCl = "A009036"
-                    37 -> ThingTombObject.unitCl = "A009037"
-                    38 -> ThingTombObject.unitCl = "A009038"
-                    39 -> ThingTombObject.unitCl = "A009039"
-                    40 -> ThingTombObject.unitCl = "A009040"
-                    41 -> ThingTombObject.unitCl = "A009041"
-                    42 -> ThingTombObject.unitCl = "A009042"
-                    43 -> ThingTombObject.unitCl = "A009043"
-                    44 -> ThingTombObject.unitCl = "A009044"
-                    45 -> ThingTombObject.unitCl = "A009045"
-                    46 -> ThingTombObject.unitCl = "A009046"
-                    47 -> ThingTombObject.unitCl = "A009047"
-                    48 -> ThingTombObject.unitCl = "A009048"
-                    49 -> ThingTombObject.unitCl = "A009049"
-                    50 -> ThingTombObject.unitCl = "A009050"
-                    51 -> ThingTombObject.unitCl = "A009051"
-                    52 -> ThingTombObject.unitCl = "A009052"
-                    53 -> ThingTombObject.unitCl = "A009053"
-                    54 -> ThingTombObject.unitCl = "A009054"
-                    55 -> ThingTombObject.unitCl = "A009055"
-                    56 -> ThingTombObject.unitCl = "A009056"
-                    57 -> ThingTombObject.unitCl = "A009057"
-                    58 -> ThingTombObject.unitCl = "A009058"
-                    59 -> ThingTombObject.unitCl = "A009059"
-                    60 -> ThingTombObject.unitCl = "A009060"
-                    61 -> ThingTombObject.unitCl = "A009061"
-                    62 -> ThingTombObject.unitCl = "A009062"
-                    63 -> ThingTombObject.unitCl = "A009063"
-                    64 -> ThingTombObject.unitCl = "A009064"
-                    65 -> ThingTombObject.unitCl = "A009065"
-                    66 -> ThingTombObject.unitCl = "A009066"
-                    67 -> ThingTombObject.unitCl = "A009067"
-                    68 -> ThingTombObject.unitCl = "A009068"
-                    else -> ThingTombObject.unitCl = ""
-                }
+                ThingTombObject.unitCl = CommonCodeInfoList.getCodeId("A009", position)
+//                when (position) {
+//                    1 -> ThingTombObject.unitCl = "A009001"
+//                    2 -> ThingTombObject.unitCl = "A009002"
+//                    3 -> ThingTombObject.unitCl = "A009003"
+//                    4 -> ThingTombObject.unitCl = "A009004"
+//                    5 -> ThingTombObject.unitCl = "A009005"
+//                    6 -> ThingTombObject.unitCl = "A009006"
+//                    7 -> ThingTombObject.unitCl = "A009007"
+//                    8 -> ThingTombObject.unitCl = "A009008"
+//                    9 -> ThingTombObject.unitCl = "A009009"
+//                    10 -> ThingTombObject.unitCl = "A009010"
+//                    11 -> ThingTombObject.unitCl = "A009011"
+//                    12 -> ThingTombObject.unitCl = "A009012"
+//                    13 -> ThingTombObject.unitCl = "A009013"
+//                    14 -> ThingTombObject.unitCl = "A009014"
+//                    15 -> ThingTombObject.unitCl = "A009015"
+//                    16 -> ThingTombObject.unitCl = "A009016"
+//                    17 -> ThingTombObject.unitCl = "A009017"
+//                    18 -> ThingTombObject.unitCl = "A009018"
+//                    19 -> ThingTombObject.unitCl = "A009019"
+//                    20 -> ThingTombObject.unitCl = "A009020"
+//                    21 -> ThingTombObject.unitCl = "A009021"
+//                    22 -> ThingTombObject.unitCl = "A009022"
+//                    23 -> ThingTombObject.unitCl = "A009023"
+//                    24 -> ThingTombObject.unitCl = "A009024"
+//                    25 -> ThingTombObject.unitCl = "A009025"
+//                    26 -> ThingTombObject.unitCl = "A009026"
+//                    27 -> ThingTombObject.unitCl = "A009027"
+//                    28 -> ThingTombObject.unitCl = "A009028"
+//                    29 -> ThingTombObject.unitCl = "A009029"
+//                    30 -> ThingTombObject.unitCl = "A009030"
+//                    31 -> ThingTombObject.unitCl = "A009031"
+//                    32 -> ThingTombObject.unitCl = "A009032"
+//                    33 -> ThingTombObject.unitCl = "A009033"
+//                    34 -> ThingTombObject.unitCl = "A009034"
+//                    35 -> ThingTombObject.unitCl = "A009035"
+//                    36 -> ThingTombObject.unitCl = "A009036"
+//                    37 -> ThingTombObject.unitCl = "A009037"
+//                    38 -> ThingTombObject.unitCl = "A009038"
+//                    39 -> ThingTombObject.unitCl = "A009039"
+//                    40 -> ThingTombObject.unitCl = "A009040"
+//                    41 -> ThingTombObject.unitCl = "A009041"
+//                    42 -> ThingTombObject.unitCl = "A009042"
+//                    43 -> ThingTombObject.unitCl = "A009043"
+//                    44 -> ThingTombObject.unitCl = "A009044"
+//                    45 -> ThingTombObject.unitCl = "A009045"
+//                    46 -> ThingTombObject.unitCl = "A009046"
+//                    47 -> ThingTombObject.unitCl = "A009047"
+//                    48 -> ThingTombObject.unitCl = "A009048"
+//                    49 -> ThingTombObject.unitCl = "A009049"
+//                    50 -> ThingTombObject.unitCl = "A009050"
+//                    51 -> ThingTombObject.unitCl = "A009051"
+//                    52 -> ThingTombObject.unitCl = "A009052"
+//                    53 -> ThingTombObject.unitCl = "A009053"
+//                    54 -> ThingTombObject.unitCl = "A009054"
+//                    55 -> ThingTombObject.unitCl = "A009055"
+//                    56 -> ThingTombObject.unitCl = "A009056"
+//                    57 -> ThingTombObject.unitCl = "A009057"
+//                    58 -> ThingTombObject.unitCl = "A009058"
+//                    59 -> ThingTombObject.unitCl = "A009059"
+//                    60 -> ThingTombObject.unitCl = "A009060"
+//                    61 -> ThingTombObject.unitCl = "A009061"
+//                    62 -> ThingTombObject.unitCl = "A009062"
+//                    63 -> ThingTombObject.unitCl = "A009063"
+//                    64 -> ThingTombObject.unitCl = "A009064"
+//                    65 -> ThingTombObject.unitCl = "A009065"
+//                    66 -> ThingTombObject.unitCl = "A009066"
+//                    67 -> ThingTombObject.unitCl = "A009067"
+//                    68 -> ThingTombObject.unitCl = "A009068"
+//                    else -> ThingTombObject.unitCl = ""
+//                }
             }
         }
     }
@@ -888,7 +891,9 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
         val subThingUnitClBaseView = subThingFirstView.getChildAt(4) as ViewGroup
         val subThingUnitClSpinner = subThingUnitClBaseView.getChildAt(0) as Spinner
 
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray,subThingUnitClSpinner, this)
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray,subThingUnitClSpinner, this)
+        wtnncUtill.wtnncSpinnerAdapter("A009", subThingUnitClSpinner, this)
 
         val subThingSecendView = subThingBaseLayout.getChildAt(3) as ViewGroup
         val subThingStrctNdStndrdView = subThingSecendView.getChildAt(0) as EditText
@@ -900,12 +905,13 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
         subThingIncrprArView.setText(checkStringNull(data.getString("incrprAr")))
 
         val unitClString = checkStringNull(data.getString("unitCl"))
-        if(unitClString.equals("")) {
-            subThingUnitClSpinner.setSelection(0)
-        } else {
-            val unitClStringSub = unitClString.substring(5, 7)
-            subThingUnitClSpinner.setSelection(Integer.valueOf(unitClStringSub))
-        }
+//        if(unitClString.equals("")) {
+//            subThingUnitClSpinner.setSelection(0)
+//        } else {
+//            val unitClStringSub = unitClString.substring(5, 7)
+//            subThingUnitClSpinner.setSelection(Integer.valueOf(unitClStringSub))
+//        }
+        subThingUnitClSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", unitClString) )
 
         subThingStrctNdStndrdView.setText(checkStringNull(data.getString("strctNdStndrd")))
         subThingArComputBasisView.setText(checkStringNull(data.getString("arComputBasis")))
@@ -926,7 +932,10 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
         wtnncUtill.wtnncSpinnerAdapter(R.array.tombBurlScaleArray, tombBurlScaleSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.tombBytgtScaleArray, tombBytgtScaleSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.tombRlativArray, tombRlativSpinner, this)
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, thingTombUnitSpinner, this)
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, thingTombUnitSpinner, this)
+        wtnncUtill.wtnncSpinnerAdapter("A009", thingTombUnitSpinner, this)
+
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.tombSexdstnArray, tombSexdstnAddSpinner, this) // 매장자 성별
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.acqsSeArray, tombAcqsSeSpinner, this)
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.InclsSeArray, tombInclsSeSpinner, this)
@@ -998,12 +1007,14 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
         ThingTombObject.incrprAr = checkStringNull(tombDataJson.getString("incrprAr"))
 
         val unitClString = checkStringNull(tombDataJson.getString("unitCl").toString())
-        if (unitClString.equals("")) {
-            view.thingTombUnitSpinner.setSelection(0)
-        } else {
-            val unitClStringSub = unitClString.substring(5, 7)
-            view.thingTombUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
-        }
+//        if (unitClString.equals("")) {
+//            view.thingTombUnitSpinner.setSelection(0)
+//        } else {
+//            val unitClStringSub = unitClString.substring(5, 7)
+//            view.thingTombUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
+//        }
+        view.thingTombUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", unitClString) )
+
         val thingTombTyString = checkStringNull(tombDataJson.getString("tombTy"))
         if (thingTombTyString.equals("1")) {
             view.tombSeSpinner.setSelection(1)
@@ -1519,77 +1530,78 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
                 buriedThingItem.put("strctNdStndrd",itemBuriedThingStrctNdStrndrd.text.toString())
                 buriedThingItem.put("bgnnAr",itemBuriedThingBgnnAr.text.toString())
                 buriedThingItem.put("incrprAr",itemBuriedThingIncrprAr.text.toString())
-                buriedThingItem.put("unitCl",when(itemBuriedThingSpinner.selectedItemPosition) {
-                    1 -> "A009001"
-                    2 -> "A009002"
-                    3 -> "A009003"
-                    4 -> "A009004"
-                    5 -> "A009005"
-                    6 -> "A009006"
-                    7 -> "A009007"
-                    8 -> "A009008"
-                    9 -> "A009009"
-                    10 -> "A009010"
-                    11 -> "A009011"
-                    12 -> "A009012"
-                    13 -> "A009013"
-                    14 -> "A009014"
-                    15 -> "A009015"
-                    16 -> "A009016"
-                    17 -> "A009017"
-                    18 -> "A009018"
-                    19 -> "A009019"
-                    20 -> "A009020"
-                    21 -> "A009021"
-                    22 -> "A009022"
-                    23 -> "A009023"
-                    24 -> "A009024"
-                    25 -> "A009025"
-                    26 -> "A009026"
-                    27 -> "A009027"
-                    28 -> "A009028"
-                    29 -> "A009029"
-                    30 -> "A009030"
-                    31 -> "A009031"
-                    32 -> "A009032"
-                    33 -> "A009033"
-                    34 -> "A009034"
-                    35 -> "A009035"
-                    36 -> "A009036"
-                    37 -> "A009037"
-                    38 -> "A009038"
-                    39 -> "A009039"
-                    40 -> "A009040"
-                    41 -> "A009041"
-                    42 -> "A009042"
-                    43 -> "A009043"
-                    44 -> "A009044"
-                    45 -> "A009045"
-                    46 -> "A009046"
-                    47 -> "A009047"
-                    48 -> "A009048"
-                    49 -> "A009049"
-                    50 -> "A009050"
-                    51 -> "A009051"
-                    52 -> "A009052"
-                    53 -> "A009053"
-                    54 -> "A009054"
-                    55 -> "A009055"
-                    56 -> "A009056"
-                    57 -> "A009057"
-                    58 -> "A009058"
-                    59 -> "A009059"
-                    60 -> "A009060"
-                    61 -> "A009061"
-                    62 -> "A009062"
-                    63 -> "A009063"
-                    64 -> "A009064"
-                    65 -> "A009065"
-                    66 -> "A009066"
-                    67 -> "A009067"
-                    68 -> "A009068"
-                    else -> ""
-                })
+                buriedThingItem.put("unitCl", CommonCodeInfoList.getCodeId("A009", itemBuriedThingSpinner.selectedItemPosition) )
+//                    when(itemBuriedThingSpinner.selectedItemPosition) {
+//                    1 -> "A009001"
+//                    2 -> "A009002"
+//                    3 -> "A009003"
+//                    4 -> "A009004"
+//                    5 -> "A009005"
+//                    6 -> "A009006"
+//                    7 -> "A009007"
+//                    8 -> "A009008"
+//                    9 -> "A009009"
+//                    10 -> "A009010"
+//                    11 -> "A009011"
+//                    12 -> "A009012"
+//                    13 -> "A009013"
+//                    14 -> "A009014"
+//                    15 -> "A009015"
+//                    16 -> "A009016"
+//                    17 -> "A009017"
+//                    18 -> "A009018"
+//                    19 -> "A009019"
+//                    20 -> "A009020"
+//                    21 -> "A009021"
+//                    22 -> "A009022"
+//                    23 -> "A009023"
+//                    24 -> "A009024"
+//                    25 -> "A009025"
+//                    26 -> "A009026"
+//                    27 -> "A009027"
+//                    28 -> "A009028"
+//                    29 -> "A009029"
+//                    30 -> "A009030"
+//                    31 -> "A009031"
+//                    32 -> "A009032"
+//                    33 -> "A009033"
+//                    34 -> "A009034"
+//                    35 -> "A009035"
+//                    36 -> "A009036"
+//                    37 -> "A009037"
+//                    38 -> "A009038"
+//                    39 -> "A009039"
+//                    40 -> "A009040"
+//                    41 -> "A009041"
+//                    42 -> "A009042"
+//                    43 -> "A009043"
+//                    44 -> "A009044"
+//                    45 -> "A009045"
+//                    46 -> "A009046"
+//                    47 -> "A009047"
+//                    48 -> "A009048"
+//                    49 -> "A009049"
+//                    50 -> "A009050"
+//                    51 -> "A009051"
+//                    52 -> "A009052"
+//                    53 -> "A009053"
+//                    54 -> "A009054"
+//                    55 -> "A009055"
+//                    56 -> "A009056"
+//                    57 -> "A009057"
+//                    58 -> "A009058"
+//                    59 -> "A009059"
+//                    60 -> "A009060"
+//                    61 -> "A009061"
+//                    62 -> "A009062"
+//                    63 -> "A009063"
+//                    64 -> "A009064"
+//                    65 -> "A009065"
+//                    66 -> "A009066"
+//                    67 -> "A009067"
+//                    68 -> "A009068"
+//                    else -> ""
+//                })
                 buriedThingItem.put("arComputBasis",itemBuriedThingArComputBasis.text.toString())
                 buriedThingItem.put("rm",itemBuriedThingRm.text.toString())
                 buriedThingArray.put(buriedThingItem)

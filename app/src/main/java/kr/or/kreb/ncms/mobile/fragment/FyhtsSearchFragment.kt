@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingFyhtsObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -297,7 +298,9 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
             val addViewGroup2 = addLayoutItem.getChildAt(3) as ViewGroup
             val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
             val addSpinner2 = addSpinnerLayout2.getChildAt(0) as Spinner
-            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            // A009
+//            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            wtnncUtill.wtnncSpinnerAdapter("A009", addSpinner2, this)
 
             // 이전일자
             var addViewGroup3 = addLayoutItem.getChildAt(7) as ViewGroup
@@ -449,7 +452,9 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
 
         setRequireContent(requireArr)
 
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, fyhtsUnitSpinner, this) // 단위
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, fyhtsUnitSpinner, this) // 단위
+        wtnncUtill.wtnncSpinnerAdapter("A009", fyhtsUnitSpinner, this) // 단위
         wtnncUtill.wtnncSpinnerAdapter(R.array.ownerCnfirmBasisArray, fyhtsOwnerCnfirmBasisSpinner, this) // 소유자확인근거
         wtnncUtill.wtnncSpinnerAdapter(R.array.fyhtsBsnClArray, bsnClDivSpinner, this) // 어업손실분류
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.acqsSeArray, fyhtsAcqsSeSpinner, this) //
@@ -479,12 +484,13 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
             view.fyhtsIncrprAr.setText(checkStringNull(fyhtsDataJson.getString("incrprAr")))
 
             val unitClString = checkStringNull(fyhtsDataJson.getString("unitCl"))
-            if(unitClString.equals("")) {
-                view.fyhtsUnitSpinner.setSelection(0)
-            } else {
-                val unitClStringSub = unitClString.substring(5,7)
-                view.fyhtsUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
-            }
+//            if(unitClString.equals("")) {
+//                view.fyhtsUnitSpinner.setSelection(0)
+//            } else {
+//                val unitClStringSub = unitClString.substring(5,7)
+//                view.fyhtsUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
+//            }
+            view.fyhtsUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", unitClString) )
 
             view.fyhtsArComputBasis.setText(checkStringNull(fyhtsDataJson.getString("arComputBasis")))
 
@@ -617,18 +623,21 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
                     val subThingUnitClView = addLayoutSecond.getChildAt(1) as ViewGroup
                     val subThingUnitClSpinner = subThingUnitClView.getChildAt(0) as Spinner
                     val subThingArComputBasisText = addLayoutSecond.getChildAt(2) as EditText
-                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, subThingUnitClSpinner, this)
+                    // A009
+//                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, subThingUnitClSpinner, this)
+                    wtnncUtill.wtnncSpinnerAdapter("A009", subThingUnitClSpinner, this)
 
                     subThingBgnnArText.setText(checkStringNull(fyhtsSubThingItem.getString("bgnnAr")))
                     subThingIncrprArText.setText(checkStringNull(fyhtsSubThingItem.getString("incrprAr")))
 
                     val subThingUnitClString = checkStringNull(fyhtsSubThingItem.getString("unitCl"))
-                    if(subThingUnitClString.equals("")) {
-                        subThingUnitClSpinner.setSelection(0)
-                    } else {
-                        val subThingUnitClStringsub = subThingUnitClString.substring(5,7)
-                        subThingUnitClSpinner.setSelection(Integer.valueOf(subThingUnitClStringsub))
-                    }
+//                    if(subThingUnitClString.equals("")) {
+//                        subThingUnitClSpinner.setSelection(0)
+//                    } else {
+//                        val subThingUnitClStringsub = subThingUnitClString.substring(5,7)
+//                        subThingUnitClSpinner.setSelection(Integer.valueOf(subThingUnitClStringsub))
+//                    }
+                    subThingUnitClSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", subThingUnitClString) )
 
                     subThingArComputBasisText.setText(checkStringNull(fyhtsSubThingItem.getString("arComputBasis")))
 
@@ -818,77 +827,78 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
         ThingFyhtsObject.incrprAr = mActivity.fyhtsIncrprAr.text.toString() // 편입면적
         Log.d("fyhtsTest", "편입면적 : ${ThingFyhtsObject.incrprAr}")
 
-        ThingFyhtsObject.unitCl = when (mActivity.fyhtsUnitSpinner.selectedItemPosition) { // 단위
-            1 -> "A009001"
-            2 -> "A009002"
-            3 -> "A009003"
-            4 -> "A009004"
-            5 -> "A009005"
-            6 -> "A009006"
-            7 -> "A009007"
-            8 -> "A009008"
-            9 -> "A009009"
-            10 -> "A009010"
-            11 -> "A009011"
-            12 -> "A009012"
-            13 -> "A009013"
-            14 -> "A009014"
-            15 -> "A009015"
-            16 -> "A009016"
-            17 -> "A009017"
-            18 -> "A009018"
-            19 -> "A009019"
-            20 -> "A009020"
-            21 -> "A009021"
-            22 -> "A009022"
-            23 -> "A009023"
-            24 -> "A009024"
-            25 -> "A009025"
-            26 -> "A009026"
-            27 -> "A009027"
-            28 -> "A009028"
-            29 -> "A009029"
-            30 -> "A009030"
-            31 -> "A009031"
-            32 -> "A009032"
-            33 -> "A009033"
-            34 -> "A009034"
-            35 -> "A009035"
-            36 -> "A009036"
-            37 -> "A009037"
-            38 -> "A009038"
-            39 -> "A009039"
-            40 -> "A009040"
-            41 -> "A009041"
-            42 -> "A009042"
-            43 -> "A009043"
-            44 -> "A009044"
-            45 -> "A009045"
-            46 -> "A009046"
-            47 -> "A009047"
-            48 -> "A009048"
-            49 -> "A009049"
-            50 -> "A009050"
-            51 -> "A009051"
-            52 -> "A009052"
-            53 -> "A009053"
-            54 -> "A009054"
-            55 -> "A009055"
-            56 -> "A009056"
-            57 -> "A009057"
-            58 -> "A009058"
-            59 -> "A009059"
-            60 -> "A009060"
-            61 -> "A009061"
-            62 -> "A009062"
-            63 -> "A009063"
-            64 -> "A009064"
-            65 -> "A009065"
-            66 -> "A009066"
-            67 -> "A009067"
-            68 -> "A009068"
-            else -> ""
-        }
+        ThingFyhtsObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.fyhtsUnitSpinner.selectedItemPosition)
+//            when (mActivity.fyhtsUnitSpinner.selectedItemPosition) { // 단위
+//            1 -> "A009001"
+//            2 -> "A009002"
+//            3 -> "A009003"
+//            4 -> "A009004"
+//            5 -> "A009005"
+//            6 -> "A009006"
+//            7 -> "A009007"
+//            8 -> "A009008"
+//            9 -> "A009009"
+//            10 -> "A009010"
+//            11 -> "A009011"
+//            12 -> "A009012"
+//            13 -> "A009013"
+//            14 -> "A009014"
+//            15 -> "A009015"
+//            16 -> "A009016"
+//            17 -> "A009017"
+//            18 -> "A009018"
+//            19 -> "A009019"
+//            20 -> "A009020"
+//            21 -> "A009021"
+//            22 -> "A009022"
+//            23 -> "A009023"
+//            24 -> "A009024"
+//            25 -> "A009025"
+//            26 -> "A009026"
+//            27 -> "A009027"
+//            28 -> "A009028"
+//            29 -> "A009029"
+//            30 -> "A009030"
+//            31 -> "A009031"
+//            32 -> "A009032"
+//            33 -> "A009033"
+//            34 -> "A009034"
+//            35 -> "A009035"
+//            36 -> "A009036"
+//            37 -> "A009037"
+//            38 -> "A009038"
+//            39 -> "A009039"
+//            40 -> "A009040"
+//            41 -> "A009041"
+//            42 -> "A009042"
+//            43 -> "A009043"
+//            44 -> "A009044"
+//            45 -> "A009045"
+//            46 -> "A009046"
+//            47 -> "A009047"
+//            48 -> "A009048"
+//            49 -> "A009049"
+//            50 -> "A009050"
+//            51 -> "A009051"
+//            52 -> "A009052"
+//            53 -> "A009053"
+//            54 -> "A009054"
+//            55 -> "A009055"
+//            56 -> "A009056"
+//            57 -> "A009057"
+//            58 -> "A009058"
+//            59 -> "A009059"
+//            60 -> "A009060"
+//            61 -> "A009061"
+//            62 -> "A009062"
+//            63 -> "A009063"
+//            64 -> "A009064"
+//            65 -> "A009065"
+//            66 -> "A009066"
+//            67 -> "A009067"
+//            68 -> "A009068"
+//            else -> ""
+//        }
         Log.d("fyhtsTest", "단위 : ${ThingFyhtsObject.unitCl}")
 
         ThingFyhtsObject.bsnCl = when (mActivity.bsnClDivSpinner.selectedItemPosition) {
@@ -1149,77 +1159,78 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
                 // 단위
                 val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
                 val addUnitClSpinner = addSpinnerLayout2.getChildAt(0) as Spinner
-                fyhtsThingItem.put("unitCl", when (addUnitClSpinner.selectedItemPosition) {
-                    1 -> "A009001"
-                    2 -> "A009002"
-                    3 -> "A009003"
-                    4 -> "A009004"
-                    5 -> "A009005"
-                    6 -> "A009006"
-                    7 -> "A009007"
-                    8 -> "A009008"
-                    9 -> "A009009"
-                    10 -> "A009010"
-                    11 -> "A009011"
-                    12 -> "A009012"
-                    13 -> "A009013"
-                    14 -> "A009014"
-                    15 -> "A009015"
-                    16 -> "A009016"
-                    17 -> "A009017"
-                    18 -> "A009018"
-                    19 -> "A009019"
-                    20 -> "A009020"
-                    21 -> "A009021"
-                    22 -> "A009022"
-                    23 -> "A009023"
-                    24 -> "A009024"
-                    25 -> "A009025"
-                    26 -> "A009026"
-                    27 -> "A009027"
-                    28 -> "A009028"
-                    29 -> "A009029"
-                    30 -> "A009030"
-                    31 -> "A009031"
-                    32 -> "A009032"
-                    33 -> "A009033"
-                    34 -> "A009034"
-                    35 -> "A009035"
-                    36 -> "A009036"
-                    37 -> "A009037"
-                    38 -> "A009038"
-                    39 -> "A009039"
-                    40 -> "A009040"
-                    41 -> "A009041"
-                    42 -> "A009042"
-                    43 -> "A009043"
-                    44 -> "A009044"
-                    45 -> "A009045"
-                    46 -> "A009046"
-                    47 -> "A009047"
-                    48 -> "A009048"
-                    49 -> "A009049"
-                    50 -> "A009050"
-                    51 -> "A009051"
-                    52 -> "A009052"
-                    53 -> "A009053"
-                    54 -> "A009054"
-                    55 -> "A009055"
-                    56 -> "A009056"
-                    57 -> "A009057"
-                    58 -> "A009058"
-                    59 -> "A009059"
-                    60 -> "A009060"
-                    61 -> "A009061"
-                    62 -> "A009062"
-                    63 -> "A009063"
-                    64 -> "A009064"
-                    65 -> "A009065"
-                    66 -> "A009066"
-                    67 -> "A009067"
-                    68 -> "A009068"
-                    else -> ""
-                })
+                fyhtsThingItem.put("unitCl", CommonCodeInfoList.getCodeId("A009", addUnitClSpinner.selectedItemPosition))
+//                    when (addUnitClSpinner.selectedItemPosition) {
+//                    1 -> "A009001"
+//                    2 -> "A009002"
+//                    3 -> "A009003"
+//                    4 -> "A009004"
+//                    5 -> "A009005"
+//                    6 -> "A009006"
+//                    7 -> "A009007"
+//                    8 -> "A009008"
+//                    9 -> "A009009"
+//                    10 -> "A009010"
+//                    11 -> "A009011"
+//                    12 -> "A009012"
+//                    13 -> "A009013"
+//                    14 -> "A009014"
+//                    15 -> "A009015"
+//                    16 -> "A009016"
+//                    17 -> "A009017"
+//                    18 -> "A009018"
+//                    19 -> "A009019"
+//                    20 -> "A009020"
+//                    21 -> "A009021"
+//                    22 -> "A009022"
+//                    23 -> "A009023"
+//                    24 -> "A009024"
+//                    25 -> "A009025"
+//                    26 -> "A009026"
+//                    27 -> "A009027"
+//                    28 -> "A009028"
+//                    29 -> "A009029"
+//                    30 -> "A009030"
+//                    31 -> "A009031"
+//                    32 -> "A009032"
+//                    33 -> "A009033"
+//                    34 -> "A009034"
+//                    35 -> "A009035"
+//                    36 -> "A009036"
+//                    37 -> "A009037"
+//                    38 -> "A009038"
+//                    39 -> "A009039"
+//                    40 -> "A009040"
+//                    41 -> "A009041"
+//                    42 -> "A009042"
+//                    43 -> "A009043"
+//                    44 -> "A009044"
+//                    45 -> "A009045"
+//                    46 -> "A009046"
+//                    47 -> "A009047"
+//                    48 -> "A009048"
+//                    49 -> "A009049"
+//                    50 -> "A009050"
+//                    51 -> "A009051"
+//                    52 -> "A009052"
+//                    53 -> "A009053"
+//                    54 -> "A009054"
+//                    55 -> "A009055"
+//                    56 -> "A009056"
+//                    57 -> "A009057"
+//                    58 -> "A009058"
+//                    59 -> "A009059"
+//                    60 -> "A009060"
+//                    61 -> "A009061"
+//                    62 -> "A009062"
+//                    63 -> "A009063"
+//                    64 -> "A009064"
+//                    65 -> "A009065"
+//                    66 -> "A009066"
+//                    67 -> "A009067"
+//                    68 -> "A009068"
+//                    else -> ""
+//                })
                 // 면적산출근거
                 val addArComputBasisText = addViewGroup2.getChildAt(2) as EditText
                 fyhtsThingItem.put("arComputBasis", addArComputBasisText.text.toString())

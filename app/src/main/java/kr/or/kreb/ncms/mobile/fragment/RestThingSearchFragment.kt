@@ -27,6 +27,7 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
 import kr.or.kreb.ncms.mobile.adapter.RestThingSearchRecyclerViewAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.RestLandInfoObject
 import kr.or.kreb.ncms.mobile.data.RestThingWtnObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
@@ -86,7 +87,9 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
 //        RestThingWtnObject.thingInfo = restThingDataJson
 
         thingSpinnerAdapter(R.array.thingSmallCategoryArray, view.thingSmallSpinner)
-        thingSpinnerAdapter(R.array.thingUnitArray, view.thingBuildUnitSpinner)
+        // A009
+//        thingSpinnerAdapter(R.array.thingUnitArray, view.thingBuildUnitSpinner)
+        thingSpinnerAdapter("A009", view.thingBuildUnitSpinner)
 
 
         view.thingLegalDongNmText?.text =
@@ -135,8 +138,9 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
         view.thingBuildIncrprArEdit?.setText(checkStringNull(restThingDataJson!!.getString("incrprAr").toString()))
 
         val buldUnitClString = checkStringNull(restThingDataJson!!.getString("unitCl"))
-        val buldUnitClStringSub = buldUnitClString.substring(5,7)
-        view.thingBuildUnitSpinner.setSelection(Integer.valueOf(buldUnitClStringSub))
+//        val buldUnitClStringSub = buldUnitClString.substring(5,7)
+//        view.thingBuildUnitSpinner.setSelection(Integer.valueOf(buldUnitClStringSub))
+        view.thingBuildUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", buldUnitClString) )
 
         view.thingBuildArComputBasisEdit.setText(checkStringNull(restThingDataJson!!.getString("arComputBasis")))
 
@@ -239,6 +243,11 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
 
     fun thingSpinnerAdapter(stringArray: Int, spinner: Spinner?) {
         spinner?.adapter = CustomDropDownAdapter(context!!, listOf(resources.getStringArray(stringArray))[0])
+        spinner?.onItemSelectedListener = this
+    }
+
+    fun thingSpinnerAdapter(codeGrroupId: String, spinner: Spinner?) {
+        spinner?.adapter = CustomDropDownAdapter(context!!, CommonCodeInfoList.getCodeDcArray("A009"))
         spinner?.onItemSelectedListener = this
     }
 

@@ -249,6 +249,11 @@ class WtnncUtil(val activity: Activity, val context: Context) {
         spinner.onItemSelectedListener = listener
     }
 
+    fun wtnncSpinnerAdapter(codeGroupId: String, spinner: Spinner, listener: AdapterView.OnItemSelectedListener?) {
+        spinner.adapter = CustomDropDownAdapter(context, CommonCodeInfoList.getCodeDcArray(codeGroupId))
+        spinner.onItemSelectedListener = listener
+    }
+
     /*fun wtnncDateRangePicker(fragmentManager: FragmentManager, textView: TextView, value: String) {
         var firstDate: String = ""
         var secondDate: String = ""

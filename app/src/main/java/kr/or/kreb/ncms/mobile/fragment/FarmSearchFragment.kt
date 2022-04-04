@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingFarmObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -261,7 +262,9 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val addViewGroup2 = addLayoutItem.getChildAt(3) as ViewGroup // 4번째 라인
             val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup // 4번째 라인의 첫번째 항목
             val addSpinner2 = addSpinnerLayout2.getChildAt(0) as Spinner // 단위
-            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            // A009
+//            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            wtnncUtill.wtnncSpinnerAdapter("A009", addSpinner2, this)
 
             addThingViewCnt++
         }
@@ -625,7 +628,9 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
 
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.farmSmallCategoryArray, farmSclasSpinner, this) // 소분류
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, farmUnitSpinner, this) // 단위
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, farmUnitSpinner, this) // 단위
+        wtnncUtill.wtnncSpinnerAdapter("A009", farmUnitSpinner, this) // 단위
         wtnncUtill.wtnncSpinnerAdapter(R.array.farmFrlndBasisArray, frldbsBasisCl, this) // 농지근거
         wtnncUtill.wtnncSpinnerAdapter(R.array.farmFarmerBasisArray, frmrbsBasisCl, this) // 농민근거
         wtnncUtill.wtnncSpinnerAdapter(R.array.farmPrmisnSeArray, posesnClvthmTy, this) // 점유구분
@@ -691,12 +696,13 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.farmIncrprAr.setText(checkStringNull(farmDataJson.getString("incrprAr")))
 
         val farmUnitClString = checkStringNull(farmDataJson.getString("unitCl"))
-        if(farmUnitClString.equals("")) {
-            view.farmUnitSpinner.setSelection(0)
-        } else {
-            val farmUnitClStringSub = farmUnitClString.substring(5,7)
-            view.farmUnitSpinner.setSelection(Integer.valueOf(farmUnitClStringSub))
-        }
+//        if(farmUnitClString.equals("")) {
+//            view.farmUnitSpinner.setSelection(0)
+//        } else {
+//            val farmUnitClStringSub = farmUnitClString.substring(5,7)
+//            view.farmUnitSpinner.setSelection(Integer.valueOf(farmUnitClStringSub))
+//        }
+        view.farmUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", farmUnitClString) )
 
         view.farmArComputBasis.setText(checkStringNull(farmDataJson.getString("arComputBasis")))
 
@@ -1093,17 +1099,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
                     val farmSubThingUnitClSpinner = farmSubThingUnitClView.getChildAt(0) as Spinner
                     val farmSubThingArComputerBasisText = farmSubThingViewSecond.getChildAt(2) as EditText
 
-                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, farmSubThingUnitClSpinner, this)
+//                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, farmSubThingUnitClSpinner, this)
+                    wtnncUtill.wtnncSpinnerAdapter("A009", farmSubThingUnitClSpinner, this)
 
                     farmSubThingBgnnArText.setText(checkStringNull(farmSubThingObject.getString("bgnnAr")))
                     farmSubThingIncrprArText.setText(checkStringNull(farmSubThingObject.getString("incrprAr")))
                     val subUnitClString = checkStringNull(farmSubThingObject.getString("unitCl"))
-                    if (subUnitClString.equals("")) {
-                        farmSubThingUnitClSpinner.setSelection(0)
-                    } else {
-                        val subUnitClStringsub = subUnitClString.substring(5, 7)
-                        farmSubThingUnitClSpinner.setSelection(Integer.valueOf(subUnitClStringsub))
-                    }
+//                    if (subUnitClString.equals("")) {
+//                        farmSubThingUnitClSpinner.setSelection(0)
+//                    } else {
+//                        val subUnitClStringsub = subUnitClString.substring(5, 7)
+//                        farmSubThingUnitClSpinner.setSelection(Integer.valueOf(subUnitClStringsub))
+//                    }
+                    farmSubThingUnitClSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", subUnitClString) )
                     farmSubThingArComputerBasisText.setText(checkStringNull(farmSubThingObject.getString("arComputBasis")))
 
                     addThingViewCnt++
@@ -1306,77 +1314,78 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         ThingFarmObject.incrprAr = mActivity.farmIncrprAr.text.toString() // 편입면적
         Log.d("farmTest", "편입면적 : ${ThingFarmObject.incrprAr}")
 
-        ThingFarmObject.unitCl = when (mActivity.farmUnitSpinner.selectedItemPosition) { // 단위
-            1 -> "A009001"
-            2 -> "A009002"
-            3 -> "A009003"
-            4 -> "A009004"
-            5 -> "A009005"
-            6 -> "A009006"
-            7 -> "A009007"
-            8 -> "A009008"
-            9 -> "A009009"
-            10 -> "A009010"
-            11 -> "A009011"
-            12 -> "A009012"
-            13 -> "A009013"
-            14 -> "A009014"
-            15 -> "A009015"
-            16 -> "A009016"
-            17 -> "A009017"
-            18 -> "A009018"
-            19 -> "A009019"
-            20 -> "A009020"
-            21 -> "A009021"
-            22 -> "A009022"
-            23 -> "A009023"
-            24 -> "A009024"
-            25 -> "A009025"
-            26 -> "A009026"
-            27 -> "A009027"
-            28 -> "A009028"
-            29 -> "A009029"
-            30 -> "A009030"
-            31 -> "A009031"
-            32 -> "A009032"
-            33 -> "A009033"
-            34 -> "A009034"
-            35 -> "A009035"
-            36 -> "A009036"
-            37 -> "A009037"
-            38 -> "A009038"
-            39 -> "A009039"
-            40 -> "A009040"
-            41 -> "A009041"
-            42 -> "A009042"
-            43 -> "A009043"
-            44 -> "A009044"
-            45 -> "A009045"
-            46 -> "A009046"
-            47 -> "A009047"
-            48 -> "A009048"
-            49 -> "A009049"
-            50 -> "A009050"
-            51 -> "A009051"
-            52 -> "A009052"
-            53 -> "A009053"
-            54 -> "A009054"
-            55 -> "A009055"
-            56 -> "A009056"
-            57 -> "A009057"
-            58 -> "A009058"
-            59 -> "A009059"
-            60 -> "A009060"
-            61 -> "A009061"
-            62 -> "A009062"
-            63 -> "A009063"
-            64 -> "A009064"
-            65 -> "A009065"
-            66 -> "A009066"
-            67 -> "A009067"
-            68 -> "A009068"
-            else -> ""
-        }
+        ThingFarmObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.farmUnitSpinner.selectedItemPosition)
+//            when (mActivity.farmUnitSpinner.selectedItemPosition) { // 단위
+//            1 -> "A009001"
+//            2 -> "A009002"
+//            3 -> "A009003"
+//            4 -> "A009004"
+//            5 -> "A009005"
+//            6 -> "A009006"
+//            7 -> "A009007"
+//            8 -> "A009008"
+//            9 -> "A009009"
+//            10 -> "A009010"
+//            11 -> "A009011"
+//            12 -> "A009012"
+//            13 -> "A009013"
+//            14 -> "A009014"
+//            15 -> "A009015"
+//            16 -> "A009016"
+//            17 -> "A009017"
+//            18 -> "A009018"
+//            19 -> "A009019"
+//            20 -> "A009020"
+//            21 -> "A009021"
+//            22 -> "A009022"
+//            23 -> "A009023"
+//            24 -> "A009024"
+//            25 -> "A009025"
+//            26 -> "A009026"
+//            27 -> "A009027"
+//            28 -> "A009028"
+//            29 -> "A009029"
+//            30 -> "A009030"
+//            31 -> "A009031"
+//            32 -> "A009032"
+//            33 -> "A009033"
+//            34 -> "A009034"
+//            35 -> "A009035"
+//            36 -> "A009036"
+//            37 -> "A009037"
+//            38 -> "A009038"
+//            39 -> "A009039"
+//            40 -> "A009040"
+//            41 -> "A009041"
+//            42 -> "A009042"
+//            43 -> "A009043"
+//            44 -> "A009044"
+//            45 -> "A009045"
+//            46 -> "A009046"
+//            47 -> "A009047"
+//            48 -> "A009048"
+//            49 -> "A009049"
+//            50 -> "A009050"
+//            51 -> "A009051"
+//            52 -> "A009052"
+//            53 -> "A009053"
+//            54 -> "A009054"
+//            55 -> "A009055"
+//            56 -> "A009056"
+//            57 -> "A009057"
+//            58 -> "A009058"
+//            59 -> "A009059"
+//            60 -> "A009060"
+//            61 -> "A009061"
+//            62 -> "A009062"
+//            63 -> "A009063"
+//            64 -> "A009064"
+//            65 -> "A009065"
+//            66 -> "A009066"
+//            67 -> "A009067"
+//            68 -> "A009068"
+//            else -> ""
+//        }
         Log.d("farmTest", "단위 : ${ThingFarmObject.unitCl}")
 
         ThingFarmObject.arComputBasis = mActivity.farmArComputBasis.text.toString() // 면적산출근거
@@ -1816,77 +1825,78 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
                 thingFarmAddItem.put("incrprAr", addIncrpr.text.toString())
 
                 // 단위
-                thingFarmAddItem.put("unitCl", when (addUnit.selectedItemPosition) {
-                    1 -> "A009001"
-                    2 -> "A009002"
-                    3 -> "A009003"
-                    4 -> "A009004"
-                    5 -> "A009005"
-                    6 -> "A009006"
-                    7 -> "A009007"
-                    8 -> "A009008"
-                    9 -> "A009009"
-                    10 -> "A009010"
-                    11 -> "A009011"
-                    12 -> "A009012"
-                    13 -> "A009013"
-                    14 -> "A009014"
-                    15 -> "A009015"
-                    16 -> "A009016"
-                    17 -> "A009017"
-                    18 -> "A009018"
-                    19 -> "A009019"
-                    20 -> "A009020"
-                    21 -> "A009021"
-                    22 -> "A009022"
-                    23 -> "A009023"
-                    24 -> "A009024"
-                    25 -> "A009025"
-                    26 -> "A009026"
-                    27 -> "A009027"
-                    28 -> "A009028"
-                    29 -> "A009029"
-                    30 -> "A009030"
-                    31 -> "A009031"
-                    32 -> "A009032"
-                    33 -> "A009033"
-                    34 -> "A009034"
-                    35 -> "A009035"
-                    36 -> "A009036"
-                    37 -> "A009037"
-                    38 -> "A009038"
-                    39 -> "A009039"
-                    40 -> "A009040"
-                    41 -> "A009041"
-                    42 -> "A009042"
-                    43 -> "A009043"
-                    44 -> "A009044"
-                    45 -> "A009045"
-                    46 -> "A009046"
-                    47 -> "A009047"
-                    48 -> "A009048"
-                    49 -> "A009049"
-                    50 -> "A009050"
-                    51 -> "A009051"
-                    52 -> "A009052"
-                    53 -> "A009053"
-                    54 -> "A009054"
-                    55 -> "A009055"
-                    56 -> "A009056"
-                    57 -> "A009057"
-                    58 -> "A009058"
-                    59 -> "A009059"
-                    60 -> "A009060"
-                    61 -> "A009061"
-                    62 -> "A009062"
-                    63 -> "A009063"
-                    64 -> "A009064"
-                    65 -> "A009065"
-                    66 -> "A009066"
-                    67 -> "A009067"
-                    68 -> "A009068"
-                    else -> ""
-                })
+                thingFarmAddItem.put("unitCl", CommonCodeInfoList.getCodeId("A009", addUnit.selectedItemPosition))
+//                    when (addUnit.selectedItemPosition) {
+//                    1 -> "A009001"
+//                    2 -> "A009002"
+//                    3 -> "A009003"
+//                    4 -> "A009004"
+//                    5 -> "A009005"
+//                    6 -> "A009006"
+//                    7 -> "A009007"
+//                    8 -> "A009008"
+//                    9 -> "A009009"
+//                    10 -> "A009010"
+//                    11 -> "A009011"
+//                    12 -> "A009012"
+//                    13 -> "A009013"
+//                    14 -> "A009014"
+//                    15 -> "A009015"
+//                    16 -> "A009016"
+//                    17 -> "A009017"
+//                    18 -> "A009018"
+//                    19 -> "A009019"
+//                    20 -> "A009020"
+//                    21 -> "A009021"
+//                    22 -> "A009022"
+//                    23 -> "A009023"
+//                    24 -> "A009024"
+//                    25 -> "A009025"
+//                    26 -> "A009026"
+//                    27 -> "A009027"
+//                    28 -> "A009028"
+//                    29 -> "A009029"
+//                    30 -> "A009030"
+//                    31 -> "A009031"
+//                    32 -> "A009032"
+//                    33 -> "A009033"
+//                    34 -> "A009034"
+//                    35 -> "A009035"
+//                    36 -> "A009036"
+//                    37 -> "A009037"
+//                    38 -> "A009038"
+//                    39 -> "A009039"
+//                    40 -> "A009040"
+//                    41 -> "A009041"
+//                    42 -> "A009042"
+//                    43 -> "A009043"
+//                    44 -> "A009044"
+//                    45 -> "A009045"
+//                    46 -> "A009046"
+//                    47 -> "A009047"
+//                    48 -> "A009048"
+//                    49 -> "A009049"
+//                    50 -> "A009050"
+//                    51 -> "A009051"
+//                    52 -> "A009052"
+//                    53 -> "A009053"
+//                    54 -> "A009054"
+//                    55 -> "A009055"
+//                    56 -> "A009056"
+//                    57 -> "A009057"
+//                    58 -> "A009058"
+//                    59 -> "A009059"
+//                    60 -> "A009060"
+//                    61 -> "A009061"
+//                    62 -> "A009062"
+//                    63 -> "A009063"
+//                    64 -> "A009064"
+//                    65 -> "A009065"
+//                    66 -> "A009066"
+//                    67 -> "A009067"
+//                    68 -> "A009068"
+//                    else -> ""
+//                })
 
                 // 면적산출근거
                 thingFarmAddItem.put("arComputBasis", addArComputBasis.text.toString())

@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingMinrgtObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -236,7 +237,9 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
             val addViewGroup2 = addLayoutItem.getChildAt(3) as ViewGroup
             val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
             val addSpinner2 = addSpinnerLayout2.getChildAt(0) as Spinner
-            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            // A009
+//            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+            wtnncUtill.wtnncSpinnerAdapter("A009", addSpinner2, this)
 
 
 
@@ -385,7 +388,10 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         var requireArr = mutableListOf<TextView>(view.tv_minrgt_require1, view.tv_minrgt_require2, view.tv_minrgt_require4, view.tv_minrgt_require5)
         setRequireContent(requireArr)
 
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, minrgtUnitSpinner, this) // 단위
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, minrgtUnitSpinner, this) // 단위
+        wtnncUtill.wtnncSpinnerAdapter("A009", minrgtUnitSpinner, this) // 단위
+
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.acqsSeArray, minrgtAcqsSeSpinner, this)
 //        wtnncUtill.wtnncSpinnerAdapter(R.array.InclsSeArray, minrgtInclsSeSpinner, this)
         wtnncUtill.wtnncSpinnerAdapter(R.array.ownerCnfirmBasisArray, minrgtOwnerCnfirmBasisSpinner, this)
@@ -442,12 +448,13 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         view.minrgtIncrprAr.setText(checkStringNull(thingDataJson.getString("incrprAr")))
         val unitClString = checkStringNull(thingDataJson.getString("unitCl"))
 
-        if (unitClString.equals("")) {
-            view.minrgtUnitSpinner.setSelection(0)
-        } else {
-            val unitClStringSub = unitClString.substring(5, 7)
-            view.minrgtUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
-        }
+//        if (unitClString.equals("")) {
+//            view.minrgtUnitSpinner.setSelection(0)
+//        } else {
+//            val unitClStringSub = unitClString.substring(5, 7)
+//            view.minrgtUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
+//        }
+        view.minrgtUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", unitClString) )
 
         view.minrgtArComputBasis.setText(checkStringNull(thingDataJson.getString("arComputBasis")))
 
@@ -700,7 +707,9 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
 
 
         wtnncUtill.wtnncSpinnerAdapter(R.array.wtnncCommSclasArray, subThingSmallCl, this)
-        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, subThingUnitCl, this)
+        // A009
+//        wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, subThingUnitCl, this)
+        wtnncUtill.wtnncSpinnerAdapter("A009", subThingUnitCl, this)
 
         val thingSmallClString = checkStringNull(data.getString("thingSmallCl"))
         if(thingSmallClString.equals("A016022")) {
@@ -712,12 +721,14 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         subThingIncrprAr.setText(checkStringNull(data.getString("incrprAr")))
 
         val thingUnitClString = checkStringNull(data.getString("unitCl"))
-        if(thingUnitClString.equals("")) {
-            subThingUnitCl.setSelection(0)
-        } else {
-            val thingUnitClStringSub = thingUnitClString.substring(5,7)
-            subThingUnitCl.setSelection(Integer.valueOf(thingUnitClStringSub))
-        }
+//        if(thingUnitClString.equals("")) {
+//            subThingUnitCl.setSelection(0)
+//        } else {
+//            val thingUnitClStringSub = thingUnitClString.substring(5,7)
+//            subThingUnitCl.setSelection(Integer.valueOf(thingUnitClStringSub))
+//        }
+        subThingUnitCl.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", thingUnitClString) )
+
         subThingArComputBasis.setText(checkStringNull(data.getString("arComputBasis")))
 
 
@@ -728,77 +739,78 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
 
         when(parent?.id) {
             R.id.minrgtUnitSpinner -> {
-                when (position) {
-                    1 -> ThingMinrgtObject.unitCl = "A009001"
-                    2 -> ThingMinrgtObject.unitCl = "A009002"
-                    3 -> ThingMinrgtObject.unitCl = "A009003"
-                    4 -> ThingMinrgtObject.unitCl = "A009004"
-                    5 -> ThingMinrgtObject.unitCl = "A009005"
-                    6 -> ThingMinrgtObject.unitCl = "A009006"
-                    7 -> ThingMinrgtObject.unitCl = "A009007"
-                    8 -> ThingMinrgtObject.unitCl = "A009008"
-                    9 -> ThingMinrgtObject.unitCl = "A009009"
-                    10 -> ThingMinrgtObject.unitCl = "A009010"
-                    11 -> ThingMinrgtObject.unitCl = "A009011"
-                    12 -> ThingMinrgtObject.unitCl = "A009012"
-                    13 -> ThingMinrgtObject.unitCl = "A009013"
-                    14 -> ThingMinrgtObject.unitCl = "A009014"
-                    15 -> ThingMinrgtObject.unitCl = "A009015"
-                    16 -> ThingMinrgtObject.unitCl = "A009016"
-                    17 -> ThingMinrgtObject.unitCl = "A009017"
-                    18 -> ThingMinrgtObject.unitCl = "A009018"
-                    19 -> ThingMinrgtObject.unitCl = "A009019"
-                    20 -> ThingMinrgtObject.unitCl = "A009020"
-                    21 -> ThingMinrgtObject.unitCl = "A009021"
-                    22 -> ThingMinrgtObject.unitCl = "A009022"
-                    23 -> ThingMinrgtObject.unitCl = "A009023"
-                    24 -> ThingMinrgtObject.unitCl = "A009024"
-                    25 -> ThingMinrgtObject.unitCl = "A009025"
-                    26 -> ThingMinrgtObject.unitCl = "A009026"
-                    27 -> ThingMinrgtObject.unitCl = "A009027"
-                    28 -> ThingMinrgtObject.unitCl = "A009028"
-                    29 -> ThingMinrgtObject.unitCl = "A009029"
-                    30 -> ThingMinrgtObject.unitCl = "A009030"
-                    31 -> ThingMinrgtObject.unitCl = "A009031"
-                    32 -> ThingMinrgtObject.unitCl = "A009032"
-                    33 -> ThingMinrgtObject.unitCl = "A009033"
-                    34 -> ThingMinrgtObject.unitCl = "A009034"
-                    35 -> ThingMinrgtObject.unitCl = "A009035"
-                    36 -> ThingMinrgtObject.unitCl = "A009036"
-                    37 -> ThingMinrgtObject.unitCl = "A009037"
-                    38 -> ThingMinrgtObject.unitCl = "A009038"
-                    39 -> ThingMinrgtObject.unitCl = "A009039"
-                    40 -> ThingMinrgtObject.unitCl = "A009040"
-                    41 -> ThingMinrgtObject.unitCl = "A009041"
-                    42 -> ThingMinrgtObject.unitCl = "A009042"
-                    43 -> ThingMinrgtObject.unitCl = "A009043"
-                    44 -> ThingMinrgtObject.unitCl = "A009044"
-                    45 -> ThingMinrgtObject.unitCl = "A009045"
-                    46 -> ThingMinrgtObject.unitCl = "A009046"
-                    47 -> ThingMinrgtObject.unitCl = "A009047"
-                    48 -> ThingMinrgtObject.unitCl = "A009048"
-                    49 -> ThingMinrgtObject.unitCl = "A009049"
-                    50 -> ThingMinrgtObject.unitCl = "A009050"
-                    51 -> ThingMinrgtObject.unitCl = "A009051"
-                    52 -> ThingMinrgtObject.unitCl = "A009052"
-                    53 -> ThingMinrgtObject.unitCl = "A009053"
-                    54 -> ThingMinrgtObject.unitCl = "A009054"
-                    55 -> ThingMinrgtObject.unitCl = "A009055"
-                    56 -> ThingMinrgtObject.unitCl = "A009056"
-                    57 -> ThingMinrgtObject.unitCl = "A009057"
-                    58 -> ThingMinrgtObject.unitCl = "A009058"
-                    59 -> ThingMinrgtObject.unitCl = "A009059"
-                    60 -> ThingMinrgtObject.unitCl = "A009060"
-                    61 -> ThingMinrgtObject.unitCl = "A009061"
-                    62 -> ThingMinrgtObject.unitCl = "A009062"
-                    63 -> ThingMinrgtObject.unitCl = "A009063"
-                    64 -> ThingMinrgtObject.unitCl = "A009064"
-                    65 -> ThingMinrgtObject.unitCl = "A009065"
-                    66 -> ThingMinrgtObject.unitCl = "A009066"
-                    67 -> ThingMinrgtObject.unitCl = "A009067"
-                    68 -> ThingMinrgtObject.unitCl = "A009068"
-                    else -> ThingMinrgtObject.unitCl = ""
-                }
+                ThingMinrgtObject.unitCl = CommonCodeInfoList.getCodeId("A009", position)
+//                when (position) {
+//                    1 -> ThingMinrgtObject.unitCl = "A009001"
+//                    2 -> ThingMinrgtObject.unitCl = "A009002"
+//                    3 -> ThingMinrgtObject.unitCl = "A009003"
+//                    4 -> ThingMinrgtObject.unitCl = "A009004"
+//                    5 -> ThingMinrgtObject.unitCl = "A009005"
+//                    6 -> ThingMinrgtObject.unitCl = "A009006"
+//                    7 -> ThingMinrgtObject.unitCl = "A009007"
+//                    8 -> ThingMinrgtObject.unitCl = "A009008"
+//                    9 -> ThingMinrgtObject.unitCl = "A009009"
+//                    10 -> ThingMinrgtObject.unitCl = "A009010"
+//                    11 -> ThingMinrgtObject.unitCl = "A009011"
+//                    12 -> ThingMinrgtObject.unitCl = "A009012"
+//                    13 -> ThingMinrgtObject.unitCl = "A009013"
+//                    14 -> ThingMinrgtObject.unitCl = "A009014"
+//                    15 -> ThingMinrgtObject.unitCl = "A009015"
+//                    16 -> ThingMinrgtObject.unitCl = "A009016"
+//                    17 -> ThingMinrgtObject.unitCl = "A009017"
+//                    18 -> ThingMinrgtObject.unitCl = "A009018"
+//                    19 -> ThingMinrgtObject.unitCl = "A009019"
+//                    20 -> ThingMinrgtObject.unitCl = "A009020"
+//                    21 -> ThingMinrgtObject.unitCl = "A009021"
+//                    22 -> ThingMinrgtObject.unitCl = "A009022"
+//                    23 -> ThingMinrgtObject.unitCl = "A009023"
+//                    24 -> ThingMinrgtObject.unitCl = "A009024"
+//                    25 -> ThingMinrgtObject.unitCl = "A009025"
+//                    26 -> ThingMinrgtObject.unitCl = "A009026"
+//                    27 -> ThingMinrgtObject.unitCl = "A009027"
+//                    28 -> ThingMinrgtObject.unitCl = "A009028"
+//                    29 -> ThingMinrgtObject.unitCl = "A009029"
+//                    30 -> ThingMinrgtObject.unitCl = "A009030"
+//                    31 -> ThingMinrgtObject.unitCl = "A009031"
+//                    32 -> ThingMinrgtObject.unitCl = "A009032"
+//                    33 -> ThingMinrgtObject.unitCl = "A009033"
+//                    34 -> ThingMinrgtObject.unitCl = "A009034"
+//                    35 -> ThingMinrgtObject.unitCl = "A009035"
+//                    36 -> ThingMinrgtObject.unitCl = "A009036"
+//                    37 -> ThingMinrgtObject.unitCl = "A009037"
+//                    38 -> ThingMinrgtObject.unitCl = "A009038"
+//                    39 -> ThingMinrgtObject.unitCl = "A009039"
+//                    40 -> ThingMinrgtObject.unitCl = "A009040"
+//                    41 -> ThingMinrgtObject.unitCl = "A009041"
+//                    42 -> ThingMinrgtObject.unitCl = "A009042"
+//                    43 -> ThingMinrgtObject.unitCl = "A009043"
+//                    44 -> ThingMinrgtObject.unitCl = "A009044"
+//                    45 -> ThingMinrgtObject.unitCl = "A009045"
+//                    46 -> ThingMinrgtObject.unitCl = "A009046"
+//                    47 -> ThingMinrgtObject.unitCl = "A009047"
+//                    48 -> ThingMinrgtObject.unitCl = "A009048"
+//                    49 -> ThingMinrgtObject.unitCl = "A009049"
+//                    50 -> ThingMinrgtObject.unitCl = "A009050"
+//                    51 -> ThingMinrgtObject.unitCl = "A009051"
+//                    52 -> ThingMinrgtObject.unitCl = "A009052"
+//                    53 -> ThingMinrgtObject.unitCl = "A009053"
+//                    54 -> ThingMinrgtObject.unitCl = "A009054"
+//                    55 -> ThingMinrgtObject.unitCl = "A009055"
+//                    56 -> ThingMinrgtObject.unitCl = "A009056"
+//                    57 -> ThingMinrgtObject.unitCl = "A009057"
+//                    58 -> ThingMinrgtObject.unitCl = "A009058"
+//                    59 -> ThingMinrgtObject.unitCl = "A009059"
+//                    60 -> ThingMinrgtObject.unitCl = "A009060"
+//                    61 -> ThingMinrgtObject.unitCl = "A009061"
+//                    62 -> ThingMinrgtObject.unitCl = "A009062"
+//                    63 -> ThingMinrgtObject.unitCl = "A009063"
+//                    64 -> ThingMinrgtObject.unitCl = "A009064"
+//                    65 -> ThingMinrgtObject.unitCl = "A009065"
+//                    66 -> ThingMinrgtObject.unitCl = "A009066"
+//                    67 -> ThingMinrgtObject.unitCl = "A009067"
+//                    68 -> ThingMinrgtObject.unitCl = "A009068"
+//                    else -> ThingMinrgtObject.unitCl = ""
+//                }
             }
             R.id.bsnClDivSpinner -> {
                 when (position) {
@@ -832,77 +844,78 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         ThingMinrgtObject.incrprAr = mActivity.minrgtIncrprAr.text.toString() // 편입면적
         Log.d("minrgtTest", "편입면적 : ${ThingMinrgtObject.incrprAr}")
 
-        ThingMinrgtObject.unitCl = when (mActivity.minrgtUnitSpinner.selectedItemPosition) { // 단위
-            1 -> "A009001"
-            2 -> "A009002"
-            3 -> "A009003"
-            4 -> "A009004"
-            5 -> "A009005"
-            6 -> "A009006"
-            7 -> "A009007"
-            8 -> "A009008"
-            9 -> "A009009"
-            10 -> "A009010"
-            11 -> "A009011"
-            12 -> "A009012"
-            13 -> "A009013"
-            14 -> "A009014"
-            15 -> "A009015"
-            16 -> "A009016"
-            17 -> "A009017"
-            18 -> "A009018"
-            19 -> "A009019"
-            20 -> "A009020"
-            21 -> "A009021"
-            22 -> "A009022"
-            23 -> "A009023"
-            24 -> "A009024"
-            25 -> "A009025"
-            26 -> "A009026"
-            27 -> "A009027"
-            28 -> "A009028"
-            29 -> "A009029"
-            30 -> "A009030"
-            31 -> "A009031"
-            32 -> "A009032"
-            33 -> "A009033"
-            34 -> "A009034"
-            35 -> "A009035"
-            36 -> "A009036"
-            37 -> "A009037"
-            38 -> "A009038"
-            39 -> "A009039"
-            40 -> "A009040"
-            41 -> "A009041"
-            42 -> "A009042"
-            43 -> "A009043"
-            44 -> "A009044"
-            45 -> "A009045"
-            46 -> "A009046"
-            47 -> "A009047"
-            48 -> "A009048"
-            49 -> "A009049"
-            50 -> "A009050"
-            51 -> "A009051"
-            52 -> "A009052"
-            53 -> "A009053"
-            54 -> "A009054"
-            55 -> "A009055"
-            56 -> "A009056"
-            57 -> "A009057"
-            58 -> "A009058"
-            59 -> "A009059"
-            60 -> "A009060"
-            61 -> "A009061"
-            62 -> "A009062"
-            63 -> "A009063"
-            64 -> "A009064"
-            65 -> "A009065"
-            66 -> "A009066"
-            67 -> "A009067"
-            68 -> "A009068"
-            else -> ""
-        }
+        ThingMinrgtObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.minrgtUnitSpinner.selectedItemPosition)
+//            when (mActivity.minrgtUnitSpinner.selectedItemPosition) { // 단위
+//            1 -> "A009001"
+//            2 -> "A009002"
+//            3 -> "A009003"
+//            4 -> "A009004"
+//            5 -> "A009005"
+//            6 -> "A009006"
+//            7 -> "A009007"
+//            8 -> "A009008"
+//            9 -> "A009009"
+//            10 -> "A009010"
+//            11 -> "A009011"
+//            12 -> "A009012"
+//            13 -> "A009013"
+//            14 -> "A009014"
+//            15 -> "A009015"
+//            16 -> "A009016"
+//            17 -> "A009017"
+//            18 -> "A009018"
+//            19 -> "A009019"
+//            20 -> "A009020"
+//            21 -> "A009021"
+//            22 -> "A009022"
+//            23 -> "A009023"
+//            24 -> "A009024"
+//            25 -> "A009025"
+//            26 -> "A009026"
+//            27 -> "A009027"
+//            28 -> "A009028"
+//            29 -> "A009029"
+//            30 -> "A009030"
+//            31 -> "A009031"
+//            32 -> "A009032"
+//            33 -> "A009033"
+//            34 -> "A009034"
+//            35 -> "A009035"
+//            36 -> "A009036"
+//            37 -> "A009037"
+//            38 -> "A009038"
+//            39 -> "A009039"
+//            40 -> "A009040"
+//            41 -> "A009041"
+//            42 -> "A009042"
+//            43 -> "A009043"
+//            44 -> "A009044"
+//            45 -> "A009045"
+//            46 -> "A009046"
+//            47 -> "A009047"
+//            48 -> "A009048"
+//            49 -> "A009049"
+//            50 -> "A009050"
+//            51 -> "A009051"
+//            52 -> "A009052"
+//            53 -> "A009053"
+//            54 -> "A009054"
+//            55 -> "A009055"
+//            56 -> "A009056"
+//            57 -> "A009057"
+//            58 -> "A009058"
+//            59 -> "A009059"
+//            60 -> "A009060"
+//            61 -> "A009061"
+//            62 -> "A009062"
+//            63 -> "A009063"
+//            64 -> "A009064"
+//            65 -> "A009065"
+//            66 -> "A009066"
+//            67 -> "A009067"
+//            68 -> "A009068"
+//            else -> ""
+//        }
         Log.d("minrgtTest", "단위 : ${ThingMinrgtObject.unitCl}")
 
         ThingMinrgtObject.arComputBasis = mActivity.minrgtArComputBasis.text.toString() // 면적산출근거
