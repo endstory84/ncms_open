@@ -19,10 +19,8 @@ class OwnerRecyclerViewAdapter(
     context: Context,
     bizType: BizEnum,
     ownerInfo: JSONArray,
-    delvyAddrBtnListener: onItemClickDelvyAddrBtnListener,
-    addRelateBtnListener: onItemClickaddRelateBtnListener,
-    addOwnerBtnListener: onItemClickaddOwnerBtnListener
-) : BaseOwnerRecyclerViewAdapter(context, bizType, ownerInfo, delvyAddrBtnListener, addRelateBtnListener, addOwnerBtnListener) {
+    onOwnerEventListener: OnOwnerEventListener
+) : BaseOwnerRecyclerViewAdapter(context, bizType, ownerInfo, onOwnerEventListener) {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
@@ -102,7 +100,7 @@ class OwnerRecyclerViewAdapter(
                     }
 
                     delvyAddrChange.setOnClickListener {
-                        delvyAddrBtnListener.onDelvyAddrClick(ownerInfoJson)
+                        onOwnerEventListener.onDelvyAddrClicked(ownerInfoJson)
 
                         when(bizType) {
                             BizEnum.LAD, BizEnum.REST_LAD -> {
@@ -112,7 +110,7 @@ class OwnerRecyclerViewAdapter(
                     }
 
                     addRelateOwnerBtn.setOnClickListener {
-                        addRelateBtnListener.onAddRelateBtnClick(ownerInfoJson)
+                        onOwnerEventListener.onAddRelateBtnClicked(ownerInfoJson)
                     }
 
                 }

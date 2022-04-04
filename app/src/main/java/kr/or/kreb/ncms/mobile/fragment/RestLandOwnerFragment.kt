@@ -45,18 +45,16 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
+class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener {
 
 //    private lateinit var recyclerViewAdapter: RestLandOwnerRecyclerViewAdapter
-    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
-
-    private var logUtil: LogUtil = LogUtil("RestLandOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
+//
+//    private var logUtil: LogUtil = LogUtil("RestLandOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var landDataJson: JSONObject? = null
 
     private lateinit var adapter: AddOwnerInputAdapter
@@ -88,8 +86,6 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
             context!!,
             BizEnum.REST_LAD,
             landOwnerInfoJson,
-            this,
-            this,
             this
         )
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -102,11 +98,11 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
 
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
 
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
 
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>>>>>>>>>>>>> $data")
 
@@ -302,7 +298,10 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
 
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -689,4 +688,8 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment()
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
+    }
 }

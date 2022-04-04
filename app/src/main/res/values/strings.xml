@@ -361,6 +361,8 @@
     <string name="ididnum">주민번호</string>
     <string name="ownerCl">소유자분류</string>
     <string name="landChange">변경</string>
+    <string name="landCurOwnAdd">기존 소유자 추가</string>
+    <string name="landNewOwnAdd">신규 소유자 추가</string>
     <string name="landOwnAdd">소유자 추가</string>
     <string name="landRelateAdd">관계자 추가</string>
     <!-- 토지조서 끝 -->

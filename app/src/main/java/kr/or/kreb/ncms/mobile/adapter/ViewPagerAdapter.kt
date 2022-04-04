@@ -27,6 +27,11 @@ class ViewPagerAdapter(
     private val TYPE_THING_SEARCH   = 0
     private val TYPE_THING_OWNER    = 1
 
+    var info_fragment: Fragment? = null
+    var search_fragment: Fragment? = null
+    var owner_fragment: BaseOwnerFragment? = null
+
+
     private var listPager: List<Int> = when(bizType) {
         BizEnum.LAD, BizEnum.REST_LAD -> listOf(TYPE_LAD_INFO, TYPE_LAD_SEARCH, TYPE_LAD_OWNER)
         else -> listOf(TYPE_THING_SEARCH, TYPE_THING_OWNER)
@@ -41,15 +46,23 @@ class ViewPagerAdapter(
         val fragment = when(bizType) {
             BizEnum.LAD, BizEnum.REST_LAD -> {
                 when (position) {
-                    TYPE_LAD_INFO -> LandInfoFragment(context)
-                    TYPE_LAD_SEARCH -> getSearchFragment()
-                    else -> getOwnerFragment()
+                    TYPE_LAD_INFO -> getInfoFragment()
+                    TYPE_LAD_SEARCH -> {
+                        getSearchFragment()
+                    }
+                    else -> {
+                        getOwnerFragment()
+                    }
                 }
             }
             else -> {
                 when (position) {
-                    TYPE_THING_SEARCH -> getSearchFragment()
-                    else -> getOwnerFragment()
+                    TYPE_THING_SEARCH -> {
+                        getSearchFragment()
+                    }
+                    else -> {
+                        getOwnerFragment()
+                    }
                 }
             }
         }
@@ -58,9 +71,16 @@ class ViewPagerAdapter(
 
     }
 
+    fun getInfoFragment() : Fragment {
+
+        info_fragment = LandInfoFragment(context)
+        return info_fragment!!
+
+    }
+
     fun getSearchFragment() : Fragment {
 
-        return when (bizType) {
+        search_fragment = when (bizType) {
             BizEnum.LAD -> LandSearchFragment(activity, context)
             BizEnum.THING -> ThingSearchFragment(activity, context, fragmentActivity)
             BizEnum.BSN -> BsnSearchFragment(activity, context, fragmentActivity)
@@ -74,11 +94,13 @@ class ViewPagerAdapter(
             else -> LandOwnerFragment(fragmentActivity)
         }
 
+        return search_fragment!!
+
     }
 
     fun getOwnerFragment() : Fragment {
 
-        return when (bizType) {
+        owner_fragment = when (bizType) {
             BizEnum.LAD -> LandOwnerFragment(fragmentActivity)
             BizEnum.THING -> ThingOwnerFragment(fragmentActivity)
             BizEnum.BSN -> BsnOwnerFragment(fragmentActivity)
@@ -90,6 +112,16 @@ class ViewPagerAdapter(
             BizEnum.REST_LAD -> RestLandOwnerFragment(fragmentActivity)
             BizEnum.REST_THING -> RestThingOwnerFragment(fragmentActivity)
             else -> LandOwnerFragment(fragmentActivity)
+        }
+
+        return owner_fragment!!
+
+    }
+
+    fun showOwnerPopup() {
+
+        if (null != owner_fragment) {
+            owner_fragment!!.showOwnerPopup()
         }
 
     }

@@ -47,24 +47,21 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+    NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
     DialogUtil.ClickListener
 {
 
 //    private lateinit var fyhtsRecyclerViewAdapter: FyhtsOwnerRecyclerViewAdapter
 //    private lateinit var fyhtsRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
 //    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
-    private lateinit var fyhtsRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("fyhtsOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var fyhtsRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var fyhtsNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("fyhtsOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
 
     var thingOwnerInfoJson: JSONArray? = null
@@ -118,16 +115,14 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
         } else {
             thingDataJson = JSONObject(dataString!!)
             thingOwnerInfoJson = thingDataJson!!.getJSONArray("ownerInfo") as JSONArray
-            fyhtsRecyclerViewAdapter = OwnerRecyclerViewAdapter(
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.FYHTS,
                 thingOwnerInfoJson!!,
-                this,
-                this,
                 this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = fyhtsRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
 
 
@@ -137,11 +132,11 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
     }
 
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>>>>>>>. $data")
 
         val ownerData = data
@@ -300,8 +295,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                fyhtsRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                fyhtsRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
 
                                                             ownerRelateSelectDialog.dismiss()
@@ -321,7 +316,11 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
        addOwnerSearch()
@@ -560,12 +559,12 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                                     val dataJsonObject =
                                                                         JSONObject(responseString).getJSONObject("list")
 
-                                                                    fyhtsRecyclerViewAdapter.setJSONArray(
+                                                                    recyclerViewAdapter.setJSONArray(
                                                                         dataJsonObject.getJSONArray(
                                                                             "ownerInfo"
                                                                         )
                                                                     )
-                                                                    fyhtsRecyclerViewAdapter.notifyDataSetChanged()
+                                                                    recyclerViewAdapter.notifyDataSetChanged()
 
                                                                 }
 
@@ -797,12 +796,12 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             val dataJsonObject =
                                                                 JSONObject(responseString).getJSONObject("list")
 
-                                                            fyhtsRecyclerViewAdapter.setJSONArray(
+                                                            recyclerViewAdapter.setJSONArray(
                                                                 dataJsonObject.getJSONArray(
                                                                     "ownerInfo"
                                                                 )
                                                             )
-                                                            fyhtsRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
 
                                                         }
 
@@ -822,7 +821,11 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
-    override fun onAddNewOwnerBtnClick() {
+    override fun onNewOwnerCurAddBtnClicked() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         logUtil.d("new Owner add Btn Clickl")
 
         val ownerSearch = HashMap<String,String>()
@@ -920,8 +923,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                 val ownerJsonArray = ThingFyhtsObject.thingOwnerInfoJson as JSONArray
                                 ownerJsonArray.put(selectOwnerJson)
 
-                                fyhtsNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                                fyhtsNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
                             }
                             view.searchAddOwnerBtn.setOnClickListener {
                                 logUtil.d("searchAddOwnerBtn <><><><><><><><><><><><><>")
@@ -1090,9 +1093,9 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                         activity!!.runOnUiThread {
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            fyhtsRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                            recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                            fyhtsRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -1121,8 +1124,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 addOwnerData.put(dataInfo)
 
-                                fyhtsNewOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
-                                fyhtsNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                                 progressDialog!!.dismiss()
                             }
@@ -1133,7 +1136,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
             )
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingFyhtsObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1220,8 +1223,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                 ownerJsonArray.put(position, selectOwnerJson)
 
-                fyhtsNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                fyhtsNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                 ownerAddSelectDialog.dismiss()
             }
@@ -1354,8 +1357,12 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingFyhtsObject.thingOwnerInfoJson = array
-        fyhtsNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = fyhtsNewOwnerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

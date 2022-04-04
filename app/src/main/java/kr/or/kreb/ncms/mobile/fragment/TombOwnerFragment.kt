@@ -47,22 +47,19 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class TombOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+    NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
         DialogUtil.ClickListener
 {
 //    private lateinit var tombRecyclerViewAdapter: TombOwnerRecyclerViewAdapter
 //    private lateinit var tombRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
-    private lateinit var tombRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var tombNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("TombOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var tombRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var tombNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("TombOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
 
     var thingOwnerInfoJson: JSONArray? = null
@@ -109,26 +106,24 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
             }
         } else {
 
-            tombRecyclerViewAdapter = OwnerRecyclerViewAdapter(
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.TOMB,
                 thingOwnerInfoJson!!,
-                this,
-                this,
                 this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = tombRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
     }
 
 
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>>>>>>>. $data")
 
         val ownerData = data
@@ -299,8 +294,8 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                tombRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                tombRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
 
                                                             ownerRelateSelectDialog.dismiss()
@@ -317,7 +312,11 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -526,8 +525,8 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                tombRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                tombRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
 
                                                             }
 
@@ -705,8 +704,8 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                     activity!!.runOnUiThread {
                                                         val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                        tombRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                        tombRecyclerViewAdapter.notifyDataSetChanged()
+                                                        recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                        recyclerViewAdapter.notifyDataSetChanged()
 
                                                     }
 
@@ -864,13 +863,24 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingTombObject.thingOwnerInfoJson = array
-        tombNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = tombNewOwnerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
 
     }
 
-    override fun onAddNewOwnerBtnClick() {
+    override fun onNewOwnerCurAddBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         logUtil.d("new Owner add Btn Clickl")
 
         val ownerSearch = HashMap<String,String>()
@@ -979,8 +989,8 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                             ownerJsonArray.put(selectOwnerJson)
 
-                            tombNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                            tombNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                            newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                            newOwnerRecyclerViewAdapter.notifyDataSetChanged()
                         }
                         view.searchAddOwnerBtn.setOnClickListener {
                             logUtil.d("searchAddOwnerBtn <><><><><><><><><><><><><><><><><>")
@@ -1159,12 +1169,12 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                         val dataJsonObject =
                                                             JSONObject(responseString).getJSONObject("list")
 
-                                                        tombRecyclerViewAdapter.setJSONArray(
+                                                        recyclerViewAdapter.setJSONArray(
                                                             dataJsonObject.getJSONArray(
                                                                 "ownerInfo"
                                                             )
                                                         )
-                                                        tombRecyclerViewAdapter.notifyDataSetChanged()
+                                                        recyclerViewAdapter.notifyDataSetChanged()
 
                                                     }
 
@@ -1200,9 +1210,9 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                             addOwnerData.put(dataInfo)
 
 //                        newOwnerAdapterCall(addOwnerData)
-                            tombNewOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                            newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
 
-                            tombNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                            newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
 
                             progressDialog!!.dismiss()
@@ -1220,7 +1230,7 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingTombObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1307,8 +1317,8 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                 ownerJsonArray.put(position,selectOwnerJson)
 
-                tombNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                tombNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
 
                 ownerAddSelectDialog.dismiss()
@@ -1316,4 +1326,21 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
             }
         }
     }
+
+    override fun showOwnerPopup() {
+
+        if(ThingTombObject.thingNewSearch.equals("Y")) {
+
+            dialogUtil?.run {
+                alertDialog(
+                    "소유자 등록",
+                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                    builder!!,
+                    "신규소유자"
+                ).show()
+            }
+        }
+
+    }
+
 }

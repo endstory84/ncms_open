@@ -46,24 +46,21 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+    NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
     DialogUtil.ClickListener
 {
 //    private lateinit var mnidstRecyclerViewAdapter: MinrgtOwnerRecyclerViewAdapter
 
 //    private lateinit var minrgtRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
 //    private lateinit var minrgtNewOwnerRecyclerViewAdpater: ThingNewOwnerRecyclerViewAdapter
-    private lateinit var minrgtRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var minrgtNewOwnerRecyclerViewAdpater: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("MinrgtOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var minrgtRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var minrgtNewOwnerRecyclerViewAdpater: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("MinrgtOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
 
     var thingOwnerInfoJson: JSONArray? = null
@@ -115,26 +112,24 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
         } else {
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            minrgtRecyclerViewAdapter = OwnerRecyclerViewAdapter(
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.MINRGT,
                 thingOwnerInfoJson!!,
-                this,
-                this,
                 this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = minrgtRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
 
 
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         val ownerData = data
 
         val ownerSearch = HashMap<String, String>()
@@ -289,8 +284,8 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                minrgtRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                minrgtRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
 
                                                             ownerRelateSelectDialog.dismiss()
@@ -307,7 +302,16 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+        dialogUtil?.run { alertDialog(
+            "소유자 등록",
+            "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+            builder!!,
+            "신규소유자"
+        ).show() }
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -502,8 +506,8 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                minrgtRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                minrgtRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
 
                                                             }
 
@@ -677,8 +681,8 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                     activity!!.runOnUiThread {
                                                         val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                        minrgtRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                        minrgtRecyclerViewAdapter.notifyDataSetChanged()
+                                                        recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                        recyclerViewAdapter.notifyDataSetChanged()
 
                                                     }
 
@@ -824,12 +828,21 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingMinrgtObject.thingOwnerInfoJson = array
 
-        minrgtNewOwnerRecyclerViewAdpater = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = minrgtNewOwnerRecyclerViewAdpater
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun onAddNewOwnerBtnClick() {
+    override fun onNewOwnerCurAddBtnClicked() {
+        dialogUtil?.run { alertDialog(
+            "소유자 등록",
+            "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+            builder!!,
+            "신규소유자"
+        ).show() }
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         val ownerSearch = HashMap<String, String>()
 
         ownerSearch.put("searchSaupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
@@ -927,8 +940,8 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 ownerJsonArray.put(selectOwnerJson)
 
-                                minrgtNewOwnerRecyclerViewAdpater.setJSONArray(ownerJsonArray)
-                                minrgtNewOwnerRecyclerViewAdpater.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                             }
                             view.searchAddOwnerBtn.setOnClickListener {
@@ -1094,9 +1107,9 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                         activity!!.runOnUiThread {
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            minrgtRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                            recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                            minrgtRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -1125,8 +1138,8 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 addOwnerData.put(dataInfo)
 
-                                minrgtNewOwnerRecyclerViewAdpater.setJSONArray(addOwnerData)
-                                minrgtNewOwnerRecyclerViewAdpater.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                                 progressDialog!!.dismiss()
                             }
@@ -1136,7 +1149,7 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingMinrgtObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1225,12 +1238,27 @@ class MinrgtOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                 ownerJsonArray.put(position, selectOwnerJson)
 
-                minrgtNewOwnerRecyclerViewAdpater.setJSONArray(ownerJsonArray)
-                minrgtNewOwnerRecyclerViewAdpater.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                 ownerAddSelectDialog.dismiss()
             }
 
         }
+    }
+
+    override fun showOwnerPopup() {
+
+        if(ThingMinrgtObject.thingNewSearch.equals("Y")) {
+
+            dialogUtil?.run { alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show() }
+
+        }
+
     }
 }

@@ -47,24 +47,21 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+    NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
     DialogUtil.ClickListener
 {
 
 //    private lateinit var farmRecyclerViewAdapter: FarmOwnerRecyclerViewAdapter
 //    private lateinit var farmRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
 //    private lateinit var farmNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
-    private lateinit var farmRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var farmNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("farmOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var farmRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var farmNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("farmOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
 
     var thingOwnerInfoJson: JSONArray? = null
@@ -123,24 +120,21 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            farmRecyclerViewAdapter = OwnerRecyclerViewAdapter(
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.FARM,
-                thingOwnerInfoJson!!,
-                this,
-                this,
-                this
+                thingOwnerInfoJson!!,this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = farmRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         val ownerData = data
 
         val ownerSearch = HashMap<String,String>()
@@ -302,12 +296,12 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                                 val dataJsonObject =
                                                                     JSONObject(responseString).getJSONObject("list")
 
-                                                                farmRecyclerViewAdapter.setJSONArray(
+                                                                recyclerViewAdapter.setJSONArray(
                                                                     dataJsonObject.getJSONArray(
                                                                         "ownerInfo"
                                                                     )
                                                                 )
-                                                                farmRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.notifyDataSetChanged()
 
                                                             }
 
@@ -327,7 +321,18 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         val ownerSearch = HashMap<String, String>()
 
         ownerSearch.put("searchSaupCode", PreferenceUtil.getString(context!!, "saupCode", "defaual"))
@@ -526,8 +531,8 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                farmRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                                farmRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.notifyDataSetChanged()
 
                                                             }
 
@@ -695,8 +700,8 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                     activity!!.runOnUiThread {
                                                         val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                        farmRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
-                                                        farmRecyclerViewAdapter.notifyDataSetChanged()
+                                                        recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                        recyclerViewAdapter.notifyDataSetChanged()
 
                                                     }
 
@@ -715,7 +720,19 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
-    override fun onAddNewOwnerBtnClick() {
+
+    override fun onNewOwnerCurAddBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         logUtil.d("new Owner add Btn Clickl")
 
         val ownerSearch = HashMap<String,String>()
@@ -816,8 +833,8 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 ownerJsonArray.put(selectOwnerJson)
 
-                                farmNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                                farmNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
                             }
                             view.searchAddOwnerBtn.setOnClickListener {
 
@@ -986,9 +1003,9 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                                                         activity!!.runOnUiThread {
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            farmRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                            recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                            farmRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -1018,8 +1035,8 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 addOwnerData.put(dataInfo)
 
-                                farmNewOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
-                                farmNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                                 progressDialog!!.dismiss()
                             }
@@ -1029,7 +1046,7 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingFarmObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1116,8 +1133,8 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
                 ownerJsonArray.put(position,selectOwnerJson)
 
-                farmNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                farmNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
 
                 ownerAddSelectDialog.dismiss()
@@ -1253,9 +1270,26 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingFarmObject.thingOwnerInfoJson = array
-        farmNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = farmNewOwnerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
+
+    }
+
+    override fun showOwnerPopup() {
+
+        if(ThingFarmObject.thingNewSearch.equals("Y")) {
+
+            dialogUtil?.run {
+                alertDialog(
+                    "소유자 등록",
+                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                    builder!!,
+                    "신규소유자"
+                ).show()
+            }
+
+        }
 
     }
 }

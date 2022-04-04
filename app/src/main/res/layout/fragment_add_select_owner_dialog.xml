@@ -267,7 +267,7 @@
                             android:layout_weight="0.8" />
                     <TextView
                             style="@style/Widget.NCMS.WtnccValueEditText"
-                            android:text="-"
+                            android:text="/"
                             android:layout_weight="0.4"/>
                     <EditText
                             style="@style/Widget.NCMS.WtnccValueEditText"

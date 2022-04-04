@@ -45,23 +45,20 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-        BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-        BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-        BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+        BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+        NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
         DialogUtil.ClickListener
 {
 
 //    private lateinit var restThingRecyclerViewAdapter: RestThingOwnerRecyclerViewAdapter
 //    private lateinit var restThingNewOnwerRecyclerViewAdapter: RestThingNewOwnerRecyclerViewAdapter
-    private lateinit var restThingRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var restThingNewOnwerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("RestThingOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var restThingRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var restThingNewOnwerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("RestThingOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var restThingDataJson: JSONObject? = null
     var restThingOwnerInfoJson: JSONArray? = null
 
@@ -92,9 +89,9 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
         view.ownerRecyclerView.visibleView()
         view.newOwnerRecyclerView.goneView()
-        restThingRecyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.REST_THING, restThingOwnerInfoJson!!, this, this, this)
+        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.REST_THING, restThingOwnerInfoJson!!, this)
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        view.ownerRecyclerView.adapter = restThingRecyclerViewAdapter
+        view.ownerRecyclerView.adapter = recyclerViewAdapter
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,11 +99,11 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>> $data")
 
         val ownerData = data
@@ -269,9 +266,9 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                restThingRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                                restThingRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
                                                             ownerRelateSelectDialog.dismiss()
 
@@ -289,7 +286,11 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -540,11 +541,11 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            restThingRecyclerViewAdapter.setJSONArray(
+                                                            recyclerViewAdapter.setJSONArray(
                                                                 dataJsonObject.getJSONArray("ownerInfo")
                                                             )
 
-                                                            restThingRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -561,7 +562,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
     }
 
     fun getOwnerData() {
-        val tempInt = restThingNewOnwerRecyclerViewAdapter.getItemCount()
+        val tempInt = newOwnerRecyclerViewAdapter.getItemCount()
         logUtil.d("tempInt ------------------------> $tempInt")
     }
 
@@ -694,15 +695,23 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingWtnObject.thingOwnerInfoJson = array
-        restThingNewOnwerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = restThingNewOnwerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun onAddNewOwnerBtnClick() {
+    override fun onNewOwnerCurAddBtnClicked() {
+//        TODO("Not yet implemented")
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerNewAddBtnClicked() {
+    }
+
+    override fun onNewOwnerViewClicked(position: Int) {
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 
 }

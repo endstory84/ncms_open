@@ -47,25 +47,22 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-    NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+    NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
     DialogUtil.ClickListener
 {
 
     //    private lateinit var residntRecyclerViewAdapter: ResidntOwnerRecyclerViewAdapter
 //    private lateinit var residntRecyclerViewAdapter: ThingOwnerRecyclerViewAdapter
 //    private lateinit var residntNewOwnerRecyclerViewAdapter: ThingNewOwnerRecyclerViewAdapter
-    private lateinit var residntRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var residntNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("ResidntOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-//    private var toastUtil: ToastUtil = ToastUtil(context!!)
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var residntRecyclerViewAdapter: OwnerRecyclerViewAdapter
+//    private lateinit var residntNewOwnerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
+//    private var logUtil: LogUtil = LogUtil("ResidntOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+////    private var toastUtil: ToastUtil = ToastUtil(context!!)
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
 
     var thingOwnerInfoJson: JSONArray? = null
@@ -107,8 +104,6 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
             view.ownerRecyclerView.visibility = View.GONE
             view.newOwnerRecyclerView.visibility = View.VISIBLE
 
-
-
             dialogUtil?.run {
                 alertDialog(
                     "소유자 등록",
@@ -120,22 +115,20 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
         } else {
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            residntRecyclerViewAdapter =
-                OwnerRecyclerViewAdapter(context!!, BizEnum.RESIDNT, thingOwnerInfoJson!!, this, this, this)
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.RESIDNT, thingOwnerInfoJson!!, this)
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = residntRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
 
         }
 
-        
     }
 
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>>>>>>>. $data")
 
         val ownerData = data
@@ -307,12 +300,12 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
                                                                 val dataJsonObject =
                                                                     JSONObject(responseString).getJSONObject("list")
 
-                                                                residntRecyclerViewAdapter.setJSONArray(
+                                                                recyclerViewAdapter.setJSONArray(
                                                                     dataJsonObject.getJSONArray(
                                                                         "ownerInfo"
                                                                     )
                                                                 )
-                                                                residntRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
 
                                                             ownerRelateSelectDialog.dismiss()
@@ -328,7 +321,20 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -531,12 +537,12 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
                                                                 val dataJsonObject =
                                                                     JSONObject(responseString).getJSONObject("list")
 
-                                                                residntRecyclerViewAdapter.setJSONArray(
+                                                                recyclerViewAdapter.setJSONArray(
                                                                     dataJsonObject.getJSONArray(
                                                                         "ownerInfo"
                                                                     )
                                                                 )
-                                                                residntRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.notifyDataSetChanged()
 
                                                             }
 
@@ -712,12 +718,12 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
                                                         val dataJsonObject =
                                                             JSONObject(responseString).getJSONObject("list")
 
-                                                        residntRecyclerViewAdapter.setJSONArray(
+                                                        recyclerViewAdapter.setJSONArray(
                                                             dataJsonObject.getJSONArray(
                                                                 "ownerInfo"
                                                             )
                                                         )
-                                                        residntRecyclerViewAdapter.notifyDataSetChanged()
+                                                        recyclerViewAdapter.notifyDataSetChanged()
 
                                                     }
 
@@ -737,7 +743,18 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
         nullString
     }
 
-    override fun onAddNewOwnerBtnClick() {
+    override fun onNewOwnerCurAddBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         logUtil.d("new OwnerAdd Btn Click")
 
         val ownerSearch = HashMap<String, String>()
@@ -837,8 +854,8 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
                                 ownerJsonArray.put(selectOwnerJson)
 
-                                residntNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                                residntNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
                             }
                         }
                     }
@@ -1001,9 +1018,9 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
                                                         activity!!.runOnUiThread {
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            residntRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                            recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                            residntRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -1032,8 +1049,8 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
                                 addOwnerData.put(dataInfo)
 
-                                residntNewOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
-                                residntNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                                 progressDialog!!.dismiss()
                             }
@@ -1046,7 +1063,7 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
     }
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingResidntObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1134,8 +1151,8 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
                 ownerJsonArray.put(position, selectOwnerJson)
 
-                residntNewOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                residntNewOwnerRecyclerViewAdapter.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
                 ownerAddSelectDialog.dismiss()
             }
@@ -1273,8 +1290,23 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : Fragment(
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingResidntObject.thingOwnerInfoJson = array
-        residntNewOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = residntNewOwnerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
+    }
+
+    override fun showOwnerPopup() {
+
+        if(ThingResidntObject.thingNewSearch.equals("Y")) {
+            dialogUtil?.run {
+                alertDialog(
+                    "소유자 등록",
+                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                    builder!!,
+                    "신규소유자"
+                ).show()
+            }
+        }
+
     }
 }

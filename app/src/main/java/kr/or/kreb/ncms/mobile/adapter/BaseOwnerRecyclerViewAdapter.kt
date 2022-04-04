@@ -22,9 +22,7 @@ open class BaseOwnerRecyclerViewAdapter(
     var context: Context,
     var bizType: BizEnum,
     var ownerInfo: JSONArray,
-    var delvyAddrBtnListener: onItemClickDelvyAddrBtnListener,
-    var addRelateBtnListener: onItemClickaddRelateBtnListener,
-    var addOwnerBtnListener: onItemClickaddOwnerBtnListener
+    var onOwnerEventListener: OnOwnerEventListener
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     open val TYPE_ITEM = 1
@@ -41,9 +39,13 @@ open class BaseOwnerRecyclerViewAdapter(
 
     open inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            itemView.addOwnerBtn.setOnClickListener {
-                toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd), 200)
-                addOwnerBtnListener.onAddOwnerBtnClick()
+            itemView.addNewOwnerBtn.setOnClickListener {
+                toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd) + "1111", 200)
+                onOwnerEventListener.onAddNewOwnerBtnClicked()
+            }
+
+            itemView.addCurOwnerBtn.setOnClickListener {
+                onOwnerEventListener.onAddCurOwnerBtnClicked()
             }
         }
     }
@@ -86,14 +88,20 @@ open class BaseOwnerRecyclerViewAdapter(
         nullString
     }
 
-    interface onItemClickDelvyAddrBtnListener {
-        fun onDelvyAddrClick(data: JSONObject)
-    }
-    interface onItemClickaddRelateBtnListener {
-        fun onAddRelateBtnClick(data: JSONObject)
-    }
-    interface onItemClickaddOwnerBtnListener {
-        fun onAddOwnerBtnClick()
+//    interface onItemClickDelvyAddrBtnListener {
+//        fun onDelvyAddrClick(data: JSONObject)
+//    }
+//    interface onItemClickaddRelateBtnListener {
+//        fun onAddRelateBtnClick(data: JSONObject)
+//    }
+//    interface onItemClickaddOwnerBtnListener {
+//        fun onAddOwnerBtnClick()
+//    }
+    interface OnOwnerEventListener {
+        fun onDelvyAddrClicked(data: JSONObject)
+        fun onAddRelateBtnClicked(data: JSONObject)
+        fun onAddCurOwnerBtnClicked()
+        fun onAddNewOwnerBtnClicked()
     }
 
 }

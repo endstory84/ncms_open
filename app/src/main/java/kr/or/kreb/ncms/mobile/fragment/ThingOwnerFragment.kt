@@ -13,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,21 +45,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-        BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-        BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-        BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener,
-        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerBtnListener,
-        NewOwnerRecyclerViewAdapter.onItemClickAddOwnerViewListener,
+class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+        BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
+        NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
         DialogUtil.ClickListener
 {
 
-    private lateinit var thingRecyclerViewAdapter: OwnerRecyclerViewAdapter
-    private lateinit var thingNewOnwerRecyclerViewAdapter: NewOwnerRecyclerViewAdapter
-    private var logUtil: LogUtil = LogUtil("ThingOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
     var thingDataJson: JSONObject? = null
     var thingOwnerInfoJson: JSONArray? = null
 
@@ -103,22 +92,17 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                 ).show()
             }
 
-
-
-
         } else {
             view.ownerRecyclerView.visibleView()
             view.newOwnerRecyclerView.goneView()
-            thingRecyclerViewAdapter = OwnerRecyclerViewAdapter(
+            recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.THING,
                 thingOwnerInfoJson!!,
-                this,
-                this,
                 this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            view.ownerRecyclerView.adapter = thingRecyclerViewAdapter
+            view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
     }
 
@@ -127,11 +111,11 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>> $data")
 
         val ownerData = data
@@ -148,7 +132,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
             .callerUrlInfoPostWebServer(ownerSearch, progressDialog, ownerUrl,
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        progressDialog!!.dismiss()
+                        dismissProgress()
                         logUtil.e("fail")
                     }
 
@@ -281,7 +265,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                                 .callUrlJsonWebServer(relateAddJson, progressDialog, addRelateUrl,
                                                     object: Callback {
                                                         override fun onFailure(call: Call, e: IOException) {
-                                                            progressDialog!!.dismiss()
+                                                            dismissProgress()
                                                             logUtil.d("fail")
 
                                                         }
@@ -292,14 +276,14 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                                             logUtil.d("addRelate response ---------------> $responseString")
 
-                                                            progressDialog!!.dismiss()
+                                                            dismissProgress()
 
                                                             activity!!.runOnUiThread {
                                                                 val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                                thingRecyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
+                                                                recyclerViewAdapter.setJSONArray(dataJsonObject.getJSONArray("ownerInfo"))
 
-                                                                thingRecyclerViewAdapter.notifyDataSetChanged()
+                                                                recyclerViewAdapter.notifyDataSetChanged()
                                                             }
                                                             ownerRelateSelectDialog.dismiss()
 
@@ -317,7 +301,18 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -333,7 +328,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
             .callerUrlInfoPostWebServer(ownerSearch, progressDialog, ownerUrl,
                 object: Callback, AddNewOwnerFragment.addNewOwnerSaveInterface {
                     override fun onFailure(call: Call, e: IOException) {
-                        progressDialog!!.dismiss()
+                        dismissProgress()
                         logUtil.e("fail")
                     }
 
@@ -343,7 +338,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                         val responseString = response.body!!.string()
                         logUtil.d("ownerInfo Response ----------------------> $responseString")
 
-                        progressDialog!!.dismiss()
+                        dismissProgress()
 
                         val ownerInfoJson = JSONObject(responseString).getJSONObject("list").getJSONArray("owner")
 
@@ -528,7 +523,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                                             addOwnerUrl,
                                                             object : Callback {
                                                                 override fun onFailure(call: Call, e: IOException) {
-                                                                    progressDialog!!.dismiss()
+                                                                    dismissProgress()
                                                                     logUtil.e("fail")
                                                                 }
 
@@ -540,17 +535,17 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                                                     logUtil.d("addOwner response ------------------> $responseString")
 
-                                                                    progressDialog!!.dismiss()
+                                                                    dismissProgress()
 
                                                                     activity!!.runOnUiThread {
                                                                         val dataJsonObject =
                                                                             JSONObject(responseString).getJSONObject("list")
 
-                                                                        thingRecyclerViewAdapter.setJSONArray(
+                                                                        recyclerViewAdapter.setJSONArray(
                                                                             dataJsonObject.getJSONArray("ownerInfo")
                                                                         )
 
-                                                                        thingRecyclerViewAdapter.notifyDataSetChanged()
+                                                                        recyclerViewAdapter.notifyDataSetChanged()
                                                                     }
 
                                                                     ownerOwnerSelectDialog.dismiss()
@@ -575,7 +570,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                     override fun onSaveOwner(dataInfo: JSONObject, grpSe: Int) {
 
-                        progressDialog!!.dismiss()
+                        dismissProgress()
 
                         layoutInflater.inflate(R.layout.fragment_add_select_owner_dialog, null)
                             .let { view ->
@@ -719,7 +714,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                                 addOwnerUrl,
                                                 object : Callback {
                                                     override fun onFailure(call: Call, e: IOException) {
-                                                        progressDialog!!.dismiss()
+                                                        dismissProgress()
                                                         logUtil.e("fail")
                                                     }
 
@@ -731,17 +726,17 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                                         logUtil.d("addOwner response ------------------> $responseString")
 
-                                                        progressDialog!!.dismiss()
+                                                        dismissProgress()
 
                                                         activity!!.runOnUiThread {
 
                                                             val dataJsonObject = JSONObject(responseString).getJSONObject("list")
 
-                                                            thingRecyclerViewAdapter.setJSONArray(
+                                                            recyclerViewAdapter.setJSONArray(
                                                                 dataJsonObject.getJSONArray("ownerInfo")
                                                             )
 
-                                                            thingRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
                                                         }
 
                                                         ownerOwnerSelectDialog.dismiss()
@@ -757,7 +752,19 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                 })
     }
-    override fun onAddNewOwnerBtnClick() {
+
+    override fun onNewOwnerCurAddBtnClicked() {
+        dialogUtil?.run {
+            alertDialog(
+                "소유자 등록",
+                "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                builder!!,
+                "신규소유자"
+            ).show()
+        }
+    }
+
+    override fun onNewOwnerNewAddBtnClicked() {
         logUtil.d("new Owner Add Btn Click")
 
         val ownerSearch = HashMap<String, String>()
@@ -773,14 +780,14 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
             .callerUrlInfoPostWebServer(ownerSearch, progressDialog, ownerUrl,
                 object: Callback, AddNewOwnerFragment.addNewOwnerSaveInterface {
                     override fun onFailure(call: Call, e: IOException) {
-                        progressDialog!!.dismiss()
+                        dismissProgress()
                         logUtil.e("fail")
                     }
 
                     override fun onResponse(call: Call, response: Response) {
                         val responseString = response.body!!.string()
 
-                        progressDialog!!.dismiss()
+                        dismissProgress()
 
                         val ownerInfoJson = JSONObject(responseString).getJSONObject("list").getJSONArray("owner")
 
@@ -858,8 +865,8 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                 ownerJsonArray.put(selectOwnerJson)
 
-                                thingNewOnwerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                                thingNewOnwerRecyclerViewAdapter.notifyDataSetChanged()
+                                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
 
 
@@ -874,7 +881,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                     }
 
                     override fun onSaveOwner(dataInfo: JSONObject, grpSe: Int) {
-                        progressDialog!!.dismiss()
+                        dismissProgress()
 
                         if(ThingWtnObject.thingNewSearch.equals("N")) {
                             layoutInflater.inflate(R.layout.fragment_add_select_owner_dialog, null).let { view ->
@@ -1023,7 +1030,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                                     override fun onFailure(call: Call, e: IOException) {
 
                                                         logUtil.e("selectInputBtn.setOnClickListener22222 progressDialog dismiss")
-                                                        progressDialog!!.dismiss()
+                                                        dismissProgress()
                                                         logUtil.e("fail")
                                                     }
 
@@ -1034,18 +1041,18 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                                                         logUtil.e("selectInputBtn.setOnClickListener22222 progressDialog dismiss")
 
-                                                        progressDialog!!.dismiss()
+                                                        dismissProgress()
 
                                                         activity!!.runOnUiThread {
                                                             val dataJsonObject =
                                                                 JSONObject(responseString).getJSONObject("list")
 
-                                                            thingRecyclerViewAdapter.setJSONArray(
+                                                            recyclerViewAdapter.setJSONArray(
                                                                 dataJsonObject.getJSONArray(
                                                                     "ownerInfo"
                                                                 )
                                                             )
-                                                            thingRecyclerViewAdapter.notifyDataSetChanged()
+                                                            recyclerViewAdapter.notifyDataSetChanged()
 
                                                         }
 
@@ -1081,12 +1088,10 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                 addOwnerData.put(dataInfo)
 
 //                        newOwnerAdapterCall(addOwnerData)
-                                thingNewOnwerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
+                                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
-                                thingNewOnwerRecyclerViewAdapter.notifyDataSetChanged()
-
-
-                                progressDialog!!.dismiss()
+                                dismissProgress()
                             }
                         }
                     }
@@ -1095,14 +1100,14 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
     }
 
     fun getOwnerData() {
-        val tempInt = thingNewOnwerRecyclerViewAdapter.getItemCount()
+        val tempInt = newOwnerRecyclerViewAdapter.getItemCount()
         logUtil.d("tempInt ------------------------> $tempInt")
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
 
-    override fun onAddNewOnwerViewClick(position: Int) {
+    override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingWtnObject.thingOwnerInfoJson as JSONArray
 
         val data = addOwnerData.getJSONObject(position)
@@ -1190,8 +1195,8 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                 ownerJsonArray.put(position,selectOwnerJson)
 
-                thingNewOnwerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
-                thingNewOnwerRecyclerViewAdapter.notifyDataSetChanged()
+                newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
+                newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
 
                 ownerAddSelectDialog.dismiss()
@@ -1214,7 +1219,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         logUtil.d("fail")
-                        progressDialog?.dismiss()
+                        dismissProgress()
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -1222,7 +1227,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
                         logUtil.d("choiceOwnerInfo Response --------------> $responseString")
 
-                        progressDialog?.dismiss()
+                        dismissProgress()
 
                         val ownerData = JSONObject(responseString).getJSONObject("list") as JSONObject
 
@@ -1252,8 +1257,7 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                                 }
                                 view.selectInputBtn.setOnClickListener {
 
-                                    val selectOwnerChoiceData =
-                                        (view.addChoiceOwnerListView.adapter as AddChoiceOwnerAdapter).getSelectItem()
+                                    val selectOwnerChoiceData = (view.addChoiceOwnerListView.adapter as AddChoiceOwnerAdapter).getSelectItem()
 
                                     if (selectOwnerChoiceData!!.size > 0) {
 
@@ -1324,15 +1328,33 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
     }
 
     override fun onNegativeClickListener(dialog: DialogInterface, type: String) {
+        dialog.dismiss()
         newOwnerAdapterCall(thingOwnerInfoJson!!)
     }
 
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingWtnObject.thingOwnerInfoJson = array
-        thingNewOnwerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this, this)
+        newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        newOwnerRecyclerView.adapter = thingNewOnwerRecyclerViewAdapter
+        newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
+    }
+
+    override fun showOwnerPopup() {
+
+        if(ThingWtnObject.thingNewSearch.equals("Y")) {
+
+            dialogUtil?.run {
+                alertDialog(
+                    "소유자 등록",
+                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                    builder!!,
+                    "신규소유자"
+                ).show()
+            }
+
+        }
+
     }
 
 }

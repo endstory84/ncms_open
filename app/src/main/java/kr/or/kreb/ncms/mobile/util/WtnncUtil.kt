@@ -34,6 +34,7 @@ import kotlin.collections.ArrayList
 class WtnncUtil(val activity: Activity, val context: Context) {
     private var tabLayout: TabLayout = activity.findViewById(R.id.tabLayout)
     private var viewPager2: ViewPager2 = activity.findViewById(R.id.wtnncViewPager)
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
     lateinit var logUtil: LogUtil
 
     var tabNameArr: ArrayList<String> = ArrayList()
@@ -45,57 +46,67 @@ class WtnncUtil(val activity: Activity, val context: Context) {
         viewPager2.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         logUtil = LogUtil("WtnncUtil")
 
-        viewPager2.adapter = ViewPagerAdapter(activity, context, fragmentActivity, Constants.BIZ_SUBCATEGORY_KEY)
+        viewPagerAdapter = ViewPagerAdapter(activity, context, fragmentActivity, Constants.BIZ_SUBCATEGORY_KEY)
+        viewPager2.adapter = viewPagerAdapter
+        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                logUtil.d("===============>>>>>>>>>>>>>>        ViewPager OnPageSelected - position : ${position}, itemCnt : ${viewPagerAdapter.itemCount}, Type : ${viewPager2.adapter?.getItemViewType(position)}")
+                if(position + 1 == viewPager2.adapter?.itemCount) {
+                    viewPagerAdapter.showOwnerPopup()
+                }
+            }
+        })
 
         when (Constants.BIZ_SUBCATEGORY_KEY) {
             BizEnum.LAD -> {
                 tabNameArr = arrayListOf("토지내역", "토지조서", "소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "LandInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "LandInfo")
             }
 
             BizEnum.THING -> {
                 tabNameArr = arrayListOf("지장물조서", "지장물 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "ThingInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "ThingInfo")
             }
 
             BizEnum.TOMB -> {
                 tabNameArr = arrayListOf("분묘조서", "분묘 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "tombInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "tombInfo")
             }
 
             BizEnum.MINRGT -> {
                 tabNameArr = arrayListOf("광업권조사", "광업권 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "MinrgtInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "MinrgtInfo")
             }
 
             BizEnum.BSN -> {
                 tabNameArr = arrayListOf("영업조사", "영업 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "BsnInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "BsnInfo")
             }
 
             BizEnum.FYHTS -> {
                 tabNameArr = arrayListOf("어업권조사", "어업권 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "FyhtsInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "FyhtsInfo")
             }
 
             BizEnum.FARM -> {
                 tabNameArr = arrayListOf("농업조사", "농업 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "FarmInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "FarmInfo")
             }
 
             BizEnum.RESIDNT -> {
                 tabNameArr = arrayListOf("거주자조사", "거주자 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "ResidntInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "ResidntInfo")
             }
 
             BizEnum.REST_LAD -> {
                 tabNameArr = arrayListOf("토지내역", "잔여지 조서", "토지 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "LandInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "LandInfo")
             }
 
             BizEnum.REST_THING -> {
                 tabNameArr = arrayListOf("잔여건물 조서", "지장물 소유자 및 관계인")
-                wtnncTypeSetting(responseString, viewPager2.adapter, tabNameArr, "ThingInfo")
+                wtnncTypeSetting(responseString, /*viewPager2.adapter, */tabNameArr, "ThingInfo")
             }
 
             else ->  {}
@@ -131,7 +142,7 @@ class WtnncUtil(val activity: Activity, val context: Context) {
      */
     private fun wtnncTypeSetting(
         responseString: String?,
-        adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>?,
+//        adapter: RecyclerView.Adapter<RecyclerView.ViewHolder>?,
         tabNameArr: ArrayList<String>,
         intentStr: String
     ) {
@@ -147,7 +158,7 @@ class WtnncUtil(val activity: Activity, val context: Context) {
             else -> activity.intent.putExtra(intentStr, "")
         }
 
-        viewPager2.adapter = adapter
+//        viewPager2.adapter = adapter
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
             when (position) {

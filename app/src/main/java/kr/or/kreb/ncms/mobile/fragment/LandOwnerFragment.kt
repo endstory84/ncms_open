@@ -47,18 +47,16 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
-    BaseOwnerRecyclerViewAdapter.onItemClickDelvyAddrBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddRelateBtnListener,
-    BaseOwnerRecyclerViewAdapter.onItemClickaddOwnerBtnListener {
+class LandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+    BaseOwnerRecyclerViewAdapter.OnOwnerEventListener {
 
 //    private lateinit var recyclerViewAdapter: LandOwnerRecyclerViewAdapter
-    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
-
-    private var logUtil: LogUtil = LogUtil("LandOwnerFragment")
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
+//    private lateinit var recyclerViewAdapter: OwnerRecyclerViewAdapter
+//
+//    private var logUtil: LogUtil = LogUtil("LandOwnerFragment")
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
     var landDataJson: JSONObject? = null
 
     private lateinit var adapter: AddOwnerInputAdapter
@@ -86,7 +84,7 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
 
         LandInfoObject.landOwnerInfoJson = landOwnerInfoJson
 
-        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.LAD, landOwnerInfoJson, this, this, this)
+        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.LAD, landOwnerInfoJson, this)
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         view.ownerRecyclerView.adapter = recyclerViewAdapter
 
@@ -99,11 +97,11 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
         super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDelvyAddrClick(data: JSONObject) {
+    override fun onDelvyAddrClicked(data: JSONObject) {
         logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>>> $data")
     }
 
-    override fun onAddRelateBtnClick(data: JSONObject) {
+    override fun onAddRelateBtnClicked(data: JSONObject) {
 
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>>>>>>>>>>>>> $data")
 
@@ -446,7 +444,11 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
                 })
     }
 
-    override fun onAddOwnerBtnClick() {
+    override fun onAddCurOwnerBtnClicked() {
+//        TODO("Not yet implemented")
+    }
+
+    override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>")
 
         val ownerSearch = HashMap<String, String>()
@@ -848,5 +850,9 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : Fragment(),
     }
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
+    }
 
 }

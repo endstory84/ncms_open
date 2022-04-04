@@ -15,14 +15,14 @@ import kotlinx.android.synthetic.main.fragment_add_owner_item_footer.view.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.util.ToastUtil
+import kr.or.kreb.ncms.mobile.util.visibleView
 import kr.or.kreb.ncms.mobile.util.withIhidNumAsterRisk
 import org.json.JSONArray
 
 class NewOwnerRecyclerViewAdapter(
     context: Context,
     private var newOwnerInfo: JSONArray,
-    val addOwnerBtnListener: onItemClickAddOwnerBtnListener,
-    val addOwnerViewListener: onItemClickAddOwnerViewListener
+    val onNewOwnerEventListener: OnNewOwnerEventListener
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     private val TYPE_ITEM = 1
@@ -36,10 +36,18 @@ class NewOwnerRecyclerViewAdapter(
     }
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init{
-            itemView.addOwnerBtn.setOnClickListener {
-                toastUtil.msg_info("신규 소유자 추가", 200)
-                addOwnerBtnListener.onAddNewOwnerBtnClick()
+            itemView.addCurOwnerBtn.visibleView()
+
+            itemView.addCurOwnerBtn.setOnClickListener {
+                toastUtil.msg_info("기존 소유자 추가", 200)
+                onNewOwnerEventListener.onNewOwnerCurAddBtnClicked()
             }
+
+            itemView.addNewOwnerBtn.setOnClickListener {
+                toastUtil.msg_info("신규 소유자 추가", 200)
+                onNewOwnerEventListener.onNewOwnerNewAddBtnClicked()
+            }
+
         }
     }
 
@@ -102,7 +110,7 @@ class NewOwnerRecyclerViewAdapter(
 
                     addItemView.setOnClickListener {
                         toastUtil.msg_info("select Position $position", 400)
-                        addOwnerViewListener.onAddNewOnwerViewClick(position)
+                        onNewOwnerEventListener.onNewOwnerViewClicked(position)
                     }
 
 
@@ -144,11 +152,17 @@ class NewOwnerRecyclerViewAdapter(
         nullString
     }
 
-    interface onItemClickAddOwnerBtnListener {
-        fun onAddNewOwnerBtnClick()
-    }
-    interface onItemClickAddOwnerViewListener {
-        fun onAddNewOnwerViewClick(position: Int)
+//    interface onItemClickAddOwnerBtnListener {
+//        fun onAddNewOwnerBtnClick()
+//    }
+//    interface onItemClickAddOwnerViewListener {
+//        fun onAddNewOnwerViewClick(position: Int)
+//    }
+
+    interface OnNewOwnerEventListener {
+        fun onNewOwnerNewAddBtnClicked()
+        fun onNewOwnerCurAddBtnClicked()
+        fun onNewOwnerViewClicked(position: Int)
     }
 
 }

@@ -36,7 +36,7 @@ class RestThingNewOwnerRecyclerViewAdapter(
     }
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init{
-            itemView.addOwnerBtn.setOnClickListener {
+            itemView.addNewOwnerBtn.setOnClickListener {
                 toastUtil.msg_info("신규 소유자 추가", 200)
                 addOwnerBtnListener.onAddNewOwnerBtnClick()
             }

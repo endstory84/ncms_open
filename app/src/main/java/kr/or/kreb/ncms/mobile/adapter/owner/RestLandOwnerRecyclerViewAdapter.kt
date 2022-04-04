@@ -49,7 +49,7 @@ class RestLandOwnerRecyclerViewAdapter(
     }
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         init{
-            itemView.addOwnerBtn.setOnClickListener {
+            itemView.addNewOwnerBtn.setOnClickListener {
                 toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd), 200)
                 addOwnerBtnListener.onAddOwnerBtnClick()
             }
