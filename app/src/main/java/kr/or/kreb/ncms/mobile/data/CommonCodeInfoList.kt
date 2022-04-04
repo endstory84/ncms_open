@@ -25,7 +25,7 @@ object CommonCodeInfoList {
 
     fun addCode(groupCode: String, codeInfo: CommonCodeInfo) {
 
-        var list: ArrayList<CommonCodeInfo>
+        val list: ArrayList<CommonCodeInfo>
 
         if(!commonCodeMap.containsKey(groupCode)) {
             list = ArrayList<CommonCodeInfo>()
@@ -41,7 +41,7 @@ object CommonCodeInfoList {
 
     fun addCode(groupCode: String, jsonArray: JSONArray) {
 
-        var list: ArrayList<CommonCodeInfo>
+        val list: ArrayList<CommonCodeInfo>
 
         if(!commonCodeMap.containsKey(groupCode)) {
             list = ArrayList<CommonCodeInfo>()
@@ -55,7 +55,8 @@ object CommonCodeInfoList {
             val item = jsonArray.getJSONObject(idx)
             val codeId: String = item.getString(PARAM_NM_ID)
             val codeDc: String = item.getString(PARAM_NM_DC)
-            val codeInfo = CommonCodeInfo(codeId, codeDc, 0)
+            val codeOrdr: Int = item.getInt(PARAM_NM_ORDR)
+            val codeInfo = CommonCodeInfo(codeId, codeDc, codeOrdr)
             list.add(codeInfo)
         }
 
@@ -71,13 +72,13 @@ object CommonCodeInfoList {
             val key = iterator.next()
             val dataCodeList = jsonObject.getJSONArray(key)
 
-            var list = ArrayList<CommonCodeInfo>()
+            val list = ArrayList<CommonCodeInfo>()
 
             // 선택
-            val codeId = ""
-            val codeDc = "선택"
-            val codeOrdr = 0
-            val infoSel = CommonCodeInfo(codeId, codeDc, codeOrdr)
+            val selCodeId = ""
+            val selCodeDc = "선택"
+            val selCodeOrdr = 0
+            val infoSel = CommonCodeInfo(selCodeId, selCodeDc, selCodeOrdr)
             list.add(infoSel)
 
             for (idx in (0..(dataCodeList.length() - 1))) {
@@ -97,7 +98,7 @@ object CommonCodeInfoList {
     }
 
     fun removeAll() {
-        var iterator = commonCodeMap.keys.iterator()
+        val iterator = commonCodeMap.keys.iterator()
         while(iterator.hasNext()) {
             val key = iterator.next()
             val list = commonCodeMap.get(key)
@@ -113,24 +114,26 @@ object CommonCodeInfoList {
             val key = iterator.next()
             val codeInfoList = commonCodeMap.get(key)
             if (null != codeInfoList && codeInfoList.size > 0) {
-                return true;
+                return false
             }
         }
 
-        return false
+        return true
 
     }
 
     fun getCodeDcList(groupCode: String) : List<String> {
 
-        var list = ArrayList<String>()
+        val list = ArrayList<String>()
 
         if (groupCode.isNotEmpty()) {
 
             val codeInfoList = commonCodeMap.get(groupCode)
-            for (idx in (0..(codeInfoList!!.size - 1))) {
-                val info = codeInfoList!!.get(idx)
-                list.add( info.codeDc )
+            if(null != codeInfoList) {
+                for (idx in (0..(codeInfoList.size - 1))) {
+                    val info = codeInfoList.get(idx)
+                    list.add(info.codeDc)
+                }
             }
 
         }
@@ -141,14 +144,16 @@ object CommonCodeInfoList {
 
     fun getCodeDcArray(groupCode: String) : Array<String> {
 
-        var list = ArrayList<String>()
+        val list = ArrayList<String>()
 
         if (groupCode.isNotEmpty()) {
 
             val codeInfoList = commonCodeMap.get(groupCode)
-            for (idx in (0..(codeInfoList!!.size - 1))) {
-                val info = codeInfoList!!.get(idx)
-                list.add( info.codeDc )
+            if(null != codeInfoList && codeInfoList.isNotEmpty()) {
+                for (idx in (0..(codeInfoList.size - 1))) {
+                    val info = codeInfoList.get(idx)
+                    list.add(info.codeDc)
+                }
             }
 
         }
@@ -159,7 +164,7 @@ object CommonCodeInfoList {
 
     fun getCodeId(groupCode: String, codeDc: String) : String {
 
-        if(null != groupCode && groupCode.isNotEmpty() && null != codeDc && codeDc.length > 0) {
+        if(groupCode.isNotEmpty() && codeDc.length > 0) {
             val list = commonCodeMap.get(groupCode)
             if (null != list && list.size > 0) {
                 for (idx in (0..(list.size - 1))) {
@@ -176,7 +181,7 @@ object CommonCodeInfoList {
 
     fun getCodeId(groupCode: String, idx: Int) : String {
 
-        if(null != groupCode && groupCode.isNotEmpty() && idx >= 0) {
+        if (groupCode.isNotEmpty() && idx >= 0) {
             val list = commonCodeMap.get(groupCode)
             if (null != list) {
                 if (list.size >= idx) {
@@ -197,7 +202,7 @@ object CommonCodeInfoList {
 
     fun getIdxFromCodeId(groupCode: String, codeId: String, defaultValue: Int): Int {
 
-        if (null != groupCode && groupCode.isNotEmpty() && codeId.isNotEmpty()) {
+        if (groupCode.isNotEmpty() && codeId.isNotEmpty()) {
 
             val list = commonCodeMap.get(groupCode)
             if (null != list) {
