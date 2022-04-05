@@ -38,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.ThingFyhtsObject
+import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
@@ -316,9 +317,9 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
                 })
     }
 
-    override fun onAddCurOwnerBtnClicked() {
-//        TODO("Not yet implemented")
-    }
+//    override fun onMinusNewOwnerBtnClicked() {
+////        TODO("Not yet implemented")
+//    }
 
     override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick ->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -821,8 +822,11 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
 
     fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
-    override fun onNewOwnerCurAddBtnClicked() {
-//        TODO("Not yet implemented")
+    override fun onNewMinusNewOwnerBtnClicked() {
+        ThingWtnObject.thingNewOwnerInfoJson = null
+        newOwnerRecyclerViewAdapter.setJSONArray(thingOwnerInfoJson!!)
+
+        newOwnerRecyclerViewAdapter.notifyDataSetChanged()
     }
 
     override fun onNewOwnerNewAddBtnClicked() {
@@ -922,6 +926,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
 
                                 val ownerJsonArray = ThingFyhtsObject.thingOwnerInfoJson as JSONArray
                                 ownerJsonArray.put(selectOwnerJson)
+
+                                ThingWtnObject.thingNewOwnerInfoJson = ownerJsonArray
 
                                 newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
                                 newOwnerRecyclerViewAdapter.notifyDataSetChanged()
@@ -1124,6 +1130,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
 
                                 addOwnerData.put(dataInfo)
 
+                                ThingWtnObject.thingNewOwnerInfoJson = addOwnerData
+
                                 newOwnerRecyclerViewAdapter.setJSONArray(addOwnerData)
                                 newOwnerRecyclerViewAdapter.notifyDataSetChanged()
 
@@ -1222,6 +1230,8 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
                 var ownerJsonArray = ThingFyhtsObject.thingOwnerInfoJson as JSONArray
 
                 ownerJsonArray.put(position, selectOwnerJson)
+
+                ThingWtnObject.thingNewOwnerInfoJson = ownerJsonArray
 
                 newOwnerRecyclerViewAdapter.setJSONArray(ownerJsonArray)
                 newOwnerRecyclerViewAdapter.notifyDataSetChanged()
@@ -1357,6 +1367,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
 
     fun newOwnerAdapterCall(array: JSONArray) {
         ThingFyhtsObject.thingOwnerInfoJson = array
+        ThingWtnObject.thingNewOwnerInfoJson = array
         newOwnerRecyclerViewAdapter = NewOwnerRecyclerViewAdapter(context!!, array, this)
         newOwnerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter

@@ -250,6 +250,20 @@
         <item name="backgroundTint">@color/wtnncBtnCr</item>
     </style>
 
+    <style name="Widget.NCMS.Wtncc.minusButton2" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="icon">@drawable/ic_minus_thin</item>
+        <item name="iconTint">@color/white</item>
+        <item name="android:text">삭제</item>
+        <item name="android:textAlignment">center</item>
+        <item name="fontFamily">@font/notosansmedium</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="iconPadding">10dp</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="backgroundTint">@color/wtnncBtnCr2</item>
+    </style>
+
     <!-- Navi Theme -->
     <style name="Widget.NCMS.NavigationView" parent="Widget.MaterialComponents.NavigationView">
         <item name="materialThemeOverlay">@style/ThemeOverlay.NCMS.NavigationView</item>
@@ -405,10 +419,17 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="Widget.NCMS.FloatingActionButton" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="Widget.NCMS.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <!--<item name="fabSize">auto</item>-->
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">66dp</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">3dp</item>
+        <item name="android:gravity">center_horizontal|center</item>
         <item name="tint">@color/white</item>
+        <item name="fontFamily">@font/nsquarebold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">16.5sp</item>
         <item name="rippleColor">@color/white</item>
         <item name="backgroundTint">@color/colorPrimary</item>
         <item name="android:visibility">invisible</item>

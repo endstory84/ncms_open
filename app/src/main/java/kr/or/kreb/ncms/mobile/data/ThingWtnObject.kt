@@ -182,6 +182,8 @@ object ThingWtnObject {
 
     var thingOwnerInfoJson: JSONArray? = null
 
+    var thingNewOwnerInfoJson: JSONArray? = null
+
     var addOwnerListInfo: JSONArray? = null
 
     var naverGeoAddressName: String? = null

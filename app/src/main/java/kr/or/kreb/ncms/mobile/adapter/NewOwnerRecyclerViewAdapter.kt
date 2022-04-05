@@ -36,16 +36,17 @@ class NewOwnerRecyclerViewAdapter(
     }
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init{
-            itemView.addCurOwnerBtn.visibleView()
-
-            itemView.addCurOwnerBtn.setOnClickListener {
-                toastUtil.msg_info("기존 소유자 추가", 200)
-                onNewOwnerEventListener.onNewOwnerCurAddBtnClicked()
-            }
-
             itemView.addNewOwnerBtn.setOnClickListener {
                 toastUtil.msg_info("신규 소유자 추가", 200)
                 onNewOwnerEventListener.onNewOwnerNewAddBtnClicked()
+            }
+            itemView.minusNewOwnerBtn.setOnClickListener {
+                onNewOwnerEventListener.onNewMinusNewOwnerBtnClicked()
+            }
+            if(getItemCount() > 1) {
+                itemView.minusNewOwnerBtn.visibility = View.VISIBLE
+            } else {
+                itemView.minusNewOwnerBtn.visibility = View.GONE
             }
 
         }
@@ -161,7 +162,7 @@ class NewOwnerRecyclerViewAdapter(
 
     interface OnNewOwnerEventListener {
         fun onNewOwnerNewAddBtnClicked()
-        fun onNewOwnerCurAddBtnClicked()
+        fun onNewMinusNewOwnerBtnClicked()
         fun onNewOwnerViewClicked(position: Int)
     }
 

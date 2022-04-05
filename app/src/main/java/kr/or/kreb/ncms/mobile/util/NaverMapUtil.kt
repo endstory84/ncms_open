@@ -394,20 +394,22 @@ class NaverMapUtil(
             "basic" -> this.naverMap.mapType = NaverMap.MapType.Basic
             "hybrid" -> this.naverMap.mapType = NaverMap.MapType.Hybrid
             "cadastralOn" -> {
+                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
                 getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도");
                 getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도");
-                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
+
                 getActivity().bsnsAreaLayerSwitch.isChecked = true
                 isCadastralVisable = true;
                 getActivity().cadstralEditLayerSwitch.isChecked = true
 
             }
             "cadastralOff" -> {
+                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
                 clearWFS(wfsCadastralOverlayArr, "연속지적도");
                 clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
                 isCadastralVisable = false;
                 getActivity().cadstralEditLayerSwitch.isChecked = false
-                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
+
                 getActivity().bsnsAreaLayerSwitch.isChecked = false
             }
         }
@@ -945,9 +947,9 @@ class NaverMapUtil(
 
         //logUtil.d("tagName = $tagName, zindex = $zindex")
         when (tagName) {
-            "사업구역(용지도)" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsBsnAreaOverlayArr, null) }
             "편집지적도" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsEditCadastralOverlayArr, null) }
             "연속지적도" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsCadastralOverlayArr, null) }
+            "사업구역(용지도)" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsBsnAreaOverlayArr, null) }
             "토지" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsLadOverlayArr, null) }
             "토지실제이용" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsRealLadOverlayArr, null) }
             "지장물" -> { setDrawPolygonOptions(latLngArr, polyColor, strokeColor, zindex, tagName, wfsThingOverlayArr, jsonArr) }
@@ -2262,33 +2264,33 @@ class NaverMapUtil(
             BizEnum.LAD -> {
 
                 LandInfoObject.realLandPolygon = polygonOverlayArr
-
-                /** @description 실제이용현황 필지 선택 후 편집모드 진입 */
-                modifyPolygon.clear()
-                modifyPolygonOverlayArr.clear()
-
-                selectPolygonOverlayArr.forEach { sketchPolygon ->
-                    sketchPolygon.setOnClickListener {
-
-                        for (i in 0 until sketchPolygon.coords.size) {
-                            modifyPolygon.add(sketchPolygon.coords[i])
-                            logUtil.d("생성된 polygon getCoords -> ${sketchPolygon.coords[i]}")
-                        }
-
-                        modifyPolygonOverlayArr.add(modifyPolygon as ArrayList<LatLng>)
-                        logUtil.d("생성된 polygon getCoords arr -> $modifyPolygonOverlayArr")
-
-                        modifyPolygon.forEach { addAllMapPos.add(MapPos(it.longitude, it.latitude)) }
-                        LandInfoObject.clickLatLng = addAllMapPos
-
-                        val currentArea = (MathUtil.layersForArea(LandInfoObject.clickLatLng, 6371009.0) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
-                        LandInfoObject.selectPolygonCenterTxt = currentArea.toString()
-
-                        dialogUtil.run { alertDialog(activity?.getString(R.string.msg_polygon_edit_title), activity?.getString(R.string.msg_polygon_edit_content), dialogBuilder, "필지편집").show() }
-
-                        true
-                    }
-                }
+//
+//                /** @description 실제이용현황 필지 선택 후 편집모드 진입 */
+//                modifyPolygon.clear()
+//                modifyPolygonOverlayArr.clear()
+//
+//                selectPolygonOverlayArr.forEach { sketchPolygon ->
+//                    sketchPolygon.setOnClickListener {
+//
+//                        for (i in 0 until sketchPolygon.coords.size) {
+//                            modifyPolygon.add(sketchPolygon.coords[i])
+//                            logUtil.d("생성된 polygon getCoords -> ${sketchPolygon.coords[i]}")
+//                        }
+//
+//                        modifyPolygonOverlayArr.add(modifyPolygon as ArrayList<LatLng>)
+//                        logUtil.d("생성된 polygon getCoords arr -> $modifyPolygonOverlayArr")
+//
+//                        modifyPolygon.forEach { addAllMapPos.add(MapPos(it.longitude, it.latitude)) }
+//                        LandInfoObject.clickLatLng = addAllMapPos
+//
+//                        val currentArea = (MathUtil.layersForArea(LandInfoObject.clickLatLng, 6371009.0) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
+//                        LandInfoObject.selectPolygonCenterTxt = currentArea.toString()
+//
+//                        dialogUtil.run { alertDialog(activity?.getString(R.string.msg_polygon_edit_title), activity?.getString(R.string.msg_polygon_edit_content), dialogBuilder, "필지편집").show() }
+//
+//                        true
+//                    }
+//                }
 
             }
 

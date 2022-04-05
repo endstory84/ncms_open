@@ -39,14 +39,15 @@ open class BaseOwnerRecyclerViewAdapter(
 
     open inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
+
             itemView.addNewOwnerBtn.setOnClickListener {
                 toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd) + "1111", 200)
                 onOwnerEventListener.onAddNewOwnerBtnClicked()
             }
 
-            itemView.addCurOwnerBtn.setOnClickListener {
-                onOwnerEventListener.onAddCurOwnerBtnClicked()
-            }
+//            itemView.minusNewOwnerBtn.setOnClickListener {
+//                onOwnerEventListener.onMinusNewOwnerBtnClicked()
+//            }
         }
     }
 
@@ -100,7 +101,6 @@ open class BaseOwnerRecyclerViewAdapter(
     interface OnOwnerEventListener {
         fun onDelvyAddrClicked(data: JSONObject)
         fun onAddRelateBtnClicked(data: JSONObject)
-        fun onAddCurOwnerBtnClicked()
         fun onAddNewOwnerBtnClicked()
     }
 

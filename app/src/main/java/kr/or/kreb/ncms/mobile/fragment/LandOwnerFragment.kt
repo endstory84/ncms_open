@@ -444,9 +444,9 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragm
                 })
     }
 
-    override fun onAddCurOwnerBtnClicked() {
-//        TODO("Not yet implemented")
-    }
+//    override fun onMinusNewOwnerBtnClicked() {
+////        TODO("Not yet implemented")
+//    }
 
     override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>")

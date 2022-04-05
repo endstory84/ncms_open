@@ -203,6 +203,7 @@
 
     <!-- bottom sheet -->
     <color name="wtnncBtnCr">#0049df</color>
+    <color name="wtnncBtnCr2">#EA0C0C</color>
     <color name="bottom_sheet">#645640</color>
     <color name="tab_layout">#84745a</color>
     <color name="tab_layout_text">#645640</color>

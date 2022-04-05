@@ -393,7 +393,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
             LandInfoObject.lineCenterTxList.clear()
 
             mCatroEditLayer = null
-            toastUtil.msg_success(context!!.getString(R.string.msg_action_remove), 100)
+//            toastUtil.msg_success(context!!.getString(R.string.msg_action_remove), 100)
         } else {
             toastUtil.msg_error("스케치가 존재하지 않습니다.", 500)
             return

@@ -286,9 +286,9 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwner
                 })
     }
 
-    override fun onAddCurOwnerBtnClicked() {
-//        TODO("Not yet implemented")
-    }
+//    override fun onMinusNewOwnerBtnClicked() {
+////        TODO("Not yet implemented")
+//    }
 
     override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
@@ -700,8 +700,11 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwner
         newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun onNewOwnerCurAddBtnClicked() {
-//        TODO("Not yet implemented")
+    override fun onNewMinusNewOwnerBtnClicked() {
+        ThingWtnObject.thingNewOwnerInfoJson = null
+        newOwnerRecyclerViewAdapter.setJSONArray(restThingOwnerInfoJson!!)
+
+        newOwnerRecyclerViewAdapter.notifyDataSetChanged()
     }
 
     override fun onNewOwnerNewAddBtnClicked() {

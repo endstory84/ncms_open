@@ -3,28 +3,44 @@
   ~ Copyright (c) 2021. sgablc. All rights reserved.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/loanLinear_c_02"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="end">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/loanLinear_c_02"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:orientation="horizontal">
+        <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:layout_margin="10dp"
+                tools:ignore="MissingConstraints">
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.NCMS.Wtncc.minusButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/wtnncBtnCr2"
+                    android:id="@+id/minusNewOwnerBtn"
+                    android:visibility="gone"
+                    android:text="@string/laneCencle" />
+        </RelativeLayout>
 
-    <com.google.android.material.button.MaterialButton
-            style="@style/Widget.NCMS.Wtncc.addButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:id="@+id/addCurOwnerBtn"
-            android:text="@string/landCurOwnAdd"
-            android:visibility="gone"/>
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="end"
+            android:layout_margin="10dp"
+            tools:ignore="MissingConstraints">
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/Widget.NCMS.Wtncc.addButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:id="@+id/addNewOwnerBtn"
-        android:text="@string/landNewOwnAdd" />
+        <com.google.android.material.button.MaterialButton
+                style="@style/Widget.NCMS.Wtncc.addButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:id="@+id/addNewOwnerBtn"
+                android:text="@string/landOwnAdd"
+        />
+    </RelativeLayout>
+
+
 
 </LinearLayout>

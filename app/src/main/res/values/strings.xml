@@ -101,7 +101,7 @@
     <string name="msg_permsission_status_fail">요청한 권한이 승인되지 않았습니다.</string>
     <string name="msg_mdm_fail">MDM 앱 인증이 실패 하였습니다. 앱이 실행되지 않습니다 \n 관리자에서 문의 후 사용해 주시기 바람니다</string>
 
-    <string name="msg_server_login_fail">로그인에 실패하였습니다. \n 아이디 및 비밀번호 확인 후 다시 시도해ㅐ 주시기 바랍니다.</string>
+    <string name="msg_server_login_fail">로그인에 실패하였습니다. \n 아이디 및 비밀번호 확인 후 다시 시도해주시기 바랍니다.</string>
 
     <string name="msg_server_connected_text">잠시만 기다려주세요. \n 서버데이터를 불러오는중입니다.</string>
     <string name="msg_server_connected_fail">서버 접속이 불안정합니다. \n 확인 후 작업해주세요.</string>
@@ -185,14 +185,14 @@
     <string name="naver_license_code">9mek16psq2</string>
 
     <string name="fab_toolbar_1">도형 도구</string>
-    <string name="fab_toolbar_2">이전</string>
-    <string name="fab_toolbar_3">다음</string>
+    <string name="fab_toolbar_2">뒤로</string>
+    <string name="fab_toolbar_3">앞으로</string>
     <string name="fab_toolbar_4">점</string>
-    <string name="fab_toolbar_5">선</string>
-    <string name="fab_toolbar_6">수정</string>
+    <string name="fab_toolbar_5">선·도형</string>
+    <string name="fab_toolbar_6">편집</string>
     <string name="fab_toolbar_7">삭제</string>
-    <string name="fab_toolbar_8">취소</string>
-    <string name="fab_toolbar_9">완료</string>
+    <string name="fab_toolbar_8">나가기</string>
+    <string name="fab_toolbar_9">저장</string>
 
     <string name="fab_indoor_toolbar_1">실내스케치 도구</string>
     <string name="fab_indoor_toolbar_2">이전</string>
@@ -364,6 +364,7 @@
     <string name="landCurOwnAdd">기존 소유자 추가</string>
     <string name="landNewOwnAdd">신규 소유자 추가</string>
     <string name="landOwnAdd">소유자 추가</string>
+    <string name="laneCencle">초기화</string>
     <string name="landRelateAdd">관계자 추가</string>
     <!-- 토지조서 끝 -->
 
@@ -1474,5 +1475,9 @@
     <string name="thing_knd_sub_nm_2_42">재실</string>
     <string name="thing_knd_sub_nm_2_43">유치원</string>
     <string name="thing_knd_sub_nm_2_44">축사</string>
+    <string name="fab_btn_string_1">저장</string>
+    <string name="fab_btn_string_2">나기기</string>
+    <string name="fab_btn_string_3">삭제</string>
+    <string name="fab_btn_string_4">편집</string>
 
 </resources>

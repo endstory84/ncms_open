@@ -298,8 +298,8 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerF
 
     }
 
-    override fun onAddCurOwnerBtnClicked() {
-    }
+//    override fun onMinusNewOwnerBtnClicked() {
+//    }
 
     override fun onAddNewOwnerBtnClicked() {
         logUtil.d("onAddOwnerBtnClick >>>>>>>>>>>>>>>>>>>>>>>>>>>")

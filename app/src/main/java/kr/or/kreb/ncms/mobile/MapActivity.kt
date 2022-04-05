@@ -17,12 +17,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.WebMercatorCoord
 import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.PolygonOverlay
 import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.fragment_add_owner_dialog.*
@@ -46,6 +48,7 @@ import kr.or.kreb.ncms.mobile.fragment.*
 import kr.or.kreb.ncms.mobile.listener.*
 import kr.or.kreb.ncms.mobile.util.*
 import kr.or.kreb.ncms.mobile.util.PermissionUtil.logUtil
+import kr.or.kreb.ncms.mobile.view.InfoView
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -114,14 +117,15 @@ class MapActivity :
     private var fab_open: Animation? = null
     private var fab_close:Animation? = null
 
-    var fabVisableArr = mutableListOf<FloatingActionButton>()
-    private var fabArr = mutableListOf<FloatingActionButton>()
+    var fabVisableArr = mutableListOf<ExtendedFloatingActionButton>()
+    private var fabArr = mutableListOf<ExtendedFloatingActionButton>()
     private var fabTranslationXArr = mutableListOf<Float>()
 
     //네트워크통신 다이얼로그
 //    private var progressDialog: AlertDialog? = null
 
     val selectWtnccPolygonArr = mutableListOf<PolygonOverlay>()
+    var choiceInfoWindowArr = mutableListOf<InfoWindow>()
 
     ////////////////////////////////////////////////////////////////////////////////////////
 
@@ -435,6 +439,7 @@ class MapActivity :
                 if(lotMapPosition == 0){
 
                     naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
+                    naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용")
 
                     /*
                     1. 해당 토지 선택시 내역 표출
@@ -1920,8 +1925,15 @@ class MapActivity :
                         runOnUiThread{
                             toast.msg_info("토지조서가 등록 되었습니다.", 500)
                             bottomPanelClose()
-                            //naverMap?.clearCartoPolygon()
-                            naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
+                            GlobalScope.launch {
+                                delay(500)
+                                withContext(Dispatchers.Main) {
+                                    naverMap?.clearCartoPolygon()
+//                                    naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
+                                    naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용")
+                                }
+                            }
+
                         }
 
                     }
@@ -1998,6 +2010,7 @@ class MapActivity :
                         toast.msg_info("잔여건물 조서가 등록 되었습니다.", 500)
                         RestThingWtnObject.cleanThingWtnObject()
                         bottomPanelClose()
+
                     }
                 }
             }
@@ -3663,13 +3676,34 @@ class MapActivity :
                             } else {
                                 //object 초기화
                                 when(Constants.BIZ_SUBCATEGORY_KEY){
-                                    THING -> ThingWtnObject.cleanThingWtnObject()
-                                    BSN -> ThingBsnObject.cleanThingBsnObject()
-                                    TOMB -> ThingTombObject.cleanThingTombObject()
-                                    MINRGT -> ThingMinrgtObject.cleanThingMinrgtObject()
-                                    FARM -> ThingFarmObject.cleanThingFarmObject()
-                                    RESIDNT -> ThingResidntObject.cleanThingResidntObject()
-                                    FYHTS -> ThingFyhtsObject.clealThingFyhtsObject()
+                                    THING -> {
+                                        ThingWtnObject.cleanThingWtnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
+                                    }
+                                    BSN -> {
+                                        ThingBsnObject.cleanThingBsnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
+                                    }
+                                    TOMB -> {
+                                        ThingTombObject.cleanThingTombObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
+                                    }
+                                    MINRGT -> {
+                                        ThingMinrgtObject.cleanThingMinrgtObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "광업권")
+                                    }
+                                    FARM -> {
+                                        ThingFarmObject.cleanThingFarmObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
+                                    }
+                                    RESIDNT -> {
+                                        ThingResidntObject.cleanThingResidntObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
+                                    }
+                                    FYHTS -> {
+                                        ThingFyhtsObject.clealThingFyhtsObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "어업권")
+                                    }
                                     else -> {}
                                 }
                             }
@@ -3742,15 +3776,40 @@ class MapActivity :
                                     progressDialog?.dismiss()
                                     runOnUiThread {
                                         //object 초기화
-                                        when (Constants.BIZ_SUBCATEGORY_KEY) {
-                                            THING -> ThingWtnObject.cleanThingWtnObject()
-                                            BSN -> ThingBsnObject.cleanThingBsnObject()
-                                            TOMB -> ThingTombObject.cleanThingTombObject()
-                                            MINRGT -> ThingMinrgtObject.cleanThingMinrgtObject()
-                                            FARM -> ThingFarmObject.cleanThingFarmObject()
-                                            RESIDNT -> ThingResidntObject.cleanThingResidntObject()
-                                            FYHTS -> ThingFyhtsObject.clealThingFyhtsObject()
-                                            else -> {
+                                        GlobalScope.launch {
+                                            delay(500)
+                                            withContext(Dispatchers.Main) {
+                                                when(Constants.BIZ_SUBCATEGORY_KEY){
+                                                    THING -> {
+                                                        ThingWtnObject.cleanThingWtnObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
+                                                    }
+                                                    BSN -> {
+                                                        ThingBsnObject.cleanThingBsnObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
+                                                    }
+                                                    TOMB -> {
+                                                        ThingTombObject.cleanThingTombObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
+                                                    }
+                                                    MINRGT -> {
+                                                        ThingMinrgtObject.cleanThingMinrgtObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "광업권")
+                                                    }
+                                                    FARM -> {
+                                                        ThingFarmObject.cleanThingFarmObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
+                                                    }
+                                                    RESIDNT -> {
+                                                        ThingResidntObject.cleanThingResidntObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
+                                                    }
+                                                    FYHTS -> {
+                                                        ThingFyhtsObject.clealThingFyhtsObject()
+                                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "어업권")
+                                                    }
+                                                    else -> {}
+                                                }
                                             }
                                         }
                                     }
@@ -3761,22 +3820,109 @@ class MapActivity :
                 }else {
                     runOnUiThread {
                         //object 초기화
-                        when (Constants.BIZ_SUBCATEGORY_KEY) {
-                            THING -> ThingWtnObject.cleanThingWtnObject()
-                            BSN -> ThingBsnObject.cleanThingBsnObject()
-                            TOMB -> ThingTombObject.cleanThingTombObject()
-                            MINRGT -> ThingMinrgtObject.cleanThingMinrgtObject()
-                            FARM -> ThingFarmObject.cleanThingFarmObject()
-                            RESIDNT -> ThingResidntObject.cleanThingResidntObject()
-                            FYHTS -> ThingFyhtsObject.clealThingFyhtsObject()
-                            else -> {
+                        GlobalScope.launch {
+                            delay(500)
+                            withContext(Dispatchers.Main) {
+                                when(Constants.BIZ_SUBCATEGORY_KEY){
+                                    THING -> {
+                                        ThingWtnObject.cleanThingWtnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
+                                    }
+                                    BSN -> {
+                                        ThingBsnObject.cleanThingBsnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
+                                    }
+                                    TOMB -> {
+                                        ThingTombObject.cleanThingTombObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
+                                    }
+                                    MINRGT -> {
+                                        ThingMinrgtObject.cleanThingMinrgtObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "광업권")
+                                    }
+                                    FARM -> {
+                                        ThingFarmObject.cleanThingFarmObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
+                                    }
+                                    RESIDNT -> {
+                                        ThingResidntObject.cleanThingResidntObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
+                                    }
+                                    FYHTS -> {
+                                        ThingFyhtsObject.clealThingFyhtsObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "어업권")
+                                    }
+                                    else -> {}
+                                }
                             }
                         }
+//                        when (Constants.BIZ_SUBCATEGORY_KEY) {
+//                            THING -> ThingWtnObject.cleanThingWtnObject()
+//                            BSN -> ThingBsnObject.cleanThingBsnObject()
+//                            TOMB -> ThingTombObject.cleanThingTombObject()
+//                            MINRGT -> ThingMinrgtObject.cleanThingMinrgtObject()
+//                            FARM -> ThingFarmObject.cleanThingFarmObject()
+//                            RETS -> ThingFyhtsObject.clealThingFyhtsObject()
+//                            else SIDNT -> ThingResidntObject.cleanThingResidntObject()
+//                            FYH-> {
+//                            }
+//                        }
                     }
 
                 }
 
             }
+        } else {
+            runOnUiThread {
+                        //object 초기화
+                        GlobalScope.launch {
+                            delay(500)
+                            withContext(Dispatchers.Main) {
+                                when(Constants.BIZ_SUBCATEGORY_KEY){
+                                    THING -> {
+                                        ThingWtnObject.cleanThingWtnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물")
+                                    }
+                                    BSN -> {
+                                        ThingBsnObject.cleanThingBsnObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업")
+                                    }
+                                    TOMB -> {
+                                        ThingTombObject.cleanThingTombObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘")
+                                    }
+                                    MINRGT -> {
+                                        ThingMinrgtObject.cleanThingMinrgtObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "광업권")
+                                    }
+                                    FARM -> {
+                                        ThingFarmObject.cleanThingFarmObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업")
+                                    }
+                                    RESIDNT -> {
+                                        ThingResidntObject.cleanThingResidntObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자")
+                                    }
+                                    FYHTS -> {
+                                        ThingFyhtsObject.clealThingFyhtsObject()
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "어업권")
+                                    }
+                                    else -> {}
+                                }
+                            }
+                        }
+//                        when (Constants.BIZ_SUBCATEGORY_KEY) {
+//                            THING -> ThingWtnObject.cleanThingWtnObject()
+//                            BSN -> ThingBsnObject.cleanThingBsnObject()
+//                            TOMB -> ThingTombObject.cleanThingTombObject()
+//                            MINRGT -> ThingMinrgtObject.cleanThingMinrgtObject()
+//                            FARM -> ThingFarmObject.cleanThingFarmObject()
+//                            RETS -> ThingFyhtsObject.clealThingFyhtsObject()
+//                            else SIDNT -> ThingResidntObject.cleanThingResidntObject()
+//                            FYH-> {
+//                            }
+//                        }
+                    }
         }
 
 
@@ -4621,71 +4767,57 @@ class MapActivity :
         setContextPopupPosition = position
         setcontextPopupName = (dialog as ContextDialogFragment).array[position]
 
-        // TODO: 2021-11-18 조서 내 폴리곤 하이라트 지정
-        val selectWtnccPolygon = PolygonOverlay()
-
-        selectWtnccPolygonArr.forEach { it.map = null } // 조서항목이 바뀔대마다 초기화
-
-        LandInfoObject.realLandPolygon?.clear()
-        ThingWtnObject.thingSketchPolygon?.clear()
-        ThingBsnObject.thingBsnSketchPolygon?.clear()
-        ThingFarmObject.thingFarmSketchPolygon?.clear()
-        ThingResidntObject.thingResidntSketchPolygon?.clear()
-        ThingTombObject.thingTombSketchPolyton?.clear()
-        ThingMinrgtObject.thingMinrgtSketchPolygon?.clear()
-        ThingFyhtsObject.thingFyhtsSketchPolygon?.clear()
-
         try {
+            choiceInfoWindowArr.forEach { it.map = null }
+            choiceInfoWindowArr.clear()
 
-            val dialogPos = when(Constants.BIZ_SUBCATEGORY_KEY){THING -> 3 else -> 2 }
+            ThingWtnObject.thingWtnncJsonArray?.forEach {
 
-            if(dialog.dataString != ""){
-                val jArray = JSONArray(dialog.dataString)
-                val resultJobj = httpResultToJsonObject(jArray.get(position-dialogPos).toString())
-                val resultGeoms = resultJobj?.asJsonObject?.get("geoms")?.asString
+                val kndName = it.asJsonObject.get("properties").asJsonObject.get("THING_KND").asString
+                val moNo = it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString
 
-                log.d(resultGeoms.toString())
+                if (kndName.equals(setcontextPopupName)) {
+                    log.d("moNo => $moNo")
 
-                val splitWKT = resultGeoms?.replace("MULTIPOLYGON (((", "")?.replace(")))", "")?.split(",")
-                val isVisiablebuldPolygon = mutableListOf<LatLng>()
+                    val coordArr = it.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray.get(0).asJsonArray.get(0).asJsonArray
 
-                splitWKT?.forEach {
+                    for (j in 0 until coordArr.size() - 1) {
 
-                    val x = it.trim().split(" ")[0].toDouble()
-                    val y = it.trim().split(" ")[1].toDouble()
+                        log.d("coord => ${coordArr[j]}")
 
-                    val coordX = convertWGS84(x, y).y
-                    val coordY = convertWGS84(x, y).x
+                        val coord = coordArr[j].toString().replace("[", "").replace("]", "").split(",")
 
-                    val latLng = LatLng(coordX, coordY)
+                        val x = coord[1].toDouble()
+                        val y = coord[0].toDouble()
 
-                    log.d(latLng.toString())
-                    isVisiablebuldPolygon.add(latLng)
-                }
+                        log.d("x=$x, y=$y");
 
-                selectWtnccPolygon.apply {
-                    coords = isVisiablebuldPolygon
-                    globalZIndex  = 160000
-                    color = setObjectColor(context, R.color.red, 100)
-                    outlineWidth = 5
-                    outlineColor = setObjectColor(context, R.color.red, 255)
-                    map = naverMap?.naverMap
-                }
+                        val infoWindow = InfoWindow()
+                        val infoView: InfoView?
+                        infoView = InfoView(context, null, R.layout.include_wtncc_info_choice_view)
+                        infoView.setText(moNo, "wtncc")
 
-                selectWtnccPolygonArr.add(selectWtnccPolygon)
+                        infoWindow.adapter = object : InfoWindow.ViewAdapter() {
+                            override fun getView(p0: InfoWindow): View = infoView
+                        }
+                        infoWindow.position = LatLng(x, y)
+                        infoWindow.offsetX = 0
+                        infoWindow.offsetY = 0
 
-                when(Constants.BIZ_SUBCATEGORY_KEY){
-                    LAD -> LandInfoObject.realLandPolygon = selectWtnccPolygonArr
-                    THING -> ThingWtnObject.thingSketchPolygon = selectWtnccPolygonArr
-                    BSN -> ThingBsnObject.thingBsnSketchPolygon = selectWtnccPolygonArr
-                    FARM -> ThingFarmObject.thingFarmSketchPolygon = selectWtnccPolygonArr
-                    RESIDNT -> ThingResidntObject.thingResidntSketchPolygon = selectWtnccPolygonArr
-                    TOMB -> ThingTombObject.thingTombSketchPolyton = selectWtnccPolygonArr
-                    MINRGT -> ThingMinrgtObject.thingMinrgtSketchPolygon = selectWtnccPolygonArr
-                    FYHTS -> ThingFyhtsObject.thingFyhtsSketchPolygon = selectWtnccPolygonArr
-                    else -> {}
+                        //infoWindow.map = this.naverMap?.naverMap
+
+                        choiceInfoWindowArr.add(infoWindow)
+
+                    }
+                } else {
+
                 }
             }
+
+            choiceInfoWindowArr.forEach {
+                it.map = this.naverMap?.naverMap
+            }
+
 
         } catch (e: Exception) {
             log.d(e.toString())
