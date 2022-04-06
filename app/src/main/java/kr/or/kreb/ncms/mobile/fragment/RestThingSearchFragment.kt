@@ -15,34 +15,30 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.Spinner
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import kotlinx.android.synthetic.main.fragment_restland_search.*
 import kotlinx.android.synthetic.main.fragment_restland_search_item.view.*
 import kotlinx.android.synthetic.main.rest_thing_search_gnrl.*
-import kotlinx.android.synthetic.main.rest_thing_search_gnrl.bqestCnText
-import kotlinx.android.synthetic.main.rest_thing_search_gnrl.bqestPsnText
 import kotlinx.android.synthetic.main.rest_thing_search_gnrl.view.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
 import kr.or.kreb.ncms.mobile.adapter.RestThingSearchRecyclerViewAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
-import kr.or.kreb.ncms.mobile.data.RestLandInfoObject
 import kr.or.kreb.ncms.mobile.data.RestThingWtnObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
-import kr.or.kreb.ncms.mobile.util.*
+import kr.or.kreb.ncms.mobile.util.WtnncUtil
 import org.json.JSONArray
 import org.json.JSONObject
 
 class RestThingSearchFragment(val activity: Activity, context: Context, val fragmentActivity: FragmentActivity) :
-    Fragment(),
+    BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private lateinit var restThingSearchAdapter: RestThingSearchRecyclerViewAdapter
 
-    private var toastUtil: ToastUtil = ToastUtil(context)
-    private var logUtil: LogUtil = LogUtil("RestThingSearchFragment")
+//    private var toastUtil: ToastUtil = ToastUtil(context)
+//    private var logUtil: LogUtil = LogUtil("RestThingSearchFragment")
 
     private val wtnncUtill = WtnncUtil(activity, context)
 
@@ -100,12 +96,11 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
             checkStringNull(restThingDataJson!!.getString("gobuLndcgrNm").toString())
 
         if (checkStringNull(restThingDataJson!!.getString("relateLnm").toString()).equals("")) {
-            view.thingRelateLnmText?.text = context!!.getString(R.string.loanValue_b2_04)
+            view.thingRelateLnmText?.setText(context!!.getString(R.string.loanValue_b2_04))
         } else {
-            view.thingRelateLnmText?.text =
-                checkStringNull(restThingDataJson!!.getString("relateLnm").toString())
+            view.thingRelateLnmText?.setText(checkStringNull(restThingDataJson!!.getString("relateLnm").toString()))
         }
-        view.thingRelateLnmText?.text = checkStringNull(restThingDataJson!!.getString("relateLnm").toString())
+//        view.thingRelateLnmText?.setText(checkStringNull(restThingDataJson!!.getString("relateLnm").toString()))
 
         if(restThingDataJson!!.getString("thingKnd").toString().equals("null")) {
             view.thingKndEdit?.setText(checkStringNull(ThingWtnObject.thingKnd.toString()))
@@ -289,11 +284,7 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
 
     }
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

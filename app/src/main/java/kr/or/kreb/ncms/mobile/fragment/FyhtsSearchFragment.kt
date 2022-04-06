@@ -20,9 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_fyhts_search.*
@@ -35,6 +33,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingFyhtsObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
@@ -50,9 +49,8 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
-import java.util.*
 
-class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
+class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment(),
     AdapterView.OnItemSelectedListener,
     DialogUtil.ClickListener  {
 
@@ -62,11 +60,11 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
     private val wtnncUtill: WtnncUtil = WtnncUtil(activity, context)
     private var addViewCnt: Int = 0
 
-    private var logUtil: LogUtil = LogUtil("BsnSearchFragment")
-    private val toastUtil = ToastUtil(context)
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
+//    private var logUtil: LogUtil = LogUtil("BsnSearchFragment")
+//    private val toastUtil = ToastUtil(context)
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
 
     val wonFormat = DecimalFormat("#,###")
 
@@ -202,7 +200,7 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
             )
         }
         fyhtsCntnncPdEndde.setOnClickListener{
-            toastUtil.msg("영업중은 날짜 미기입", 1000)
+            toast.msg("영업중은 날짜 미기입", 1000)
             WtnncUtil(mActivity, mContext).wtnncDatePicker(
                 requireActivity().supportFragmentManager,
                 fyhtsCntnncPdEndde,
@@ -412,7 +410,7 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog?.dismiss()
-                        toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                        toast.msg_error(R.string.msg_server_connected_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -723,7 +721,7 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -1245,19 +1243,16 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : Fragment(),
 
         ThingFyhtsObject.addFyhtsThing = fyhtsThingJSON
     }
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
-    }
 
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
     }
 
     override fun onNegativeClickListener(dialog: DialogInterface, type: String) {
 
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 
 }

@@ -33,6 +33,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
@@ -48,7 +49,7 @@ import java.io.IOException
 import java.nio.file.Paths
 
 class ThingSearchFragment(val activity: Activity, context: Context, val fragmentActivity: FragmentActivity) :
-    Fragment(),
+    BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mActivity: Activity = activity
@@ -58,10 +59,10 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
-    private var toastUtil: ToastUtil = ToastUtil(mContext)
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
+//    private var toastUtil: ToastUtil = ToastUtil(mContext)
 
     init { }
 
@@ -577,11 +578,11 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             checkStringNull(thingDataJson!!.getString("gobuLndcgrNm").toString())
 
         if (checkStringNull(thingDataJson!!.getString("relateLnm").toString()).equals("")) {
-            view.thingRelateLnmText?.text = context!!.getString(R.string.loanValue_b2_04)
+            view.thingRelateLnmText?.setText(context!!.getString(R.string.loanValue_b2_04))
         } else {
-            view.thingRelateLnmText?.text = checkStringNull(thingDataJson!!.getString("relateLnm").toString())
+            view.thingRelateLnmText?.setText(checkStringNull(thingDataJson!!.getString("relateLnm").toString()))
         }
-        view.thingRelateLnmText?.text = checkStringNull(thingDataJson!!.getString("relateLnm").toString())
+        view.thingRelateLnmText?.setText(checkStringNull(thingDataJson!!.getString("relateLnm").toString()))
 
         if(thingDataJson!!.getString("thingKnd").toString().equals("null")) {
             view.thingKndEdit?.setText(checkStringNull(ThingWtnObject.thingKnd.toString()))
@@ -680,8 +681,9 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //                view.thingbuldArEdit.setText(checkStringNull(thingDataJson!!.getString("buld")))
                 view.regstrDfnDtlsEdit.setText(checkStringNull(thingDataJson!!.getString("regstrDfnDtls")))
                 view.rgistDfnDtlsEdit.setText(checkStringNull(thingDataJson!!.getString("rgistDfnDtls")))
-                val nrtBuldAtString = checkStringNull(thingDataJson!!.getString("nrtBuldAt"))
+                val nrtBuldAtString = checkStringNull(thingDataJson!!.getString("nrtBuldAt")).toUpperCase()
                 view.thingNrtBuldAt.isChecked = nrtBuldAtString.equals("Y")
+
 //                val acqsClString = checkStringNull(thingDataJson!!.getString("acqsCl"))
 //                if (acqsClString.equals("")) {
 //                    view.thingBuldAcqsClSpinner.setSelection(0)
@@ -1027,7 +1029,7 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -1289,6 +1291,12 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             9 -> "A023009"
             else -> ""
             //else -> throw NullPointerException("activity.thingSmallSpinner.selectedItemPosition is Null")
+        }
+
+        // 관련지번
+        val thingRelateLnmString = activity.thingRelateLnmText.text.toString()
+        if(!getString(R.string.landInfoRelatedLnmText).equals(thingRelateLnmString)) {
+            ThingWtnObject.relateLnm = thingRelateLnmString
         }
 
         if (ThingWtnObject.thingSmallCl.equals("A023002") || ThingWtnObject.thingSmallCl.equals("A023003")) { //건축물
@@ -1813,13 +1821,13 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
     }
 
-    fun checkStringNull(nullString: String): String {
-        return if (nullString == "null") {
-            ""
-        } else {
-            nullString
-        }
-    }
+//    fun checkStringNull(nullString: String): String {
+//        return if (nullString == "null") {
+//            ""
+//        } else {
+//            nullString
+//        }
+//    }
 
     fun setView(viewCode: Int) {
         when (viewCode) {
@@ -1862,6 +1870,10 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             }
         }
 
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 
 }

@@ -116,9 +116,10 @@
                                     android:id="@+id/thingGobuLadcgrNmText"
                                     android:layout_weight="1" />
 
-                            <TextView
-                                    style="@style/Widget.NCMS.WtnccValueTextView"
+                            <EditText
+                                    style="@style/Widget.NCMS.WtnccValueEditText"
                                     android:id="@+id/thingRelateLnmText"
+                                    android:hint="@string/landInfoRelatedLnmText"
                                     android:layout_weight="1" />
 
                             <LinearLayout

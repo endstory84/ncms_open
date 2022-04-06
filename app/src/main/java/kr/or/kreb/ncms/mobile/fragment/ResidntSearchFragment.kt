@@ -19,9 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -36,6 +34,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.BuldSelectListAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingResidntObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
@@ -51,11 +50,9 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
-import java.util.*
-import kotlin.collections.HashMap
 import kotlin.collections.set
 
-class ResidntSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : Fragment(),
+class ResidntSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : BaseFragment(),
     AdapterView.OnItemSelectedListener,
     DialogUtil.ClickListener  {
 
@@ -71,13 +68,13 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 //    private var saupCodeInfo: String = ""
 //    private var incrprLnmInfo: String = ""
 
-    private var logUtil: LogUtil = LogUtil("ResidntSearchFragment")
-    private val toastUtil = ToastUtil(context)
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
+//    private var logUtil: LogUtil = LogUtil("ResidntSearchFragment")
+//    private val toastUtil = ToastUtil(context)
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
-    var builder: MaterialAlertDialogBuilder? = null
+//    var builder: MaterialAlertDialogBuilder? = null
 
     val wonFormat = DecimalFormat("#,###")
     private var residntAtchInfo: JSONArray? = null
@@ -518,7 +515,7 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog?.dismiss()
-                        toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                        toast.msg_error(R.string.msg_server_connected_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -687,11 +684,11 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
         view.landSearchNominationText.text = checkStringNull(thingDataJson.getString("gobuLndcgrNm"))
 
         val relateLnmString = checkStringNull(thingDataJson.getString("relateLnm"))
-        if(relateLnmString == "") {
-            view.landSearchRelatedLnmText.text = "없음"
-        } else {
-            view.landSearchRelatedLnmText.text = relateLnmString
-        }
+//        if(relateLnmString == "") {
+//            view.landSearchRelatedLnmText.setText("없음")
+//        } else {
+            view.landSearchRelatedLnmText.setText(relateLnmString)
+//        }
 
         view.landSearchBgnnArText.text = checkStringNull(thingDataJson.getString("ladBgnnAr"))
         view.landSearchIncrprArText.text = checkStringNull(thingDataJson.getString("ladIncrprAr"))
@@ -1029,7 +1026,7 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -1143,6 +1140,12 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
             ThingResidntObject.thingKnd = "거주자보상"
         } else {
             ThingResidntObject.thingKnd = mActivity.residntThingKndText.text.toString()
+        }
+
+        // 관련지번
+        val residntRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+        if(!getString(R.string.landInfoRelatedLnmText).equals(residntRelateLnmString)) {
+            ThingResidntObject.relateLnm = residntRelateLnmString
         }
 
         ThingResidntObject.bgnnAr = mActivity.residntBgnnAr.text.toString() // 전체면적
@@ -1575,14 +1578,6 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
         }
     }
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
-    }
-
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
         logUtil.d("type----------------------->: $type")
         when(type) {
@@ -1601,5 +1596,8 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
         }
     }
 
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
+    }
 
 }

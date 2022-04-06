@@ -38,6 +38,7 @@ import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
@@ -48,7 +49,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragment(),
         BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
         NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
         DialogUtil.ClickListener
@@ -1139,9 +1140,6 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFrag
         val tempInt = newOwnerRecyclerViewAdapter.getItemCount()
         logUtil.d("tempInt ------------------------> $tempInt")
     }
-
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
-
 
     override fun onNewOwnerViewClicked(position: Int) {
         val addOwnerData = ThingWtnObject.thingOwnerInfoJson as JSONArray

@@ -56,6 +56,9 @@ object LandInfoObject {
     // 편입지번
     var incrprLnm: String = ""
 
+    // 관련지번
+    var relateLnm: String = ""
+
     //특이사항
     var paclrMatter : String? =""
 

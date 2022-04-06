@@ -21,9 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -40,6 +38,7 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.BuldSelectListAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingBsnObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
@@ -57,7 +56,7 @@ import java.nio.file.Paths
 import java.text.DecimalFormat
 import java.util.*
 
-class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : Fragment(),
+class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : BaseFragment(),
     AdapterView.OnItemSelectedListener,
     DialogUtil.ClickListener  {
 
@@ -70,12 +69,12 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
     private var bsnBrdQyNum = 0 // 사육수량
     private var lvstckNum: Int = 0 // 기준수량
     private var addThingBuldViewCnt: Int = 0
-    private var logUtil: LogUtil = LogUtil("BsnSearchFragment")
+//    private var logUtil: LogUtil = LogUtil("BsnSearchFragment")
     private val toastUtil = ToastUtil(context)
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
     var wtnncImageAdapter: WtnncImageAdapter? = null
-    var builder: MaterialAlertDialogBuilder? = null
+//    var builder: MaterialAlertDialogBuilder? = null
 
     val wonFormat = DecimalFormat("#,###")
 
@@ -829,11 +828,11 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
         view.landSearchincrprLnmText.text = checkStringNull(thingDataJson.getString("incrprLnm"))
         view.landSearchNominationText.text = checkStringNull(thingDataJson.getString("gobuLndcgrNm"))
         val relateLnmString = checkStringNull(thingDataJson.getString("relateLnm"))
-        if(relateLnmString.equals("")) {
-            view.landSearchRelatedLnmText.text = "없음"
-        } else {
-            view.landSearchRelatedLnmText.text = relateLnmString
-        }
+//        if(relateLnmString.equals("")) {
+//            view.landSearchRelatedLnmText.setText("없음")
+//        } else {
+            view.landSearchRelatedLnmText.setText(relateLnmString)
+//        }
         view.landSearchBgnnArText.text = checkStringNull(thingDataJson.getString("ladBgnnAr"))
         view.landSearchIncrprArText.text = checkStringNull(thingDataJson.getString("ladIncrprAr"))
         view.landSearchOwnerText.text = checkStringNull(thingDataJson.getString("landOwnerName"))
@@ -1645,8 +1644,12 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
         } else {
             ThingBsnObject.thingKnd = "영업보상"//
         }
-        
 
+        // 관련지번
+        val bsnRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+        if(!getString(R.string.landInfoRelatedLnmText).equals(bsnRelateLnmString)) {
+            ThingBsnObject.relateLnm = bsnRelateLnmString
+        }
 
         ThingBsnObject.bgnnAr = mActivity.bsnBgnnAr.text.toString() // 전체면적
         Log.d("bsnTest", "전체면적 : ${ThingBsnObject.bgnnAr}")
@@ -2449,14 +2452,6 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
     }
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
-    }
-
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
         logUtil.d("type----------------------->: $type")
         when(type) {
@@ -2474,5 +2469,9 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
                 (activity as MapActivity).getBuldLinkToGeomData(ThingBsnObject.selectBuldLinkData!![0].geoms, "bsn", false)
             }
         }
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

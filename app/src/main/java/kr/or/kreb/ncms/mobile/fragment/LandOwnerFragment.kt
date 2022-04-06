@@ -13,9 +13,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +35,7 @@ import kr.or.kreb.ncms.mobile.adapter.AddOwnerInputAdapter
 import kr.or.kreb.ncms.mobile.adapter.AddOwnerSelectDialogListAdapter
 import kr.or.kreb.ncms.mobile.adapter.BaseOwnerRecyclerViewAdapter
 import kr.or.kreb.ncms.mobile.adapter.OwnerRecyclerViewAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.util.*
@@ -47,7 +46,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class LandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+class LandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragment(),
     BaseOwnerRecyclerViewAdapter.OnOwnerEventListener {
 
 //    private lateinit var recyclerViewAdapter: LandOwnerRecyclerViewAdapter
@@ -848,8 +847,6 @@ class LandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseOwnerFragm
 
                 })
     }
-
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
     override fun showOwnerPopup() {
 //        TODO("Not yet implemented")

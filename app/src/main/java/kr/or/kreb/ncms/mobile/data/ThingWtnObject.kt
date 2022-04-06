@@ -12,6 +12,9 @@ import org.json.JSONObject
 
 object ThingWtnObject {
 
+    // 관련지번
+    var relateLnm: String? = ""
+
     // 물건조서 신규 여부
     var thingNewSearch: String? = ""
 

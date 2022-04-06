@@ -13,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +35,7 @@ import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.own
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.ThingFyhtsObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -48,7 +47,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseFragment(),
     BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
     NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
     DialogUtil.ClickListener
@@ -819,8 +818,6 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFra
 
                 })
     }
-
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
     override fun onNewMinusNewOwnerBtnClicked() {
         ThingWtnObject.thingNewOwnerInfoJson = null

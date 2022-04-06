@@ -38,6 +38,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingTombObject
 import kr.or.kreb.ncms.mobile.data.ThingTombObject.balmCl
@@ -59,7 +60,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 
-class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
+class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mActivity: Activity = activity
@@ -71,8 +72,8 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
 
     lateinit var materialDialog: Dialog
 
-    private var logUtil: LogUtil = LogUtil("TombSearchFragment")
-    private var toastUtil: ToastUtil = ToastUtil(mContext)
+//    private var logUtil: LogUtil = LogUtil("TombSearchFragment")
+//    private var toastUtil: ToastUtil = ToastUtil(mContext)
     private var wtnncUtill: WtnncUtil = WtnncUtil(mActivity, mContext)
     private var itemCnt: Int = 0
 
@@ -82,9 +83,9 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
-    var builder: MaterialAlertDialogBuilder? = null
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
 
     init { }
 
@@ -309,7 +310,7 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
             object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     progressDialog?.dismiss()
-                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                 }
 
                 override fun onResponse(call: Call, response: Response) {
@@ -777,7 +778,7 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
                     val ihidnumString = "$ihidnum1-$ihidnum2"
                     tombBurldIhidnumView.setText(ihidnumString)
                 } else {
-                    toastUtil.msg_error("비정상적인 주민번호 입니다. 확인 후 다시 입력해주시기 바랍니다.", 500)
+                    toast.msg_error("비정상적인 주민번호 입니다. 확인 후 다시 입력해주시기 바랍니다.", 500)
 
                 }
 
@@ -962,9 +963,9 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
         view.landSearchNominationText.text = checkStringNull(tombDataJson.getString("gobuLndcgrNm"))
         val relatedLnmString = checkStringNull(tombDataJson.getString("relateLnm"))
         if (relatedLnmString.equals("")) {
-            view.landSearchRelatedLnmText.text = "없음"
+            view.landSearchRelatedLnmText.setText("없음")
         } else {
-            view.landSearchRelatedLnmText.text = relatedLnmString
+            view.landSearchRelatedLnmText.setText(relatedLnmString)
         }
         view.landSearchBgnnArText.text = checkStringNull(tombDataJson.getString("ladBgnnAr"))
         view.landSearchIncrprArText.text = checkStringNull(tombDataJson.getString("ladIncrprAr"))
@@ -1294,7 +1295,7 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -1364,6 +1365,12 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
             incrprAr = mActivity.thingTombIncrprArEdit.text.toString() // 면적 및 수량 편입
 
             tombNo = mActivity.thingTombNoEdit.text.toString()
+
+            // 관련지번
+            val tombRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+            if(!getString(R.string.landInfoRelatedLnmText).equals(tombRelateLnmString)) {
+                relateLnm = tombRelateLnmString
+            }
 
 
             acqsCl = "A025001" // 취득
@@ -1628,11 +1635,15 @@ class TombSearchFragment(activity: Activity, context: Context) : Fragment(),
 
 
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
+//    fun checkStringNull(nullString: String): String {
+//        if (nullString == "null") {
+//            return ""
+//        } else {
+//            return nullString
+//        }
+//    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

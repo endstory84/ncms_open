@@ -22,6 +22,8 @@ object ThingBsnObject {
 
     var strctNdStrndrd: String = ""
 
+    var relateLnm: String = ""
+
     var bgnnAr: String = ""
     var incrprAr: String = ""
 

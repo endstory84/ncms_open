@@ -203,7 +203,12 @@ object JsonArrayParseUtil {
                          */
 
                         //infoValueArr.add(it.asJsonObject.get("id").asString.split(".")[1]) // Geojson -> WTN Code
-                        infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString)
+                        try {
+                            infoValueArr.add(it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString)
+                        }
+                        catch(e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
 

@@ -57,8 +57,11 @@ class BizAdapter(
     override fun getItemCount(): Int = filteredList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(filteredList[position])
-        holder.setIsRecyclable(false)
+
+        if(filteredList.size > position) {
+            holder.bind(filteredList[position])
+            holder.setIsRecyclable(false)
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

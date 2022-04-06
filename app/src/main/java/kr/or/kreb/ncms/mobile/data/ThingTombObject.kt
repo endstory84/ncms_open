@@ -29,6 +29,9 @@ object ThingTombObject {
     // 법정동코드
     var legaldongCode: String? = ""
 
+    // 관련지번
+    var relateLnm: String = ""
+
     // 물건종류
     var thingKnd: String? = ""
 

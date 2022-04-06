@@ -14,31 +14,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_land_info.view.*
-import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.fragment_restland_search.*
 import kotlinx.android.synthetic.main.fragment_restland_search_item.view.*
-import kotlinx.android.synthetic.main.include_wtnnc_camera.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.RestLandSearchImageAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.RestLandInfoObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
-import kr.or.kreb.ncms.mobile.enums.CameraEnum
-import kr.or.kreb.ncms.mobile.util.*
+import kr.or.kreb.ncms.mobile.util.WtnncUtil
 import org.json.JSONArray
 import org.json.JSONObject
 
 class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: View?, val fragmentActivity: FragmentActivity*/) :
-    Fragment(),
+    BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mContext: Context? = context
-    private var logUtil: LogUtil = LogUtil("RestLandSearchFragment")
-    private var dialogUtil = DialogUtil(context, activity)
+//    private var logUtil: LogUtil = LogUtil("RestLandSearchFragment")
+//    private var dialogUtil = DialogUtil(context, activity)
     private lateinit var restLandSearchImageAdapter: RestLandSearchImageAdapter
     private val wtnncUtill = WtnncUtil(activity!!, context!!)
 
@@ -146,8 +141,13 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
         view.landSearchNominationText?.text =
             checkStringNull(landInfoDataJson!!.getString("gobuLndcgrNm"))
         // 관련 지번
-        view.landSearchRelatedLnmText?.text =
-            checkStringNull(landInfoDataJson!!.getString("relateLnm"))
+        val relateLnmString = checkStringNull(landInfoDataJson!!.getString("relateLnm"))
+//        if(relateLnmString.isEmpty()) {
+//            view.landSearchRelatedLnmText?.setText("없음")
+//        }
+//        else {
+            view.landSearchRelatedLnmText?.setText(relateLnmString)
+//        }
         // 전체 면적
         view.landSearchBgnnArText?.text = checkStringNull(landInfoDataJson!!.getString("bgnnAr"))
         // 편입 면적
@@ -265,10 +265,6 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
 
 
         
-    }
-
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else {
-        nullString
     }
 
 //    /**
@@ -419,5 +415,9 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
 
         RestLandInfoObject.resn = activity!!.landSearchItemCause.restLandSearchItemEditText.text.toString()
 
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

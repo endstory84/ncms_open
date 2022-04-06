@@ -22,9 +22,7 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_minrgt_search.*
@@ -37,6 +35,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingMinrgtObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
@@ -52,10 +51,8 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
-import java.util.ArrayList
-import java.util.HashMap
 
-class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
+class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mActivity = activity
@@ -64,12 +61,12 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
     private val wtnncUtill: WtnncUtil = WtnncUtil(activity, context)
     private var addViewCnt: Int = 0
 
-    private var logUtil: LogUtil = LogUtil("MintgtSearchFragment");
-    private var toastUtil: ToastUtil = ToastUtil(mContext)
+//    private var logUtil: LogUtil = LogUtil("MintgtSearchFragment");
+//    private var toastUtil: ToastUtil = ToastUtil(mContext)
 
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
 
     private var minrgtAtchInfo: JSONArray? = null
 
@@ -353,7 +350,7 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog?.dismiss()
-                        toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                        toast.msg_error(R.string.msg_server_connected_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -625,7 +622,7 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -837,6 +834,12 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         ThingMinrgtObject.thingKnd = "광업권."
 
         Log.d("minrgtTest", "소분류 : ${ThingMinrgtObject.thingSmallCl}")
+
+        // 관련지번
+        val minrgtRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+        if(!getString(R.string.landInfoRelatedLnmText).equals(minrgtRelateLnmString)) {
+            ThingMinrgtObject.relateLnm = minrgtRelateLnmString
+        }
 
         ThingMinrgtObject.bgnnAr = mActivity.minrgtBgnnAr.text.toString() // 전체면적
         Log.d("minrgtTest", "전체면적 : ${ThingMinrgtObject.bgnnAr}")
@@ -1275,12 +1278,9 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : Fragment(),
         // 물건 추가 부분
 //        ThingMinrgtObject.minrgtAddItemList = minrgtAddItemArray
     }
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 
 }

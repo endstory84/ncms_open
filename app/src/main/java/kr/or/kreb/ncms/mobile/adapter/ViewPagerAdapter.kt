@@ -10,6 +10,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.fragment.*
 
@@ -28,8 +29,8 @@ class ViewPagerAdapter(
     private val TYPE_THING_OWNER    = 1
 
     var info_fragment: Fragment? = null
-    var search_fragment: Fragment? = null
-    var owner_fragment: BaseOwnerFragment? = null
+    var search_fragment: BaseFragment? = null
+    var owner_fragment: BaseFragment? = null
 
 
     private var listPager: List<Int> = when(bizType) {
@@ -78,7 +79,7 @@ class ViewPagerAdapter(
 
     }
 
-    fun getSearchFragment() : Fragment {
+    fun getSearchFragment() : BaseFragment {
 
         search_fragment = when (bizType) {
             BizEnum.LAD -> LandSearchFragment(activity, context)
@@ -98,7 +99,7 @@ class ViewPagerAdapter(
 
     }
 
-    fun getOwnerFragment() : Fragment {
+    fun getOwnerFragment() : BaseFragment {
 
         owner_fragment = when (bizType) {
             BizEnum.LAD -> LandOwnerFragment(fragmentActivity)

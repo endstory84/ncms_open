@@ -14,8 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -24,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.view.*
+import kotlinx.android.synthetic.main.thing_search_gnrl.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +30,9 @@ import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.LandSearchRealngrAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
@@ -45,18 +46,18 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 
-class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(),
+class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragment(),
     AdapterView.OnItemSelectedListener {
 
     private val mContext: Context? = context
-    private var logUtil: LogUtil = LogUtil("LandSearchFragment")
+//    private var logUtil: LogUtil = LogUtil("LandSearchFragment")
     private val wtnncUtill = WtnncUtil(activity!!, context!!)
     private var responseString: String? = null
 
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
 
-    private var toastUtil: ToastUtil = ToastUtil(context)
+//    private var toastUtil: ToastUtil = ToastUtil(context)
 
     var imageArr = mutableListOf<WtnncImage>()
     var wtnncImageAdapter: WtnncImageAdapter? = null
@@ -260,7 +261,7 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
         view.landSearchBgnnLnmText?.text = checkStringNull(landInfoDataJson.getString("bgnnLnm"))
         view.landSearchincrprLnmText?.text = checkStringNull(landInfoDataJson.getString("incrprLnm"))
         view.landSearchNominationText?.text = checkStringNull(landInfoDataJson.getString("gobuLndcgrNm"))
-        view.landSearchRelatedLnmText?.text = checkStringNull(landInfoDataJson.getString("relateLnm"))
+        view.landSearchRelatedLnmText?.setText(checkStringNull(landInfoDataJson.getString("relateLnm")))
         view.landSearchBgnnArText?.text = checkStringNull(landInfoDataJson.getString("bgnnAr"))
         view.landSearchIncrprArText?.text = checkStringNull(landInfoDataJson.getString("incrprAr"))
         view.includePaclrMatterEdit?.setText(checkStringNull(landInfoDataJson.getString("paclrMatter")))
@@ -360,10 +361,6 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
 //            it.layoutManager = layoutManager
 //            it.adapter = Constants.CAMERA_ADAPTER
 //        }
-    }
-
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else {
-        nullString
     }
 
     /**
@@ -520,7 +517,7 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
                        object: Callback {
                            override fun onFailure(call: Call, e: IOException) {
                                progressDialog?.dismiss()
-                               toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                               toast.msg_error(R.string.msg_server_connected_fail, 100)
                            }
 
                            override fun onResponse(call: Call, response: Response) {
@@ -613,6 +610,12 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
             Constants.GLOBAL_VIEW_PAGER?.currentItem = 0
             logUtil.d(Constants.GLOBAL_TAB_LAYOUT?.selectedTabPosition.toString())
 
+            // 관련지번
+            val landRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+            if(!getString(R.string.landInfoRelatedLnmText).equals(landRelateLnmString)) {
+                LandInfoObject.relateLnm = landRelateLnmString
+            }
+
             //자연림여부
             LandInfoObject.nrfrstAtChk = when(activity!!.landSearchaNrfrstAtChk.isChecked) {
                 true -> "Y"
@@ -690,5 +693,9 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : Fragment(
 
 
         }
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 }

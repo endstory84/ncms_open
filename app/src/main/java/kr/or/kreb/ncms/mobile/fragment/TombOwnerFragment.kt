@@ -13,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +36,7 @@ import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.ThingTombObject
 import kr.or.kreb.ncms.mobile.data.ThingWtnObject
 import kr.or.kreb.ncms.mobile.enums.BizEnum
@@ -49,7 +48,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-class TombOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFragment(),
+class TombOwnerFragment (val fragmentActivity: FragmentActivity) : BaseFragment(),
     BaseOwnerRecyclerViewAdapter.OnOwnerEventListener,
     NewOwnerRecyclerViewAdapter.OnNewOwnerEventListener,
         DialogUtil.ClickListener
@@ -742,7 +741,7 @@ class TombOwnerFragment (val fragmentActivity: FragmentActivity) : BaseOwnerFrag
     }
 
 
-    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
+//    fun checkStringNull(nullString: String): String = if (nullString == "null") "" else { nullString }
 
 
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {

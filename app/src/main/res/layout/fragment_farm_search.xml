@@ -110,9 +110,10 @@
                         android:id="@+id/landSearchNominationText"
                         android:layout_weight="1" />
 
-                <TextView
-                        style="@style/Widget.NCMS.WtnccValueTextView"
+                <EditText
+                        style="@style/Widget.NCMS.WtnccValueEditText"
                         android:id="@+id/landSearchRelatedLnmText"
+                        android:hint="@string/landInfoRelatedLnmText"
                         android:layout_weight="1" />
 
              </LinearLayout>

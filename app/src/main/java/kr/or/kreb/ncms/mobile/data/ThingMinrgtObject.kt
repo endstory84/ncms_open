@@ -30,6 +30,8 @@ object ThingMinrgtObject {
 
         var thingKnd: String = ""
 
+        var relateLnm: String = ""
+
         var bgnnAr: String = ""
         var incrprAr: String = ""
 

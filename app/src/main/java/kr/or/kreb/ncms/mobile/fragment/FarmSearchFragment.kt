@@ -19,9 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -35,6 +33,7 @@ import kotlinx.coroutines.launch
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
+import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.data.ThingFarmObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
@@ -50,9 +49,8 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
-import java.util.*
 
-class FarmSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : Fragment(),
+class FarmSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : BaseFragment(),
     AdapterView.OnItemSelectedListener,
     DialogUtil.ClickListener{
 
@@ -63,12 +61,12 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
     private var addClvtViewCnt: Int = 0 // 추가 경작 근거
     private var addThingViewCnt: Int = 0 // 추가 시설물
 
-    private var logUtil: LogUtil = LogUtil("FarmSearchFragment");
-    private var toastUtil: ToastUtil = ToastUtil(mContext)
+//    private var logUtil: LogUtil = LogUtil("FarmSearchFragment");
+//    private var toastUtil: ToastUtil = ToastUtil(mContext)
 
-    var dialogUtil: DialogUtil? = null
-    private var progressDialog: AlertDialog? = null
-    var builder: MaterialAlertDialogBuilder? = null
+//    var dialogUtil: DialogUtil? = null
+//    private var progressDialog: AlertDialog? = null
+//    var builder: MaterialAlertDialogBuilder? = null
 
     private var farmAtchInfo: JSONArray? = null
 
@@ -582,7 +580,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
                 object: Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog?.dismiss()
-                        toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                        toast.msg_error(R.string.msg_server_connected_fail, 100)
                     }
 
                     override fun onResponse(call: Call, response: Response) {
@@ -1230,7 +1228,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
                                     progressDialog?.dismiss()
-                                    toastUtil.msg_error(R.string.msg_server_connected_fail, 100)
+                                    toast.msg_error(R.string.msg_server_connected_fail, 100)
                                 }
 
                                 override fun onResponse(call: Call, response: Response) {
@@ -1307,6 +1305,12 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         // 물건의 종류
         ThingFarmObject.thingKnd = "농업보상"//mActivity.farmSmallText.text.toString()
         Log.d("farmTest", "물건의 종류 : ${ThingFarmObject.thingKnd}")
+
+        // 관련지번
+        val farmRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+        if(!getString(R.string.landInfoRelatedLnmText).equals(farmRelateLnmString)) {
+            ThingFarmObject.relateLnm = farmRelateLnmString
+        }
 
         ThingFarmObject.bgnnAr = mActivity.farmBgnnAr.text.toString() // 전체면적
         Log.d("farmTest", "전체면적 : ${ThingFarmObject.bgnnAr}")
@@ -1970,18 +1974,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         addClvtViewCnt++
     }
 
-    fun checkStringNull(nullString: String): String {
-        if (nullString == "null") {
-            return ""
-        } else {
-            return nullString
-        }
-    }
-
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
     }
 
     override fun onNegativeClickListener(dialog: DialogInterface, type: String) {
+    }
+
+    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
     }
 
 }
