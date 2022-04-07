@@ -15,9 +15,13 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import kotlinx.android.synthetic.main.fragment_restland_search.*
 import kotlinx.android.synthetic.main.fragment_restland_search_item.view.*
 import kotlinx.android.synthetic.main.rest_thing_search_gnrl.*
+import kotlinx.android.synthetic.main.rest_thing_search_gnrl.bqestCnText
+import kotlinx.android.synthetic.main.rest_thing_search_gnrl.bqestPsnText
 import kotlinx.android.synthetic.main.rest_thing_search_gnrl.view.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
@@ -284,7 +288,5 @@ class RestThingSearchFragment(val activity: Activity, context: Context, val frag
 
     }
 
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-    }
+    
 }

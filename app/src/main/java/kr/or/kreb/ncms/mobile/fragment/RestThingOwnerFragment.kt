@@ -12,6 +12,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -710,8 +712,8 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragm
     override fun onNewOwnerViewClicked(position: Int) {
     }
 
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-    }
+//    override fun showOwnerPopup() {
+////        TODO("Not yet implemented")
+//    }
 
 }

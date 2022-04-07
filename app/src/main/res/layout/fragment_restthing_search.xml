@@ -121,10 +121,9 @@
                         android:layout_weight="1"
                         android:id="@+id/restThingSearchNominationText" />
 
-                <EditText
-                        style="@style/Widget.NCMS.WtnccValueEditText"
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
                         android:layout_weight="1"
-                        android:hint="@string/landInfoRelatedLnmText"
                         android:id="@+id/restThingSearchRelatedLnmText" />
 
                 <TextView

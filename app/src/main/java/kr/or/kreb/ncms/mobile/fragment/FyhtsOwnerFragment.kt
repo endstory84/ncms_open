@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +34,7 @@ import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.own
 import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.ownerDivisionText
 import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.ownerNameText
 import kotlinx.android.synthetic.main.fragment_add_select_relate_dialog.view.ownerSameNameText
+import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.*
@@ -1370,7 +1373,7 @@ class FyhtsOwnerFragment (val fragmentActivity: FragmentActivity) : BaseFragment
         newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-    }
+//    override fun showOwnerPopup() {
+////        TODO("Not yet implemented")
+//    }
 }

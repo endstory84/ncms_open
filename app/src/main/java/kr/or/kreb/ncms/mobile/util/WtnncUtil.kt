@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
@@ -26,7 +27,11 @@ import kr.or.kreb.ncms.mobile.adapter.*
 import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.fragment.YearPickerDialogFragment
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
 import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,15 +53,15 @@ class WtnncUtil(val activity: Activity, val context: Context) {
 
         viewPagerAdapter = ViewPagerAdapter(activity, context, fragmentActivity, Constants.BIZ_SUBCATEGORY_KEY)
         viewPager2.adapter = viewPagerAdapter
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                logUtil.d("===============>>>>>>>>>>>>>>        ViewPager OnPageSelected - position : ${position}, itemCnt : ${viewPagerAdapter.itemCount}, Type : ${viewPager2.adapter?.getItemViewType(position)}")
-                if(position + 1 == viewPager2.adapter?.itemCount) {
-                    viewPagerAdapter.showOwnerPopup()
-                }
-            }
-        })
+//        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                logUtil.d("===============>>>>>>>>>>>>>>        ViewPager OnPageSelected - position : ${position}, itemCnt : ${viewPagerAdapter.itemCount}, Type : ${viewPager2.adapter?.getItemViewType(position)}")
+//                if(position + 1 == viewPager2.adapter?.itemCount) {
+//                    viewPagerAdapter.showOwnerPopup()
+//                }
+//            }
+//        })
 
         when (Constants.BIZ_SUBCATEGORY_KEY) {
             BizEnum.LAD -> {
@@ -250,8 +255,38 @@ class WtnncUtil(val activity: Activity, val context: Context) {
     }
 
     fun wtnncSpinnerAdapter(codeGroupId: String, spinner: Spinner, listener: AdapterView.OnItemSelectedListener?) {
-        spinner.adapter = CustomDropDownAdapter(context, CommonCodeInfoList.getCodeDcArray(codeGroupId))
-        spinner.onItemSelectedListener = listener
+        val codeArray = CommonCodeInfoList.getCodeDcArray(codeGroupId)
+        if(codeArray.isNullOrEmpty()) {
+            val reqUrl = context.getString(R.string.mobile_url) + "selectCommonCodeList"
+            val map = HashMap<String, String>()
+            map.put("newCodeGroupId", codeGroupId)
+            HttpUtil.getInstance(context)
+                .callUrlJsonCodeWebServer(reqUrl, map,
+                object: Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        logUtil.e("error")
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        val responseString = response.body!!.string()
+
+                        activity.runOnUiThread {
+                            val dataJSON = JSONObject(responseString)
+                            val dataList = dataJSON.getJSONObject("list")
+                            CommonCodeInfoList.addCode(dataList)
+
+                            spinner.adapter =
+                                CustomDropDownAdapter(context, CommonCodeInfoList.getCodeDcArray(codeGroupId))
+                            spinner.onItemSelectedListener = listener
+                        }
+                    }
+
+                })
+        } else {
+            spinner.adapter = CustomDropDownAdapter(context, CommonCodeInfoList.getCodeDcArray(codeGroupId))
+            spinner.onItemSelectedListener = listener
+        }
+
     }
 
     /*fun wtnncDateRangePicker(fragmentManager: FragmentManager, textView: TextView, value: String) {

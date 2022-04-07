@@ -108,8 +108,8 @@
                                 android:id="@+id/thingGobuLadcgrNmText"
                                 android:layout_weight="1" />
 
-                        <EditText
-                                style="@style/Widget.NCMS.WtnccValueEditText"
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
                                 android:id="@+id/thingRelateLnmText"
                                 android:layout_weight="1" />
 

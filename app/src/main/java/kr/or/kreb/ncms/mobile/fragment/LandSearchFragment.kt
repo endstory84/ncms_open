@@ -14,6 +14,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -693,9 +695,5 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
 
         }
-    }
-
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
     }
 }

@@ -95,7 +95,15 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragment(
                     }
                 }
             } else {
-                showOwnerPopup()
+                dialogUtil?.run {
+                    alertDialog(
+                        "소유자 등록",
+                        "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+                        builder!!,
+                        "신규소유자"
+                    ).show()
+                }
+
             }
 
 //            dialogUtil?.run {
@@ -1708,21 +1716,21 @@ class ThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragment(
         newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun showOwnerPopup() {
-
-        if(ThingWtnObject.thingNewSearch.equals("Y")) {
-
-            dialogUtil?.run {
-                alertDialog(
-                    "소유자 등록",
-                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
-                    builder!!,
-                    "신규소유자"
-                ).show()
-            }
-
-        }
-
-    }
+//    override fun showOwnerPopup() {
+//
+//        if(ThingWtnObject.thingNewSearch.equals("Y")) {
+//
+//            dialogUtil?.run {
+//                alertDialog(
+//                    "소유자 등록",
+//                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+//                    builder!!,
+//                    "신규소유자"
+//                ).show()
+//            }
+//
+//        }
+//
+//    }
 
 }

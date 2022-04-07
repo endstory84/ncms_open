@@ -14,9 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_land_info.view.*
+import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.fragment_restland_search.*
 import kotlinx.android.synthetic.main.fragment_restland_search_item.view.*
+import kotlinx.android.synthetic.main.include_wtnnc_camera.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.RestLandSearchImageAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
@@ -415,9 +420,5 @@ class RestLandSearchFragment(val activity: Activity?, context: Context?/*, v: Vi
 
         RestLandInfoObject.resn = activity!!.landSearchItemCause.restLandSearchItemEditText.text.toString()
 
-    }
-
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
     }
 }

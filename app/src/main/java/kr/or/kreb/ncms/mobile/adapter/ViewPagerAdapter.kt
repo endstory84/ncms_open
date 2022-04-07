@@ -119,12 +119,12 @@ class ViewPagerAdapter(
 
     }
 
-    fun showOwnerPopup() {
-
-        if (null != owner_fragment) {
-            owner_fragment!!.showOwnerPopup()
-        }
-
-    }
+//    fun showOwnerPopup() {
+//
+//        if (null != owner_fragment) {
+//            owner_fragment!!.showOwnerPopup()
+//        }
+//
+//    }
 
 }

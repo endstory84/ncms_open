@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -1631,18 +1633,18 @@ class  ResidntOwnerFragment (val fragmentActivity: FragmentActivity) : BaseFragm
         newOwnerRecyclerView.adapter = newOwnerRecyclerViewAdapter
     }
 
-    override fun showOwnerPopup() {
-
-        if(ThingResidntObject.thingNewSearch.equals("Y")) {
-            dialogUtil?.run {
-                alertDialog(
-                    "소유자 등록",
-                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
-                    builder!!,
-                    "신규소유자"
-                ).show()
-            }
-        }
-
-    }
+//    override fun showOwnerPopup() {
+//
+//        if(ThingResidntObject.thingNewSearch.equals("Y")) {
+//            dialogUtil?.run {
+//                alertDialog(
+//                    "소유자 등록",
+//                    "해당 필지 및 물건의 소유자를 확인하시겠습니까?",
+//                    builder!!,
+//                    "신규소유자"
+//                ).show()
+//            }
+//        }
+//
+//    }
 }

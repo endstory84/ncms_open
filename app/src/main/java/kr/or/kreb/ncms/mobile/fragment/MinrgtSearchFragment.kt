@@ -22,7 +22,9 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_minrgt_search.*
@@ -51,6 +53,8 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
+import java.util.ArrayList
+import java.util.HashMap
 
 class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(),
     AdapterView.OnItemSelectedListener {
@@ -1279,8 +1283,5 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
 //        ThingMinrgtObject.minrgtAddItemList = minrgtAddItemArray
     }
 
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-    }
 
 }

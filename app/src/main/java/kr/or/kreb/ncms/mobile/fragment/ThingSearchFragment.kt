@@ -34,7 +34,10 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.CustomDropDownAdapter
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
 import kr.or.kreb.ncms.mobile.base.BaseFragment
-import kr.or.kreb.ncms.mobile.data.*
+import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
+import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.mobile.data.ThingWtnObject
+import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
 import kr.or.kreb.ncms.mobile.util.*
@@ -65,6 +68,10 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //    private var toastUtil: ToastUtil = ToastUtil(mContext)
 
     init { }
+
+//    override fun showOwnerPopup() {
+//        TODO("Not yet implemented")
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -1870,10 +1877,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             }
         }
 
-    }
-
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
     }
 
 }

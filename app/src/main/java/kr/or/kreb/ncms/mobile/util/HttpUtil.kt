@@ -88,6 +88,23 @@ class HttpUtil() {
 
     }
 
+    fun callUrlJsonCodeWebServer(httpUrl: String, map: Map<String, String>, callback: Callback){
+            val jsonObject = JSONObject()
+
+            map.forEach { data ->
+                jsonObject.put(data.key, data.value)
+            }
+
+            request
+                .url(httpUrl)
+                .post(jsonObject.toString().toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull()))
+                .build()
+
+            client.newCall(request.build()).enqueue(callback)
+
+
+    }
+
     fun callerUrlInfoPostFileUpload(obj: Map<String, String>, progressBar: AlertDialog?,
                                     httpUrl: String, filePath: File, callback: Callback) {
         if(progressBar?.isShowing == false) progressBar.show()

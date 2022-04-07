@@ -383,7 +383,7 @@ class NaverMapUtil(
      * Zoom Lv 가져오기
      * @return zoom -> 지도 줌
      */
-    fun getNaverMapZoom(): Int = (round(this.naverMap.cameraPosition.zoom).roundToInt())
+    fun getNaverMapZoom(): Double = this.naverMap.cameraPosition.zoom
 
     /**
      * 네이버 맵 Type Switch
@@ -1706,98 +1706,8 @@ class NaverMapUtil(
                             map = naverMap
                         }
 
+                        wfsThingOverlayArr.add(drawPolygonOverlay)
 
-                        setLayerPolygonArr.forEachIndexed { index, arrData ->
-                            arrData.setOnClickListener {
-
-                                try {
-
-                                    jsonArr?.forEachIndexed { idx, it ->
-
-                                        if (index == idx) {
-
-                                            logUtil.d("지장물 select -> $it")
-
-                                            /**
-                                             * 지장물 data중에 일반건축믈, 집합건축물 체크 로직
-                                             * 지장물 레이어 클릭했을 시에. 일반건축물, 집합건축물일 경우에는 별도의 팝업이 나와야함.
-                                             * @description [A023002, A023003] 일 경우는 건축물에 포함.
-                                             */
-
-                                            val sumsBuldContainrArr = mutableListOf<String>()
-                                            val sumsBuldContainrWtnccCodeArr = mutableListOf<String>()
-
-                                            // 대분류가 지장물 , 소분류가 건축물에 포함될 경우
-                                            val buldContainsArr = ThingWtnObject.thingWtnncJsonArray?.filter {
-                                                it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get(
-                                                    "properties"
-                                                ).asJsonObject.get("THING_SMALL_CL").asString == "A023003"
-                                            }
-
-                                            buldContainsArr?.forEach {
-                                                sumsBuldContainrArr.add(
-                                                    it.asJsonObject.get("properties").asJsonObject.get(
-                                                        "THING_KND"
-                                                    ).asString
-                                                )
-                                                sumsBuldContainrWtnccCodeArr.add(
-                                                    it.asJsonObject.get("id").asString.split(
-                                                        "."
-                                                    )[1]
-                                                )
-                                            }
-
-                                            ThingWtnObject.buldContainsArr = sumsBuldContainrArr
-                                            ThingWtnObject.buldContainsWtnccCodeArr = sumsBuldContainrWtnccCodeArr
-
-                                            logUtil.d("건축물 포함 여부 Arr -> $sumsBuldContainrArr")
-                                            logUtil.d("건축물 포함 여부 조서코드 Arr -> $sumsBuldContainrWtnccCodeArr")
-
-
-                                            //if(getNaverMapZoom() > 18){
-                                            if (it.asJsonObject.get("properties").asJsonObject.get("THING_SMALL_CL").asString == "A023002" || it.asJsonObject.get(
-                                                    "properties"
-                                                ).asJsonObject.get("THING_SMALL_CL").asString == "A023003"
-                                            ) {
-                                                contextDialogItems = mutableListOf("실내 스케치")
-                                                contextPopupFragment = ContextDialogFragment(
-                                                    R.drawable.ic_build,
-                                                    "건축물 상세메뉴",
-                                                    contextDialogItems,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    null,
-                                                    "thingBuldYes"
-                                                )
-                                                (contextPopupFragment as ContextDialogFragment).apply {
-                                                    show(contextPopupFragmentManager!!, "contextPopup")
-                                                    isCancelable = false
-                                                }
-
-                                            } else {
-                                                toastUtil.msg_error("건축물이 존재하지 않습니다.", 500)
-                                            }
-
-                                            //}
-
-                                            //                                        } else {
-                                            //                                            activity?.runOnUiThread {
-                                            //                                                toastUtil.msg_info("19레벨 이상부터 건축물이 있을경우, 실내스케치를 진행할 수 있습니다.", 500)
-                                            //                                            }
-                                            //                                        }
-
-
-                                        }
-
-                                    }
-                                } catch (e: Exception) {
-                                    logUtil.d(e.toString())
-                                }
-
-                                true
-                            }
-                        }
                     }
 
                 }
@@ -2460,95 +2370,98 @@ class NaverMapUtil(
      */
     fun setNaverMapContextPopup(activity: Activity, address: String, addressJiben: String, legaldongCode: String?, jsonArrayData: String?, lotMapCheckable: Boolean, wtnncType:BizEnum?) {
 
-        if(getActivity().bottompanel.visibility == View.GONE){
+//        if(getActivity().bottompanel.visibility == View.GONE){
 
-            when (Constants.BIZ_SUBCATEGORY_KEY) {
+        if(getActivity().bottompanel.visibility == View.VISIBLE){
+            getActivity().bottompanel.visibility = View.GONE
+        }
+        when (Constants.BIZ_SUBCATEGORY_KEY) {
 
-                // TODO: 2021-11-19 용지도 기능개발 진행
+            // TODO: 2021-11-19 용지도 기능개발 진행
 
-                /**
-                 * 용지도에서 선택한 각 조서 표출
-                 */
+            /**
+             * 용지도에서 선택한 각 조서 표출
+             */
 
-                BizEnum.LOTMAP -> {
-                    when(lotMapCheckable){
+            BizEnum.LOTMAP -> {
+                when(lotMapCheckable){
 
-                        false -> {
-                            contextDialogItems = mutableListOf("토지 조서", "지장물 조서", "영업 조서", "농업 조서", "거주자 조서", "분묘 조서", "광업권 조서", "어업권 조서")
-                            contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  용지도", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "lotMapClickPopup")
-                            (contextPopupFragment as ContextDialogFragment).apply {
-                                show(contextPopupFragmentManager!!, "contextPopup")
-                                isCancelable = false
-                            }
+                    false -> {
+                        contextDialogItems = mutableListOf("토지 조서", "지장물 조서", "영업 조서", "농업 조서", "거주자 조서", "분묘 조서", "광업권 조서", "어업권 조서")
+                        contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  용지도", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "lotMapClickPopup")
+                        (contextPopupFragment as ContextDialogFragment).apply {
+                            show(contextPopupFragmentManager!!, "contextPopup")
+                            isCancelable = false
                         }
+                    }
 
-                        true -> {
-                            when(wtnncType){
+                    true -> {
+                        when(wtnncType){
 
-                                BizEnum.LAD -> {
+                            BizEnum.LAD -> {
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.LAD
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.LAD
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
 
-                                    contextDialogItems = mutableListOf("토지 조서 작성", "사진 촬영")
-                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  토지 조사", contextDialogItems, address, addressJiben,legaldongCode,jsonArrayData, "ladClickPopup")
-                                    (contextPopupFragment as ContextDialogFragment).apply {
-                                        show(contextPopupFragmentManager!!, "contextPopup")
-                                        isCancelable = false
-                                    }
-
+                                contextDialogItems = mutableListOf("토지 조서 작성", "사진 촬영")
+                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  토지 조사", contextDialogItems, address, addressJiben,legaldongCode,jsonArrayData, "ladClickPopup")
+                                (contextPopupFragment as ContextDialogFragment).apply {
+                                    show(contextPopupFragmentManager!!, "contextPopup")
+                                    isCancelable = false
                                 }
 
-                                BizEnum.THING -> {
+                            }
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.THING
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                            BizEnum.THING -> {
 
-                                    contextDialogItems = mutableListOf("물건 조서 작성", "물건 선택", "사진 촬영")
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.THING
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
 
-                                        var geomNullCheck = false
-                                        for (value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            if (data.getString("geoms").equals("null")) {
-                                                geomNullCheck = true
-                                            }
-                                            contextDialogItems.add(data.getString("thingKnd").toString())
+                                contextDialogItems = mutableListOf("물건 조서 작성", "물건 선택", "사진 촬영")
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
 
+                                    var geomNullCheck = false
+                                    for (value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        if (data.getString("geoms").equals("null")) {
+                                            geomNullCheck = true
                                         }
-                                        activity.runOnUiThread {
+                                        contextDialogItems.add(data.getString("thingKnd").toString())
+
+                                    }
+                                    activity.runOnUiThread {
 //                                            if (thingData.length() > 0 && geomNullCheck) {
 //                                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                                            } else {
 //                                                toastUtil.msg_info("지장물 조서 작성", 500)
 //                                            }
-                                            toastUtil.msg_info("지장물 조서 작성", 500)
+                                        toastUtil.msg_info("지장물 조서 작성", 500)
 
-                                        }
-                                        contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 지장물 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "thingClickPopup")
-                                        (contextPopupFragment as ContextDialogFragment).apply {
-                                            show(contextPopupFragmentManager!!, "contextPopup")
-                                            isCancelable = false
-                                        }
                                     }
-
+                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 지장물 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "thingClickPopup")
+                                    (contextPopupFragment as ContextDialogFragment).apply {
+                                        show(contextPopupFragmentManager!!, "contextPopup")
+                                        isCancelable = false
+                                    }
                                 }
-                                BizEnum.BSN ->{
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.BSN
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                            }
+                            BizEnum.BSN ->{
 
-                                    contextDialogItems = mutableListOf("영업/잠업/축산업 조서 작성", "사진 촬영")
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for (value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(
-                                                data.getString("thingKnd").toString()
-                                            )
-                                        }
-                                        activity.runOnUiThread {
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.BSN
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+
+                                contextDialogItems = mutableListOf("영업/잠업/축산업 조서 작성", "사진 촬영")
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for (value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(
+                                            data.getString("thingKnd").toString()
+                                        )
+                                    }
+                                    activity.runOnUiThread {
 //                                            if (thingData.length() > 0) {
 //                                                toastUtil.msg_info(
 //                                                    "스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.",
@@ -2557,393 +2470,392 @@ class NaverMapUtil(
 //                                            } else {
 //                                                toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
 //                                            }
-                                            toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
-                                        }
-                                        contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 영업/잠업/축산업 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "bsnClickPopup")
-                                        contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                                        (contextPopupFragment as ContextDialogFragment).apply {
-                                            show(contextPopupFragmentManager!!, "contextPopup")
-                                            isCancelable = false
-                                        }
+                                        toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
+                                    }
+                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 영업/잠업/축산업 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "bsnClickPopup")
+                                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                                    (contextPopupFragment as ContextDialogFragment).apply {
+                                        show(contextPopupFragmentManager!!, "contextPopup")
+                                        isCancelable = false
                                     }
                                 }
+                            }
 
-                                BizEnum.FARM -> {
+                            BizEnum.FARM -> {
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.FARM
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.FARM
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
 
-                                    contextDialogItems = mutableListOf("농업 조서 작성", "사진 촬영")
+                                contextDialogItems = mutableListOf("농업 조서 작성", "사진 촬영")
 
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for(value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(data.getString("thingKnd").toString())
-                                        }
-                                        activity.runOnUiThread {
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for(value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(data.getString("thingKnd").toString())
+                                    }
+                                    activity.runOnUiThread {
 //                                            if(thingData.length() > 0) {
 //                                                toastUtil.msg_info("스케치 되지 않는 물건 조서가 존재 합니다. 해당 물건 조서의 스케츠를 작성하여 주시기 바람니다.", 500)
 //                                            } else {
 //                                                toastUtil.msg_info("농업 조서 작성", 500)
 //                                            }
-                                            toastUtil.msg_info("농업 조서 작성", 500)
+                                        toastUtil.msg_info("농업 조서 작성", 500)
 
-                                        }
                                     }
-
-                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "농업 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "farmClickPopup")
-                                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                                    (contextPopupFragment as ContextDialogFragment).apply {
-                                        show(contextPopupFragmentManager!!, "contextPopup")
-                                        isCancelable = false
-                                    }
-
                                 }
 
-                                BizEnum.RESIDNT -> {
+                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "농업 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "farmClickPopup")
+                                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                                (contextPopupFragment as ContextDialogFragment).apply {
+                                    show(contextPopupFragmentManager!!, "contextPopup")
+                                    isCancelable = false
+                                }
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.RESIDNT
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                            }
 
-                                    contextDialogItems = mutableListOf("거주자 조서 작성", "사진 촬영")
+                            BizEnum.RESIDNT -> {
 
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for(value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(data.getString("thingKnd").toString())
-                                        }
-                                        activity.runOnUiThread {
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.RESIDNT
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+
+                                contextDialogItems = mutableListOf("거주자 조서 작성", "사진 촬영")
+
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for(value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(data.getString("thingKnd").toString())
+                                    }
+                                    activity.runOnUiThread {
 //                                            if(thingData.length() > 0) {
 //                                                toastUtil.msg_info("스케치 되지 않는 물건 조서가 존재 합니다. 해당 물건 조서의 스케츠를 작성하여 주시기 바람니다.", 500)
 //                                            } else {
 //                                                toastUtil.msg_info("거주자 조서 작성", 500)
 //                                            }
-                                            toastUtil.msg_info("거주자 조서 작성", 500)
-                                        }
+                                        toastUtil.msg_info("거주자 조서 작성", 500)
                                     }
-
-                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "거주자 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "residntClickPopup")
-                                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                                    (contextPopupFragment as ContextDialogFragment).apply {
-                                        show(contextPopupFragmentManager!!, "contextPopup")
-                                        isCancelable = false
-                                    }
-
                                 }
 
-                                BizEnum.TOMB -> {
+                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "거주자 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "residntClickPopup")
+                                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                                (contextPopupFragment as ContextDialogFragment).apply {
+                                    show(contextPopupFragmentManager!!, "contextPopup")
+                                    isCancelable = false
+                                }
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.TOMB
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                            }
 
-                                    contextDialogItems = mutableListOf("분묘 조서 작성", "사진 촬영")
-                                    if (jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for (value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(
-                                                data.getString("thingKnd").toString()
-                                            )
+                            BizEnum.TOMB -> {
 
-                                        }
-                                        activity.runOnUiThread {
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.TOMB
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+
+                                contextDialogItems = mutableListOf("분묘 조서 작성", "사진 촬영")
+                                if (jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for (value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(
+                                            data.getString("thingKnd").toString()
+                                        )
+
+                                    }
+                                    activity.runOnUiThread {
 //                                            if (thingData.length() > 0) { toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                                            } else {
 //                                                toastUtil.msg_info("분묘 조서 작성", 500)
 //                                            }
-                                            toastUtil.msg_info("분묘 조서 작성", 500)
+                                        toastUtil.msg_info("분묘 조서 작성", 500)
 
-                                        }
                                     }
                                 }
-                                BizEnum.MINRGT ->{
+                            }
+                            BizEnum.MINRGT ->{
 
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.MINRGT
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.MINRGT
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
 
-                                    contextDialogItems = mutableListOf("광업권 조서 작성", "사진 촬영")
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for(value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(data.getString("thingKnd").toString())
-                                        }
-                                        activity.runOnUiThread {
+                                contextDialogItems = mutableListOf("광업권 조서 작성", "사진 촬영")
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for(value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(data.getString("thingKnd").toString())
+                                    }
+                                    activity.runOnUiThread {
 //                                            if(thingData.length() >0) {
 //                                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                                            } else {
 //
 //                                            }
-                                            toastUtil.msg_info("광업권 조서 작성", 500)
-                                        }
+                                        toastUtil.msg_info("광업권 조서 작성", 500)
                                     }
-                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 광업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "minrgtClickPopup")
-                                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                                    (contextPopupFragment as ContextDialogFragment).apply {
-                                        show(contextPopupFragmentManager!!, "contextPopup")
-                                        isCancelable = false
-                                    }
-
                                 }
-                                BizEnum.FYHTS ->{
-
-                                    Constants.BIZ_SUBCATEGORY_KEY = BizEnum.FYHTS
-                                    logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
-
-                                    contextDialogItems = mutableListOf("어업권 조서 작성", "사진 촬영")
-                                    if(jsonArrayData != "") {
-                                        val thingData = JSONArray(jsonArrayData)
-                                        for(value in 0 until thingData.length()) {
-                                            val data = thingData.getJSONObject(value) as JSONObject
-                                            contextDialogItems.add(data.getString("thingKnd").toString())
-                                        }
-                                    }
-
-                                    activity.runOnUiThread {
-                                        toastUtil.msg_info("어업 조서 작성", 500)
-                                    }
-
-                                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 어업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "fyhtsClickPopup")
-                                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                                    (contextPopupFragment as ContextDialogFragment).apply {
-                                        show(contextPopupFragmentManager!!, "contextPopup")
-                                        isCancelable = false
-                                    }
-
+                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 광업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "minrgtClickPopup")
+                                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                                (contextPopupFragment as ContextDialogFragment).apply {
+                                    show(contextPopupFragmentManager!!, "contextPopup")
+                                    isCancelable = false
                                 }
-                                else ->{}
+
                             }
+                            BizEnum.FYHTS ->{
+
+                                Constants.BIZ_SUBCATEGORY_KEY = BizEnum.FYHTS
+                                logUtil.d("용지도 선택 $wtnncType check -> $lotMapCheckable")
+
+                                contextDialogItems = mutableListOf("어업권 조서 작성", "사진 촬영")
+                                if(jsonArrayData != "") {
+                                    val thingData = JSONArray(jsonArrayData)
+                                    for(value in 0 until thingData.length()) {
+                                        val data = thingData.getJSONObject(value) as JSONObject
+                                        contextDialogItems.add(data.getString("thingKnd").toString())
+                                    }
+                                }
+
+                                activity.runOnUiThread {
+                                    toastUtil.msg_info("어업 조서 작성", 500)
+                                }
+
+                                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 어업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "fyhtsClickPopup")
+                                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                                (contextPopupFragment as ContextDialogFragment).apply {
+                                    show(contextPopupFragmentManager!!, "contextPopup")
+                                    isCancelable = false
+                                }
+
+                            }
+                            else ->{}
                         }
                     }
                 }
+            }
 
-                /**
-                 * 용지도가 아닌 단일 조서일 경우
-                 */
+            /**
+             * 용지도가 아닌 단일 조서일 경우
+             */
 
-                BizEnum.LAD -> {
-                    contextDialogItems = mutableListOf("토지 조서 작성", "사진 촬영")
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  토지 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "ladClickPopup")
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
-                    }
+            BizEnum.LAD -> {
+                contextDialogItems = mutableListOf("토지 조서 작성", "사진 촬영")
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "  토지 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "ladClickPopup")
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
                 }
+            }
 
-                BizEnum.THING -> {
-                    contextDialogItems = mutableListOf("물건 조서 작성", "물건 선택", "사진 촬영")
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        var geomNullCheck: Boolean = false
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
+            BizEnum.THING -> {
+                contextDialogItems = mutableListOf("물건 조서 작성", "물건 선택", "사진 촬영")
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    var geomNullCheck: Boolean = false
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
 //                        contextDialogItems.plus(thingData.getJSONObject(value).getString("thingKnd"))
 //                        contextDialogItems.plus(thingData.getJSONObject(value).getString("thingKnd").toString())
-                            if(data.getString("geoms").equals("null")) {
-                                geomNullCheck = true
-                            }
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-
+                        if(data.getString("geoms").equals("null")) {
+                            geomNullCheck = true
                         }
-                        activity.runOnUiThread {
-                            toastUtil.msg_info("지장물 조서 작성", 500)
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
 
-                        }
                     }
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 지장물 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "thingClickPopup")
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
+                    activity.runOnUiThread {
+                        toastUtil.msg_info("지장물 조서 작성", 500)
+
                     }
                 }
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 지장물 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "thingClickPopup")
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
 
-                BizEnum.TOMB -> {
-                    contextDialogItems = mutableListOf("분묘 조서 작성", "사진 촬영")
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
+            BizEnum.TOMB -> {
+                contextDialogItems = mutableListOf("분묘 조서 작성", "사진 촬영")
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
 //                        contextDialogItems.plus(thingData.getJSONObject(value).getString("thingKnd"))
 //                        contextDialogItems.plus(thingData.getJSONObject(value).getString("thingKnd").toString())
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
 
-                        }
-                        activity.runOnUiThread {
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() >0) {
 //                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("분묘 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("분묘 조서 작성", 500)
+                        toastUtil.msg_info("분묘 조서 작성", 500)
 
-                        }
-                    }
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 분묘 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "tombClickPopup")
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
                     }
                 }
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 분묘 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "tombClickPopup")
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
 
-                BizEnum.MINRGT -> {
-                    contextDialogItems = mutableListOf("광업권 조서 작성", "사진 촬영")
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-                        }
-                        activity.runOnUiThread {
+            BizEnum.MINRGT -> {
+                contextDialogItems = mutableListOf("광업권 조서 작성", "사진 촬영")
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() >0) {
 //                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("광업권 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("광업권 조서 작성", 500)
-                        }
-                    }
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 광업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "minrgtClickPopup")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
+                        toastUtil.msg_info("광업권 조서 작성", 500)
                     }
                 }
-                BizEnum.FYHTS -> {
-                    contextDialogItems = mutableListOf("어업권 조서 작성", "사진 촬영")
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-                        }
-                        activity.runOnUiThread {
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 광업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "minrgtClickPopup")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
+            BizEnum.FYHTS -> {
+                contextDialogItems = mutableListOf("어업권 조서 작성", "사진 촬영")
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() >0) {
 //                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("어업 조서 작성", 500)
-                        }
-
+                        toastUtil.msg_info("어업 조서 작성", 500)
                     }
 
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 어업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "fyhtsClickPopup")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
-                    }
                 }
-                BizEnum.BSN -> {
-                    contextDialogItems = mutableListOf("영업/잠업/축산업 조서 작성", "사진 촬영")
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-                        }
-                        activity.runOnUiThread {
+
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 어업권 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "fyhtsClickPopup")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
+            BizEnum.BSN -> {
+                contextDialogItems = mutableListOf("영업/잠업/축산업 조서 작성", "사진 촬영")
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() >0) {
 //                                toastUtil.msg_info("스케치 되지 않은 물건 조서가 존재 합니다. 해당 물건 조서의 스케치를 작성해주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
-                        }
+                        toastUtil.msg_info("영업/잠업/축산업 조서 작성", 500)
+                    }
 
-                    }
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 영업/잠업/축산업 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "bsnClickPopup")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
-                    }
                 }
-                BizEnum.FARM -> {
-                    contextDialogItems = mutableListOf("농업 조서 작성", "사진 촬영")
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "현장조사 영업/잠업/축산업 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "bsnClickPopup")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
+            BizEnum.FARM -> {
+                contextDialogItems = mutableListOf("농업 조서 작성", "사진 촬영")
 
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-                        }
-                        activity.runOnUiThread {
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() > 0) {
 //                                toastUtil.msg_info("스케치 되지 않는 물건 조서가 존재 합니다. 해당 물건 조서의 스케츠를 작성하여 주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("농업 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("농업 조서 작성", 500)
+                        toastUtil.msg_info("농업 조서 작성", 500)
 
-                        }
-                    }
-
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "농업 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "farmClickPopup")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
                     }
                 }
-                BizEnum.RESIDNT -> {
-                    contextDialogItems = mutableListOf("거주자 조서 작성", "사진 촬영")
 
-                    if(jsonArrayData != "") {
-                        val thingData = JSONArray(jsonArrayData)
-                        for(value in 0 until thingData.length()) {
-                            val data = thingData.getJSONObject(value) as JSONObject
-                            contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
-                            contextDialogItems.add(data.getString("thingKnd").toString())
-                        }
-                        activity.runOnUiThread {
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "농업 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "farmClickPopup")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
+            BizEnum.RESIDNT -> {
+                contextDialogItems = mutableListOf("거주자 조서 작성", "사진 촬영")
+
+                if(jsonArrayData != "") {
+                    val thingData = JSONArray(jsonArrayData)
+                    for(value in 0 until thingData.length()) {
+                        val data = thingData.getJSONObject(value) as JSONObject
+                        contextDialogWtnCodeItems.add(data.getString("thingWtnCode").toString())
+                        contextDialogItems.add(data.getString("thingKnd").toString())
+                    }
+                    activity.runOnUiThread {
 //                            if(thingData.length() > 0) {
 //                                toastUtil.msg_info("스케치 되지 않는 물건 조서가 존재 합니다. 해당 물건 조서의 스케츠를 작성하여 주시기 바람니다.", 500)
 //                            } else {
 //                                toastUtil.msg_info("거주자 조서 작성", 500)
 //                            }
-                            toastUtil.msg_info("거주자 조서 작성", 500)
-                        }
-                    }
-
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "거주자 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "residntClickPopup")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
-                    }
-                }
-                // TODO : (임시) 잔여지, 잔여 건물
-                BizEnum.REST_LAD -> {
-                    contextDialogItems = mutableListOf("잔여 토지 조서 작성")
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "잔여 토지 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "restLadClickPopup")
-                    (contextPopupFragment as ContextDialogFragment).show(contextPopupFragmentManager!!, "contextPopup")
-                }
-                BizEnum.REST_THING -> {
-                    contextDialogItems = mutableListOf("잔여 물건 조서 작성")
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "잔여 물건 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "restThingClickPopup")
-                    (contextPopupFragment as ContextDialogFragment).show(contextPopupFragmentManager!!, "contextPopup")
-                }
-                else -> {
-                    contextDialogItems = mutableListOf("조서 작성", "사진 촬영")
-                    contextPopupFragment = ContextDialogFragment(R.drawable.ic_research,"현장조사 메뉴", contextDialogItems, address, addressJiben, legaldongCode, "","etc")
-                    contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
-                    (contextPopupFragment as ContextDialogFragment).apply {
-                        show(contextPopupFragmentManager!!, "contextPopup")
-                        isCancelable = false
+                        toastUtil.msg_info("거주자 조서 작성", 500)
                     }
                 }
 
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "거주자 조서", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "residntClickPopup")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
             }
+            // TODO : (임시) 잔여지, 잔여 건물
+            BizEnum.REST_LAD -> {
+                contextDialogItems = mutableListOf("잔여 토지 조서 작성")
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "잔여 토지 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "restLadClickPopup")
+                (contextPopupFragment as ContextDialogFragment).show(contextPopupFragmentManager!!, "contextPopup")
+            }
+            BizEnum.REST_THING -> {
+                contextDialogItems = mutableListOf("잔여 물건 조서 작성")
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "잔여 물건 조사", contextDialogItems, address, addressJiben, legaldongCode, jsonArrayData, "restThingClickPopup")
+                (contextPopupFragment as ContextDialogFragment).show(contextPopupFragmentManager!!, "contextPopup")
+            }
+            else -> {
+                contextDialogItems = mutableListOf("조서 작성", "사진 촬영")
+                contextPopupFragment = ContextDialogFragment(R.drawable.ic_research,"현장조사 메뉴", contextDialogItems, address, addressJiben, legaldongCode, "","etc")
+                contextPopupFragmentManager = (activity as MapActivity).supportFragmentManager
+                (contextPopupFragment as ContextDialogFragment).apply {
+                    show(contextPopupFragmentManager!!, "contextPopup")
+                    isCancelable = false
+                }
+            }
+
         }
     }
 
@@ -3013,52 +2925,33 @@ class NaverMapUtil(
 
             getActivity().btnMapZoom.text = getNaverMapZoom().toString()
 
-            if (getActivity().isSidoLayerChecked && getNaverMapZoom() in 5..8) getWMSLayer(GeoserverLayerEnum.SIDO.value) else clearWMS(wmsSidoOverlayArr,"시도") // 시도
+            if (getActivity().isSidoLayerChecked && getNaverMapZoom() in 5f..8f) getWMSLayer(GeoserverLayerEnum.SIDO.value) else clearWMS(wmsSidoOverlayArr,"시도") // 시도
 
-            if (getActivity().isSigunguLayerChecked && getNaverMapZoom() in 9..12) getWMSLayer(GeoserverLayerEnum.SIGUNGU.value) else clearWMS(wmsSigunguOverlayArr,"시군구") // 시군구
+            if (getActivity().isSigunguLayerChecked && getNaverMapZoom() in 9f..12f) getWMSLayer(GeoserverLayerEnum.SIGUNGU.value) else clearWMS(wmsSigunguOverlayArr,"시군구") // 시군구
 
-            if (getActivity().isDongLayerChecked && getNaverMapZoom() in 13..14) getWMSLayer(GeoserverLayerEnum.EMD.value) else clearWMS(wmsDongOverlayArr,"읍면동") // 읍면동
+            if (getActivity().isDongLayerChecked && getNaverMapZoom() in 13f..14f) getWMSLayer(GeoserverLayerEnum.EMD.value) else clearWMS(wmsDongOverlayArr,"읍면동") // 읍면동
 
-            if (getActivity().isLiLayerChecked && getNaverMapZoom() in 15..21) getWMSLayer(GeoserverLayerEnum.LI.value) else clearWMS(wmsLiOverlayArr,"리경계") // 리경계
+            if (getActivity().isLiLayerChecked && getNaverMapZoom() in 15f..21f) getWMSLayer(GeoserverLayerEnum.LI.value) else clearWMS(wmsLiOverlayArr,"리경계") // 리경계
 
-            if (isCadastralVisable && getNaverMapZoom() in 18..21) {
-                clearWFS(wfsCadastralOverlayArr, "연속지적도");
-                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
-                getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도");
-                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도")
-            } else {
-                clearWFS(wfsCadastralOverlayArr, "연속지적도");
-                clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
-            }
+            if (isCadastralVisable && getNaverMapZoom() in 18f..21f) { clearWFS(wfsCadastralOverlayArr, "연속지적도"); clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도") } else { clearWFS(wfsCadastralOverlayArr, "연속지적도"); clearWFS(wfsEditCadastralOverlayArr, "편집지적도") }
 
-            if (getActivity().isLadLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsLadOverlayArr, "토지"); getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지"); getActivity().ladLayerSwitch.isChecked = true } else clearWFS(wfsLadOverlayArr, "토지")
+            if (getActivity().isLadLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsLadOverlayArr, "토지"); getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지"); getActivity().ladLayerSwitch.isChecked = true } else clearWFS(wfsLadOverlayArr, "토지")
 
-            if (getActivity().isLadRealLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsRealLadOverlayArr, "토지실제이용"); getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용"); getActivity().ladRealLayerSwitch.isChecked = true } else clearWFS(wfsLadOverlayArr, "토지실제이용")
+            if (getActivity().isLadRealLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsRealLadOverlayArr, "토지실제이용"); getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용"); getActivity().ladRealLayerSwitch.isChecked = true } else clearWFS(wfsLadOverlayArr, "토지실제이용")
 
-            if (getActivity().isThingLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsThingOverlayArr, "지장물"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물"); getActivity().thingLayerSwitch.isChecked = true } else clearWFS(wfsThingOverlayArr, "지장물")
+            if (getActivity().isThingLayerChecked && getNaverMapZoom() in 18f..21f ){ clearWFS(wfsThingOverlayArr, "지장물"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "지장물"); getActivity().thingLayerSwitch.isChecked = true } else clearWFS(wfsThingOverlayArr, "지장물")
 
-            if (getActivity().isTombLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsTombOverlayArr, "분묘"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘"); getActivity().tombLayerSwitch.isChecked = true } else clearWFS(wfsTombOverlayArr, "분묘")
+            if (getActivity().isTombLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsTombOverlayArr, "분묘"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "분묘"); getActivity().tombLayerSwitch.isChecked = true } else clearWFS(wfsTombOverlayArr, "분묘")
 
-            if (getActivity().isFarmLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsFarmOverlayArr, "농업"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업"); getActivity().farmLayerSwitch.isChecked = true } else clearWFS(wfsFarmOverlayArr, "농업")
+            if (getActivity().isFarmLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsFarmOverlayArr, "농업"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "농업"); getActivity().farmLayerSwitch.isChecked = true } else clearWFS(wfsFarmOverlayArr, "농업")
 
-            if (getActivity().isResidntLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsResidntOverlayArr, "거주자"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자"); getActivity().residntLayerSwitch.isChecked = true } else clearWFS(wfsResidntOverlayArr, "거주자")
+            if (getActivity().isResidntLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsResidntOverlayArr, "거주자"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "거주자"); getActivity().residntLayerSwitch.isChecked = true } else clearWFS(wfsResidntOverlayArr, "거주자")
 
-            if (getActivity().isBsnLayerChecked && getNaverMapZoom() in 18..21){ clearWFS(wfsBsnOverlayArr, "영업"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업"); getActivity().bsnLayerSwitch.isChecked = true } else clearWFS(wfsBsnOverlayArr, "영업")
+            if (getActivity().isBsnLayerChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsBsnOverlayArr, "영업"); getWFSLayer(GeoserverLayerEnum.TB_THING_WTN.value, "영업"); getActivity().bsnLayerSwitch.isChecked = true } else clearWFS(wfsBsnOverlayArr, "영업")
 
-            if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18..21){
-                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
-                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도");
-                getActivity().cadstralEditLayerSwitch.isChecked = true
-            }
+            if (getActivity().isCadastralEditLayerpChecked && getNaverMapZoom() in 18f..21f){ clearWFS(wfsEditCadastralOverlayArr, "편집지적도"); getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도"); getActivity().cadstralEditLayerSwitch.isChecked = true } else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
 
-            else clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
-
-            if (isCadastralVisable && getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13..21){
-                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
-                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
-                getActivity().bsnsAreaLayerSwitch.isChecked = true
-            } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
-
+            if (isCadastralVisable && getActivity().isBsnsAreaLayerChecked && getNaverMapZoom() in 13f..21f){ clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)"); getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)"); getActivity().bsnsAreaLayerSwitch.isChecked = true } else clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
 
         } else if (naverCameraidleCnt > 1) {
             naverCameraidleCnt = 0
@@ -3177,7 +3070,7 @@ class NaverMapUtil(
 
                                                 val thingDataJson =
                                                     JSONObject(responseString).getJSONObject("list") as JSONObject
-                                                val noSkitchThingData =
+                                                val noSketchThingData =
                                                     thingDataJson.getJSONArray("ThingSearch") as JSONArray
 
                                                 progressDialog?.dismiss()
@@ -3186,7 +3079,7 @@ class NaverMapUtil(
                                                     naverGeoAddressName.toString(),
                                                     naverGeoAddress,
                                                     ThingFyhtsObject.legaldongCl,
-                                                    noSkitchThingData.toString(),
+                                                    noSketchThingData.toString(),
                                                     false,
                                                     null
                                                 )

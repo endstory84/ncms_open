@@ -21,7 +21,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -1137,7 +1139,8 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
 
             //가축여부
-            if (view.bsnBrdBaseLayout.visibility == View.VISIBLE) {
+//            if (view.bsnBrdBaseLayout.visibility == View.VISIBLE) {
+            if(bsnThingSmallNm.equals("축산업")) {
 
                 val brdDtlsArray = dataJson.getJSONArray("brdDtlsList")
 
@@ -2469,9 +2472,5 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
                 (activity as MapActivity).getBuldLinkToGeomData(ThingBsnObject.selectBuldLinkData!![0].geoms, "bsn", false)
             }
         }
-    }
-
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
     }
 }

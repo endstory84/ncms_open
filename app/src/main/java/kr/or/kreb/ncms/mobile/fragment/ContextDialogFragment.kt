@@ -8,6 +8,7 @@ package kr.or.kreb.ncms.mobile.fragment
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.widget.SimpleAdapter
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.fragment_dialog_top.view.*

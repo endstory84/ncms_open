@@ -19,7 +19,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -50,6 +52,8 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.HashMap
 import kotlin.collections.set
 
 class ResidntSearchFragment(activity: Activity, context: Context, val fragmentActivity: FragmentActivity) : BaseFragment(),
@@ -1596,8 +1600,5 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
         }
     }
 
-    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-    }
 
 }

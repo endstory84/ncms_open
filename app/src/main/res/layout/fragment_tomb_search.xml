@@ -114,10 +114,10 @@
                                 android:text="@string/loanValue_b2_03"
                                 android:layout_weight="1" />
 
-                        <EditText
-                                style="@style/Widget.NCMS.WtnccValueEditText"
+                        <TextView
+                                style="@style/Widget.NCMS.WtnccValueTextView"
                                 android:id="@+id/landSearchRelatedLnmText"
-                                android:hint="@string/landInfoRelatedLnmText"
+                                android:text="@string/loanValue_b2_04"
                                 android:layout_weight="1" />
 
                     </LinearLayout>

@@ -2365,8 +2365,11 @@ class MapActivity :
                             thingInfoData.put("ladWtnCode", thingDataJson.getString("ladWtnCode")) //토지조서코드
                             thingInfoData.put("thingWtnCode", thingDataJson.getString("thingWtnCode"))  //물건조서코드
                             thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) // 실내여부
-                            thingInfoData.put("thingKnd", ThingWtnObject.thingKnd) //물건의종류
+                            thingInfoData.put("thingKnd", ThingWtnObject.thingKnd) //
+                            thingInfoData.put("thingLrgeCl", "A011001") //물건 대분류 코드 //임시
+                            thingInfoData.put("thingSmallCl", ThingWtnObject.thingSmallCl) //물건 소분류 코드 //임시
                             thingInfoData.put("strctNdStndrd", ThingWtnObject.strctNdStndrd) //구조및구격
+                            thingInfoData.put("legaldongCode", thingDataJson.getString("legaldongCode"))
                             thingInfoData.put("bgnnAr", ThingWtnObject.bgnnAr) //원래수량
                             thingInfoData.put("incrprAr", ThingWtnObject.incrprAr) //편입수량
                             thingInfoData.put("unitCl",   ThingWtnObject.unitCl) //면적단위코드
@@ -2466,6 +2469,8 @@ class MapActivity :
                                 thingInfoData.put("thingWtnCode", thingDataJson.getString("thingWtnCode"))  //물건조서코드
                                 thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) // 실내여부
                                 thingInfoData.put("thingKnd", ThingWtnObject.thingKnd) //물건의종류
+                                thingInfoData.put("thingLrgeCl", ThingWtnObject.thingLrgeCl) //물건 대분류 코드 //임시
+                                thingInfoData.put("thingSmallCl", ThingWtnObject.thingSmallCl) //물건 소분류 코드 //임시
                                 thingInfoData.put("strctNdStndrd", ThingWtnObject.strctNdStndrd) //구조및구격
                                 thingInfoData.put("bgnnAr", ThingWtnObject.bgnnAr) //원래수량
                                 thingInfoData.put("incrprAr", ThingWtnObject.incrprAr) //편입수량
@@ -3596,34 +3601,35 @@ class MapActivity :
         val residntFragment = ResidntSearchFragment(this,this, this)
         val fyhtsFragmet = FyhtsSearchFragment(this, this)
 
-        GlobalScope.launch { Dispatchers.Main
-                val job1 = async(Dispatchers.Main) {
-                    try {
-                        progressDialog?.show()
-                        when(Constants.BIZ_SUBCATEGORY_KEY) {
-                            THING -> thingFragmet.addThingData()
-                            BSN -> bsnFragment.addBsnData()
-                            FARM -> farmFragment.addFarmData()
-                            TOMB -> tombFragment.addTombThingData()
-                            MINRGT -> minrgtFragment.addMinrgtData()
-                            RESIDNT -> residntFragment.addResidntData()
-                            FYHTS -> fyhtsFragmet.addFyhtsThing()
-                            else -> null
-                        }
-
-                    } catch (e: Exception) {
-                        log.d(e.toString())
-                        progressDialog?.dismiss()
+        GlobalScope.launch {
+            Dispatchers.Main
+            val job1 = async(Dispatchers.Main) {
+                try {
+                    progressDialog?.show()
+                    when (Constants.BIZ_SUBCATEGORY_KEY) {
+                        THING -> thingFragmet.addThingData()
+                        BSN -> bsnFragment.addBsnData()
+                        FARM -> farmFragment.addFarmData()
+                        TOMB -> tombFragment.addTombThingData()
+                        MINRGT -> minrgtFragment.addMinrgtData()
+                        RESIDNT -> residntFragment.addResidntData()
+                        FYHTS -> fyhtsFragmet.addFyhtsThing()
+                        else -> null
                     }
-                }
-                val job2 = async(Dispatchers.Main){
-                    delay(2000)
-                    setThingJsonData()
+
+                } catch (e: Exception) {
+                    log.d(e.toString())
                     progressDialog?.dismiss()
                 }
+            }
+            val job2 = async(Dispatchers.Main) {
+                delay(2000)
+                setThingJsonData()
+                progressDialog?.dismiss()
+            }
 
-                job1.await()
-                job2.await()
+            job1.await()
+            job2.await()
         }
     }
 
@@ -3663,7 +3669,6 @@ class MapActivity :
                         val responseString = response.body!!.string()
                         log.d("$url response $responseString")
                         progressDialog?.dismiss()
-
                         val thingDataJson = JSONObject(responseString).getJSONObject("list").getJSONObject("ThingSearch") as JSONObject
 
 
@@ -3971,7 +3976,7 @@ class MapActivity :
 
                         when (Constants.BIZ_SUBCATEGORY_KEY) {
 
-                            BizEnum.LAD -> {
+                            LAD -> {
                                 log.d("viewSearchSaveBtn Click")
                                 try {
                                     val landPolygonData = LandInfoObject.realLandPolygon
@@ -3988,7 +3993,7 @@ class MapActivity :
                                 }
                             }
 
-                            BizEnum.MINRGT -> { //광업
+                            MINRGT -> { //광업
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingMinrgtObject.thingMinrgtSketchPolygon
                                 log.d("Minrgt ThingPolygonData -----------------> $thingPolygonData")
@@ -4010,7 +4015,7 @@ class MapActivity :
 
                             }
 
-                            BizEnum.FYHTS -> { //어업
+                            FYHTS -> { //어업
                                 setWtnccTabReset()
                                 try {
                                     if(ThingFyhtsObject.thingNewSearch.equals("Y")) {
@@ -4029,7 +4034,7 @@ class MapActivity :
 
                             }
 
-                            BizEnum.THING -> { // 지장물
+                            THING -> { // 지장물
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingWtnObject.thingSketchPolygon
                                 log.d("thingPolygonData ---------------------> $thingPolygonData")
@@ -4050,7 +4055,7 @@ class MapActivity :
                                 }
                             }
 
-                            BizEnum.TOMB -> {
+                            TOMB -> {
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingTombObject.thingTombSketchPolyton
                                 log.d("Tomb thingPolygonData -----------------------> $thingPolygonData")
@@ -4076,7 +4081,7 @@ class MapActivity :
                                 }
                             }
 
-                            BizEnum.BSN -> {
+                            BSN -> {
                                 setWtnccTabReset()
                                 val thingPolygonData = ThingBsnObject.thingBsnSketchPolygon
                                 log.d("Bsn thingPolygonData ---------------> $thingPolygonData")
@@ -4102,7 +4107,7 @@ class MapActivity :
                                 }
                             }
 
-                            BizEnum.FARM -> {
+                            FARM -> {
                                 setWtnccTabReset()
                                 try {
                                     if(ThingFarmObject.thingNewSearch == "Y") {
@@ -4120,7 +4125,7 @@ class MapActivity :
                                 }
                             }
 
-                            BizEnum.RESIDNT -> {
+                            RESIDNT -> {
                                 setWtnccTabReset()
                                 try {
                                     if (ThingResidntObject.thingNewSearch.equals("Y")) {
@@ -4139,7 +4144,7 @@ class MapActivity :
                                 }
 
                             }
-                            BizEnum.REST_LAD -> {
+                            REST_LAD -> {
                                 try {
                                     searchSaveRestLand()
                                 } catch (e: Exception) {
@@ -4147,7 +4152,7 @@ class MapActivity :
                                 }
 
                             }
-                            BizEnum.REST_THING -> {
+                            REST_THING -> {
                                 try {
                                     searchSaveRestThing()
                                 } catch (e: Exception) {

@@ -27,7 +27,7 @@ abstract class BaseFragment() : Fragment()
     protected var dialogUtil: DialogUtil? = null
     val toast   : ToastUtil by lazy { ToastUtil(activity) }
 
-    abstract fun showOwnerPopup()
+//    abstract fun showOwnerPopup()
 
     protected fun dismissProgress() {
 
