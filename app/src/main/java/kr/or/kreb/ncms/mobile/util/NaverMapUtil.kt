@@ -2373,7 +2373,9 @@ class NaverMapUtil(
 //        if(getActivity().bottompanel.visibility == View.GONE){
 
         if(getActivity().bottompanel.visibility == View.VISIBLE){
-            getActivity().bottompanel.visibility = View.GONE
+            activity.runOnUiThread {
+                getActivity().bottompanel.visibility = View.GONE
+            }
         }
         when (Constants.BIZ_SUBCATEGORY_KEY) {
 
