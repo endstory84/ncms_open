@@ -41,7 +41,7 @@ open class BaseOwnerRecyclerViewAdapter(
         init {
 
             itemView.addNewOwnerBtn.setOnClickListener {
-                toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd) + "1111", 200)
+//                toastUtil.msg_info(context.resources.getString(R.string.landOwnAdd) + "1111", 200)
                 onOwnerEventListener.onAddNewOwnerBtnClicked()
             }
 
@@ -99,7 +99,7 @@ open class BaseOwnerRecyclerViewAdapter(
 //        fun onAddOwnerBtnClick()
 //    }
     interface OnOwnerEventListener {
-        fun onDelvyAddrClicked(data: JSONObject)
+//        fun onDelvyAddrClicked(data: JSONObject)
         fun onAddRelateBtnClicked(data: JSONObject)
         fun onAddNewOwnerBtnClicked()
     }

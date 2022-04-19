@@ -5,7 +5,7 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="120dp"
-        android:layout_height="200dp"
+        android:layout_height="230dp"
         android:gravity="center"
         android:background="@drawable/textview_border"
         android:orientation="vertical">

@@ -63,17 +63,13 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment()
     private val wtnncUtill: WtnncUtil = WtnncUtil(activity, context)
     private var addViewCnt: Int = 0
 
-//    private var logUtil: LogUtil = LogUtil("BsnSearchFragment")
-//    private val toastUtil = ToastUtil(context)
-//    var dialogUtil: DialogUtil? = null
-//    private var progressDialog: AlertDialog? = null
-//    var builder: MaterialAlertDialogBuilder? = null
-
     val wonFormat = DecimalFormat("#,###")
 
     private var fyhtsAtchInfo: JSONArray? = null
 
     lateinit var materialDialog: Dialog
+
+    var dcsnAt: String? = "N"
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
@@ -445,10 +441,6 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment()
 
     fun init(view: View) {
 
-
-
-
-
         var requireArr = mutableListOf<TextView>(view.tv_fyhts_require1, view.tv_fyhts_require2, view.tv_fyhts_require3, view.tv_fyhts_require4, view.tv_fyhts_require5,view.tv_fyhts_require6)
 
         setRequireContent(requireArr)
@@ -464,18 +456,27 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment()
 
         val dataString = requireActivity().intent!!.extras!!.get("FyhtsInfo") as String
 
+        view.landSearchLocationText.setText(ThingFyhtsObject.legaldongNm)
+
         if(dataString.equals("")) {
-            view.landSearchLocationText.setText(ThingFyhtsObject.legaldongNm)
+//            view.landSearchLocationText.setText(ThingFyhtsObject.legaldongNm)
             view.fyhtsWtnCodeText.setText("자동기입")
             view.fyhtsThingKnd.setText("어업권보상")
             view.fyhtsStrctNdStrndrd.setText("자동기입")
-            settingSearchCamerasView(null)
+
+            view.fyhtsOwnerCnfirmBasisSpinner.setSelection(4)
+            view.rwTrgetAtChk.isChecked = true
+            view.apasmtTrgetAtChk.isChecked = true
         } else {
             // 데이터가 있을때 화면
 
             var dataJson = JSONObject(dataString)
 
             var fyhtsDataJson = dataJson.getJSONObject("ThingSearch") as JSONObject
+
+            dcsnAt = checkStringNull(fyhtsDataJson.getString("dcsnAt"))
+
+            view.thingdcsnAtText.text = dcsnAt
 
             view.fyhtsWtnCodeText.setText(checkStringNull(fyhtsDataJson.getString("fyhtsWtnCode")))
             view.fyhtsThingKnd.setText(checkStringNull(fyhtsDataJson.getString("thingKnd")))
@@ -645,6 +646,15 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment()
                     addViewCnt++
 
 
+                    if(dcsnAt == "Y") {
+                        subThignSmallClSpinner.isEnabled = false
+                        subThingThingKndText.isEnabled = false
+                        subThingStrctNdStndrd.isEnabled = false
+                        subThingBgnnArText.isEnabled = false
+                        subThingIncrprArText.isEnabled = false
+                        subThingUnitClSpinner.isEnabled = false
+                        subThingArComputBasisText.isEnabled = false
+                    }
                 }
             }
 
@@ -662,6 +672,40 @@ class FyhtsSearchFragment(activity: Activity, context: Context) : BaseFragment()
 
             }
             settingSearchCamerasView(fyhtsAtchInfo)
+
+
+
+
+            if(dcsnAt == "Y") {
+                toast.msg_info(R.string.searchDcsnAtThing, 1000)
+
+                view.fyhtsBgnnAr.isEnabled = false
+                view.fyhtsIncrprAr.isEnabled = false
+                view.fyhtsUnitSpinner.isEnabled = false
+                view.fyhtsArComputBasis.isEnabled = false
+
+                view.bsnClDivSpinner.isEnabled = false
+                view.bssMthCoText.isEnabled = false
+
+                view.administGrc.isEnabled = false
+                view.lcnsClSpinner.isEnabled = false
+
+                view.lcnsKnd.isEnabled = false
+                view.lcnsNo.isEnabled = false
+
+                view.srfwtrLcZoneAt.isEnabled = false
+                view.fyhtsCntnncPdBgnde.isEnabled = false
+                view.fyhtsCntnncPdEndde.isEnabled = false
+                view.fshlLc.isEnabled = false
+                view.fyhtsAr.isEnabled = false
+
+                view.fshrMth.isEnabled = false
+
+                view.fyhtsOwnerCnfirmBasisSpinner.isEnabled = false
+                view.rwTrgetAtChk.isEnabled = false
+                view.apasmtTrgetAtChk.isEnabled = false
+
+            }
 
 
         }

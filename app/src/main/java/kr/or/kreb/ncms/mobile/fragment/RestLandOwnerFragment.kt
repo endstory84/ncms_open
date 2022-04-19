@@ -87,6 +87,7 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragme
             context!!,
             BizEnum.REST_LAD,
             landOwnerInfoJson,
+            "",
             this
         )
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -99,9 +100,9 @@ class RestLandOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragme
 
     }
 
-    override fun onDelvyAddrClicked(data: JSONObject) {
-
-    }
+//    override fun onDelvyAddrClicked(data: JSONObject) {
+//
+//    }
 
     override fun onAddRelateBtnClicked(data: JSONObject) {
 

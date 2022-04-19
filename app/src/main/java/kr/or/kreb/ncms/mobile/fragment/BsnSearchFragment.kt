@@ -84,6 +84,8 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
     lateinit var materialDialog: Dialog
 
+    var dcsnAt: String? = "N"
+
     init { }
 
     @SuppressLint("InflateParams")
@@ -194,92 +196,98 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
         //휴, 실직자 레이아웃 추가
         bsnAddLayoutBtn.setOnClickListener {
-            when (bsnSclasSpinner.selectedItemPosition) {
-                0 -> toastUtil.msg_error("소분류를 선택해 주세요", 100)
-                else -> {
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+
+            } else {
+                when (bsnSclasSpinner.selectedItemPosition) {
+                    0 -> toastUtil.msg_error("소분류를 선택해 주세요", 100)
+                    else -> {
 
 
-                    val bsnViewGroup = bsnBaseViewGroup
-                    val addThingView = R.layout.fragment_minrgt_add_layout
-                    val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                    inflater.inflate(addThingView, null)
-                    val itemView = inflater.inflate(addThingView, null)
-                    bsnViewGroup?.addView(itemView)
+                        val bsnViewGroup = bsnBaseViewGroup
+                        val addThingView = R.layout.fragment_minrgt_add_layout
+                        val inflater: LayoutInflater =
+                            mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                        inflater.inflate(addThingView, null)
+                        val itemView = inflater.inflate(addThingView, null)
+                        bsnViewGroup?.addView(itemView)
 
-                    // 첫번째 spinner
-                    val addLayoutItem = bsnViewGroup.getChildAt(addViewCnt) as ViewGroup
-                    val addViewGroup1 = addLayoutItem.getChildAt(1) as ViewGroup
-                    val addSpinnerLayout1 = addViewGroup1.getChildAt(0) as ViewGroup
-                    val selectLayout1 = addLayoutItem.getChildAt(4) as ViewGroup
-                    val selectLayout2 = addLayoutItem.getChildAt(5) as ViewGroup
-                    val selectLayout3 = addLayoutItem.getChildAt(6) as ViewGroup
-                    val selectLayout4 = addLayoutItem.getChildAt(7) as ViewGroup
-                    val addSpinner1 = addSpinnerLayout1.getChildAt(0) as Spinner // 소분류 Spinner
+                        // 첫번째 spinner
+                        val addLayoutItem = bsnViewGroup.getChildAt(addViewCnt) as ViewGroup
+                        val addViewGroup1 = addLayoutItem.getChildAt(1) as ViewGroup
+                        val addSpinnerLayout1 = addViewGroup1.getChildAt(0) as ViewGroup
+                        val selectLayout1 = addLayoutItem.getChildAt(4) as ViewGroup
+                        val selectLayout2 = addLayoutItem.getChildAt(5) as ViewGroup
+                        val selectLayout3 = addLayoutItem.getChildAt(6) as ViewGroup
+                        val selectLayout4 = addLayoutItem.getChildAt(7) as ViewGroup
+                        val addSpinner1 = addSpinnerLayout1.getChildAt(0) as Spinner // 소분류 Spinner
 
-                    when (bsnSclasSpinner.selectedItemPosition) {
-                        1 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnCommSmallCtgArray, addSpinner1, this) // 영업
-                        2 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnSricltSmallCtgArray, addSpinner1, this) //잠업
-                        3 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnBrdSmallCtgArray, addSpinner1, this) // 축산업
-                    }
+                        when (bsnSclasSpinner.selectedItemPosition) {
+                            1 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnCommSmallCtgArray, addSpinner1, this) // 영업
+                            2 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnSricltSmallCtgArray, addSpinner1, this) //잠업
+                            3 -> wtnncUtill.wtnncSpinnerAdapter(R.array.bsnBrdSmallCtgArray, addSpinner1, this) // 축산업
+                        }
 
-                    addSpinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            when (position) {
-                                2 -> {
-                                    selectLayout1.visibleView()
-                                    selectLayout2.visibleView()
-                                    selectLayout3.visibleView()
-                                    selectLayout4.visibleView()
-                                }
-                                3 -> {
-                                    selectLayout1.visibleView()
-                                    selectLayout2.visibleView()
-                                    selectLayout3.goneView()
-                                    selectLayout4.goneView()
-                                }
-                                else -> {
-                                    selectLayout1.goneView()
-                                    selectLayout2.goneView()
-                                    selectLayout3.goneView()
-                                    selectLayout4.goneView()
+                        addSpinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                                when (position) {
+                                    2 -> {
+                                        selectLayout1.visibleView()
+                                        selectLayout2.visibleView()
+                                        selectLayout3.visibleView()
+                                        selectLayout4.visibleView()
+                                    }
+                                    3 -> {
+                                        selectLayout1.visibleView()
+                                        selectLayout2.visibleView()
+                                        selectLayout3.goneView()
+                                        selectLayout4.goneView()
+                                    }
+                                    else -> {
+                                        selectLayout1.goneView()
+                                        selectLayout2.goneView()
+                                        selectLayout3.goneView()
+                                        selectLayout4.goneView()
+                                    }
                                 }
                             }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                            }
+
                         }
 
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                        // 두번째 spinner
+                        val addViewGroup2 = addLayoutItem.getChildAt(3) as ViewGroup
+                        val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
+                        val addSpinner2 = addSpinnerLayout2.getChildAt(0) as Spinner
+                        // A009
+                        //                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
+                        wtnncUtill.wtnncSpinnerAdapter("A009", addSpinner2, this)
+
+                        // 이전일자
+                        val addViewGroup3 = addLayoutItem.getChildAt(7) as ViewGroup
+                        val bfDateTextView = addViewGroup3.getChildAt(0) as TextView
+                        bfDateTextView.setOnClickListener {
+                            wtnncUtill.wtnncDatePicker(
+                                requireActivity().supportFragmentManager,
+                                bfDateTextView,
+                                "bfDateTextView"
+                            )
                         }
 
+                        // 실직일자
+                        val unemployedDeTextView = addViewGroup3.getChildAt(1) as TextView
+                        unemployedDeTextView.setOnClickListener {
+                            wtnncUtill.wtnncDatePicker(
+                                requireActivity().supportFragmentManager,
+                                unemployedDeTextView,
+                                "unemployedDeTextView"
+                            )
+                        }
+                        addViewCnt++
                     }
-
-                    // 두번째 spinner
-                    val addViewGroup2 = addLayoutItem.getChildAt(3) as ViewGroup
-                    val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
-                    val addSpinner2 = addSpinnerLayout2.getChildAt(0) as Spinner
-                    // A009
-//                    wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray, addSpinner2, this)
-                    wtnncUtill.wtnncSpinnerAdapter("A009", addSpinner2, this)
-
-                    // 이전일자
-                    val addViewGroup3 = addLayoutItem.getChildAt(7) as ViewGroup
-                    val bfDateTextView = addViewGroup3.getChildAt(0) as TextView
-                    bfDateTextView.setOnClickListener {
-                        wtnncUtill.wtnncDatePicker(
-                            requireActivity().supportFragmentManager,
-                            bfDateTextView,
-                            "bfDateTextView"
-                        )
-                    }
-
-                    // 실직일자
-                    val unemployedDeTextView = addViewGroup3.getChildAt(1) as TextView
-                    unemployedDeTextView.setOnClickListener {
-                        wtnncUtill.wtnncDatePicker(
-                            requireActivity().supportFragmentManager,
-                            unemployedDeTextView,
-                            "unemployedDeTextView"
-                        )
-                    }
-                    addViewCnt++
                 }
             }
         }
@@ -287,166 +295,180 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
         // 사욱내역 추가부분
         bsnAddBrdLayoutBtn.setOnClickListener {
 
-            val bsnBrdViewGroup = bsnBrdBaseViewGroup
-            val addThingView = R.layout.fragment_bsn_add_lvstck_layout
-            val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            inflater.inflate(addThingView, null)
-            val itemView = inflater.inflate(addThingView, null)
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
 
-            val requireArr = mutableListOf<TextView>(itemView.tv_bsn_lvstck_require1, itemView.tv_bsn_lvstck_require2, itemView.tv_bsn_lvstck_require3, itemView.tv_bsn_lvstck_require4)
-            setRequireContent(requireArr)
+            } else {
 
-            bsnBrdViewGroup?.addView(itemView)
+                val bsnBrdViewGroup = bsnBrdBaseViewGroup
+                val addThingView = R.layout.fragment_bsn_add_lvstck_layout
+                val inflater: LayoutInflater =
+                    mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                inflater.inflate(addThingView, null)
+                val itemView = inflater.inflate(addThingView, null)
 
-            var addBsnBrdQyNum = 0
-            var addLvstckNum = 0
-            val bsnBrdBaseViewGroup = mActivity.bsnBrdBaseViewGroup
-            val baseViewGroup = bsnBrdBaseViewGroup.getChildAt(addBrdViewCnt) as ViewGroup
-            val bsnBrdViewFirst = baseViewGroup.getChildAt(1) as ViewGroup
-
-            val bsnBrdPdBgndeText = bsnBrdViewFirst.getChildAt(2) as TextView
-            val bsnBrdPdEnddeText = bsnBrdViewFirst.getChildAt(3) as TextView
-            val bsnBrdQyText = bsnBrdViewFirst.getChildAt(4) as EditText
-
-            val bsnBrdVierSecond = baseViewGroup.getChildAt(3) as ViewGroup
-
-            val bsnStdLvstckClView = bsnBrdVierSecond.getChildAt(0) as ViewGroup
-            val bsnStdLvstckClSpinner = bsnStdLvstckClView.getChildAt(0) as Spinner
-
-            //val bsnStdQyText = bsnStdLvstckClView.getChildAt(1) as TextView
-            //val bsnCnvrsnQyText = bsnStdLvstckClView.getChildAt(1) as TextView
-
-            // FIXME: 2021-12-06 기존 사육내역추가 Bug Fix
-            val bsnStdQyText = bsnBrdVierSecond.getChildAt(1) as TextView
-            val bsnCnvrsnQyText = bsnBrdVierSecond.getChildAt(2) as TextView
-
-            // 사육기간 시작일자0
-//            addEditText2.setOnClickListener {
-//                wtnncUtill.wtnncDateRangePicker(
-//                    requireActivity().supportFragmentManager,
-//                    addEditText2,
-//                    "addBsnBrdPd"
-//                )
-//            }
-            bsnBrdPdBgndeText.setOnClickListener {
-                wtnncUtill.wtnncDatePicker(
-                    requireActivity().supportFragmentManager,
-                    bsnBrdPdBgndeText,
-                    "bsnBrdPdBgnde"
+                val requireArr = mutableListOf<TextView>(
+                    itemView.tv_bsn_lvstck_require1,
+                    itemView.tv_bsn_lvstck_require2,
+                    itemView.tv_bsn_lvstck_require3,
+                    itemView.tv_bsn_lvstck_require4
                 )
-            }
-            bsnBrdPdEnddeText.setOnClickListener {
-                wtnncUtill.wtnncDatePicker(
-                    requireActivity().supportFragmentManager,
-                    bsnBrdPdEnddeText,
-                    "bsnBrdPdEndde"
-                )
-            }
+                setRequireContent(requireArr)
 
-            // 사육, 기준, 환산수량 부분
-            bsnBrdQyText.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                bsnBrdViewGroup?.addView(itemView)
+
+                var addBsnBrdQyNum = 0
+                var addLvstckNum = 0
+                val bsnBrdBaseViewGroup = mActivity.bsnBrdBaseViewGroup
+                val baseViewGroup = bsnBrdBaseViewGroup.getChildAt(addBrdViewCnt) as ViewGroup
+                val bsnBrdViewFirst = baseViewGroup.getChildAt(1) as ViewGroup
+
+                val bsnBrdPdBgndeText = bsnBrdViewFirst.getChildAt(2) as TextView
+                val bsnBrdPdEnddeText = bsnBrdViewFirst.getChildAt(3) as TextView
+                val bsnBrdQyText = bsnBrdViewFirst.getChildAt(4) as EditText
+
+                val bsnBrdVierSecond = baseViewGroup.getChildAt(3) as ViewGroup
+
+                val bsnStdLvstckClView = bsnBrdVierSecond.getChildAt(0) as ViewGroup
+                val bsnStdLvstckClSpinner = bsnStdLvstckClView.getChildAt(0) as Spinner
+
+                //val bsnStdQyText = bsnStdLvstckClView.getChildAt(1) as TextView
+                //val bsnCnvrsnQyText = bsnStdLvstckClView.getChildAt(1) as TextView
+
+                // FIXME: 2021-12-06 기존 사육내역추가 Bug Fix
+                val bsnStdQyText = bsnBrdVierSecond.getChildAt(1) as TextView
+                val bsnCnvrsnQyText = bsnBrdVierSecond.getChildAt(2) as TextView
+
+                // 사육기간 시작일자0
+                //            addEditText2.setOnClickListener {
+                //                wtnncUtill.wtnncDateRangePicker(
+                //                    requireActivity().supportFragmentManager,
+                //                    addEditText2,
+                //                    "addBsnBrdPd"
+                //                )
+                //            }
+                bsnBrdPdBgndeText.setOnClickListener {
+                    wtnncUtill.wtnncDatePicker(
+                        requireActivity().supportFragmentManager,
+                        bsnBrdPdBgndeText,
+                        "bsnBrdPdBgnde"
+                    )
+                }
+                bsnBrdPdEnddeText.setOnClickListener {
+                    wtnncUtill.wtnncDatePicker(
+                        requireActivity().supportFragmentManager,
+                        bsnBrdPdEnddeText,
+                        "bsnBrdPdEndde"
+                    )
                 }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                }
+                // 사육, 기준, 환산수량 부분
+                bsnBrdQyText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    }
 
-                override fun afterTextChanged(s: Editable?) {
-                    val timer = Timer()
-                    timer.schedule(object : TimerTask() {
-                        override fun run() {
-                            mActivity.runOnUiThread {
-                                if (bsnBrdQyText.text.toString() != "" && bsnBrdQyText.text.toString() != "0") {
-                                    addBsnBrdQyNum = (bsnBrdQyText.text.toString()).toInt()
+                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    }
 
-                                    if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                        bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                    override fun afterTextChanged(s: Editable?) {
+                        val timer = Timer()
+                        timer.schedule(object : TimerTask() {
+                            override fun run() {
+                                mActivity.runOnUiThread {
+                                    if (bsnBrdQyText.text.toString() != "" && bsnBrdQyText.text.toString() != "0") {
+                                        addBsnBrdQyNum = (bsnBrdQyText.text.toString()).toInt()
+
+                                        if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                            bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }, 1000) // 1초
-                }
-            })
+                        }, 1000) // 1초
+                    }
+                })
 
-            wtnncUtill.wtnncSpinnerAdapter(R.array.bsnLvstckStringArrayl, bsnStdLvstckClSpinner, this) // 기준 가축명
+                wtnncUtill.wtnncSpinnerAdapter(R.array.bsnLvstckStringArrayl, bsnStdLvstckClSpinner, this) // 기준 가축명
 
-            bsnStdLvstckClSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    when (position) {
-                        1 -> {
-                            addLvstckNum = 200
-                            bsnStdQyText.text = "200"
+                bsnStdLvstckClSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        when (position) {
+                            1 -> {
+                                addLvstckNum = 200
+                                bsnStdQyText.text = "200"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        2 -> {
-                            addLvstckNum = 150
-                            bsnStdQyText.text = "150"
+                            2 -> {
+                                addLvstckNum = 150
+                                bsnStdQyText.text = "150"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        3 -> {
-                            addLvstckNum = 150
-                            bsnStdQyText.text = "150"
+                            3 -> {
+                                addLvstckNum = 150
+                                bsnStdQyText.text = "150"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        4 -> {
-                            addLvstckNum = 20
-                            bsnStdQyText.text = "20"
+                            4 -> {
+                                addLvstckNum = 20
+                                bsnStdQyText.text = "20"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        5 -> {
-                            addLvstckNum = 5
-                            bsnStdQyText.text = "5"
+                            5 -> {
+                                addLvstckNum = 5
+                                bsnStdQyText.text = "5"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        6 -> {
-                            addLvstckNum = 15
-                            bsnStdQyText.text = "15"
+                            6 -> {
+                                addLvstckNum = 15
+                                bsnStdQyText.text = "15"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        7 -> {
-                            addLvstckNum = 20
-                            bsnStdQyText.text = "20"
+                            7 -> {
+                                addLvstckNum = 20
+                                bsnStdQyText.text = "20"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
-                        }
-                        8 -> {
-                            addLvstckNum = 20
-                            bsnStdQyText.text = "20"
+                            8 -> {
+                                addLvstckNum = 20
+                                bsnStdQyText.text = "20"
 
-                            if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
-                                bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                if (addLvstckNum != 0 && addBsnBrdQyNum != 0) {
+                                    bsnCnvrsnQyText.text = (addBsnBrdQyNum / addLvstckNum).toString()
+                                }
                             }
                         }
                     }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
                 }
 
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
+
+                addBrdViewCnt++
             }
 
 
-            addBrdViewCnt++
         }
 
 //        // 사육 수량
@@ -823,6 +845,9 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
         }
 
+        dcsnAt = checkStringNull(thingDataJson.getString("dcsnAt"))
+        view.thingdcsnAtText.text = dcsnAt
+
         //토지정보
         view.landSearchLocationText.text = checkStringNull(thingDataJson.getString("legaldongNm"))
 
@@ -1113,11 +1138,15 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
                 //                val addViewGroup = view.addBsnBuldLinkViewGroup
                 val addLayout1 = buldLinkViewGroup.getChildAt(addThingBuldViewCnt) as ViewGroup
                 val addLayout2 = addLayout1.getChildAt(1) as ViewGroup
+                val addAraLgalAtView = addLayout2.getChildAt(0) as ViewGroup
+                val addAraLgalAtChk = addAraLgalAtView.getChildAt(0) as CheckBox
                 val addBuldThingKndText = addLayout2.getChildAt(1) as TextView
                 val addBuldThingArText = addLayout2.getChildAt(2) as TextView
                 val addNrtBuldAtView = addLayout2.getChildAt(3) as ViewGroup
                 val addNrtBuldAtChk = addNrtBuldAtView.getChildAt(0) as CheckBox
 
+                val araLgalAtString = checkStringNull(bsnBuldLinkObject.getString("araLgalAt"))
+                addAraLgalAtChk.isChecked = araLgalAtString.equals("Y")
                 addBuldThingKndText.text = checkStringNull(bsnBuldLinkObject.getString("thingKnd"))
                 addBuldThingArText.text = checkStringNull(bsnBuldLinkObject.getString("incrprLnm"))
                 val nrtBuldAtString = checkStringNull(bsnBuldLinkObject.getString("nrtBuldAt"))
@@ -1134,6 +1163,11 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
 
                 addThingBuldViewCnt++
+
+
+                if(dcsnAt == "Y") {
+                    addAraLgalAtChk.isEnabled = false
+                }
 
             }
 
@@ -1339,6 +1373,19 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
                     }
 
 
+                    if(dcsnAt == "Y") {
+                        properAtChk.isEnabled = false
+                        brdLvstCkNmText.isEnabled = false
+                        bsnBrdPdBgndeText.isEnabled = false
+                        bsnBrdPdEnddeText.isEnabled = false
+                        brdQyText.isEnabled = false
+                        stdLvstckClSpanner.isEnabled = false
+                        stdQyText.isEnabled = false
+                        cnvrsnQyText.isEnabled = false
+
+                    }
+
+
                     addBrdViewCnt++
                 }
 
@@ -1425,6 +1472,17 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
 
                 addViewCnt++
 
+                if(dcsnAt == "Y") {
+                    thingSubSmallClSpinner.isEnabled = false
+                    thingSubKndText.isEnabled = false
+                    thingSubStrctNdStndrdText.isEnabled = false
+                    thingSubBgnnAr.isEnabled = false
+                    thingSubIncprpAr.isEnabled = false
+                    thingUnitClSpinner.isEnabled = false
+                    thingSubArComputBasisText.isEnabled = false
+
+                }
+
             }
 
             //문서 버튼
@@ -1452,6 +1510,63 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
             settingSearchCamerasView(bsnAtchInfo)
         } else {
             settingSearchCamerasView(null)
+        }
+
+
+        if(dcsnAt == "Y") {
+            toast.msg_info(R.string.searchDcsnAtThing, 1000)
+
+            view.landSearchRelatedLnmText.isEnabled = false
+            view.bsnSclasSpinner.isEnabled = false
+            view.bsnBgnnAr.isEnabled = false
+            view.bsnIncrprAr.isEnabled = false
+            view.bsnUnitSpinner.isEnabled = false
+            view.bsnArComputBasis.isEnabled = false
+            view.bsnClDivSpinner.isEnabled = false
+            view.bssMthCoText.isEnabled = false
+            view.pssLgalAt.isEnabled = false
+            view.bsnCommPossesnSeSpinner.isEnabled = false
+            view.pssHireCntrctAtChk.isEnabled = false
+            view.pssRentNameText.isEnabled = false
+            view.pssHireNameText.isEnabled = false
+            view.pssRentPeriodBgndeText.isEnabled = false
+            view.pssRentPeriodEnddeText.isEnabled = false
+            view.bsnGtnText.isEnabled = false
+            view.bsnMthtText.isEnabled = false
+            view.bsnCntrctLcText.isEnabled = false
+            view.bsnCntrctArText.isEnabled = false
+            view.bsnSpccntrText.isEnabled = false
+            view.bsnOpenAtChk.isEnabled = false
+            view.bsnProperAtChk.isEnabled = false
+            view.bsnPrmisnSeSpinner.isEnabled = false
+            view.bsnPrmisnRecivNm.isEnabled = false
+            view.bsnPrmisnNm.isEnabled = false
+            view.bsnPrmisnDe.isEnabled = false
+            view.bsnPrmisnPcBgned.isEnabled = false
+            view.bsnPrmisnPcEndde.isEnabled = false
+            view.bsnPrmisnInstt.isEnabled = false
+            view.bsnBsnPdBgned.isEnabled = false
+            view.bsnBsnPdEndde.isEnabled = false
+            view.bsnBuzplcLc.isEnabled = false
+            view.bsnBuzplcAr.isEnabled = false
+            view.hmftyProperAt.isEnabled = false
+            view.bsnSgnbrdNm.isEnabled = false
+            view.bsnResdngHn.isEnabled = false
+            view.bsnFcltsAtChk.isEnabled = false
+            view.bsnSamenssHshldAtChk.isEnabled = false
+            view.bsnSttusConsistAtChk.isEnabled = false
+            view.bsnPrftmkSeSpinner.isEnabled = false
+            view.bsnRegistSeSpinner.isEnabled = false
+            view.bsnRprsntv.isEnabled = false
+            view.bsnCmpnm.isEnabled = false
+            view.bsnInduty.isEnabled = false
+            view.bsnBizcnd.isEnabled = false
+            view.RegistrationNm.isEnabled = false
+            view.bsnRgsde.isEnabled = false
+            view.bsnNtfcRgsAtChk.isEnabled = false
+
+
+
         }
     }
 
@@ -1649,10 +1764,10 @@ class BsnSearchFragment(activity: Activity, context: Context, val fragmentActivi
         }
 
         // 관련지번
-        val bsnRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-        if(!getString(R.string.landInfoRelatedLnmText).equals(bsnRelateLnmString)) {
+        val bsnRelateLnmString = mActivity.landSearchRelatedLnmText.text.toString()
+//        if(!getString(R.string.landInfoRelatedLnmText).equals(bsnRelateLnmString)) {
             ThingBsnObject.relateLnm = bsnRelateLnmString
-        }
+//        }
 
         ThingBsnObject.bgnnAr = mActivity.bsnBgnnAr.text.toString() // 전체면적
         Log.d("bsnTest", "전체면적 : ${ThingBsnObject.bgnnAr}")

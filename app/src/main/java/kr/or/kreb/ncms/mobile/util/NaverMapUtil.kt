@@ -45,7 +45,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 import java.net.URLEncoder
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 
@@ -136,7 +135,7 @@ class NaverMapUtil(
      * Map 내 Sketch Data Object Arr
      */
 
-    private var polygonOverlayArr = mutableListOf<PolygonOverlay>() // 스케치 필지 폴리곤
+    var polygonOverlayArr = mutableListOf<PolygonOverlay>() // 스케치 필지 폴리곤
     private var selectPolygonOverlayArr = mutableListOf<PolygonOverlay>() // 스케치 필지 선택된 폴리곤
 
     /**
@@ -394,20 +393,20 @@ class NaverMapUtil(
             "basic" -> this.naverMap.mapType = NaverMap.MapType.Basic
             "hybrid" -> this.naverMap.mapType = NaverMap.MapType.Hybrid
             "cadastralOn" -> {
-                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)");
-                getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도");
-                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도");
+                getWFSLayer(GeoserverLayerEnum.TL_BSNS_AREA.value, "사업구역(용지도)")
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL.value, "연속지적도")
+                getWFSLayer(GeoserverLayerEnum.CADASTRAL_EDIT.value, "편집지적도")
 
                 getActivity().bsnsAreaLayerSwitch.isChecked = true
-                isCadastralVisable = true;
+                isCadastralVisable = true
                 getActivity().cadstralEditLayerSwitch.isChecked = true
 
             }
             "cadastralOff" -> {
-                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)");
-                clearWFS(wfsCadastralOverlayArr, "연속지적도");
-                clearWFS(wfsEditCadastralOverlayArr, "편집지적도");
-                isCadastralVisable = false;
+                clearWFS(wfsBsnAreaOverlayArr, "사업구역(용지도)")
+                clearWFS(wfsCadastralOverlayArr, "연속지적도")
+                clearWFS(wfsEditCadastralOverlayArr, "편집지적도")
+                isCadastralVisable = false
                 getActivity().cadstralEditLayerSwitch.isChecked = false
 
                 getActivity().bsnsAreaLayerSwitch.isChecked = false
@@ -1072,7 +1071,7 @@ class NaverMapUtil(
                                                 }
                                             }
 
-                                            ThingWtnObject.naverLegaldongCode = tempLegaldongCode;
+                                            ThingWtnObject.naverLegaldongCode = tempLegaldongCode
                                             val naverGeoAddressName = ThingWtnObject.naverGeoAddressName.toString()
                                             val naverGeoAddress = ThingWtnObject.naverGeoAddress.toString()
 
@@ -1109,7 +1108,7 @@ class NaverMapUtil(
                                                                     logUtil.d(realndInfoDataLength.toString())
                                                                     logUtil.d(landInfo.toString())
 
-                                                                    LandInfoObject.wtnCode = landInfo?.asJsonObject?.get("ladWtnCode")!!.asString
+                                                                    LandInfoObject.wtnCode = landInfo.asJsonObject?.get("ladWtnCode")!!.asString
                                                                     LandInfoObject.realLandInfoLength = realndInfoDataLength!!
                                                                     activity!!.runOnUiThread {
                                                                         setMarker(getCoord.latitude, getCoord.longitude, "선택필지")
@@ -1825,7 +1824,7 @@ class NaverMapUtil(
                 infoView.setText(resultArr[i], "wtncc")
                 infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
                 infoWindow.position = findPolygonCenter(latLngArr[i])
-                infoWindow.offsetX = -100
+//                infoWindow.offsetX = -100
                 infoWindowArr.add(infoWindow)
             }
 
@@ -1961,7 +1960,7 @@ class NaverMapUtil(
             val point = LatLng(arr[i].latitude, arr[i].longitude)
             bounds.include(point)
         }
-        logUtil.d("findPolygonCenter -> ${bounds.build().center}")
+//        logUtil.d("findPolygonCenter -> ${bounds.build().center}")
         return bounds.build().center
     }
 
@@ -2090,6 +2089,7 @@ class NaverMapUtil(
 
             "지장물" -> {
                 for(info in wtnccInfoThingViewArr) info.map = null
+
                 wtnccInfoThingViewArr.clear()
 
                 resultThingPropertiesWtnCodeArr.clear()
@@ -2135,7 +2135,22 @@ class NaverMapUtil(
      */
 
     fun clearCartoPolygon() {
-        for (cartoPolygonData in polygonOverlayArr) cartoPolygonData.map = null
+        for (cartoPolygonData in polygonOverlayArr)
+            cartoPolygonData.map = null
+//        polygonOverlayArr =
+
+
+
+
+
+//        for (i in polygonOverlayArr.indices) {
+//            polygonOverlayArr.removeAt(i)
+//        }
+
+        polygonOverlayArr.clear()
+
+
+
     }
 
     /**
@@ -2146,8 +2161,6 @@ class NaverMapUtil(
     fun setNaverMapPolygon(latLngArr: MutableList<LatLng>, searchType:BizEnum?) {
 
         val mapPoly = PolygonOverlay()
-
-        if (LandInfoObject._isPolygonVisible) clearCartoPolygon()
 
         for (i in latLngArr.indices) {
             mapPoly.apply {
@@ -2172,56 +2185,12 @@ class NaverMapUtil(
 
             // 토지
             BizEnum.LAD -> {
-
                 LandInfoObject.realLandPolygon = polygonOverlayArr
-//
-//                /** @description 실제이용현황 필지 선택 후 편집모드 진입 */
-//                modifyPolygon.clear()
-//                modifyPolygonOverlayArr.clear()
-//
-//                selectPolygonOverlayArr.forEach { sketchPolygon ->
-//                    sketchPolygon.setOnClickListener {
-//
-//                        for (i in 0 until sketchPolygon.coords.size) {
-//                            modifyPolygon.add(sketchPolygon.coords[i])
-//                            logUtil.d("생성된 polygon getCoords -> ${sketchPolygon.coords[i]}")
-//                        }
-//
-//                        modifyPolygonOverlayArr.add(modifyPolygon as ArrayList<LatLng>)
-//                        logUtil.d("생성된 polygon getCoords arr -> $modifyPolygonOverlayArr")
-//
-//                        modifyPolygon.forEach { addAllMapPos.add(MapPos(it.longitude, it.latitude)) }
-//                        LandInfoObject.clickLatLng = addAllMapPos
-//
-//                        val currentArea = (MathUtil.layersForArea(LandInfoObject.clickLatLng, 6371009.0) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
-//                        LandInfoObject.selectPolygonCenterTxt = currentArea.toString()
-//
-//                        dialogUtil.run { alertDialog(activity?.getString(R.string.msg_polygon_edit_title), activity?.getString(R.string.msg_polygon_edit_content), dialogBuilder, "필지편집").show() }
-//
-//                        true
-//                    }
-//                }
-
             }
 
             // 지장물
             BizEnum.THING -> {
                 ThingWtnObject.thingSketchPolygon = polygonOverlayArr
-
-                selectPolygonOverlayArr.forEach { sketchPolygon ->
-                    sketchPolygon.setOnClickListener {
-                        contextDialogItems = mutableListOf("조서 확인", "실내 스케치")
-                        contextPopupFragment = ContextDialogFragment(R.drawable.ic_research, "지장물 상세메뉴", contextDialogItems, null, null, null,null, "thingViewClickPopup")
-                        (contextPopupFragment as ContextDialogFragment).apply {
-                            show(contextPopupFragmentManager!!, "contextPopup")
-                            isCancelable = false
-                        }
-                        true
-                    }
-                }
-
-                isVisableContextPopup = true
-
             }
 
             BizEnum.TOMB -> {
@@ -2292,17 +2261,49 @@ class NaverMapUtil(
 
     /** [DialogUtil] Listener */
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
+
         logUtil.d("y")
 
         when(type){
-
-            "필지편집" -> {
-                LandInfoObject._isPolygonVisible = true
-                getActivity().settingCartoMap(modifyPolygonOverlayArr, null)
-            }
-
             "토지실제이용 전체" -> {
                 toastUtil.msg_info(R.string.landSearchRealChange, 1000)
+            }
+            "토지실제이용 삭제" -> {
+                logUtil.d("토지실제이용 삭제 콜백 리스너 success")
+                logUtil.d(LandInfoObject.searchRealLand?.get(LandInfoObject.landRealArCurPos).toString())
+
+                val url = context!!.resources.getString(R.string.mobile_url) + "delRealLandAr"
+                val jObj = JSONObject()
+                jObj.put("realLndcgrCode", (LandInfoObject.searchRealLand?.get(LandInfoObject.landRealArCurPos) as JSONObject).get("realLndcgrCode"))
+
+                HttpUtil.getInstance(context!!)
+                    .callUrlJsonWebServer(jObj, progressDialog, url,
+                        object : Callback {
+                            override fun onFailure(call: Call, e: IOException) {
+                                progressDialog?.dismiss()
+                                logUtil.d("fail")
+                            }
+
+                            override fun onResponse(call: Call, response: Response) {
+                                val responseString = response.body!!.string()
+                                logUtil.d("토지실제이용 삭제 Response -> $responseString")
+                                progressDialog?.dismiss()
+
+                                getActivity().runOnUiThread {
+                                    toastUtil.msg_success(JSONObject(responseString).get("message").toString(), 500)
+
+                                    LandInfoObject.landSearchRealLngrJsonArray?.remove(LandInfoObject.landRealArCurPos)
+                                    LandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
+
+                                    getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용")
+
+                                    clearCartoPolygon()
+                                }
+
+
+                            }
+                        })
+
             }
         }
 
@@ -2314,10 +2315,6 @@ class NaverMapUtil(
         val addAllMapPos = mutableListOf<MapPos>()
 
         when(type){
-
-            "필지편집" -> {
-                LandInfoObject._isPolygonVisible = false
-            }
 
             "토지실제이용 전체" -> {
                 toastUtil.msg_info(R.string.landSearchRealNotChange, 200)
@@ -2925,7 +2922,7 @@ class NaverMapUtil(
 
             getActivity().cartoMap?.setScreenSync()
 
-            getActivity().btnMapZoom.text = getNaverMapZoom().toString()
+            getActivity().btnMapZoom.text = getNaverMapZoom().roundToInt().toString()
 
             if (getActivity().isSidoLayerChecked && getNaverMapZoom() in 5f..8f) getWMSLayer(GeoserverLayerEnum.SIDO.value) else clearWMS(wmsSidoOverlayArr,"시도") // 시도
 

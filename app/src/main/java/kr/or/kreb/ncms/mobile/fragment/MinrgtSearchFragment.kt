@@ -65,18 +65,13 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
     private val wtnncUtill: WtnncUtil = WtnncUtil(activity, context)
     private var addViewCnt: Int = 0
 
-//    private var logUtil: LogUtil = LogUtil("MintgtSearchFragment");
-//    private var toastUtil: ToastUtil = ToastUtil(mContext)
-
-//    var dialogUtil: DialogUtil? = null
-//    private var progressDialog: AlertDialog? = null
-//    var builder: MaterialAlertDialogBuilder? = null
-
     private var minrgtAtchInfo: JSONArray? = null
 
     val wonFormat = DecimalFormat("#,###")
 
     lateinit var materialDialog: Dialog
+
+    var dcsnAt: String? = "N"
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
@@ -405,9 +400,12 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
 
         var thingDataJson = dataJson.getJSONObject("ThingSearch") as JSONObject
 
+        dcsnAt = checkStringNull(thingDataJson.getString("dcsnAt"))
+
         ThingMinrgtObject.thingInfo = thingDataJson
 
         view.landSearchLocationText.setText(checkStringNull(thingDataJson.getString("legaldongNm")))
+        view.thingdcsnAtText.text = dcsnAt
 
         view.landSearchBgnnLnmText.setText(checkStringNull(thingDataJson.getString("bgnnLnm")))
         view.landSearchincrprLnmText.setText(checkStringNull(thingDataJson.getString("incrprLnm")))
@@ -567,6 +565,31 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
             settingSearchCamerasView(null)
         }
 
+        if(dcsnAt == "Y") {
+            toast.msg_info(R.string.searchDcsnAtThing, 1000)
+
+            view.landSearchRelatedLnmText.isEnabled = false
+            view.minrgtBgnnAr.isEnabled = false
+            view.minrgtIncrprAr.isEnabled = false
+            view.minrgtUnitSpinner.isEnabled = false
+            view.minrgtArComputBasis.isEnabled = false
+            view.bsnClDivSpinner.isEnabled = false
+            view.bssMthCoText.isEnabled = false
+            view.minrgtRegNo.isEnabled = false
+            view.minrgtRegistDe.isEnabled = false
+            view.minrgtCntnncPdBgnde.isEnabled = false
+            view.minrgtCntnncPdEndde.isEnabled = false
+            view.minrgtLgstr.isEnabled = false
+            view.mnrlKnd.isEnabled = false
+            view.minrgtAr.isEnabled = false
+            view.minrgtProspectPlan.isEnabled = false
+            view.minrgtMiningPlan.isEnabled = false
+            view.minrgtOwnerCnfirmBasisSpinner.isEnabled = false
+            view.rwTrgetAtChk.isEnabled = false
+            view.apasmtTrgetAtChk.isEnabled = false
+
+
+        }
 
     }
 
@@ -734,6 +757,16 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
 
 
         addViewCnt ++
+
+        if(dcsnAt == "Y") {
+            subThingSmallCl.isEnabled = false
+            subThingKnd.isEnabled = false
+            subThingStrctNdStndrd.isEnabled = false
+            subThingBgnnAr.isEnabled = false
+            subThingIncrprAr.isEnabled = false
+            subThingUnitCl.isEnabled = false
+            subThingArComputBasis.isEnabled = false
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -840,10 +873,10 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
         Log.d("minrgtTest", "소분류 : ${ThingMinrgtObject.thingSmallCl}")
 
         // 관련지번
-        val minrgtRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-        if(!getString(R.string.landInfoRelatedLnmText).equals(minrgtRelateLnmString)) {
-            ThingMinrgtObject.relateLnm = minrgtRelateLnmString
-        }
+//        val minrgtRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+//        if(!getString(R.string.landInfoRelatedLnmText).equals(minrgtRelateLnmString)) {
+//            ThingMinrgtObject.relateLnm = minrgtRelateLnmString
+//        }
 
         ThingMinrgtObject.bgnnAr = mActivity.minrgtBgnnAr.text.toString() // 전체면적
         Log.d("minrgtTest", "전체면적 : ${ThingMinrgtObject.bgnnAr}")
@@ -938,7 +971,7 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
         }
         ThingMinrgtObject.sssMthCo = mActivity.bssMthCoText.text.toString()
 
-        ThingMinrgtObject.minrgtRegNo = "제" + mActivity.minrgtRegNo.text.toString() + "호" // 등록번호
+        ThingMinrgtObject.minrgtRegNo = mActivity.minrgtRegNo.text.toString()// 등록번호
         Log.d("minrgtTest", "등록번호 : ${ThingMinrgtObject.minrgtRegNo}")
 
         ThingMinrgtObject.minrgtRegDe = mActivity.minrgtRegistDe.text.toString() // 등록일자
@@ -1180,78 +1213,79 @@ class MinrgtSearchFragment(activity: Activity, context: Context) : BaseFragment(
                 // 단위
                 val addSpinnerLayout2 = addViewGroup2.getChildAt(1) as ViewGroup
                 val addUnitClSpinner = addSpinnerLayout2.getChildAt(0) as Spinner
-                minrgtThingItem.put("unitCl", when(addUnitClSpinner.selectedItemPosition) {
-//                minrgtAddItemMap["unitCl"] = when (addUnitClSpinner.selectedItemPosition) {
-                    1 -> "A009001"
-                    2 -> "A009002"
-                    3 -> "A009003"
-                    4 -> "A009004"
-                    5 -> "A009005"
-                    6 -> "A009006"
-                    7 -> "A009007"
-                    8 -> "A009008"
-                    9 -> "A009009"
-                    10 -> "A009010"
-                    11 -> "A009011"
-                    12 -> "A009012"
-                    13 -> "A009013"
-                    14 -> "A009014"
-                    15 -> "A009015"
-                    16 -> "A009016"
-                    17 -> "A009017"
-                    18 -> "A009018"
-                    19 -> "A009019"
-                    20 -> "A009020"
-                    21 -> "A009021"
-                    22 -> "A009022"
-                    23 -> "A009023"
-                    24 -> "A009024"
-                    25 -> "A009025"
-                    26 -> "A009026"
-                    27 -> "A009027"
-                    28 -> "A009028"
-                    29 -> "A009029"
-                    30 -> "A009030"
-                    31 -> "A009031"
-                    32 -> "A009032"
-                    33 -> "A009033"
-                    34 -> "A009034"
-                    35 -> "A009035"
-                    36 -> "A009036"
-                    37 -> "A009037"
-                    38 -> "A009038"
-                    39 -> "A009039"
-                    40 -> "A009040"
-                    41 -> "A009041"
-                    42 -> "A009042"
-                    43 -> "A009043"
-                    44 -> "A009044"
-                    45 -> "A009045"
-                    46 -> "A009046"
-                    47 -> "A009047"
-                    48 -> "A009048"
-                    49 -> "A009049"
-                    50 -> "A009050"
-                    51 -> "A009051"
-                    52 -> "A009052"
-                    53 -> "A009053"
-                    54 -> "A009054"
-                    55 -> "A009055"
-                    56 -> "A009056"
-                    57 -> "A009057"
-                    58 -> "A009058"
-                    59 -> "A009059"
-                    60 -> "A009060"
-                    61 -> "A009061"
-                    62 -> "A009062"
-                    63 -> "A009063"
-                    64 -> "A009064"
-                    65 -> "A009065"
-                    66 -> "A009066"
-                    67 -> "A009067"
-                    68 -> "A009068"
-                    else -> ""
-                })
+                minrgtThingItem.put("unitCl", CommonCodeInfoList.getCodeId("A009", addUnitClSpinner.selectedItemPosition))
+//                minrgtThingItem.put("unitCl", when(addUnitClSpinner.selectedItemPosition) {
+////                minrgtAddItemMap["unitCl"] = when (addUnitClSpinner.selectedItemPosition) {
+//                    1 -> "A009001"
+//                    2 -> "A009002"
+//                    3 -> "A009003"
+//                    4 -> "A009004"
+//                    5 -> "A009005"
+//                    6 -> "A009006"
+//                    7 -> "A009007"
+//                    8 -> "A009008"
+//                    9 -> "A009009"
+//                    10 -> "A009010"
+//                    11 -> "A009011"
+//                    12 -> "A009012"
+//                    13 -> "A009013"
+//                    14 -> "A009014"
+//                    15 -> "A009015"
+//                    16 -> "A009016"
+//                    17 -> "A009017"
+//                    18 -> "A009018"
+//                    19 -> "A009019"
+//                    20 -> "A009020"
+//                    21 -> "A009021"
+//                    22 -> "A009022"
+//                    23 -> "A009023"
+//                    24 -> "A009024"
+//                    25 -> "A009025"
+//                    26 -> "A009026"
+//                    27 -> "A009027"
+//                    28 -> "A009028"
+//                    29 -> "A009029"
+//                    30 -> "A009030"
+//                    31 -> "A009031"
+//                    32 -> "A009032"
+//                    33 -> "A009033"
+//                    34 -> "A009034"
+//                    35 -> "A009035"
+//                    36 -> "A009036"
+//                    37 -> "A009037"
+//                    38 -> "A009038"
+//                    39 -> "A009039"
+//                    40 -> "A009040"
+//                    41 -> "A009041"
+//                    42 -> "A009042"
+//                    43 -> "A009043"
+//                    44 -> "A009044"
+//                    45 -> "A009045"
+//                    46 -> "A009046"
+//                    47 -> "A009047"
+//                    48 -> "A009048"
+//                    49 -> "A009049"
+//                    50 -> "A009050"
+//                    51 -> "A009051"
+//                    52 -> "A009052"
+//                    53 -> "A009053"
+//                    54 -> "A009054"
+//                    55 -> "A009055"
+//                    56 -> "A009056"
+//                    57 -> "A009057"
+//                    58 -> "A009058"
+//                    59 -> "A009059"
+//                    60 -> "A009060"
+//                    61 -> "A009061"
+//                    62 -> "A009062"
+//                    63 -> "A009063"
+//                    64 -> "A009064"
+//                    65 -> "A009065"
+//                    66 -> "A009066"
+//                    67 -> "A009067"
+//                    68 -> "A009068"
+//                    else -> ""
+//                })
 //                Log.d("minrgtTest", "단위 : ${minrgtAddItemMap["unitCl"]}")
 
                 // 면적산출근거

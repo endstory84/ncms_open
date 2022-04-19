@@ -37,10 +37,12 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.adapter.WtnncImageAdapter
 import kr.or.kreb.ncms.mobile.base.BaseFragment
 import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
+import kr.or.kreb.ncms.mobile.data.LandInfoObject
 import kr.or.kreb.ncms.mobile.data.ThingFarmObject
 import kr.or.kreb.ncms.mobile.data.WtnncImage
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.enums.CameraEnum
+import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.util.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -108,8 +110,56 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             )
         }
 
-        farmBgnnAr.setOnEditorActionListener{ textView, action, event ->
-            if(action == EditorInfo.IME_ACTION_DONE) {
+        val farmLatLngArrSize = (requireContext() as MapActivity).naverMap?.resultFarmLatLngArr?.size
+
+        btn_farmSearchEdit.setOnClickListener {
+            //logUtil.d("농업 편집")
+
+            try {
+
+                farmLatLngArrSize.let {
+
+                    logUtil.d("편집할 객체가 존재함.")
+
+                    (requireContext() as MapActivity).runOnUiThread {
+                        showToast(ToastType.INFO, "편집할 객체가 존재하지 않습니다.", 500)
+                    }
+
+                }
+
+
+//                LandInfoObject.landRealArCurPos = curPos
+//                logUtil.d("실제이용현황 [편집] [$curPos]")
+
+//                LandInfoObject.isEditable = true
+
+//                for (i in 0..LandInfoObject.searchRealLand?.length()!!) {
+//                    if (curPos == i) { //
+//
+//                        val editPolygonGeom = (LandInfoObject.searchRealLand?.get(i) as JSONObject).get("geoms").toString()
+//                        getActivity().settingCartoMap(null, null)
+//
+//                        setEditLatLngArr(editPolygonGeom).let { ar ->
+//                            getActivity().cartoMap?.modifyLandAr(ar)
+//                        }
+//
+//                        break
+//                    }
+//                }
+
+
+            } catch (e: Exception) {
+                logUtil.e(e.message.toString())
+            }
+
+        }
+
+        btn_farmSearchRemove.setOnClickListener {
+            logUtil.d("농업 삭제")
+        }
+
+        farmBgnnAr.setOnEditorActionListener { textView, action, event ->
+            if (action == EditorInfo.IME_ACTION_DONE) {
                 var txtString = textView.getText().toString()
 
                 ThingFarmObject.bgnnAr = txtString
@@ -198,7 +248,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         }
 
 
-            // 임차기간
+        // 임차기간
         posesnRentBgnde.setOnClickListener {
             wtnncUtill.wtnncDatePicker(
                 requireActivity().supportFragmentManager,
@@ -277,10 +327,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("농지원부 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006009")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006009")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -288,19 +338,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("농지원부 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006009", "농지원부")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -317,10 +367,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("농업인확인서 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006023")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006023")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -328,19 +378,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("농업인확인서 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006023", "농업인확인서")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -357,10 +407,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("농어업경영체등록확인서 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006024")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006024")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -368,19 +418,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("농어업경영체등록확인서 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006024", "농어업경영체등록확인서")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -397,10 +447,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("직불금 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006021")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006021")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -408,19 +458,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("직불금 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006021", "직불금")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -437,10 +487,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("주민등록초본 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006007")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006007")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -448,19 +498,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("주민등록초본 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006007", "주민등록초본")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -477,10 +527,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("임대차계약서 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006019")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006019")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -488,19 +538,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("임대차계약서 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006019", "임대차계약서")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -517,10 +567,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val farmAtchSelectArray = JSONArray()
 
             array.add("경작사실확인서서 등록")
-            if(ThingFarmObject.thingNewSearch.equals("N")) {
-                for(i in 0 until farmAtchInfo!!.length()) {
+            if (ThingFarmObject.thingNewSearch.equals("N")) {
+                for (i in 0 until farmAtchInfo!!.length()) {
                     val bsnAtchItem = farmAtchInfo!!.getJSONObject(i)
-                    if(bsnAtchItem.getString("fileseInfo").equals("A200006022")) {
+                    if (bsnAtchItem.getString("fileseInfo").equals("A200006022")) {
                         array.add(bsnAtchItem.getString("rgsde"))
                         farmAtchSelectArray!!.put(bsnAtchItem)
                     }
@@ -528,19 +578,19 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                 materialDialog = MaterialAlertDialogBuilder(context!!)
                     .setTitle("경작사실확인서서 확인")
-                    .setPositiveButton("확인") {_, _ ->
+                    .setPositiveButton("확인") { _, _ ->
                         logUtil.d("setPositiveButton ---------------------------->")
-                        if(checkedItem == 0) {
+                        if (checkedItem == 0) {
                             callThingCapture("A200006022", "경작사실확인서서")
                         } else {
-                            val item = farmAtchSelectArray!!.get(checkedItem-1) as JSONObject
+                            val item = farmAtchSelectArray!!.get(checkedItem - 1) as JSONObject
                             callThingFileDownload(item)
                         }
                     }
-                    .setNegativeButton("취소") {_, _ ->
-                        logUtil.d("setNegativeButton ------------------------->" )
+                    .setNegativeButton("취소") { _, _ ->
+                        logUtil.d("setNegativeButton ------------------------->")
                     }
-                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) {_, which ->
+                    .setSingleChoiceItems(array.toTypedArray(), checkedItem) { _, which ->
                         logUtil.d("setSignleChoiceItems----------------------------->")
                         checkedItem = which
                     }
@@ -580,7 +630,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
         HttpUtil.getInstance(context!!)
             .callerUrlInfoPostWebServer(thingAtchFileMap, progressDialog, thingAtchFileUrl,
-                object: Callback {
+                object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         progressDialog?.dismiss()
                         toast.msg_error(R.string.msg_server_connected_fail, 100)
@@ -588,10 +638,10 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                     override fun onResponse(call: Call, response: Response) {
                         val downloadDirectory = Paths.get((context as MapActivity).downloadRootPath, "RAB").toString()
-                        val fileNameString = "$downloadDirectory/${item.getString( "atfl")}"
+                        val fileNameString = "$downloadDirectory/${item.getString("atfl")}"
                         var getLandFileBitmap: Bitmap? = null
 
-                        if(FileUtil.getExtension(fileNameString) == "pdf"){
+                        if (FileUtil.getExtension(fileNameString) == "pdf") {
                             FileUtil.savePdfToFileCache(response.body?.byteStream()!!, fileNameString)
                         } else {
                             getLandFileBitmap = BitmapFactory.decodeStream(response.body?.byteStream())
@@ -599,14 +649,17 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                         FileUtil.run {
                             createDir(downloadDirectory)
-                            if(getExtension(fileNameString)?.contains("png") == true){
+                            if (getExtension(fileNameString)?.contains("png") == true) {
                                 saveBitmapToFileCache(getLandFileBitmap!!, fileNameString)
                             }
                         }
 
                         val downloadFile = File(fileNameString)
 
-                        WtnccDocViewFragment(downloadFile).show(requireActivity().supportFragmentManager, "docViewFragment")
+                        WtnccDocViewFragment(downloadFile).show(
+                            requireActivity().supportFragmentManager,
+                            "docViewFragment"
+                        )
                         progressDialog?.dismiss()
                     }
 
@@ -652,7 +705,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.landSearchincrprLnmText.setText(checkStringNull(farmDataJson.getString("incrprLnm")))
         view.landSearchNominationText.setText(checkStringNull(farmDataJson.getString("gobuLndcgrNm")))
         val relateLnmString = checkStringNull(farmDataJson.getString("relateLnm"))
-        if(relateLnmString.equals("")) {
+        if (relateLnmString.equals("")) {
             view.landSearchRelatedLnmText.setText("없음")
         } else {
             view.landSearchRelatedLnmText.setText(relateLnmString)
@@ -664,7 +717,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.landSearchOwnerRText.setText(checkStringNull(farmDataJson.getString("landRelatesName")))
 
         val farmWtnCodeString = farmDataJson.getInt("farmWtnCode")
-        if(farmWtnCodeString == 0) {
+        if (farmWtnCodeString == 0) {
             view.farmWtnCodeText.setText("자동기입")
         } else {
             view.farmWtnCodeText.setText(farmWtnCodeString.toString())
@@ -672,21 +725,21 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
         val framThingSmallCl = checkStringNull(farmDataJson.getString("thingSmallCl"))
         val farmThingSmallNm = checkStringNull(farmDataJson.getString("thingSmallNm"))
-        if(farmThingSmallNm.equals("")) {
+        if (farmThingSmallNm.equals("")) {
             view.farmSmallText.setText("농업보상")
 
         } else {
             view.farmSmallText.setText(farmThingSmallNm)
         }
         val farmThingKndString = checkStringNull(farmDataJson.getString("thingKnd"))
-        if(farmThingKndString.equals("")) {
+        if (farmThingKndString.equals("")) {
             view.farmThingKndText.setText("자동기입")
 
         } else {
             view.farmThingKndText.setText(farmThingKndString)
         }
         val farmStrctNdStrndeString = checkStringNull(farmDataJson.getString("strctNdStndrd"))
-        if(farmStrctNdStrndeString.equals("")) {
+        if (farmStrctNdStrndeString.equals("")) {
             view.farmStrctNdStrndrdText.setText("자동기입")
 
         } else {
@@ -703,7 +756,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //            val farmUnitClStringSub = farmUnitClString.substring(5,7)
 //            view.farmUnitSpinner.setSelection(Integer.valueOf(farmUnitClStringSub))
 //        }
-        view.farmUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", farmUnitClString) )
+        view.farmUnitSpinner.setSelection(CommonCodeInfoList.getIdxFromCodeId("A009", farmUnitClString))
 
         view.farmArComputBasis.setText(checkStringNull(farmDataJson.getString("arComputBasis")))
 
@@ -711,22 +764,22 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         농지의 적법성근거
          */
         val frldbsLgalAtString = checkStringNull(farmDataJson.getString("frldbsLgalAt"))
-        if(frldbsLgalAtString.equals("Y")) {
+        if (frldbsLgalAtString.equals("Y")) {
             view.frldbsLgalAt.isChecked = true
         } else {
             view.frldbsLgalAt.isChecked = false;
         }
 
         val frldbsBasisClString = checkStringNull(farmDataJson.getString("frldbsBasisCl"))
-        if(frldbsBasisClString.equals("")) {
+        if (frldbsBasisClString.equals("")) {
             view.frldbsBasisCl.setSelection(0)
         } else {
-            val frldbsBasisClStringSub = frldbsBasisClString.substring(5,7)
+            val frldbsBasisClStringSub = frldbsBasisClString.substring(5, 7)
             view.frldbsBasisCl.setSelection(Integer.valueOf(frldbsBasisClStringSub))
         }
 
         val frldbsFrldLdgrAtString = checkStringNull(farmDataJson.getString("frldbsFrldLdgrAt"))
-        if(frldbsFrldLdgrAtString.equals("Y")) {
+        if (frldbsFrldLdgrAtString.equals("Y")) {
             view.frldbsFrldLdgrAt.isChecked = true
         } else {
             view.frldbsFrldLdgrAt.isChecked = false
@@ -736,36 +789,36 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         농민의 적법성 근거
          */
         val frmrbsLgalAtString = checkStringNull(farmDataJson.getString("frmrbsLgalAt"))
-        if(frmrbsLgalAtString.equals("")) {
+        if (frmrbsLgalAtString.equals("")) {
             view.frmrbsLgalAt.isChecked = false
         } else {
             view.frmrbsLgalAt.isChecked = true
         }
 
         val frmrbsBasisClString = checkStringNull(farmDataJson.getString("frmrbsBasisCl"))
-        if(frmrbsBasisClString.equals("")) {
+        if (frmrbsBasisClString.equals("")) {
             view.frmrbsBasisCl.setSelection(0)
         } else {
-            val frmrbsBasisClStringSub = frmrbsBasisClString.substring(5,7)
+            val frmrbsBasisClStringSub = frmrbsBasisClString.substring(5, 7)
             view.frmrbsBasisCl.setSelection(Integer.valueOf(frmrbsBasisClStringSub))
         }
 
         val frmrbsCnfrmnDta1AtString = checkStringNull(farmDataJson.getString("frmrbsCnfrmnDta1At"))
-        if(frmrbsCnfrmnDta1AtString.equals("Y")) {
+        if (frmrbsCnfrmnDta1AtString.equals("Y")) {
             view.frmrbsCnfrmnDta1At.isChecked = true
         } else {
             view.frmrbsCnfrmnDta1At.isChecked = false
         }
 
         val frmrbsCnfrmnDta2AtString = checkStringNull(farmDataJson.getString("frmrbsCnfrmnDta2At"))
-        if(frmrbsCnfrmnDta2AtString.equals("Y")) {
+        if (frmrbsCnfrmnDta2AtString.equals("Y")) {
             view.frmrbsCnfrmnDta2At.isChecked = true
         } else {
             view.frmrbsCnfrmnDta2At.isChecked = false
         }
 
         val frmrbsDbtamtAtString = checkStringNull(farmDataJson.getString("frmrbsDbtamtAt"))
-        when(frmrbsDbtamtAtString) {
+        when (frmrbsDbtamtAtString) {
             "Y" -> view.frmrbsDbtamtAtSp.setSelection(1)
             "N" -> view.frmrbsDbtamtAtSp.setSelection(2)
             "X" -> view.frmrbsDbtamtAtSp.setSelection(3)
@@ -779,7 +832,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val frmrbsAraResideAtString = checkStringNull(farmDataJson.getString("frmrbsAraResideAt"))
-        if(frmrbsAraResideAtString.equals("Y")) {
+        if (frmrbsAraResideAtString.equals("Y")) {
             view.frmrbsAraResideAt.isChecked = true
         } else {
             view.frmrbsAraResideAt.isChecked = false
@@ -789,7 +842,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         점유의 적법성 근거거
          */
         val posesnLgalAtString = checkStringNull(farmDataJson.getString("posesnLgalAt"))
-        if(posesnLgalAtString.equals("Y")) {
+        if (posesnLgalAtString.equals("Y")) {
             view.posesnLgalAt.isChecked = true
         } else {
             view.posesnLgalAt.isChecked = false
@@ -798,7 +851,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         if(posesnClvthmTyString.equals("")) {
             view.posesnClvthmTy.setSelection(0)
         } else {
-            when(posesnClvthmTyString) {
+            when (posesnClvthmTyString) {
                 "1" -> view.posesnClvthmTy.setSelection(1)
                 "2" -> view.posesnClvthmTy.setSelection(2)
                 else -> view.posesnClvthmTy.setSelection(0)
@@ -806,12 +859,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         }
 
         val posesnLadResideAtString = checkStringNull(farmDataJson.getString("posesnLadResideAt"))
-        view.posesnLadResideAtSp.setSelection(when (posesnLadResideAtString) {
-            "Y" -> 1
-            "N" -> 2
-            "X" -> 3
-            else -> 0
-        })
+        view.posesnLadResideAtSp.setSelection(
+            when (posesnLadResideAtString) {
+                "Y" -> 1
+                "N" -> 2
+                "X" -> 3
+                else -> 0
+            }
+        )
 //        if(posesnLadResideAtString.equals("Y")) {
 //            view.posesnLadResideAt.isChecked = true
 //        } else {
@@ -819,12 +874,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val posesnLadFarmerAtString = checkStringNull(farmDataJson.getString("posesnLadFarmerAt"))
-        view.posesnLadFarmerAtSp.setSelection(when (posesnLadFarmerAtString) {
-            "Y" -> 1
-            "N" -> 2
-            "X" -> 3
-            else -> 0
-        })
+        view.posesnLadFarmerAtSp.setSelection(
+            when (posesnLadFarmerAtString) {
+                "Y" -> 1
+                "N" -> 2
+                "X" -> 3
+                else -> 0
+            }
+        )
 //        if(posesnLadFarmerAtString.equals("Y")) {
 //            view.posesnLadFarmerAt.isChecked = true
 //        } else {
@@ -832,12 +889,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val posesnDbtamtRepAtString = checkStringNull(farmDataJson.getString("posesnDbtamtRepAt"))
-        view.posesnDbtamtRepAtSp.setSelection(when (posesnDbtamtRepAtString) {
-            "Y" -> 1
-            "N" -> 2
-            "X" -> 3
-            else -> 0
-        })
+        view.posesnDbtamtRepAtSp.setSelection(
+            when (posesnDbtamtRepAtString) {
+                "Y" -> 1
+                "N" -> 2
+                "X" -> 3
+                else -> 0
+            }
+        )
 //        if(posesnDbtamtRepAtString.equals("Y")) {
 //            view.posesnDbtamtRepAt.isChecked = true
 //        } else {
@@ -847,12 +906,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.posesnDbtamtRepInf.setText(checkStringNull(farmDataJson.getString("posesnDbtamtRepInf")))
 
         val posesnOwnerClvtCnfirmAtString = checkStringNull(farmDataJson.getString("posesnOwnerClvtCnfirmAt"))
-        view.posesnOwnerClvtCnfirmAtSp.setSelection(when (posesnOwnerClvtCnfirmAtString) {
-            "Y" -> 1
-            "N" -> 2
-            "X" -> 3
-            else -> 0
-        })
+        view.posesnOwnerClvtCnfirmAtSp.setSelection(
+            when (posesnOwnerClvtCnfirmAtString) {
+                "Y" -> 1
+                "N" -> 2
+                "X" -> 3
+                else -> 0
+            }
+        )
 //        if(posesnOwnerClvtCnfirmAtString.equals("Y")) {
 //            view.posesnOwnerClvtCnfirmAt.isChecked = true
 //        } else {
@@ -860,7 +921,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val posesnLrcdocAtString = checkStringNull(farmDataJson.getString("posesnLrcdocAt"))
-        if(posesnLrcdocAtString.equals("Y")) {
+        if (posesnLrcdocAtString.equals("Y")) {
             view.posesnLrcdocAt.isChecked = true
         } else {
             view.posesnLrcdocAt.isChecked = false
@@ -881,12 +942,11 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.posesnSpccntr.setText(checkStringNull(farmDataJson.getString("posesnSpccntr")))
 
 
-
         val ownerCnfirmBasisClString = checkStringNull(farmDataJson.getString("ownerCnfirmBasisCl"))
-        if(ownerCnfirmBasisClString.equals("")) {
+        if (ownerCnfirmBasisClString.equals("")) {
             view.farmOwnerCnfirmBasisSpinner.setSelection(5)
         } else {
-            val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5,7)
+            val ownerCnfirmBasisClStringsub = ownerCnfirmBasisClString.substring(5, 7)
             view.farmOwnerCnfirmBasisSpinner.setSelection(Integer.valueOf(ownerCnfirmBasisClStringsub))
         }
 
@@ -908,14 +968,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //        }
 
         val rwTrgetAtString = checkStringNull(farmDataJson.getString("rwTrgetAt"))
-        if(rwTrgetAtString.equals("")) {
+        if (rwTrgetAtString.equals("")) {
             view.rwTrgetAtChk.isChecked = true
         } else {
             view.rwTrgetAtChk.isChecked = rwTrgetAtString.equals("Y")
         }
 
         val apasmtTrgetAtString = checkStringNull(farmDataJson.getString("apasmtTrgetAt"))
-        if(apasmtTrgetAtString.equals("Y")) {
+        if (apasmtTrgetAtString.equals("Y")) {
             view.apasmtTrgetAtChk.isChecked = true
         } else {
             view.apasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
@@ -926,7 +986,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         view.includeRmEdit.setText(checkStringNull(farmDataJson.getString("rm")))
 
 
-        if(ThingFarmObject.thingNewSearch.equals("N")) {
+        if (ThingFarmObject.thingNewSearch.equals("N")) {
             // 경작내역 init
             val farmClvtdArray = dataJson.getJSONArray("farmClvtdlList") as JSONArray
 
@@ -1112,7 +1172,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //                        val subUnitClStringsub = subUnitClString.substring(5, 7)
 //                        farmSubThingUnitClSpinner.setSelection(Integer.valueOf(subUnitClStringsub))
 //                    }
-                    farmSubThingUnitClSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", subUnitClString) )
+                    farmSubThingUnitClSpinner.setSelection(CommonCodeInfoList.getIdxFromCodeId("A009", subUnitClString))
                     farmSubThingArComputerBasisText.setText(checkStringNull(farmSubThingObject.getString("arComputBasis")))
 
                     addThingViewCnt++
@@ -1123,7 +1183,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             // 농업 문서
 
             farmAtchInfo = dataJson.getJSONArray("thingAtchInfo")
-            for(i in 0 until farmAtchInfo!!.length()) {
+            for (i in 0 until farmAtchInfo!!.length()) {
                 val farmAtchItem = farmAtchInfo!!.getJSONObject(i)
 
                 val farmAtchFileInfo = farmAtchItem.getString("fileseInfo")
@@ -1175,8 +1235,8 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
     }
 
     fun settingSearchCamerasView(dataArray: JSONArray?) {
-        for(i in 0..4) {
-            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "","","","","","","","",""))
+        for (i in 0..4) {
+            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "", "", "", "", "", "", "", "", ""))
         }
 
         Constants.CAMERA_ADAPTER = WtnncImageAdapter(requireContext(), Constants.CAMERA_IMAGE_ARR)
@@ -1189,14 +1249,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             it.adapter = Constants.CAMERA_ADAPTER
         }
 
-        if(ThingFarmObject.thingNewSearch.equals("N")) {
-            if(dataArray!!.length() > 0) {
+        if (ThingFarmObject.thingNewSearch.equals("N")) {
+            if (dataArray!!.length() > 0) {
                 var searchImageArray = JSONArray()
 
-                for(i in 0 until dataArray!!.length()) {
+                for (i in 0 until dataArray!!.length()) {
                     val dataItem = dataArray!!.getJSONObject(i)
 
-                    if(dataItem.getString("fileseInfo").equals("A200006012")) {
+                    if (dataItem.getString("fileseInfo").equals("A200006012")) {
                         searchImageArray.put(dataItem)
                     }
                 }
@@ -1236,7 +1296,8 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
                                 override fun onResponse(call: Call, response: Response) {
 
-                                    val downLoadDirectory = Paths.get((context as MapActivity).downloadRootPath, "RAB").toString()
+                                    val downLoadDirectory =
+                                        Paths.get((context as MapActivity).downloadRootPath, "RAB").toString()
                                     val downloadFile = File("$downLoadDirectory/${item.getString("atfl")}")
 
                                     FileUtil.createDir(downLoadDirectory)
@@ -1310,10 +1371,11 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         Log.d("farmTest", "물건의 종류 : ${ThingFarmObject.thingKnd}")
 
         // 관련지번
-        val farmRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-        if(!getString(R.string.landInfoRelatedLnmText).equals(farmRelateLnmString)) {
-            ThingFarmObject.relateLnm = farmRelateLnmString
-        }
+//        val farmRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+////        if(!getString(R.string.landInfoRelatedLnmText).equals(farmRelateLnmString)) {
+////            ThingFarmObject.relateLnm = farmRelateLnmString
+////        }
+//        ThingFarmObject.relateLnm = farmRelateLnmString
 
         ThingFarmObject.bgnnAr = mActivity.farmBgnnAr.text.toString() // 전체면적
         Log.d("farmTest", "전체면적 : ${ThingFarmObject.bgnnAr}")
@@ -1462,7 +1524,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 //            else -> "N"
 //        }
 
-        ThingFarmObject.frmrbsDbtamtAt = when(mActivity.frmrbsDbtamtAtSp.selectedItemPosition) {
+        ThingFarmObject.frmrbsDbtamtAt = when (mActivity.frmrbsDbtamtAtSp.selectedItemPosition) {
             1 -> "Y"
             2 -> "N"
             3 -> "X"
@@ -1495,7 +1557,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         Log.d("farmTest", "(점유근거)경작자 타입 : ${ThingFarmObject.posesnClvthmTy}")
 
         //토지주 해당지역 거주 여부
-        ThingFarmObject.posesnLadResideAt = when(mActivity.posesnLadResideAtSp.selectedItemPosition) {
+        ThingFarmObject.posesnLadResideAt = when (mActivity.posesnLadResideAtSp.selectedItemPosition) {
             1 -> "Y"
             2 -> "N"
             3 -> "X"
@@ -1503,7 +1565,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         }
 
         // 토지주 농민 여부
-        ThingFarmObject.posesnLadFarmerAt = when(mActivity.posesnLadFarmerAtSp.selectedItemPosition) {
+        ThingFarmObject.posesnLadFarmerAt = when (mActivity.posesnLadFarmerAtSp.selectedItemPosition) {
             1 -> "Y"
             2 -> "N"
             3 -> "X"
@@ -1511,7 +1573,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         }
 
         // 농지소유자 확인 경작사실확인서 유무
-        ThingFarmObject.posesnOwnerClvtCnfirmAt = when(mActivity.posesnOwnerClvtCnfirmAtSp.selectedItemPosition) {
+        ThingFarmObject.posesnOwnerClvtCnfirmAt = when (mActivity.posesnOwnerClvtCnfirmAtSp.selectedItemPosition) {
             1 -> "Y"
             2 -> "N"
             3 -> "X"
@@ -1519,7 +1581,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         }
 
         // 직불금 수령여부
-        ThingFarmObject.posesnDbtamtRepAt = when(mActivity.posesnDbtamtRepAtSp.selectedItemPosition) {
+        ThingFarmObject.posesnDbtamtRepAt = when (mActivity.posesnDbtamtRepAtSp.selectedItemPosition) {
             1 -> "Y"
             2 -> "N"
             3 -> "X"
@@ -1572,7 +1634,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         Log.d("farmTest", "(점유근거)특약 : ${ThingFarmObject.posesnSpccntr}")
 
 
-        ThingFarmObject.ownerCnfirmBasisCl = when(mActivity.farmOwnerCnfirmBasisSpinner.selectedItemPosition) {
+        ThingFarmObject.ownerCnfirmBasisCl = when (mActivity.farmOwnerCnfirmBasisSpinner.selectedItemPosition) {
             1 -> "A035001"
             2 -> "A035002"
             3 -> "A035003"
@@ -1608,11 +1670,11 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         ThingFarmObject.acqsCl = "A025001"
         ThingFarmObject.inclsCl = "A007001"
 
-        ThingFarmObject.rwTrgetAt = when(mActivity.rwTrgetAtChk.isChecked) {
+        ThingFarmObject.rwTrgetAt = when (mActivity.rwTrgetAtChk.isChecked) {
             true -> "Y"
             else -> "N"
         }
-        ThingFarmObject.apasmtTrgetAt = when(mActivity.apasmtTrgetAtChk.isChecked) {
+        ThingFarmObject.apasmtTrgetAt = when (mActivity.apasmtTrgetAtChk.isChecked) {
             true -> "Y"
             else -> "N"
         }
@@ -1664,10 +1726,12 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             val addFyerIncome = addLayout4.getChildAt(2) as EditText // 작물별 연간 평균수입
 
             // 경작여부
-            thingFarmClvtdlItem.put("clvtAt", when (addClvtAt.isChecked) {
-                true -> "Y"
-                else -> "N"
-            })
+            thingFarmClvtdlItem.put(
+                "clvtAt", when (addClvtAt.isChecked) {
+                    true -> "Y"
+                    else -> "N"
+                }
+            )
             // 작물명
             thingFarmClvtdlItem.put("clvt", addClvt.text.toString())
 
@@ -1687,17 +1751,21 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
 
             // 농작물 실제소득 근거
             // 실제소득증빙 여부
-            thingFarmClvtdlItem.put("realIncomeAt", when (addRealIncomeAtSpinner.selectedItemPosition) {
-                1 -> "Y"
-                2 -> "N"
-                3 -> "X"
-                else -> ""
-            })
+            thingFarmClvtdlItem.put(
+                "realIncomeAt", when (addRealIncomeAtSpinner.selectedItemPosition) {
+                    1 -> "Y"
+                    2 -> "N"
+                    3 -> "X"
+                    else -> ""
+                }
+            )
             // 실제소득영농가능 여부
-            thingFarmClvtdlItem.put("realIncomeFarmAt", when (addRealIncomeFarmAt.isChecked) {
-                true -> "Y"
-                else -> "N"
-            })
+            thingFarmClvtdlItem.put(
+                "realIncomeFarmAt", when (addRealIncomeFarmAt.isChecked) {
+                    true -> "Y"
+                    else -> "N"
+                }
+            )
 
             // 적용된 소득자료집 발간년도
             thingFarmClvtdlItem.put("incomePblctYear", addIncomePblctYear.text.toString())
@@ -1709,21 +1777,23 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             thingFarmClvtdlItem.put("realIncome", addRealIncome.text.toString())
 
             // 실제소득 출처구분
-            thingFarmClvtdlItem.put("realIncomeOrgCl", when (addRealIncomeOrgCl.selectedItemPosition) {
-                1 -> "A115001" // 농안법(도매시장 등)
-                2 -> "A115002" // 대형마트/백화점
-                3 -> "A115003" // 호텔
-                4 -> "A115004" // 국가/지자체
-                5 -> "A115005" // 세관/세무처
-                6 -> "A115006" // 기타
-                else -> ""
-            })
+            thingFarmClvtdlItem.put(
+                "realIncomeOrgCl", when (addRealIncomeOrgCl.selectedItemPosition) {
+                    1 -> "A115001" // 농안법(도매시장 등)
+                    2 -> "A115002" // 대형마트/백화점
+                    3 -> "A115003" // 호텔
+                    4 -> "A115004" // 국가/지자체
+                    5 -> "A115005" // 세관/세무처
+                    6 -> "A115006" // 기타
+                    else -> ""
+                }
+            )
 
             // 실제소득 출처업체명
             thingFarmClvtdlItem.put("realIncomeBasisNm", addRealIncomeBasisNm.text.toString())
 
             // 작물별 연간 평균수입
-            thingFarmClvtdlItem .put("fyerIncome", addFyerIncome.text.toString())
+            thingFarmClvtdlItem.put("fyerIncome", addFyerIncome.text.toString())
 
             thingFarmClvtdlArray.put(thingFarmClvtdlItem)
             Log.d("farmTest", "*****************************************************************")
@@ -1733,43 +1803,42 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         thingFarmClvtdlJson.put("farmClvtdlList", thingFarmClvtdlArray)
         ThingFarmObject.addFarmClvtdlList = thingFarmClvtdlJson
 
-        ThingFarmObject.rwTrgetAt = when(mActivity.rwTrgetAtChk.isChecked) {
+        ThingFarmObject.rwTrgetAt = when (mActivity.rwTrgetAtChk.isChecked) {
             true -> "Y"
             else -> "N"
         }
-        ThingFarmObject.apasmtTrgetAt = when(mActivity.apasmtTrgetAtChk.isChecked) {
+        ThingFarmObject.apasmtTrgetAt = when (mActivity.apasmtTrgetAtChk.isChecked) {
             true -> "Y"
             else -> "N"
         }
-
 
 
         // 구조 및 규격
 //        ThingFarmObject.strctNdStrndrd = mActivity.farmStrctNdStrndrdText.text.toString()
         ThingFarmObject.strctNdStndrd = StringBuilder().apply {
 
-            if(ThingFarmObject.posesnClvthmTy.equals("1")) {
+            if (ThingFarmObject.posesnClvthmTy.equals("1")) {
                 append("자경(")
             } else {
                 append("임차농(")
             }
             val addFarmArray = ThingFarmObject.addFarmClvtdlList!!.getJSONArray("farmClvtdlList") as JSONArray
             var addFarmItemCnt = 0
-            if(addFarmArray != null) {
-                for(i in 0 until addFarmArray.length()) {
+            if (addFarmArray != null) {
+                for (i in 0 until addFarmArray.length()) {
                     val addFarmObject = addFarmArray.getJSONObject(i)
 
                     val clvt = addFarmObject.getString("clvt")
                     val realIncomeAt = addFarmObject.getString("realIncomeAt")
                     val realIncome = addFarmObject.getString("realIncome")
 
-                    if(realIncomeAt.equals("Y")) {
+                    if (realIncomeAt.equals("Y")) {
                         append(clvt + "," + realIncome)
                     } else {
                         append(clvt)
                     }
                     addFarmItemCnt++
-                    if(addFarmItemCnt != addFarmArray.length()-1) {
+                    if (addFarmItemCnt != addFarmArray.length() - 1) {
                         append(",")
                     }
                 }
@@ -1788,7 +1857,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         var thingFarmAddJson = JSONObject()
         var thingFarmAddArray = JSONArray()
         var addThingCnt = mActivity.farmBaseViewGroup.childCount // 추가된 시설물 카운트
-        if(addThingCnt > 0) {
+        if (addThingCnt > 0) {
             for (i in 0 until addThingCnt) {
                 Log.d("farmTest", "******************************************************************")
 
@@ -1812,18 +1881,20 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
                 val addArComputBasis = addViewGroup2.getChildAt(2) as EditText // 면적산출근거
 
                 // 소분류
-                thingFarmAddItem.put("thingSmallCl", when (addSmallClSpinner.selectedItemPosition) {
-                    1 -> "A039002" // 농업시설물
-                    2 -> "A039003" // 농기구
-                    3 -> "A039004" // 농작물
-                    else -> ""
-                })
+                thingFarmAddItem.put(
+                    "thingSmallCl", when (addSmallClSpinner.selectedItemPosition) {
+                        1 -> "A039002" // 농업시설물
+                        2 -> "A039003" // 농기구
+                        3 -> "A039004" // 농작물
+                        else -> ""
+                    }
+                )
 
                 // 물건의 종류
-                thingFarmAddItem.put("thingKnd",addThingKnd.text.toString())
+                thingFarmAddItem.put("thingKnd", addThingKnd.text.toString())
 
                 // 구조 및 규격
-                thingFarmAddItem.put("strctNdStrndrd",addStrctStndrd.text.toString())
+                thingFarmAddItem.put("strctNdStrndrd", addStrctStndrd.text.toString())
 
                 // 전체면적
                 thingFarmAddItem.put("bgnnAr", addAllAr.text.toString())
@@ -1928,14 +1999,14 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
      * @param currentArea 경작 면적
      */
 
-    fun addTableRow(currentArea:Int?){
+    fun addTableRow(currentArea: Int?) {
 
         ThingFarmObject.thingFarmPolygonCurrentArea = currentArea // 경작면적
 
         val farmViewGroup = farmRealIncomeBasisViewGroup
         val addFarmView = R.layout.fragment_farm_add_item
         val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            inflater.inflate(addFarmView, null)
+        inflater.inflate(addFarmView, null)
         val itemView = inflater.inflate(addFarmView, null)
         farmViewGroup?.addView(itemView)
 
@@ -1946,7 +2017,7 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
         val farmClvtEndde = farmClvtdlViewFirst.getChildAt(3) as TextView // 경작기간 입력부분
 
         // TODO: 2021-11-16 경작면적 자동입력 추가
-        var currentFarmTextView :TextView = farmClvtdlViewFirst.getChildAt(4) as TextView
+        var currentFarmTextView: TextView = farmClvtdlViewFirst.getChildAt(4) as TextView
         currentFarmTextView.text = currentArea.toString()
 
         val addViewGroup2 = farmClvtdlView.getChildAt(5) as ViewGroup // 6번째 라인
@@ -1971,7 +2042,11 @@ class FarmSearchFragment(activity: Activity, context: Context, val fragmentActiv
             wtnncUtill.wtnncYearPicker(fragmentActivity, it as TextView, "incomePblctYear")
         }
 
-        wtnncUtill.wtnncSpinnerAdapter(R.array.farmIncomeOriginSeArray, addFarmIncomeOriginSe, this) // 실제소득 출처구분 Spinner
+        wtnncUtill.wtnncSpinnerAdapter(
+            R.array.farmIncomeOriginSeArray,
+            addFarmIncomeOriginSe,
+            this
+        ) // 실제소득 출처구분 Spinner
 
 
         addClvtViewCnt++

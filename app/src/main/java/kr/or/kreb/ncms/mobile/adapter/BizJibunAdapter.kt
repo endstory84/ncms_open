@@ -54,6 +54,7 @@ class BizJibunAdapter(val callDataArr: MutableList<BizJibunListInfo>) : Recycler
                             bizJibunIncrprArTxt.text = incrprAr
                             bizJibunGobuLndcgrNmTxt.text = gobuLndcgrNm
                             bizJibunOwnerNameTxt.text = ownerName
+                            bizJibunDcnsAtTxt.text = dcsnAt
                         }
                         if(item.searchCode == "THING") {
                             bizJibunSearchNoTxt.text = thingWtnCode
@@ -64,6 +65,7 @@ class BizJibunAdapter(val callDataArr: MutableList<BizJibunListInfo>) : Recycler
                             bizJibunIncrprArTxt.text = incrprAr
                             bizJibunGobuLndcgrNmTxt.text = gobuLndcgrNm
                             bizJibunOwnerNameTxt.text = ownerName
+                            bizJibunDcnsAtTxt.text = dcsnAt
                         }
                 }
 

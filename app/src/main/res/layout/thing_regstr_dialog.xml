@@ -688,12 +688,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout11">
 
-        <Button
-                style="@style/Widget.NCMS.Alert.Button.Negative"
-                android:id="@+id/thingRegstrDialogExitBtn"
-                android:text="취소"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+<!--        <Button-->
+<!--                style="@style/Widget.NCMS.Alert.Button.Negative"-->
+<!--                android:id="@+id/thingRegstrDialogExitBtn"-->
+<!--                android:text="취소"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent" />-->
 
         <Button
                 style="@style/Widget.NCMS.Alert.Button.Positive"

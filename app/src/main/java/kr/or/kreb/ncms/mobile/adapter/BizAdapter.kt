@@ -16,7 +16,6 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add_owner_dialog.view.*
 import kotlinx.android.synthetic.main.include_biz_all.view.*
 import kr.or.kreb.ncms.mobile.BizListActivity
 import kr.or.kreb.ncms.mobile.data.BizJibunListInfo
@@ -95,7 +94,7 @@ class BizAdapter(
 //                } else {
 //                    bizListSubJibun.visibleView()
 //                }
-                // TODO: 2021-12-28 사업선택 내 지번 표출 이벤트
+
                 bizListSubJibun.setOnClickListener { view ->
 
                     view.isActivated = !view.isActivated
@@ -116,7 +115,7 @@ class BizAdapter(
                         val jibunSearchDataArr = mutableListOf<BizJibunListInfo>()
 
                         if(item.landList != null) {
-                            val jibunSearchLadData = item.landList as JSONArray
+                            val jibunSearchLadData = item.landList
                             if (jibunSearchLadData.length() > 0) {
                                 for (i in 0 until jibunSearchLadData.length()) {
                                     val dataObject = jibunSearchLadData.getJSONObject(i)
@@ -142,6 +141,7 @@ class BizAdapter(
                                                 checkStringNull(getString("ownerCnt")),
                                                 checkStringNull(getString("relatesName")),
                                                 checkStringNull(getString("relatesCnt")),
+                                                checkStringNull(getString("dcsnAt")),
 //                                                type
                                                 bizListType.value
                                             )
@@ -152,7 +152,7 @@ class BizAdapter(
                         }
 
                         if(item.thingList != null) {
-                            val jibunSearchThingData = item.thingList as JSONArray
+                            val jibunSearchThingData = item.thingList
 
                             if(jibunSearchThingData.length() > 0) {
                                 for(i in 0 until jibunSearchThingData.length()) {
@@ -180,6 +180,7 @@ class BizAdapter(
                                                 checkStringNull(getString("ownerCnt")),
                                                 checkStringNull(getString("relatesName")),
                                                 checkStringNull(getString("relateCnt")),
+                                                checkStringNull(getString("dcsnAt")),
 //                                                type
                                                 bizListType.value
                                             )

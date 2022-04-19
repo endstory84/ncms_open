@@ -142,16 +142,18 @@ class FarmOwnerFragment (val fragmentActivity: FragmentActivity) : BaseFragment(
             recyclerViewAdapter = OwnerRecyclerViewAdapter(
                 context!!,
                 BizEnum.FARM,
-                thingOwnerInfoJson!!,this
+                thingOwnerInfoJson!!,
+                "",
+                this
             )
             view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
             view.ownerRecyclerView.adapter = recyclerViewAdapter
         }
     }
 
-    override fun onDelvyAddrClicked(data: JSONObject) {
-        logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
-    }
+//    override fun onDelvyAddrClicked(data: JSONObject) {
+//        logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
+//    }
 
     override fun onAddRelateBtnClicked(data: JSONObject) {
         val ownerData = data

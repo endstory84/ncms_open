@@ -24,5 +24,7 @@ data class BizJibunListInfo (
     var ownerCnt: String?,
     var relatesName: String?,
     var relatesCnt: String?,
+    var dcsnAt: String?,
     var bizType: String?
+
 )

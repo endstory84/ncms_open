@@ -85,6 +85,11 @@
                         android:layout_weight="1"
                         android:id="@+id/landInfoRelatedLnm"
                         android:text="@string/wtnncCommRelateLnm" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/landInfoDcsnAt"
+                        android:text="@string/wtnncCommDcsnAt" />
 
             </LinearLayout>
 
@@ -113,6 +118,10 @@
                         style="@style/Widget.NCMS.WtnccValueTextView"
                         android:layout_weight="1"
                         android:id="@+id/landInfoRelatedLnmText" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:layout_weight="1"
+                        android:id="@+id/landInfoDcsnAtText" />
 
             </LinearLayout>
 

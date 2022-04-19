@@ -81,7 +81,7 @@
     <string name="main_plus_menu_detail_5">임야</string>
     <string name="main_plus_menu_detail_6">확인</string>
 
-    <string name="bizJibunSearchNo">조서(토지)번호</string>
+    <string name="bizJibunSearchNo">토지번호</string>
     <string name="bizJibunBgnnLnm">원래지번</string>
     <string name="bizJibunIncrprLnm">편입지번</string>
     <string name="bizJibunBgnnAr">원래면적</string>
@@ -89,6 +89,7 @@
     <string name="bizJibunGobuLndcgrNm">지목</string>
     <string name="bizJibunLegaldongNm">소재지</string>
     <string name="bizJibunOwnerName">소유자</string>
+    <string name="bizJibunDcnsAt">확정\n여부</string>
 
 
     <!-- message -->
@@ -115,6 +116,8 @@
     <string name="msg_server_connected_resut_residnt_empty">현재 지역에는 거주자 데이터가 존재하지 않습니다.</string>
     <string name="msg_server_connected_resut_bsn_empty">현재 지역에는 영업 데이터가 존재하지 않습니다.</string>
     <string name="msg_server_connected_resut_minrgt_empty">현재 지역에는 광업권 데이터가 존재하지 않습니다.</string>
+
+    <string name="msg_search_dcsc_at_resut">확정된 조서 입니다. 확정된 조서는 변경 할 수 없습니다.</string>
 
     <string name="map_wfs_cadastral_minzoom">17레벨 미만에서는 지적도 레이어를 불러올 수 없습니다.</string>
     <string name="map_wfs_reallad_minzoom">17레벨 미만에서는 토지실제이용 레이어를 불러올 수 없습니다.</string>
@@ -209,6 +212,7 @@
     <!--조서 공통-->
     <string name="wtnncCommNum">No</string>
     <string name="wtnncCommLocplc">소재지</string>
+    <string name="wtnncCommDcsnAt">확정여부</string>
     <string name="wtnncCommOriginalLnm">원래 지번</string>
     <string name="wtnncCommincrprLnm">편입 지번</string>
     <string name="wtnncCommLndcgr">지목</string>
@@ -317,6 +321,8 @@
     <string name="landSearchRealLndcgrCn">용도지구 및 지구</string>
     <string name="landSearchRealLndcgrAr">해당면적</string>
     <string name="landSearchSttusMesrAt">측량요청</string>
+    <string name="landSearchRealLndcgrEditSketch">스케치 편집</string>
+
     <string name="landSearchPartitnTrgetAt">분할대상여부</string>
     <string name="landSearchSpclLadCl">특수용지</string>
     <string name="landSearchSpclLadCn">특수용지내용</string>
@@ -333,6 +339,9 @@
 
     <string name="landSearchRealChange">"+" 버튼을 선택하시여 지도상에 현실적인 이용현황을 그려 주시기 바랍니다.</string>
     <string name="landSearchRealNotChange">현재의 토지에 대한 현황이 자동으로 입력 됩니다.</string>
+
+    <string name="searchDcsnAtLand">확정된 필지 입니다. 해당 필지의 조서확인 및 사진촬영, 스케치 편집만 가능합니다.</string>
+    <string name="searchDcsnAtThing">확정된 물건 입니다. 해당 물건의 조서확인 및 사진촬영, 스케치 편집만 가능합니다.</string>
 
     <!-- 조서 임시 값 -->
     <string name="loanValue_b1_01">001</string>

@@ -14,17 +14,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.tabs.TabLayoutMediator
+import com.naver.maps.geometry.LatLng
 import kotlinx.android.synthetic.main.fragment_land_search.*
 import kotlinx.android.synthetic.main.fragment_land_search.view.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.view.*
-import kotlinx.android.synthetic.main.thing_search_gnrl.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,6 +61,8 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
     var imageArr = mutableListOf<WtnncImage>()
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
+    var dcsnAt: String? = "N"
+
     init { }
 
     override fun onCreateView(
@@ -86,7 +85,7 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
         activity?.runOnUiThread {
             //landSearchRealngrAdapter = LandSearchRealngrAdapter(landSearchRealLandJson!!, clicklistener, this, mContext)
-            LandInfoObject.landSearchRealLngrAdpater = LandSearchRealngrAdapter(LandInfoObject.landSearchRealLngrJsonArray!!, mContext, activity)
+            LandInfoObject.landSearchRealLngrAdpater = LandSearchRealngrAdapter(LandInfoObject.landSearchRealLngrJsonArray!!, mContext, activity, dcsnAt)
             landSearchRealUse.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
             landSearchRealUse.adapter = LandInfoObject.landSearchRealLngrAdpater
         }
@@ -133,32 +132,49 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
         landSearchaNrfrstAtLl.setOnClickListener {
             logUtil.d("자연림 여부 레이어 선택")
-            if (landSearchaNrfrstAtChk.isChecked) {
-                landSearchaNrfrstAtChk.isChecked = false
-                LandInfoObject.nrfrstAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchaNrfrstAtChk.isEnabled = false
             } else {
-                landSearchaNrfrstAtChk.isChecked = true
-                LandInfoObject.nrfrstAtChk = "Y"
+                if (landSearchaNrfrstAtChk.isChecked) {
+                    landSearchaNrfrstAtChk.isChecked = false
+                    LandInfoObject.nrfrstAtChk = "N"
+                } else {
+                    landSearchaNrfrstAtChk.isChecked = true
+                    LandInfoObject.nrfrstAtChk = "Y"
+                }
             }
         }
 
         landSearchaNrfrstAtChk!!.setOnClickListener {
             logUtil.d("자연림 여부 선택")
-            if (landSearchaNrfrstAtChk.isChecked) {
-                LandInfoObject.nrfrstAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchaNrfrstAtChk.isEnabled = false
             } else {
-                LandInfoObject.nrfrstAtChk = "Y"
+                if (landSearchaNrfrstAtChk.isChecked) {
+                    landSearchaNrfrstAtChk.isChecked = false
+                    LandInfoObject.nrfrstAtChk = "N"
+                } else {
+                    landSearchaNrfrstAtChk.isChecked = true
+                    LandInfoObject.nrfrstAtChk = "Y"
+                }
             }
         }
 
         landSearchClvtAtLl.setOnClickListener {
             logUtil.d("경작 여부 레이아웃 선택")
-            if (landSearchClvtAtChk.isChecked) {
-                landSearchClvtAtChk.isChecked = false
-                LandInfoObject.clvtAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchClvtAtChk.isEnabled = false
             } else {
-                landSearchClvtAtChk.isChecked = true
-                LandInfoObject.clvtAtChk = "Y"
+                if (landSearchClvtAtChk.isChecked) {
+                    landSearchClvtAtChk.isChecked = false
+                    LandInfoObject.clvtAtChk = "N"
+                } else {
+                    landSearchClvtAtChk.isChecked = true
+                    LandInfoObject.clvtAtChk = "Y"
+                }
             }
         }
 
@@ -173,12 +189,17 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
         landSearchBuildAtLl.setOnClickListener {
             logUtil.d("건축물 여부 레이아웃 선택")
-            if (landSearchBuildAtChk.isChecked) {
-                landSearchBuildAtChk.isChecked = false
-                LandInfoObject.buildAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchBuildAtChk.isEnabled = false
             } else {
-                landSearchBuildAtChk.isChecked = true
-                LandInfoObject.buildAtChk = "Y"
+                if (landSearchBuildAtChk.isChecked) {
+                    landSearchBuildAtChk.isChecked = false
+                    LandInfoObject.buildAtChk = "N"
+                } else {
+                    landSearchBuildAtChk.isChecked = true
+                    LandInfoObject.buildAtChk = "Y"
+                }
             }
         }
 
@@ -193,12 +214,17 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
         landSearchPlotAtLl.setOnClickListener {
             logUtil.d("대지권 여부 레이아웃 선택")
-            if (landSearchPlotAtChk.isChecked) {
-                landSearchPlotAtChk.isChecked = false
-                LandInfoObject.plotAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchPlotAtChk.isEnabled = false
             } else {
-                landSearchPlotAtChk.isChecked = true
-                LandInfoObject.plotAtChk = "Y"
+                if (landSearchPlotAtChk.isChecked) {
+                    landSearchPlotAtChk.isChecked = false
+                    LandInfoObject.plotAtChk = "N"
+                } else {
+                    landSearchPlotAtChk.isChecked = true
+                    LandInfoObject.plotAtChk = "Y"
+                }
             }
         }
 
@@ -213,12 +239,17 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
         landSearchSttusMesrAtLl.setOnClickListener {
             logUtil.d("측량요청 여부 레이아웃 선택")
-            if (landSearchSttusMesrAtChk.isChecked) {
-                landSearchSttusMesrAtChk.isChecked = false
-                LandInfoObject.sttusMesrAtChk = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                landSearchSttusMesrAtChk.isEnabled = false
             } else {
-                landSearchSttusMesrAtChk.isChecked = true
-                LandInfoObject.sttusMesrAtChk = "Y"
+                if (landSearchSttusMesrAtChk.isChecked) {
+                    landSearchSttusMesrAtChk.isChecked = false
+                    LandInfoObject.sttusMesrAtChk = "N"
+                } else {
+                    landSearchSttusMesrAtChk.isChecked = true
+                    LandInfoObject.sttusMesrAtChk = "Y"
+                }
             }
         }
 
@@ -254,6 +285,8 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
         val landInfoDataJson = dataJson.getJSONObject("LandInfo")
 
         //토지 정보
+
+        dcsnAt = checkStringNull(landInfoDataJson.getString("dcsnAt"))
 
         val landNo = checkStringNull(landInfoDataJson.getString("no"))
         val landSubNo = checkStringNull(landInfoDataJson.getString("subNo"))
@@ -341,35 +374,34 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
             logUtil.d("real land json no data")
         }
 
+        if(dcsnAt == "Y") {
+            view.landSearchaNrfrstAtChk.isEnabled = false
+            view.landSearchClvtAtChk.isEnabled = false
+            view.landSearchBuildAtChk.isEnabled = false
+            view.landSearchPlotAtChk.isEnabled = false
+            view.landSearchRwTrgetAtChk.isEnabled = false
+            view.landSearchSttusMesrAtChk.isEnabled = false
+            view.landSearchPartitnTrgetAtChk.isEnabled = false
+            view.landSearchSpclLadClAtChk.isEnabled = false
+            view.landSearchOwnerCnfirmBasisClChk.isEnabled = false
+            view.landSearchSpclLadCnEditText.isEnabled = false
+//            view.includePaclrMatterEdit.isEnabled = false
+//            view.includeReferMatterEdit.isEnabled = false
+//            view.includeRmEdit.isEnabled = false
+            view.landSearchRelatedLnmText.isEnabled = false
+        }
+
         settingSearchRealView()
 
         settingSearchCamerasView(dataJson.getJSONArray("landAtchInfo"))
 
-
-//        landSearchaNrfrstAtChk = view.landSearchaNrfrstAtChk
-//        landSearchClvtAtChk = view.landSearchClvtAtChk
-//        landSearchBuildAtChk = view.landSearchBuildAtChk
-//        landSearchPlotAtChk = view.landSearchPlotAtChk
-
-//        // 카메라 어댑터 세팅
-//        for (i in 0..4) {
-//            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "","","","",""))
-//        }
-//
-//        Constants.CAMERA_ADAPTER = WtnncImageAdapter(requireContext(), Constants.CAMERA_IMAGE_ARR)
-//        val layoutManager = LinearLayoutManager(requireContext())
-//        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-//        includeImageViewRv.also {
-//            it.layoutManager = layoutManager
-//            it.adapter = Constants.CAMERA_ADAPTER
-//        }
     }
 
     /**
      * 토지 이용현황추가
      */
-    fun landRealAdd() {
-        logUtil.d("토지실제이용 추가!!!!")
+    fun landRealAdd(getPolygonArray: MutableList<ArrayList<LatLng>>) {
+        logUtil.d("토지 실제이용 추가")
 
         val lndData = LandInfoObject.landInfo as JSONObject
 
@@ -382,8 +414,22 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
         realLndcgr.put("saupCode",lndData.getString("saupCode"))
         realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
 
-        //val jArrLength = LandInfoObject.landSearchRealLngrJsonArray?.length()!!
-        //logUtil.d(jArrLength.toString())
+        val arr = mutableListOf<String>()
+        getPolygonArray[0].forEach {
+
+            val x = it.longitude
+            val y = it.latitude
+
+            val coordX = convertEPSG3857(y, x).x
+            val coordY = convertEPSG3857(y, x).y
+
+            arr.add("$coordX $coordY")
+        }
+
+        val convertCoord = arr.toString().replace("[", "").replace("]", "")
+        val resultGeoms = "MULTIPOLYGON ((($convertCoord)))"
+
+        realLndcgr.put("geoms",resultGeoms)
 
         LandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
         LandInfoObject.searchRealLand = LandInfoObject.landSearchRealLngrJsonArray
@@ -406,10 +452,6 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
         realLndcgr.put("saupCode",lndData.getString("saupCode"))
         realLndcgr.put("ladWtnCode",lndData.getString("ladWtnCode"))
 
-
-        //val jArrLength = LandInfoObject.landSearchRealLngrJsonArray?.length()!!
-        //logUtil.d(jArrLength.toString())
-
         LandInfoObject.landSearchRealLngrJsonArray?.put(realLndcgr)
         LandInfoObject.searchRealLand = LandInfoObject.landSearchRealLngrJsonArray
         LandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
@@ -419,37 +461,15 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
      * 토지 이용현황 면적 수정
      */
     fun landRealUpdate() {
-        logUtil.d("토지실제이용 수정!!!!")
 
-        val jArray = LandInfoObject.landSearchRealLngrJsonArray
+        logUtil.d("토지실제이용 필지 수정")
 
-        for (i in 0 until jArray?.length()!!) {
-            logUtil.d(jArray.get(i).toString())
+        val targetObj =  (LandInfoObject.landSearchRealLngrJsonArray?.get(LandInfoObject.landRealArCurPos) as JSONObject)
+        val getRealLandAr = targetObj.get("realLndcgrAr")
 
-            logUtil.d("${LandInfoObject.currentArea.toString()}, ${(jArray.get(i) as JSONObject).get("realLndcgrAr")}")
-            logUtil.d("${LandInfoObject.selectPolygonCurrentArea.toString()}, ${(jArray.get(i) as JSONObject).get("realLndcgrAr")}")
+        logUtil.d("getRealLandAr => $getRealLandAr")
 
-            when {
-                jArray.length() == 2 -> { (LandInfoObject.landSearchRealLngrJsonArray?.get(1) as JSONObject).put("realLndcgrAr", LandInfoObject.currentArea) }
-                else -> {
-                    if (LandInfoObject.selectPolygonCenterTxt == (LandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()) {
-                        logUtil.d("data 일치")
-                        (LandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put(
-                            "realLndcgrAr",
-                            LandInfoObject.currentArea
-                        )
-                    }
-                }
-            }
-
-
-            // loop문 속에서 선택한 면적과 일치하였을 경우에 실행
-//            if(LandInfoObject.selectPolygonCurrentArea.toString() == (LandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).get("realLndcgrAr").toString()){
-//                logUtil.d("data 일치")
-//                (LandInfoObject.landSearchRealLngrJsonArray?.get(i) as JSONObject).put("realLndcgrAr", LandInfoObject.currentArea)
-//            }
-        }
-
+        targetObj.put("realLndcgrAr", LandInfoObject.currentArea)
         LandInfoObject.landSearchRealLngrAdpater?.notifyDataSetChanged()
     }
 
@@ -570,32 +590,34 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         when(parent?.id) {
             R.id.landSearchSpclLadClAtChk -> {
-                when (position) {
-                    0 -> LandInfoObject.spclLadCl = ""
-                    1 -> LandInfoObject.spclLadCl = "A026001"
-                    2 -> LandInfoObject.spclLadCl = "A026002"
-                    3 -> LandInfoObject.spclLadCl = "A026003"
-                    4 -> LandInfoObject.spclLadCl = "A026004"
-                    5 -> LandInfoObject.spclLadCl = "A026005"
-                    6 -> LandInfoObject.spclLadCl = "A026006"
-                    7 -> LandInfoObject.spclLadCl = "A026007"
-                    8 -> LandInfoObject.spclLadCl = "A026008"
-                    9 -> LandInfoObject.spclLadCl = "A026009"
-                    10 -> LandInfoObject.spclLadCl = "A026010"
-                    11 -> LandInfoObject.spclLadCl = "A026011"
-                    12 -> LandInfoObject.spclLadCl = "A026012"
-                    13 -> LandInfoObject.spclLadCl = "A026013"
+                LandInfoObject.spclLadCl = when (position) {
+                    0 -> ""
+                    1 -> "A026001"
+                    2 -> "A026002"
+                    3 -> "A026003"
+                    4 -> "A026004"
+                    5 -> "A026005"
+                    6 -> "A026006"
+                    7 -> "A026007"
+                    8 -> "A026008"
+                    9 -> "A026009"
+                    10 -> "A026010"
+                    11 -> "A026011"
+                    12 -> "A026012"
+                    13 -> "A026013"
+                    else -> null
                 }
             }
 
             R.id.landSearchOwnerCnfirmBasisClChk -> {
-                when(position) {
-                    0 -> LandInfoObject.ownerCnfirmBasisCl = ""
-                    1 -> LandInfoObject.ownerCnfirmBasisCl = "A035001"
-                    2 -> LandInfoObject.ownerCnfirmBasisCl = "A035002"
-                    3 -> LandInfoObject.ownerCnfirmBasisCl = "A035003"
-                    4 -> LandInfoObject.ownerCnfirmBasisCl = "A035004"
-                    5 -> LandInfoObject.ownerCnfirmBasisCl = "A035005"
+                LandInfoObject.ownerCnfirmBasisCl  = when(position) {
+                    0 -> ""
+                    1 -> "A035001"
+                    2 -> "A035002"
+                    3 -> "A035003"
+                    4 -> "A035004"
+                    5 -> "A035005"
+                    else -> null
                 }
             }
         }
@@ -614,12 +636,12 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
 
             // 관련지번
             val landRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-            if(!getString(R.string.landInfoRelatedLnmText).equals(landRelateLnmString)) {
+//            if(!getString(R.string.landInfoRelatedLnmText).equals(landRelateLnmString)) {
                 LandInfoObject.relateLnm = landRelateLnmString
-            }
+//            }
 
             //자연림여부
-            LandInfoObject.nrfrstAtChk = when(activity!!.landSearchaNrfrstAtChk.isChecked) {
+            LandInfoObject.nrfrstAtChk = when(activity.landSearchaNrfrstAtChk.isChecked) {
                 true -> "Y"
                 else -> "N"
             }
@@ -691,6 +713,9 @@ class LandSearchFragment(val activity: Activity?, context: Context?) : BaseFragm
             LandInfoObject.referMatter = activity.includeReferMatterEdit.text.toString()
             //비고
             LandInfoObject.rm = activity.includeRmEdit.text.toString()
+
+
+
 
 
 

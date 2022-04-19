@@ -153,25 +153,39 @@ class DelvyAddrChangeFragment(val bizCode: BizEnum, val ownerInfoJson: JSONObjec
             val saveSignFile = File(signFileNmPath)
             val saveDocumentFile = File(documentFileNmPath)
 
-            when(bizCode) {
-                BizEnum.LAD -> {
-                    delvyChangeUrl = context!!.resources.getString(R.string.mobile_url) + "changeDelvyLand"
-                    delvyChangeMap["saupCode"] = ownerInfoJson.getString("saupCode")
-                    delvyChangeMap["indvdlGrpCode"] = ownerInfoJson.getString("indvdlGrpCode")
-                    delvyChangeMap["indvdlGrpTy"] = ownerInfoJson.getString("indvdlGrpTy")
-                    delvyChangeMap["delvyZip"] = editDelvyPostNumber.text.toString()
-                    delvyChangeMap["delvyAddr"] = editDelvyAddr.text.toString()
-                    delvyChangeMap["delvyAddrDetail"] = editDelvyAddrDetail.text.toString()
-                    delvyChangeMap["signFileNm"] = signFileNm
-                    delvyChangeMap["signFileseInfo"] = "A200006999"
-                    delvyChangeMap["signAtflExtsn"] = ".png"
-                    delvyChangeMap["documentFileNm"] = documentFileNm
-                    delvyChangeMap["documentFileseInfo"] = "A200006007"
-                    delvyChangeMap["documentAtflExtsn"] = ".png"
-                    delvyChangeMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") //---등록자 이름 임시 설정
-                }
-
-            }
+//            when(bizCode) {
+//                BizEnum.LAD -> {
+//                    delvyChangeUrl = context!!.resources.getString(R.string.mobile_url) + "changeDelvyLand"
+//                    delvyChangeMap["saupCode"] = ownerInfoJson.getString("saupCode")
+//                    delvyChangeMap["indvdlGrpCode"] = ownerInfoJson.getString("indvdlGrpCode")
+//                    delvyChangeMap["indvdlGrpTy"] = ownerInfoJson.getString("indvdlGrpTy")
+//                    delvyChangeMap["delvyZip"] = editDelvyPostNumber.text.toString()
+//                    delvyChangeMap["delvyAddr"] = editDelvyAddr.text.toString()
+//                    delvyChangeMap["delvyAddrDetail"] = editDelvyAddrDetail.text.toString()
+//                    delvyChangeMap["signFileNm"] = signFileNm
+//                    delvyChangeMap["signFileseInfo"] = "A200006999"
+//                    delvyChangeMap["signAtflExtsn"] = ".png"
+//                    delvyChangeMap["documentFileNm"] = documentFileNm
+//                    delvyChangeMap["documentFileseInfo"] = "A200006007"
+//                    delvyChangeMap["documentAtflExtsn"] = ".png"
+//                    delvyChangeMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") //---등록자 이름 임시 설정
+//                }
+//
+//            }
+            delvyChangeUrl = context!!.resources.getString(R.string.mobile_url) + "changeDelvyLand"
+            delvyChangeMap["saupCode"] = ownerInfoJson.getString("saupCode")
+            delvyChangeMap["indvdlGrpCode"] = ownerInfoJson.getString("indvdlGrpCode")
+            delvyChangeMap["indvdlGrpTy"] = ownerInfoJson.getString("indvdlGrpTy")
+            delvyChangeMap["delvyZip"] = editDelvyPostNumber.text.toString()
+            delvyChangeMap["delvyAddr"] = editDelvyAddr.text.toString()
+            delvyChangeMap["delvyAddrDetail"] = editDelvyAddrDetail.text.toString()
+            delvyChangeMap["signFileNm"] = signFileNm
+            delvyChangeMap["signFileseInfo"] = "A200006999"
+            delvyChangeMap["signAtflExtsn"] = ".png"
+            delvyChangeMap["documentFileNm"] = documentFileNm
+            delvyChangeMap["documentFileseInfo"] = "A200006007"
+            delvyChangeMap["documentAtflExtsn"] = ".png"
+            delvyChangeMap["register"] = PreferenceUtil.getString(context!!, "id", "defaual") //---등록자 이름 임시 설정
             HttpUtil.getInstance(context!!)
                 .callerUrlInfoPostDelvyChange(delvyChangeMap, progressDialog, delvyChangeUrl!!, saveSignFile, saveDocumentFile,
                 object: Callback {

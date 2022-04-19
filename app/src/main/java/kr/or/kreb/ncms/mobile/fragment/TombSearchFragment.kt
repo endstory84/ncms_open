@@ -83,6 +83,8 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
 
+    var dcsnAt: String? = "N"
+
 //    var builder: MaterialAlertDialogBuilder? = null
 //    var dialogUtil: DialogUtil? = null
 //    private var progressDialog: AlertDialog? = null
@@ -116,29 +118,35 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
         }
 
         addTombThingBtn.setOnClickListener {
-            val tombViewGroup = tombBaseViewGroup
-            val addThingView = R.layout.fragment_tomb_thing_add_item
-            val inflater: LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            inflater.inflate(addThingView, null)
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
 
-            val itemView = inflater.inflate(addThingView, null)
+            } else {
+                val tombViewGroup = tombBaseViewGroup
+                val addThingView = R.layout.fragment_tomb_thing_add_item
+                val inflater: LayoutInflater =
+                    mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                inflater.inflate(addThingView, null)
 
-            tombViewGroup?.addView(itemView)
+                val itemView = inflater.inflate(addThingView, null)
 
-            val addLayoutItem = tombViewGroup.getChildAt(addViewCnt) as ViewGroup
+                tombViewGroup?.addView(itemView)
 
-            val tombThingAddItemFirst = addLayoutItem.getChildAt(1) as ViewGroup
+                val addLayoutItem = tombViewGroup.getChildAt(addViewCnt) as ViewGroup
+
+                val tombThingAddItemFirst = addLayoutItem.getChildAt(1) as ViewGroup
 //            val tombThingAddItemSecond = addLayoutItem.getChildAt(2) as ViewGroup
 
-            val tombThingAddThingUnit = tombThingAddItemFirst.getChildAt(4) as ViewGroup
-            val tombThingAddThingUnitSpinner = tombThingAddThingUnit.getChildAt(0) as Spinner
+                val tombThingAddThingUnit = tombThingAddItemFirst.getChildAt(4) as ViewGroup
+                val tombThingAddThingUnitSpinner = tombThingAddThingUnit.getChildAt(0) as Spinner
 
 //            wtnncUtill.wtnncSpinnerAdapter(R.array.thingUnitArray,tombThingAddThingUnitSpinner, this)
-            wtnncUtill.wtnncSpinnerAdapter("A009", tombThingAddThingUnitSpinner, this)
+                wtnncUtill.wtnncSpinnerAdapter("A009", tombThingAddThingUnitSpinner, this)
 
 
 
-            addViewCnt++
+                addViewCnt++
+            }
         }
 
         //물건의 종류
@@ -188,45 +196,13 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
         }
 
         wtnncAddLayoutBtn.setOnClickListener { // 매장자 추가 버튼
-            addTombRlativLayout(tombrlativBaseViewGroup.childCount)
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+
+            } else {
+                addTombRlativLayout(tombrlativBaseViewGroup.childCount)
+            }
         }
-//        tombBuriedIhidnumEdit.setOnEditorActionListener { textView, action, event ->
-//            if(action == EditorInfo.IME_ACTION_DONE) {
-//                var txtString = textView.getText().toString()
-//                if(txtString.length > 0 || txtString.length < 14) {
-//                    var ihidnum1 = txtString.substring(0,6)
-//                    var ihidnum2 = txtString.substring(6,13)
-//                    var ihidnumString = ihidnum1 + "-" + ihidnum2
-//                    tombBuriedIhidnumEdit.setText(ihidnumString)
-//                } else {
-//                    toastUtil.msg_error("비정상적인 주민번호 입니다. 확인 후 다시 입력해주시기 바랍니다.", 500)
-//
-//                }
-//
-//
-//            }
-//
-//            false
-//        }
-
-
-//        tombAddRlativBtnLayout.setOnClickListener {
-//            addTombRlativLayout(tombrlativBaseViewGroup.childCount)
-//        }
-
-        // 카메라 어댑터 세팅
-//        for (i in 0..4) {
-//            Constants.CAMERA_IMAGE_ARR.add(WtnncImage(i, null, "","","","",""))
-//        }
-//
-//        Constants.CAMERA_ADAPTER = WtnncImageAdapter(requireContext(), Constants.CAMERA_IMAGE_ARR)
-//        val layoutManager = LinearLayoutManager(requireContext())
-//        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
-//        includeImageViewRv.also {
-//            it.layoutManager = layoutManager
-//            it.adapter = Constants.CAMERA_ADAPTER
-//        }
-
 
 
     }
@@ -845,6 +821,13 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
                 }
             }
 
+            if(dcsnAt == "Y") {
+                tombBurldNameView.isEnabled = false
+                tombBurldRelateView.isEnabled = false
+                tombBurldSexSpinner.isEnabled = false
+                tombBurldIhidnumfrontView.isEnabled = false
+                tombBurldIhidNumBackView.isEnabled = false
+            }
 
         }
 
@@ -920,6 +903,16 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
 
         addViewCnt++
 
+        if(dcsnAt == "Y") {
+            subThingKndView.isEnabled = false
+            subThingBgnnArView.isEnabled = false
+            subThingIncrprArView.isEnabled = false
+            subThingUnitClSpinner.isEnabled = false
+            subThingStrctNdStndrdView.isEnabled = false
+            subThingArComputBasisView.isEnabled = false
+            subThingRmView.isEnabled = false
+        }
+
     }
 
     fun init(view: View) {
@@ -950,6 +943,8 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
 
         val tombDataJson = dataJson.getJSONObject("ThingSearch") as JSONObject
 
+        dcsnAt = checkStringNull(tombDataJson!!.getString("dcsnAt"))
+
         ThingTombObject.thingInfo = tombDataJson
 
         if(ThingTombObject.thingNewSearch.equals("N")) {
@@ -958,6 +953,7 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
         }
 
         view.landSearchLocationText.text = checkStringNull(tombDataJson.getString("legaldongNm"))
+        view.thingdcsnAtText.text = dcsnAt
         view.landSearchBgnnLnmText.text = checkStringNull(tombDataJson.getString("bgnnLnm"))
         view.landSearchincrprLnmText.text = checkStringNull(tombDataJson.getString("incrprLnm"))
         view.landSearchNominationText.text = checkStringNull(tombDataJson.getString("gobuLndcgrNm"))
@@ -1008,12 +1004,6 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
         ThingTombObject.incrprAr = checkStringNull(tombDataJson.getString("incrprAr"))
 
         val unitClString = checkStringNull(tombDataJson.getString("unitCl").toString())
-//        if (unitClString.equals("")) {
-//            view.thingTombUnitSpinner.setSelection(0)
-//        } else {
-//            val unitClStringSub = unitClString.substring(5, 7)
-//            view.thingTombUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
-//        }
         view.thingTombUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", unitClString) )
 
         val thingTombTyString = checkStringNull(tombDataJson.getString("tombTy"))
@@ -1203,6 +1193,8 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
 
         // 실제 분묘 시설물 정보 init, 묘적부 여부 확인, 현장 사진 세팅
         if(ThingTombObject.thingNewSearch == "N") {
+
+
             //분묘 시설물
             val tombSubThingData = dataJson.getJSONArray("tombSubThing")
 
@@ -1229,6 +1221,30 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
             settingSearchCamerasView(dataJson.getJSONArray("thingAtchInfo"))
         } else {
             settingSearchCamerasView(null)
+        }
+
+        if(dcsnAt == "Y") {
+            toast.msg_info(R.string.searchDcsnAtThing, 1000)
+
+            view.tombThingKnd.isEnabled = false
+            view.thingTombBennArEdit.isEnabled = false
+            view.thingTombIncrprArEdit.isEnabled = false
+            view.thingTombUnitSpinner.isEnabled = false
+            view.thingTombNoEdit.isEnabled = false
+            view.tombSeSpinner.isEnabled = false
+            view.tombBurlDe.isEnabled = false
+            view.tombRlativSpinner.isEnabled = false
+            view.tombBurlTySpinner.isEnabled = false
+            view.tombBurlScaleSpinner.isEnabled = false
+            view.tombBytgtScaleSpinner.isEnabled = false
+            view.tombOwnerCnfirmBasisSpinner.isEnabled = false
+            view.apasmtTrgetAtChk.isEnabled = false
+            view.rwTrgetAtChk.isEnabled = false
+
+
+
+
+
         }
     }
 
@@ -1367,10 +1383,10 @@ class TombSearchFragment(activity: Activity, context: Context) : BaseFragment(),
             tombNo = mActivity.thingTombNoEdit.text.toString()
 
             // 관련지번
-            val tombRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-            if(!getString(R.string.landInfoRelatedLnmText).equals(tombRelateLnmString)) {
-                relateLnm = tombRelateLnmString
-            }
+//            val tombRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+//            if(!getString(R.string.landInfoRelatedLnmText).equals(tombRelateLnmString)) {
+//                relateLnm = tombRelateLnmString
+//            }
 
 
             acqsCl = "A025001" // 취득

@@ -204,7 +204,7 @@ object ThingWtnObject {
     var buldContainsArr: MutableList<String>? = null
     var buldContainsWtnccCodeArr: MutableList<String>? = null
 
-    var pointYn: String? = null
+    var pointYn: String? = "2"
 
 
     fun cleanThingWtnObject() {
@@ -239,6 +239,6 @@ object ThingWtnObject {
         acqsCl = ""
         inclsCl = ""
         wtnncImage = null
-        pointYn = null
+        pointYn = "2"
     }
 }

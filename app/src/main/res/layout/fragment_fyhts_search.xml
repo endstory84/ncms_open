@@ -41,6 +41,15 @@
                         style="@style/Widget.NCMS.WtnccValueTextView"
                         android:id="@+id/landSearchLocationText"
                         android:layout_weight="3.07" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccLabelTextView"
+                        android:id="@+id/textViewThingGnrl02"
+                        android:layout_weight="1"
+                        android:text="@string/wtnncCommDcsnAt" />
+                <TextView
+                        style="@style/Widget.NCMS.WtnccValueTextView"
+                        android:id="@+id/thingdcsnAtText"
+                        android:layout_weight="0.5" />
 
             </LinearLayout>
 

@@ -419,7 +419,13 @@ fun setJoinToStringComma(strArr: MutableList<String>): String = strArr.joinToStr
  * 마지막 콤마 제거
  * @param str
  */
-fun lastCommaRemove(str: String?): String = str?.substring(0, str.length - 1)!!
+fun lastCommaRemove(str: String?): String{
+    var strDt = ""
+    if(str != "")
+        strDt = str?.substring(0, str.length - 1)!!
+
+    return strDt
+}
 
 /**
  * 주민등록번호, 사업자번호 with 애스터(*)
@@ -433,7 +439,7 @@ fun withIhidNumAsterRisk(ihidNum: String?): String {
 fun withIhidNumAsterRisk(indvdl: Boolean, ihidNum: String?): String {
 
     if (null != ihidNum && ihidNum.isNotEmpty()) {
-        if (ihidNum!!.indexOf("-") > -1 && ihidNum.length == 14) {
+        if (ihidNum.indexOf("-") > -1 && ihidNum.length == 14) {
             return when(indvdl) {
                 true -> "${ihidNum.substring(0, 8)}******"
                 else -> "${ihidNum.substring(0, 7)}*******"

@@ -82,6 +82,8 @@ class LandInfoFragment(context: Context) : Fragment() {
 
         view.landInfoNoText?.text = "$landNo-$landSubNo"
         view.landInfoLocationText?.text = checkStringNull(landInfoJson.getString("legaldongNm"))
+        val dcsnAtString = checkStringNull(landInfoJson.getString("dcsnAt"))
+        view.landInfoDcsnAtText?.text = dcsnAtString
         view.landInfoBgnnLnmText?.text = checkStringNull(landInfoJson.getString("bgnnLnm"))
         view.landInfoincrprLnmText?.text = checkStringNull(landInfoJson.getString("incrprLnm"))
         view.landInfoNominationText?.text = landInfoJson.getString("gobuLndcgrNm")
@@ -154,6 +156,11 @@ class LandInfoFragment(context: Context) : Fragment() {
 
             }
 
+        }
+
+
+        if(dcsnAtString == "Y") {
+            toastUtil.msg_info(R.string.searchDcsnAtLand,1000)
         }
 
     }

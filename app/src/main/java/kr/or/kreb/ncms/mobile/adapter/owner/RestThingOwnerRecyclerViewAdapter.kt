@@ -120,13 +120,13 @@ class RestThingOwnerRecyclerViewAdapter(
                     val relateData = ownerInfoJson.getJSONArray("relateData")
                     if(relateData.length() > 0) {
                         relateOwnerItemLayout.visibility = View.VISIBLE
-                        relateOwnerList.adapter = RelateOwnerListAdapter(context!!)
+                        relateOwnerList.adapter = RelateOwnerListAdapter(context!!, "")
                         for(i in 0 until relateData.length()) {
                             (relateOwnerList.adapter as RelateOwnerListAdapter).addItem(relateData.getJSONObject(i))
                         }
 //                        val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 //                        layoutInflater.inflate(R.layout.view_indoorsketch_editor_text, null).let { view ->
-//                            view.relateOwnerList.adapter = RelateOwnerListAdapter(context!!)
+//                            view.relateOwnerList.adapter = RelateOwnerListAdapter(context!!, "")
 //
 //                            for(i in 0 until relateData.length()) {
 //                                (view.relateOwnerList.adapter as RelateOwnerListAdapter).addItem(relateData.getJSONObject(i))

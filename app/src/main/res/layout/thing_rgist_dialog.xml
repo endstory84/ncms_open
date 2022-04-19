@@ -4,12 +4,12 @@
   -->
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_thing_dialog_radius"
-        android:orientation="vertical">
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/bg_thing_dialog_radius"
+android:orientation="vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -544,12 +544,12 @@
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="match_parent" />-->
 
-        <Button
-                style="@style/Widget.NCMS.Alert.Button.Negative"
-                android:id="@+id/thingRgistDialogExitBtn"
-                android:text="취소"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
+<!--        <Button-->
+<!--                style="@style/Widget.NCMS.Alert.Button.Negative"-->
+<!--                android:id="@+id/thingRgistDialogExitBtn"-->
+<!--                android:text="취소"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent" />-->
 
         <Button
                 style="@style/Widget.NCMS.Alert.Button.Positive"

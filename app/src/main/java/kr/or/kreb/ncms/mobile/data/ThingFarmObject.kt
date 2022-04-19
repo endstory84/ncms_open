@@ -131,8 +131,8 @@ object ThingFarmObject {
     //스케치레이어데이터
     var thingFarmSketchPolygon: MutableList<PolygonOverlay>? = null
 
-    // TODO: 2021-11-15 농업 경작내역 Polygon Arr
     var thingFarmPolygonArr: MutableList<ArrayList<LatLng>>? = null // 농업 경작내역 폴리곤 Arr
+
     var thingFarmPolygonCurrentArea: Int? = null // 경작내역 면적
 
     // 농업 경작물 추가

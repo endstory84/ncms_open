@@ -946,9 +946,41 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
 
+            <!-- 스케치 버튼 -->
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:weightSum="2"
+                    android:layout_height="50dp">
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_farmSearchEdit"
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_edit"
+                        android:layout_weight="1"
+                        android:text="편집"
+                        android:fontFamily="@font/notosansmedium"
+                        android:drawableTint="@color/colorAccent"
+                        android:backgroundTint="@color/white"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_farmSearchRemove"
+                        android:layout_width="14dp"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_trash_bin"
+                        android:layout_weight="1"
+                        android:text="삭제"
+                        android:fontFamily="@font/notosansmedium"
+                        android:drawableTint="@color/colorAccent"
+                        android:backgroundTint="@color/white"/>
+
+                </LinearLayout>
+
+
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_margin="4dp"
                     android:layout_height="50dp"
                     android:orientation="vertical"
                     android:gravity="center">
@@ -958,7 +990,7 @@
                         android:layout_width="match_parent"
                         android:id="@+id/farmAddClvtDtlsBtn"
                         android:text="@string/farmaddClvtDtlsBtn"
-                        android:layout_weight="1" />
+                        android:layout_weight="1" android:layout_height="0dp"/>
 
             </LinearLayout>
             <LinearLayout

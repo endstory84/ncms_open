@@ -66,7 +66,7 @@ class IndoorSketchFragment :
             floatingActionButtonIndoorToolbar,
             floatingActionButtonIndoorUndo,
             floatingActionButtonIndoorRedo,
-            floatingActionButtonLine,
+            floatingActionButtonIndoorLine,
             floatingActionButtonRectangle,
             floatingActionButtonOval,
             floatingActionButtonIndoorClear,
@@ -80,7 +80,7 @@ class IndoorSketchFragment :
             floatingActionButtonIndoorClear,
             floatingActionButtonOval,
             floatingActionButtonRectangle,
-            floatingActionButtonLine,
+            floatingActionButtonIndoorLine,
             floatingActionButtonIndoorRedo,
             floatingActionButtonIndoorUndo
         )

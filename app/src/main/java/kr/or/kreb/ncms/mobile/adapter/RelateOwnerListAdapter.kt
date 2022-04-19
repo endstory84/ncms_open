@@ -16,11 +16,14 @@ import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.RelateOwnerListInfo
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.fragment.DelvyAddrChangeFragment
+import kr.or.kreb.ncms.mobile.util.ToastUtil
 import org.json.JSONObject
 
-class RelateOwnerListAdapter(val context: Context): BaseAdapter()  {
+class RelateOwnerListAdapter(val context: Context,
+    val dcsnAt: String): BaseAdapter()  {
 
     var relateOwnerData = ArrayList<RelateOwnerListInfo>()
+    private val toastUtil: ToastUtil = ToastUtil(context)
 
 
     override fun getCount(): Int {
@@ -59,7 +62,7 @@ class RelateOwnerListAdapter(val context: Context): BaseAdapter()  {
             "A015002" -> "국유"
             "A015003" -> "공유"
             "A015004" -> "알수없음"
-                else -> ""
+            else -> ""
         }
         view.ownerName.text = data.ownerNm
 
@@ -85,7 +88,11 @@ class RelateOwnerListAdapter(val context: Context): BaseAdapter()  {
 //        view.relateInfoRm.text = data.rm
 
         view.delvyRelateAddrChange.setOnClickListener {
-            DelvyAddrChangeFragment(BizEnum.LAD, data.relateOwnerJSON!!).show((context as MapActivity).supportFragmentManager, "delvyAddrChangeFragment")
+            if(dcsnAt == "Y") {
+                toastUtil.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+            } else {
+                DelvyAddrChangeFragment(BizEnum.LAD, data.relateOwnerJSON!!).show((context as MapActivity).supportFragmentManager, "delvyAddrChangeFragment")
+            }
 
         }
 

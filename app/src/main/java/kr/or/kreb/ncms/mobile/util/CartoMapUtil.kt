@@ -8,7 +8,9 @@ package kr.or.kreb.ncms.mobile.util
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.graphics.PixelFormat
+import androidx.core.content.ContextCompat
 import com.carto.components.Layers
 import com.carto.components.Options
 import com.carto.core.*
@@ -41,6 +43,7 @@ import kr.or.kreb.ncms.mobile.util.PermissionUtil.logUtil
 import java.math.BigDecimal
 import kotlin.math.roundToInt
 
+
 class CartoMapUtil : DialogUtil.ClickListener {
 
     // App Util
@@ -71,12 +74,12 @@ class CartoMapUtil : DialogUtil.ClickListener {
     lateinit var mapPosVector: MapPosVector
     lateinit var cartoEditLayer: EditableVectorLayer
 
-    private var _isModify = false
+    var _isModify = false
     private val radius = 6371009.0
 
     // Carto Style
     private lateinit var polyTextBuilderStyle: TextStyle
-    private lateinit var centerTx: Text
+    private var centerTx: Text? = null
 
     // Carto Listener
     private var editListener = EditEventListener()
@@ -90,9 +93,9 @@ class CartoMapUtil : DialogUtil.ClickListener {
     private var searchType: BizEnum? = null
     private var sktechType: Int = -1
     private var thingListener: ThingViewPagerInterface? = null
-    var currentArea: Int? = null
+    private var currentArea: Int? = null
 
-    var _isSketchDrawType: String = "LINE"
+    private var _isSketchDrawType: String = "2"
 
     var getMapPos = MapPos()
     var mapSelectLayerVectorIndex = 0
@@ -156,7 +159,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
         val overlayBitmap = BitmapUtils.loadBitmapFromAssets("img_transparent.png")
 
-        MapView.registerLicense(context!!.resources.getString(R.string.catro_license_code), context)
+        //MapView.registerLicense(context!!.resources.getString(R.string.catro_license_code), context)
 
         mapOpt = cartoMapView.options!!
         cartoProj = mapOpt.baseProjection
@@ -196,6 +199,9 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
         localVectorDataSource = LocalVectorDataSource(cartoProj)
         locatVectorText = LocalVectorDataSource(cartoProj)
+
+        empty()
+        reset()
     }
 
     /**
@@ -211,7 +217,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
     /**
      * 현재 레이어의 수
      */
-    fun getLayerCount(): Int? = cartoMapView.layers?.count()
+    fun getLayerCount(): Int = cartoMapView.layers?.count()!!
 
     /**
      * MapPos의 사이즈
@@ -246,7 +252,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
                     ).show()
                 }
             }
-            SketchEnum.REMOVE -> remove()
+            SketchEnum.REMOVE -> reset()
             SketchEnum.POLYGON -> {
 
                 val getPolygonArray = polygon() //Carto에서 그려진 폴리곤의 data
@@ -260,31 +266,31 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
                         currentArea = (mathUtil.layersForArea(LandInfoObject.clickLatLng, radius) * 100.0 / 100.0).roundToInt() // 실제이용현황 면적
 
-                        // TODO: 2021-09-01 모든 객체 클래스화 진행 (리스너 삭제)
                         when (searchType) {
                             BizEnum.LAD -> {
                                 LandInfoObject.selectPolygonCurrentArea = LandInfoObject.currentArea
                                 LandInfoObject.currentArea = currentArea
-                                logtUtil.d("실제이용현황 변경 이전 면적 : ${LandInfoObject.selectPolygonCurrentArea}")
-                                logtUtil.d("실제이용현황 면적 : $currentArea")
 
-                                /**
-                                 *  실제이용현황 편집모드 진일 했을 시에 update 실행
-                                 *  그 외 add 실행
-                                 */
-                                if (!LandInfoObject._isPolygonVisible) {
-                                    LandSearchFragment(activity, context).landRealAdd()
-                                } else {
-                                    LandSearchFragment(activity, context).landRealUpdate()
+                                logtUtil.d("실제이용현황 변경 이전 면적 => [${LandInfoObject.selectPolygonCurrentArea}]")
+                                logtUtil.d("실제이용현황 면적 => [$currentArea]")
+                                logtUtil.d("선택된 Index ${LandInfoObject.landRealArCurPos}")
+//
+//                                /**
+//                                 *  실제이용현황 편집모드 진일 했을 시에 update 실행
+//                                 *  그 외 add 실행
+//                                 */
+
+                                logUtil.d("편집모드 상태값: [${LandInfoObject.isEditable}]")
+
+                                when (LandInfoObject.isEditable) {
+                                    true -> LandSearchFragment(activity, context).landRealUpdate()
+                                    else -> LandSearchFragment(activity, context).landRealAdd(getPolygonArray)
                                 }
+
                                 empty()
                             }
-                            BizEnum.THING -> {
-                                ThingWtnObject.pointYn = _isSketchDrawType
-                            }
-                            BizEnum.TOMB -> {
-                                ThingTombObject.pointYn = _isSketchDrawType
-                            }
+                            BizEnum.THING -> ThingWtnObject.pointYn = _isSketchDrawType
+                            BizEnum.TOMB -> ThingTombObject.pointYn = _isSketchDrawType
                             BizEnum.FARM -> {
                                 ThingFarmObject.pointYn = _isSketchDrawType
                                 logtUtil.d("농업입니다.")
@@ -292,15 +298,9 @@ class CartoMapUtil : DialogUtil.ClickListener {
                                 mFarmFragment?.addTableRow(currentArea)
                                 empty()
                             }
-                            BizEnum.BSN -> {
-                                ThingBsnObject.pointYn = _isSketchDrawType
-                            }
-                            BizEnum.RESIDNT -> {
-                                ThingResidntObject.pointYn = _isSketchDrawType
-                            }
-                            BizEnum.MINRGT -> {
-                                ThingMinrgtObject.pointYn = _isSketchDrawType
-                            }
+                            BizEnum.BSN -> ThingBsnObject.pointYn = _isSketchDrawType
+                            BizEnum.RESIDNT -> ThingResidntObject.pointYn = _isSketchDrawType
+                            BizEnum.MINRGT -> ThingMinrgtObject.pointYn = _isSketchDrawType
                             else -> logtUtil.d("none")
                         }
 
@@ -320,7 +320,6 @@ class CartoMapUtil : DialogUtil.ClickListener {
         localVectorDataSource.clear()
         cartoEditLayer = EditableVectorLayer(localVectorDataSource)
         mapPosVector.clear()
-        mapLayers.clear()
 
         LandInfoObject.clickLatLng.clear()
         LandInfoObject.mapPos.clear()
@@ -366,81 +365,165 @@ class CartoMapUtil : DialogUtil.ClickListener {
      * 스케치 유형 (점)
      */
     fun point() {
-        toastUtil.msg_info("스케치 유형이 (점)으로 설정되었습니다.", 300)
-        _isSketchDrawType = "POINT"
+        try {
+            toastUtil.msg_info("스케치 유형이 (점)으로 설정되었습니다.", 300)
+            _isSketchDrawType = "1"
+            _isModify = false
+            empty()
+            removeMapLayers(cartoMapView)
+            setEditModeView(false)
+        } catch (e: Exception) {
+            logtUtil.e(e.toString())
+        }
     }
 
     /**
      * 스케치 유형 (선)
      */
     fun line() {
-        toastUtil.msg_info("스케치 유형이 (선)으로 설정되었습니다.", 300)
-        _isSketchDrawType = "LINE"
+        try {
+            toastUtil.msg_info("스케치 유형이 (선)으로 설정되었습니다.", 300)
+            _isSketchDrawType = "2"
+            _isModify = false
+            empty()
+            removeMapLayers(cartoMapView)
+            setEditModeView(false)
+        } catch (e: Exception) {
+            logtUtil.e(e.toString())
+        }
     }
 
     /** 수정 */
     fun modify() {
 
         // TODO: 2022-04-01 편집모드 프로세스 재 적용 (진행)
-        var choiceMapPos: MapPos
+        var selectInfoWindowMapPos: MapPos
+        var selectPolygonOverlayMapPos: MapPos
+
+        val newSearch = setModifyTargetSetMap()["thingNewSearch"]
+        val pointYn = setModifyTargetSetMap()["pointYn"]
+
+        val featureConnt = localVectorDataSource.featureCollection.featureCount
 
         _isModify = true // 편집모드 True
 
+        logtUtil.d("신규 or 기존 => $newSearch")
+        logtUtil.d("포인트 or 폴리곤 => $pointYn")
+
         try {
 
-            empty()
+            if(newSearch == "N"){
 
-            naverMapUtil?.apply {
-                when (Constants.BIZ_SUBCATEGORY_KEY) {
+                empty()
 
-                    BizEnum.LAD -> {
-                        wfsRealLadOverlayArr.forEach { it.map = null }
-                        wtnccInfoLadViewArr.forEach { it.map = null }
-                    }
-
+                // 사업종류에 따른 Map WFS 초기화
+                when(Constants.BIZ_SUBCATEGORY_KEY){
                     BizEnum.THING -> {
-                        wfsThingOverlayArr.forEach { it.map = null }
-                        clearWFS(wfsThingOverlayArr, "지장물")
+                        naverMapUtil?.apply {
+                            wfsThingOverlayArr.forEach { it.map = null }
+                            clearWFS(wfsThingOverlayArr, "지장물")
+                        }
+                    }
+                    else -> {}
+                }
 
-                        // 선택된 지장물 좌표값 추출
+                when(pointYn){
+                    // 포인트 편집
+                    "1" -> {
                         getActivity().choiceInfoWindowArr.forEach { choice ->
 
                             choice.position.apply {
-                                choiceMapPos = cartoProj.fromWgs84(MapPos(longitude, latitude))!!
+                                selectInfoWindowMapPos = cartoProj.fromWgs84(MapPos(longitude, latitude))!!
                             }
-
-                            LandInfoObject.mapPos.add(choiceMapPos) // 선택된 InfoWindow의 MapPos를 전역변수에 담아준다.
+                            LandInfoObject.mapPos.add(selectInfoWindowMapPos) // 선택된 InfoWindow의 MapPos를 전역변수에 담아준다.
 
                             choice.map = null
+                            logtUtil.d("selectInfoWindowMapPos => $selectInfoWindowMapPos")
 
-                            logtUtil.d("choice => $choiceMapPos")
-
-                            val point = Point(choiceMapPos, getPointStyle())
+                            val point = Point(selectInfoWindowMapPos, getPointStyle())
 
                             localVectorDataSource.add(point)
-                            cartoMapView.layers?.add(cartoEditLayer) // 추가
-
                         }
-
-                        cartoEditLayer.vectorEditEventListener = editListener
-                        cartoEditLayer.vectorElementEventListener = selectListener
-
-                        mapLayers.add(cartoEditLayer)
 
                     }
 
-                    else -> {}
+                    // 폴리곤 편집
+                    "2" -> {
+                        val modifyPosVector = MapPosVector()
+
+                        getActivity().contextPopupPolygonArr.forEach { popupPoly ->
+                            popupPoly.coords.forEach { coord ->
+                                selectPolygonOverlayMapPos =
+                                    cartoProj.fromWgs84(MapPos(coord.longitude, coord.latitude))!!
+                                popupPoly.map = null
+
+                                logtUtil.d("selectPolygonOverlayMapPos => $selectPolygonOverlayMapPos")
+                                modifyPosVector.add(selectPolygonOverlayMapPos)
+
+                            }
+                        }
+
+                        val modifyPolygon = Polygon(modifyPosVector, getPolygonStyle())
+                        localVectorDataSource.add(modifyPolygon)
+                    }
                 }
+
+                setEditLayer()
+                setEditModeView(true)
+
+            // 신규
+            } else {
+
+                if (featureConnt <= 0){
+                    toastUtil.msg_warning("편집할 객체가 존재하지 않습니다.", 500)
+                    setEditModeView(false)
+                } else {
+                    setEditLayer()
+                    setEditModeView(true)
+                }
+
             }
-        } catch (e: Exception){
+
+        } catch (e: Exception) {
             logtUtil.e(e.toString())
         }
     }
 
+    /**
+     * 실제이용현황 선택한 필지 편집 모드 적용
+     */
+    fun modifyLandAr(getLandAr: MutableList<LatLng>) {
 
-    /** 삭제 */
-    fun remove() {
+        _isModify = true // 편집모드 True
+        val modifyLandArMapPosVector = MapPosVector()
+
+        try {
+            getLandAr.forEach {
+                val modifyLandArMapPos = cartoProj.fromWgs84(MapPos(it.longitude, it.latitude))
+                modifyLandArMapPosVector.add(modifyLandArMapPos)
+            }
+
+            val modifyLandArPolygon = Polygon(modifyLandArMapPosVector, getPolygonStyle())
+            localVectorDataSource.add(modifyLandArPolygon)
+
+            setEditLayer()
+            setEditModeView(true)
+
+            LandInfoObject.selectLandPolygonArr = getLandAr // 선택한 폴리곤을 글로벌 객체에 담는다.
+
+            getActivity().naverMap?.clearCartoPolygon()
+
+        } catch (e: Exception) {
+            logtUtil.e(e.toString())
+        }
+    }
+
+    /** 초기화 */
+    fun reset() {
+
         empty()
+        removeMapLayers(cartoMapView)
+
     }
 
     /** 취소 */
@@ -455,6 +538,104 @@ class CartoMapUtil : DialogUtil.ClickListener {
         }
     }
 
+    fun setEditLayer(){
+        cartoEditLayer.vectorEditEventListener = editListener
+        cartoEditLayer.vectorElementEventListener = selectListener
+
+        cartoMapView.layers?.add(cartoEditLayer) // 맵 레이어 추가
+        mapLayers.add(cartoEditLayer) // 맵 레이어 Arr
+    }
+
+    /**
+     * 사업종류에 따라 각기 다른 Object Value Set 해준다.
+     * 사업종류에 따라 해당 WFS Layer 초기화
+     */
+    private fun setModifyTargetSetMap(): HashMap<String, String> {
+
+        val targetMap = HashMap<String, String>()
+
+        when (Constants.BIZ_SUBCATEGORY_KEY) {
+            BizEnum.LAD -> {}
+            BizEnum.THING -> {
+
+//                naverMapUtil?.apply {
+//                    wfsThingOverlayArr.forEach { it.map = null }
+//                    clearWFS(wfsThingOverlayArr, "지장물")
+//                }
+
+                targetMap["pointYn"] = ThingWtnObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingWtnObject.thingNewSearch.toString()
+            }
+            BizEnum.BSN -> {
+
+                naverMapUtil?.apply {
+                    wfsBsnOverlayArr.forEach { it.map = null }
+                    clearWFS(wfsBsnOverlayArr, "영업")
+                }
+
+                targetMap["pointYn"] = ThingBsnObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingBsnObject.thingNewSearch
+            }
+            BizEnum.FARM -> {
+
+                naverMapUtil?.apply {
+                    wfsFarmOverlayArr.forEach { it.map = null }
+                    clearWFS(wfsFarmOverlayArr, "농업")
+                }
+
+                targetMap["pointYn"] = ThingFarmObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingFarmObject.thingNewSearch
+            }
+            BizEnum.MINRGT -> {
+
+                targetMap["pointYn"] = ThingMinrgtObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingMinrgtObject.thingNewSearch
+            }
+            BizEnum.FYHTS -> {
+                targetMap["pointYn"] = ThingFyhtsObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingFyhtsObject.thingNewSearch
+            }
+            BizEnum.RESIDNT -> {
+
+                naverMapUtil?.apply {
+                    wfsResidntOverlayArr.forEach { it.map = null }
+                    clearWFS(wfsResidntOverlayArr, "농업")
+                }
+
+                targetMap["pointYn"] = ThingResidntObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingResidntObject.thingNewSearch.toString()
+            }
+            BizEnum.TOMB -> {
+
+                naverMapUtil?.apply {
+                    wfsTombOverlayArr.forEach { it.map = null }
+                    clearWFS(wfsTombOverlayArr, "농업")
+                }
+
+                targetMap["pointYn"] = ThingTombObject.pointYn.toString()
+                targetMap["thingNewSearch"] = ThingTombObject.thingNewSearch
+            }
+            else -> {}
+        }
+
+        return targetMap
+    }
+
+    private fun setEditModeView(flag: Boolean){
+
+        getActivity().btn_EditMode.apply {
+            if(flag){
+                backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.btnColor4))
+                text = "편집모드 ON"
+            } else {
+                backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context!!, R.color.btnColor1))
+                text = "편집모드 OFF"
+            }
+        }
+
+
+    }
+
     /** 선택모드 */
     fun select(element: VectorElement?) {
         cartoEditLayer.selectedVectorElement = element
@@ -466,7 +647,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
             if(selectVectorElementSourceCenterMapPos == vectorElementSourceCenterMapPos.getFeature(i).geometry.centerPos){
                 mapSelectLayerVectorIndex = i
                 logtUtil.d("선택된 레이어 Vector Index [$mapSelectLayerVectorIndex]")
-                break;
+                break
             }
         }
 
@@ -569,28 +750,31 @@ class CartoMapUtil : DialogUtil.ClickListener {
             var point: Point?
 
             // 초기화
-            removeDrawDistanceArea()
+            removeMapLayers(cartoMapView)
 
-            for (pos in LandInfoObject.mapPos) {
-                point = Point(pos, getPointStyle())
-                localVectorDataSource.add(point)
+            if(!_isModify){
+                for (pos in LandInfoObject.mapPos) {
+                    point = Point(pos, getPointStyle())
+                    localVectorDataSource.add(point)
+                }
             }
 
-            if (_isSketchDrawType == "LINE") {
+            // 선, 도형
+            if (_isSketchDrawType == "2") {
                 val ply = Polygon(mapPosVector, getPolygonStyle())
                 LandInfoObject.mapCenter = ply.bounds.center
                 localVectorDataSource.add(ply)
             }
 
             // 거리
-            if (_isSketchDrawType == "LINE") {
+            if (_isSketchDrawType == "2") {
                 if (getMapPosSize() > 1) {
                     setDistanceLineText("sketch")
                 }
             }
 
             // 면적
-            if (_isSketchDrawType == "LINE") {
+            if (_isSketchDrawType == "2") {
                 if (getMapPosSize() > 2) {
                     setDistancePolyText(LandInfoObject.mapCenter, "sketch")
                 }
@@ -600,7 +784,6 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
             cartoMapView.layers.add(cartoEditLayer)
             mapLayers.add(cartoEditLayer)
-
         }
 
     }
@@ -629,12 +812,43 @@ class CartoMapUtil : DialogUtil.ClickListener {
 
         override fun onElementModify(element: VectorElement?, geometry: Geometry?) {
 
-            if (element is Point) {
-                element.geometry = geometry as PointGeometry
-            } else if (element is Line) {
-                element.geometry = geometry as LineGeometry
-            } else if (element is Polygon) {
-                element.geometry = geometry as PolygonGeometry
+            when (element) {
+                is Point -> {
+                    element.geometry = geometry as PointGeometry
+                }
+                is Line -> {
+                    element.geometry = geometry as LineGeometry
+                }
+                is Polygon -> {
+                    element.geometry = geometry as PolygonGeometry
+
+                    LandInfoObject.clickLatLng.clear()
+                    LandInfoObject.mapPos.clear()
+
+                    for (i in 0 until element.geometry.poses.size()) {
+
+                        val posWGS84 = cartoProj.toWgs84(element.geometry.poses[i.toInt()])
+                        val pos3857 = cartoProj.fromLatLong(
+                            element.geometry.poses.get(i.toInt()).x,
+                            element.geometry.poses.get(i.toInt()).y
+                        )
+
+                        LandInfoObject.clickLatLng.add(posWGS84)
+
+                        if(_isModify)
+                            LandInfoObject.mapPos.add(element.poses[i.toInt()])
+                        else
+                            LandInfoObject.mapPos.add(pos3857)
+                    }
+
+                    LandInfoObject.mapCenter = element.bounds.center
+
+                    //setDistanceLineText("modify") //거리
+
+                    if (LandInfoObject.clickLatLng.size > 2)
+                        setDistancePolyText(LandInfoObject.mapCenter, "modify") //면적
+
+                }
             }
         }
 
@@ -656,16 +870,19 @@ class CartoMapUtil : DialogUtil.ClickListener {
         override fun onDragEnd(dragInfo: VectorElementDragInfo?): VectorElementDragResult {
             //logtUtil.d("onDragEnd MapPos => ${dragInfo?.mapPos}")
 
-            val dragEndMapPosArr = mutableListOf<MapPos>()
+            if(ThingWtnObject.pointYn == "1"){
+                val dragEndMapPosArr = mutableListOf<MapPos>()
 
-            for(i in 0 until getMapPosSize()){
-                dragEndMapPosArr.add(LandInfoObject.mapPos[i]) // 임시 배열에 기존 MapPos 복사
+                for(i in 0 until getMapPosSize()){
+                    dragEndMapPosArr.add(LandInfoObject.mapPos[i]) // 임시 배열에 기존 MapPos 복사
+                }
+
+                getMapPos = dragInfo?.mapPos!!
+                dragEndMapPosArr[mapSelectLayerVectorIndex] = getMapPos
+
+                LandInfoObject.mapPos = dragEndMapPosArr
             }
 
-            getMapPos = dragInfo?.mapPos!!
-            dragEndMapPosArr[mapSelectLayerVectorIndex] = getMapPos
-
-            LandInfoObject.mapPos = dragEndMapPosArr
             return VectorElementDragResult.VECTOR_ELEMENT_DRAG_RESULT_MODIFY
 
         }
@@ -677,12 +894,12 @@ class CartoMapUtil : DialogUtil.ClickListener {
             if (null == styleNormal) {
                 val builder = PointStyleBuilder()
                 builder.color = Color(setObjectColor(context!!, R.color.red, 255))
-                builder.size = 5f
+                builder.size = 15f
                 styleNormal = builder.buildStyle()
-                builder.size = 5f
+                builder.size = 15f
                 styleVirtual = builder.buildStyle()
                 builder.color = Color(setObjectColor(context!!, R.color.yellow, 255))
-                builder.size = 5f
+                builder.size = 15f
                 styleSelected = builder.buildStyle()
             }
 
@@ -755,25 +972,25 @@ class CartoMapUtil : DialogUtil.ClickListener {
      * 면적 Text
      */
     private fun setDistancePolyText(mapCenter: MapPos?, type: String) {
-
         // 편집
-        if (type == "modify") localVectorDataSource.remove(centerTx)
-        currentArea = (mathUtil.layersForArea(
-            LandInfoObject.clickLatLng,
-            radius
-        ) * 100.0 / 100.0).roundToInt()
+        if (type == "modify") {
+            centerTx?.let {
+                localVectorDataSource.remove(it)
+            }
+        }
 
+        currentArea = (mathUtil.layersForArea(LandInfoObject.clickLatLng, radius) * 100.0 / 100.0).roundToInt()
         centerTx = Text(mapCenter, polyTextBuilderStyle, "${currentArea}㎡")
         localVectorDataSource.add(centerTx)
 
-
+        LandInfoObject.currentArea = currentArea //실제면적 저장
     }
 
     fun setScreenSync() {
         logtUtil.d("setScreenSync-------------------------------<><>")
 
-        val mMinPos = cartoProj?.fromWgs84(naverMapUtil!!.getMinPos())
-        val mMaxPos = cartoProj?.fromWgs84(naverMapUtil!!.getMaxPos())
+        val mMinPos = cartoProj.fromWgs84(naverMapUtil!!.getMinPos())
+        val mMaxPos = cartoProj.fromWgs84(naverMapUtil!!.getMaxPos())
 
         val bounds = MapBounds(mMinPos, mMaxPos)
         val screenBounds = ScreenBounds(
@@ -784,77 +1001,74 @@ class CartoMapUtil : DialogUtil.ClickListener {
             )
         )
 
-        cartoMapView!!.moveToFitBounds(bounds, screenBounds, false, 0.5f)
+        cartoMapView.moveToFitBounds(bounds, screenBounds, false, 0.5f)
         //cartoMapView!!.setZoom(20f, 0f) // 20레벨 지정 (네이버 맵과 일치)
 
         logUtil.d("naverMapUtill getNaverMapZoom ------------------> ${naverMapUtil?.getNaverMapZoom()}")
-        cartoMapView!!.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat()+0.9955).toFloat(), 0.5f)
-        cartoMapView!!.setFocusPos(
-            cartoProj?.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0.5f
+        cartoMapView.setZoom((naverMapUtil?.getNaverMapZoom()!!.toFloat()+0.9955).toFloat(), 0.5f)
+        cartoMapView.setFocusPos(
+            cartoProj.fromWgs84(MapPos(naverMapUtil!!.lon, naverMapUtil!!.lat)), 0.5f
         ) // 현재 위치 이동
     }
 
     /**
-     * 레이어 초기화
+     * 생성된 레이어 전체 삭제
      */
-
-    private fun removeDrawDistanceArea() {
-        if(!_isModify){
-            localVectorDataSource.clear() // Layer 내 datasource 초기화
-            removeMapControlLayers(cartoMapView) //추가한 vectorlayer 삭제
-        }
-    }
-
-    private fun removeMapControlLayers(mapView: MapView) {
-        if(_isModify){
-            for (i in 0 until mapView.layers.count()) {
+    private fun removeMapLayers(mapView: MapView) {
+        try {
+            localVectorDataSource.clear()
+            for (i in 0 until getLayerCount()) {
                 mapView.layers.remove(mapView.layers[i])
             }
+            mapLayers.clear()
+
+            logtUtil.d("cartoMapLayer size ${getLayerCount()}")
+            logtUtil.d("mapLayers size ${mapLayers.size}")
+
+        } catch (e: Exception) {
+            logtUtil.d(e.toString())
         }
     }
 
     /**
      * 사용자 폴리곤(스케치) 생성
      */
-    fun polygon(): MutableList<ArrayList<LatLng>> {
+    fun  polygon(): MutableList<ArrayList<LatLng>> {
 
-        if (!_isModify) {
+        when {
 
-            removeDrawDistanceArea() // 그려진 data 초기화
-
-            val addVectorLayer = VectorLayer(localVectorDataSource)
-            cartoMapView.layers.insert(cartoMapView.layers.count(), addVectorLayer)
-
-            // 포인트
-            if (getMapPosSize() == 1) {
+            // 1. 포인트
+            getMapPosSize() == 1 -> {
                 setMarkerPointToPolygon()
-
-            // '선 or 도형
-            } else if (getMapPosSize() == 2) {
-
-                if (_isSketchDrawType == "LINE") {
-                    setMarkerLineToPolygon()
-                } else {
-                    setMarkerPointToPolygon()
-                }
+                _isSketchDrawType = "1"
             }
 
-            if (getMapPosSize() > 2) {
+            // 2. 선
+            getMapPosSize() == 2 -> {
 
-                // 스케치 '선 or 도형'
-                if (_isSketchDrawType == "LINE") {
-                    drawLineOrPolygonObject()
-                } else {
-                    drawPointObject()
+                when (_isSketchDrawType) {
+                    "2" -> {
+                        setMarkerLineToPolygon()
+                    }
+                    else -> {
+                        setMarkerPointToPolygon()
+                    }
                 }
             }
-
-        // 수정모드 TRUE
-        } else {
-
-            drawPointObject()
-
         }
+
+//        if (getMapPosSize() > 2) {
+
+            // 스케치 '선 or 도형'
+            if (_isSketchDrawType == "2") {
+                drawLineOrPolygonObject()
+            } else {
+                drawPointObject()
+            }
+//        }
+
+        setEditModeView(false)
+        getActivity().btn_EditMode.goneView()
 
         return makePolygonArr
     }
@@ -886,9 +1100,9 @@ class CartoMapUtil : DialogUtil.ClickListener {
                 for (i in 1 until 4) {
                     var addPoint: MapPos? = null
                     when (i) {
-                        1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble(), 0.0)
-                        2 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
-                        3 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
+                        1 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+                        2 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble(), 0.0)
+                        3 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
                     }
                     mapPosArr.add(addPoint!!)
                 }
@@ -934,54 +1148,6 @@ class CartoMapUtil : DialogUtil.ClickListener {
         return makePolygonArr
     }
 
-    /**
-     * 기존에 그려져있던것을 편집해서 들어왔을시에 실행되는 method
-     */
-    fun drawPolygon(editPolygonArr: MutableList<ArrayList<LatLng>>) {
-
-        removeDrawDistanceArea()
-
-        val drawVectorSources = LocalVectorDataSource(cartoProj)
-        val drawPolygonPoses = MapPosVector()
-
-        editPolygonArr[0].forEach { editPolygon ->
-            logtUtil.d(editPolygon.toString())
-            //mCartoProjection?.fromWgs84(MapPos(editPolygon.longitude, editPolygon.latitude))?.let { LandInfoObject.mapPos.add(it) }
-
-            val drawMapPos = MapPos(editPolygon.longitude, editPolygon.latitude)
-            LandInfoObject.mapPos.add(drawMapPos)
-
-            drawPolygonPoses.add(
-                cartoProj?.fromWgs84(
-                    MapPos(
-                        editPolygon.longitude,
-                        editPolygon.latitude
-                    )
-                )
-            )
-            //drawPolygonPoses.add(MapPos(editPolygon.longitude, editPolygon.latitude))
-        }
-
-        localVectorDataSource = drawVectorSources
-
-        val drawPolygon = Polygon(drawPolygonPoses, getPolygonStyle())
-        drawPolygon.setMetaDataElement("ClickText", Variant("Polygon"))
-        drawVectorSources.add(drawPolygon)
-        cartoEditLayer = EditableVectorLayer(drawVectorSources)
-
-        LandInfoObject.mapCenter = drawPolygon.bounds.center
-
-        // 면적
-        if (LandInfoObject.mapCenter != null) setDistancePolyText(
-            LandInfoObject.mapCenter,
-            "sketch"
-        )
-
-        cartoMapView.layers.insert(cartoMapView.layers.count(), cartoEditLayer)
-
-        modify()
-
-    }
 
     /**
      * 포인트 객체를 삼각형 폴리곤 변형
@@ -996,19 +1162,30 @@ class CartoMapUtil : DialogUtil.ClickListener {
         val x = BigDecimal(mapPos[0].x)
         val y = BigDecimal(mapPos[0].y)
 
-        for (i in 1 until 4) {
-            var addPoint: MapPos? = null
-            when (i) {
-                1 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble(), 0.0)
-                2 -> addPoint = MapPos(x.toDouble(), y.toDouble() + basicY, 0.0)
-                3 -> addPoint = MapPos(x.toDouble() + basicX, y.toDouble() + basicY, 0.0)
-            }
+//        for (i in 1 until 4) {
+//            var addPoint: MapPos? = null
+//            when (i) {
+//                1 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//                2 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//                3 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//            }
+//
+//            LandInfoObject.mapPos.add(addPoint!!)
+//            val wgs84Point = cartoProj.toWgs84(addPoint)
+//
+//            LandInfoObject.clickLatLng.add(wgs84Point)
+//        }
+        var addPoint: MapPos? = null
+//        when (i) {
+//            1 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//            2 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//            3 -> addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+//        }
+        addPoint = MapPos(x.toDouble(), y.toDouble(), 0.0)
+        LandInfoObject.mapPos.add(addPoint!!)
+        val wgs84Point = cartoProj.toWgs84(addPoint)
 
-            LandInfoObject.mapPos.add(addPoint!!)
-            val wgs84Point = cartoProj.toWgs84(addPoint)
-
-            LandInfoObject.clickLatLng.add(wgs84Point)
-        }
+        LandInfoObject.clickLatLng.add(wgs84Point)
     }
 
     /**
@@ -1031,6 +1208,7 @@ class CartoMapUtil : DialogUtil.ClickListener {
             LandInfoObject.clickLatLng.add(wgs84Point)
         }
     }
+
 
     override fun onPositiveClickListener(dialog: DialogInterface, type: String) {
         when (type) {

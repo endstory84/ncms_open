@@ -144,44 +144,44 @@ import org.json.JSONObject
                      }
                  }else if(thingType.equals("1")) {
                      val thingImageCode = thingListCode.substring(0,1)
-                     imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm1))
-                     imagaSubThingKnd1.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm1))
+                     imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm1))
+                     imagaSubThingKnd1.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm1))
                      imagaSubThingKnd1.setOnClickListener {
-                         imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm1))
+                         imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm1))
                      }
                      if (checkStringNull(atflNm2) == "") {
                          imagaSubThingKnd2.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd2.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm2))
+                         imagaSubThingKnd2.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm2))
                          imagaSubThingKnd2.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm2))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm2))
                          }
 
                      }
                      if (checkStringNull(atflNm3) == "") {
                          imagaSubThingKnd3.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd3.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm3))
+                         imagaSubThingKnd3.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm3))
                          imagaSubThingKnd3.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm3))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm3))
                          }
 
                      }
                      if (checkStringNull(atflNm4) == "") {
                          imagaSubThingKnd4.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd4.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm4))
+                         imagaSubThingKnd4.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm4))
                          imagaSubThingKnd4.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm4))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm4))
                          }
 
                      }
                      if (checkStringNull(atflNm5) == "") {
                          imagaSubThingKnd5.visibility = View.GONE
                      } else {
-                         imagaSubThingKnd5.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm5))
+                         imagaSubThingKnd5.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm5))
                          imagaSubThingKnd5.setOnClickListener {
-                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("material/" + thingImageCode + "/" + atflNm5))
+                             imageViewThingDialog.setImageBitmap(loadBitmapAssets("materia/" + thingImageCode + "/" + atflNm5))
                          }
                      }
                  }else if(thingType.equals("2")) {

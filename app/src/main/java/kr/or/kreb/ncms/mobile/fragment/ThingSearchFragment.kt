@@ -22,11 +22,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.android.synthetic.main.fragment_bsn_search.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.*
 import kotlinx.android.synthetic.main.include_wtnnc_camera.view.*
 import kotlinx.android.synthetic.main.thing_regstr_dialog.view.*
 import kotlinx.android.synthetic.main.thing_rgist_dialog.view.*
 import kotlinx.android.synthetic.main.thing_search_gnrl.*
+import kotlinx.android.synthetic.main.thing_search_gnrl.searchShetchBtn
 import kotlinx.android.synthetic.main.thing_search_gnrl.view.*
 import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.MapActivity
@@ -58,9 +60,13 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
     private val mActivity: Activity = activity
     private val mContext: Context = context
 
+    private val wtnncUtill: WtnncUtil = WtnncUtil(activity, context)
+
     var thingDataJson: JSONObject? = null
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
+
+    var dcsnAt: String? = "N"
 
 //    var builder: MaterialAlertDialogBuilder? = null
 //    var dialogUtil: DialogUtil? = null
@@ -68,10 +74,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //    private var toastUtil: ToastUtil = ToastUtil(mContext)
 
     init { }
-
-//    override fun showOwnerPopup() {
-//        TODO("Not yet implemented")
-//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -180,12 +182,17 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             }
         }
         thingNrmltpltAtLl.setOnClickListener {
-            if (thingNrmltpltAtChk.isChecked) {
-                thingNrmltpltAtChk.isChecked = false
-                ThingWtnObject.nrmltpltAt = "N"
+            if(dcsnAt == "Y") {
+                toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
             } else {
-                thingNrmltpltAtChk.isChecked = true
-                ThingWtnObject.nrmltpltAt = "Y"
+
+                if (thingNrmltpltAtChk.isChecked) {
+                    thingNrmltpltAtChk.isChecked = false
+                    ThingWtnObject.nrmltpltAt = "N"
+                } else {
+                    thingNrmltpltAtChk.isChecked = true
+                    ThingWtnObject.nrmltpltAt = "Y"
+                }
             }
         }
         thingwdptResnEdit.setOnEditorActionListener { textView, action, event ->
@@ -320,9 +327,27 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.regstrChgConfmDe.text = checkStringNull(thingDataJson!!.getString("regstrChgConfmDe"))
                 view.regstrChangeDtlsTxt.text = checkStringNull(thingDataJson!!.getString("regstrChangeDtls"))
 
-                view.thingRegstrDialogExitBtn.setOnClickListener {
-                    thingRegstrDialog.dismiss()
+                if(dcsnAt == "Y") {
+                    view.regstrBuldNmAtChk.isEnabled = false
+                    view.regstrBuldNmCpBtn.isEnabled = false
+                    view.regstrBuldPrposAtChk.isEnabled = false
+                    view.regstrBuldPrposCpBtn.isEnabled = false
+                    view.regstrBuldStrctAtChk.isEnabled = false
+                    view.regstrBuldStrctCpBtn.isEnabled = false
+                    view.regstrBuldDongAtChk.isEnabled = false
+                    view.regstrBuldDongNmCpBtn.isEnabled = false
+                    view.regstrBuldFlratoDfnAtChk.isEnabled = false
+                    view.regstrBuldFlratoCpBtn.isEnabled = false
+                    view.regstrBuldHoAtChk.isEnabled = false
+                    view.regstrBuldHoNmCpBtn.isEnabled = false
+                    view.regstrArAtChk.isEnabled = false
+                    view.regstrBuldArCpBtn.isEnabled = false
+
                 }
+
+//                view.thingRegstrDialogExitBtn.setOnClickListener {
+//                    thingRegstrDialog.dismiss()
+//                }
 
                 view.regstrBuldNmAtChk.setOnCheckedChangeListener{buttonView, isChecked ->
 
@@ -433,6 +458,22 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.rgistBuldFlratoTxt.text = checkStringNull(thingDataJson!!.getString("rgistBuldFlrato"))
                 view.rgistBuldHoNmTxt.text = checkStringNull(thingDataJson!!.getString("rgistBuldHo"))
                 view.rgistArTxt.text = checkStringNull(thingDataJson!!.getString("rgistAr"))
+
+                if(dcsnAt == "Y") {
+                    view.rgistBuldNmAtChk.isEnabled = false
+                    view.rgistBuldNmCpBtn.isEnabled = false
+                    view.rgistBuldPrposAtChk.isEnabled = false
+                    view.rgistBuldStrctCpBtn.isEnabled = false
+                    view.rgistBuldStrctAtChk.isEnabled = false
+                    view.rgistBuldPrposCpBtn.isEnabled = false
+                    view.rgistBuldDongAtChk.isEnabled = false
+                    view.rgistBuldDongNmCpBtn.isEnabled = false
+                    view.rgistBuldHoAtChk.isEnabled = false
+                    view.rgistBuldFlratoNmCpBtn.isEnabled = false
+                    view.rgistBuldFlratoDfnAtChk.isEnabled = false
+                    view.rgistBuldHoNmCpBtn.isEnabled = false
+                    view.rgistArAtChk.isEnabled = false
+                }
 
 
                 view.rgistBuldNmAtChk.setOnCheckedChangeListener{buttonView, isChecked ->
@@ -548,6 +589,8 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
         thingDataJson = dataJson.getJSONObject("ThingSearch") as JSONObject
 
+        dcsnAt = checkStringNull(thingDataJson!!.getString("dcsnAt"))
+
         val thingOwnerInfoJson = dataJson.getJSONArray("ownerInfo") as JSONArray
         ThingWtnObject.thingOwnerInfoJson = thingOwnerInfoJson
         ThingWtnObject.thingInfo = thingDataJson
@@ -560,9 +603,12 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 //        thingSpinnerAdapter(R.array.thingUnitArray, view.thingUnitSpinner)
 //        thingSpinnerAdapter(R.array.thingUnitArray, view.thingWdpUnitSpinner)
 //        thingSpinnerAdapter(R.array.thingUnitArray, view.thingBuildUnitSpinner)
-        thingSpinnerAdapter("A009", view.thingUnitSpinner)
-        thingSpinnerAdapter("A009", view.thingWdpUnitSpinner)
-        thingSpinnerAdapter("A009", view.thingBuildUnitSpinner)
+//        thingSpinnerAdapter("A009", view.thingUnitSpinner)
+//        thingSpinnerAdapter("A009", view.thingWdpUnitSpinner)
+//        thingSpinnerAdapter("A009", view.thingBuildUnitSpinner)
+        wtnncUtill.wtnncSpinnerAdapter("A009", thingUnitSpinner, this) // 단위
+        wtnncUtill.wtnncSpinnerAdapter("A009", thingWdpUnitSpinner, this) // 단위
+        wtnncUtill.wtnncSpinnerAdapter("A009", thingBuildUnitSpinner, this) // 단위
 
         thingSpinnerAdapter(R.array.prmisnCl,view.thingBildngPrmisnClSpinner)
 //        thingSpinnerAdapter(R.array.acqsSeArray,view.thingWdpdAcqsClSpinner)
@@ -579,16 +625,17 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
         view.thingWtnStrctAreaLinear.goneView()
 
         view.thingLegalDongNmText?.text = checkStringNull(thingDataJson!!.getString("legaldongNm").toString())
+        view.thingdcsnAtText?.text = dcsnAt
         view.thingBgnnLnmText?.text = checkStringNull(thingDataJson!!.getString("bgnnLnm").toString())
         view.thingincrprLnmText?.text = checkStringNull(thingDataJson!!.getString("incrprLnm").toString())
         view.thingGobuLadcgrNmText?.text =
             checkStringNull(thingDataJson!!.getString("gobuLndcgrNm").toString())
 
-        if (checkStringNull(thingDataJson!!.getString("relateLnm").toString()).equals("")) {
-            view.thingRelateLnmText?.setText(context!!.getString(R.string.loanValue_b2_04))
-        } else {
-            view.thingRelateLnmText?.setText(checkStringNull(thingDataJson!!.getString("relateLnm").toString()))
-        }
+//        if (checkStringNull(thingDataJson!!.getString("relateLnm").toString()).equals("")) {
+//            view.thingRelateLnmText?.setText("")
+//        } else {
+//            view.thingRelateLnmText?.setText(checkStringNull(thingDataJson!!.getString("relateLnm").toString()))
+//        }
         view.thingRelateLnmText?.setText(checkStringNull(thingDataJson!!.getString("relateLnm").toString()))
 
         if(thingDataJson!!.getString("thingKnd").toString().equals("null")) {
@@ -611,6 +658,10 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
         }
 //        val thingSmallCl = checkStringNull(thingDataJson!!.getString("thingSmallCl").toString())
 
+        view.includePaclrMatterEdit.setText(checkStringNull(thingDataJson!!.getString("paclrMatter")))
+        view.includeReferMatterEdit.setText(checkStringNull(thingDataJson!!.getString("referMatter")))
+        view.includeRmEdit.setText(checkStringNull(thingDataJson!!.getString("rm")))
+
         when (thingSmallCl) {
             "A023002", "A023003" -> { // 건축물
                 val smallClStringSub = thingSmallCl.substring(5, 7)
@@ -624,21 +675,14 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     view.thingNoText?.text = "자동기입"
                 } else {
                     view.thingNoText?.text =
-                        checkStringNull(thingDataJson!!.getString("thingWtnCode").toString())
+                        checkStringNull(thingDataJson!!.getString("moNo").toString())
                 }
-//                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
 
                 if(!ThingWtnObject.thingKnd.equals("")) {
                     view.thingKndEdit.setText(ThingWtnObject.thingKnd)
                 } else {
                     view.thingKndEdit.setText(checkStringNull(thingDataJson!!.getString("thingKnd")))
                 }
-//                view.thingStrctNdStndrdEdit?.setText(
-//                    checkStringNull(
-//                        thingDataJson!!.getString("strctNdStndrd").toString()
-//                    )
-//                )
-//                ThingWtnObject.strctNdStndrd = checkStringNull(thingDataJson!!.getString("strctNdStndrd").toString())
                 if(!ThingWtnObject.strctNdStndrd.equals("")) {
                     view.thingStrctNdStndrdEdit.setText(ThingWtnObject.strctNdStndrd)
                 } else {
@@ -655,13 +699,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 ThingWtnObject.incrprAr = checkStringNull(thingDataJson!!.getString("incrprAr").toString())
 
                 val buldUnitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
-//                val buldUnitClStringSub: String
-//                if(buldUnitClString != ""){
-//                    buldUnitClStringSub = buldUnitClString.substring(5, 7)
-//                    view.thingBuildUnitSpinner.setSelection(Integer.valueOf(buldUnitClStringSub))
-//                } else {
-//                    view.thingBuildUnitSpinner.setSelection(0)
-//                }
                 view.thingBuildUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", buldUnitClString) )
 
                 view.thingBuildArComputBasisEdit.setText(checkStringNull(thingDataJson!!.getString("arComputBasis")))
@@ -690,22 +727,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.rgistDfnDtlsEdit.setText(checkStringNull(thingDataJson!!.getString("rgistDfnDtls")))
                 val nrtBuldAtString = checkStringNull(thingDataJson!!.getString("nrtBuldAt")).toUpperCase()
                 view.thingNrtBuldAt.isChecked = nrtBuldAtString.equals("Y")
-
-//                val acqsClString = checkStringNull(thingDataJson!!.getString("acqsCl"))
-//                if (acqsClString.equals("")) {
-//                    view.thingBuldAcqsClSpinner.setSelection(0)
-//                } else {
-//                    val acqsClStringsub = acqsClString.substring(5, 7)
-//                    view.thingBuldAcqsClSpinner.setSelection(Integer.valueOf(acqsClStringsub))
-//                }
-//
-//                val inclsClString = checkStringNull(thingDataJson!!.getString("inclsCl"))
-//                if (inclsClString.equals("")) {
-//                    view.thingBuldInclsClSpinner.setSelection(0)
-//                } else {
-//                    val inclsClStringsub = inclsClString.substring(5, 7)
-//                    view.thingBuldInclsClSpinner.setSelection(Integer.valueOf(inclsClStringsub))
-//                }
 
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
@@ -738,6 +759,42 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingBuldApasmtTrgetAtChk.isChecked = buldApasmtTrgetAtString.equals("Y")
 
 
+
+                if(dcsnAt == "Y") {
+                    view.thingIndoorTyChk.isEnabled = false
+                    view.thingRelateLnmText.isEnabled = false
+                    view.thingSmallSpinner.isEnabled = false
+                    view.thingKndEdit.isEnabled = false
+                    view.thingStrctNdStndrdEdit.isEnabled = false
+                    view.thingBuildBgnnArEdit.isEnabled = false
+                    view.thingBuildIncrprArEdit.isEnabled = false
+                    view.thingBuildUnitSpinner.isEnabled = false
+                    view.thingBuildArComputBasisEdit.isEnabled = false
+                    view.thingRpmsnBasisChk.isEnabled = false
+                    view.thingBildngPrmisnClSpinner.isEnabled = false
+                    view.thingRgistAtChk.isEnabled = false
+                    view.thingBuldNameEdit.isEnabled = false
+                    view.thingbuldprposEdit.isEnabled = false
+                    view.thingbuldStrctEdit.isEnabled = false
+                    view.ThingBuldDongEdit.isEnabled = false
+                    view.thingBuldhoNameEdit.isEnabled = false
+                    view.thingBuldFlratoEdit.isEnabled = false
+                    view.thingNrtBuldAt.isEnabled = false
+                    view.regstrDfnDtlsEdit.isEnabled = false
+                    view.rgistDfnDtlsEdit.isEnabled = false
+                    view.thingBuldOwnerCnfirmBasisClSpinner.isEnabled = false
+                    view.thingBuldSttusMesrAtChk.isEnabled = false
+                    view.thingBuldOwnshipBeforeAtChk.isEnabled = false
+                    view.thingBuldRwTrgetAtChk.isEnabled = false
+                    view.thingBuldApasmtTrgetAtChk.isEnabled = false
+//                    view.includePaclrMatterEdit.isEnabled = false
+//                    view.includeReferMatterEdit.isEnabled = false
+//                    view.includeRmEdit.isEnabled = false
+                    view.thingRedeBingAtChk.isEnabled = false
+
+                }
+
+
             }
             "A023001", "A023004", "A023006", "A023007", "A023008", "A023009", "A023010", "A023011" -> { // 일반지장물
 
@@ -752,9 +809,8 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     view.thingNoText?.text = "자동기입"
                 } else {
                     view.thingNoText?.text =
-                        checkStringNull(thingDataJson!!.getString("thingWtnCode").toString())
+                        checkStringNull(thingDataJson!!.getString("moNo").toString())
                 }
-//                view.thingKndEdit?.setText(checkStringNull(thingDataJson!!.getString("thingKnd").toString()))
 
                 if(!ThingWtnObject.thingKnd.equals("")) {
                     view.thingKndEdit.setText(ThingWtnObject.thingKnd)
@@ -771,28 +827,12 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingBgnnArEdit.setText(checkStringNull(thingDataJson!!.getString("bgnnAr")))
                 view.thingIncrprArEdit.setText(checkStringNull(thingDataJson!!.getString("incrprAr")))
 
-//                val unitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
-//                val unitClStringSub = unitClString.substring(5, 7)
-//                view.thingUnitSpinner.setSelection(Integer.valueOf(unitClStringSub))
+                val thingUnitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
+                view.thingUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", thingUnitClString) )
+
 
                 view.thingArComputBasisEdit.setText(checkStringNull(thingDataJson!!.getString("arComputBasis")))
 
-//                val acqsClString = checkStringNull(thingDataJson!!.getString("acqsCl"))
-//                if (acqsClString.equals("")) {
-//                    view.thingAcqsClSpinner.setSelection(0)
-//                } else {
-//                    val acqsClStringsub = acqsClString.substring(5, 7)
-//                    view.thingAcqsClSpinner.setSelection(Integer.valueOf(acqsClStringsub))
-//                }
-
-//                val inclsClString = checkStringNull(thingDataJson!!.getString("inclsCl"))
-//                if (inclsClString.equals("")) {
-//                    view.thingInclsClSpinner.setSelection(0)
-//                } else {
-//                    val inclsClStringsub = inclsClString.substring(5, 7)
-//                    view.thingInclsClSpinner.setSelection(Integer.valueOf(inclsClStringsub))
-//                }
-//
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
                     view.thingOwnerCnfirmBasisClSpinner.setSelection(5)
@@ -821,12 +861,28 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 val apasmtTrgetAtString = checkStringNull(thingDataJson!!.getString("apasmtTrgetAt"))
                 view.thingApasmtTrgetAtChk.isChecked = apasmtTrgetAtString.equals("Y")
 
+                if(dcsnAt == "Y") {
+                    view.thingIndoorTyChk.isEnabled = false
+                    view.thingRelateLnmText.isEnabled = false
+                    view.thingSmallSpinner.isEnabled = false
+                    view.thingKndEdit.isEnabled = false
+                    view.thingStrctNdStndrdEdit.isEnabled = false
+                    view.thingBgnnArEdit.isEnabled = false
+                    view.thingIncrprArEdit.isEnabled = false
+                    view.thingUnitSpinner.isEnabled = false
+                    view.thingArComputBasisEdit.isEnabled = false
+                    view.thingOwnerCnfirmBasisClSpinner.isEnabled = false
+                    view.thingSttusMesrAtChk.isEnabled = false
+                    view.thingOwnshipBeforeAtChk.isEnabled = false
+                    view.thingRwTrgetAtChk.isEnabled = false
+                    view.thingApasmtTrgetAtChk.isEnabled = false
+                    view.includePaclrMatterEdit.isEnabled = false
+                    view.includeReferMatterEdit.isEnabled = false
+                    view.includeRmEdit.isEnabled = false
+                }
+
             }
             "A023005" -> { // 수목
-
-//                val smallClStringSub = thingSmallCl.substring(5,7)
-//                view.thingSmallSpinner.setSelection(Integer.valueOf(smallClStringSub))
-//                view.thingWdpdSmallSpinner.setSelection(Integer.valueOf(smallClStringSub))
 
                 setView(3)
 
@@ -834,7 +890,8 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 if (thingNoWdpdString.equals("")) {
                     view.thingWdpdNoText.text = "자동기입"
                 } else {
-                    view.thingWdpdNoText.text = thingNoWdpdString
+//                    view.thingWdpdNoText.text = thingNoWdpdString
+                    view.thingWdpdNoText?.setText(checkStringNull(thingDataJson!!.getString("moNo").toString()))
                 }
 
                 if (thingSmallCl.equals("")) {
@@ -858,14 +915,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                 view.thingWdptincrprArEdit.setText(checkStringNull(thingDataJson!!.getString("incrprAr")))
 
                 val thingWdpdUnitClString = checkStringNull(thingDataJson!!.getString("unitCl"))
-//                if (thingWdpdUnitClString.equals("")) {
-//                    view.thingWdpUnitSpinner.setSelection(0)
-//
-//                } else {
-//                    val thingWdpdUnitClStringSub = thingWdpdUnitClString.substring(5, 7)
-//                    view.thingWdpUnitSpinner.setSelection(Integer.valueOf(thingWdpdUnitClStringSub))
-//
-//                }
                 view.thingWdpUnitSpinner.setSelection( CommonCodeInfoList.getIdxFromCodeId("A009", thingWdpdUnitClString) )
 
 
@@ -881,8 +930,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                         }
                     )
                 }
-//                val thingWdpdExamInMthdStringSub = thingWdpdExaminMthdString.substring(5,7)
-//                view.thingExaminMthSpnr.setSelection(Integer.valueOf(thingWdpdExamInMthdStringSub))
 
                 if (ThingWtnObject.thingNewSearch.equals("Y")) {
                     view.thingWtnStrctAreaLinear.visibleView()
@@ -901,22 +948,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 view.thingwdptResnEdit.setText(checkStringNull(thingDataJson!!.getString("wdptResn")))
 
-
-//                val acqsClString = checkStringNull(thingDataJson!!.getString("acqsCl"))
-//                if (acqsClString.equals("")) {
-//                    view.thingWdpdAcqsClSpinner.setSelection(0)
-//                } else {
-//                    val acqsClStringsub = acqsClString.substring(5, 7)
-//                    view.thingWdpdAcqsClSpinner.setSelection(Integer.valueOf(acqsClStringsub))
-//                }
-//
-//                val inclsClString = checkStringNull(thingDataJson!!.getString("inclsCl"))
-//                if (inclsClString.equals("")) {
-//                    view.thingWdpdInclsClSpinner.setSelection(0)
-//                } else {
-//                    val inclsClStringsub = inclsClString.substring(5, 7)
-//                    view.thingWdpdInclsClSpinner.setSelection(Integer.valueOf(inclsClStringsub))
-//                }
 
                 val ownerCnfirmBasisClString = checkStringNull(thingDataJson!!.getString("ownerCnfirmBasisCl"))
                 if (ownerCnfirmBasisClString.equals("")) {
@@ -945,6 +976,34 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
                 val buldApasmtTrgetAtString = checkStringNull(thingDataJson!!.getString("apasmtTrgetAt"))
                 view.thingWdpdApasmtTrgetAtChk.isChecked = buldApasmtTrgetAtString.equals("Y")
+
+                if(dcsnAt == "Y") {
+                    view.thingIndoorTyChk.isEnabled = false
+                    view.thingRelateLnmText.isEnabled = false
+                    view.thingWdpdSmallSpinner.isEnabled = false
+                    view.thingWdpdKndEdit.isEnabled = false
+                    view.thingWdptBgnnArEdit.isEnabled = false
+                    view.thingWdptincrprArEdit.isEnabled = false
+                    view.thingWdpUnitSpinner.isEnabled = false
+                    view.thingExaminMthSpnr.isEnabled = false
+                    view.thingStrctNdStndrdEditR.isEnabled = false
+                    view.thingStrctNdStndrdEditB.isEnabled = false
+                    view.thingStrctNdStndrdEditH.isEnabled = false
+                    view.thingStrctNdStndrdEditL.isEnabled = false
+                    view.thingStrctNdStndrdEditW.isEnabled = false
+                    view.thingWdpdStrctNdStndrdEdit.isEnabled = false
+                    view.thingwdpArComputBasisEdit.isEnabled = false
+                    view.thingNrmltpltAtChk.isEnabled = false
+                    view.thingwdptResnEdit.isEnabled = false
+                    view.thingWdpdOwnerCnfirmBasisClSpinner.isEnabled = false
+                    view.thingWdpdSttusMesrAtChk.isEnabled = false
+                    view.thingWdpdOwnshipBeforeAtChk.isEnabled = false
+                    view.thingWdpdRwTrgetAtChk.isEnabled = false
+                    view.thingWdpdApasmtTrgetAtChk.isEnabled = false
+                    view.includePaclrMatterEdit.isEnabled = false
+                    view.includeReferMatterEdit.isEnabled = false
+                    view.includeRmEdit.isEnabled = false
+                }
             }
 
             else -> {
@@ -962,20 +1021,21 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
                     view.thingNoText?.text = "자동기입"
                     view.thingWdpdNoText?.setText("자동기입")
                 } else {
-                    view.thingNoText?.setText(checkStringNull(thingDataJson!!.getString("thingWtnCode").toString()))
+                    view.thingNoText?.setText(checkStringNull(thingDataJson!!.getString("moNo").toString()))
                 }
-
 
             }
         }
-        view.includePaclrMatterEdit.setText(checkStringNull(thingDataJson!!.getString("paclrMatter")))
-        view.includeReferMatterEdit.setText(checkStringNull(thingDataJson!!.getString("referMatter")))
-        view.includeRmEdit.setText(checkStringNull(thingDataJson!!.getString("rm")))
+
 
         if(ThingWtnObject.thingNewSearch == "N") {
             settingSearchCamerasView(dataJson.getJSONArray("thingAtchInfo"))
         } else {
             settingSearchCamerasView(null)
+        }
+
+        if(dcsnAt == "Y") {
+            toast.msg_info(R.string.searchDcsnAtThing, 1000)
         }
 
     }
@@ -1302,9 +1362,9 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
 
         // 관련지번
         val thingRelateLnmString = activity.thingRelateLnmText.text.toString()
-        if(!getString(R.string.landInfoRelatedLnmText).equals(thingRelateLnmString)) {
+//        if(!thingRelateLnmString.isNullOrEmpty()) {
             ThingWtnObject.relateLnm = thingRelateLnmString
-        }
+//        }
 
         if (ThingWtnObject.thingSmallCl.equals("A023002") || ThingWtnObject.thingSmallCl.equals("A023003")) { //건축물
             ThingWtnObject.thingKnd = mActivity.thingKndEdit.text.toString()
@@ -1313,77 +1373,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             ThingWtnObject.incrprAr = mActivity.thingBuildIncrprArEdit.text.toString()
 
             ThingWtnObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.thingBuildUnitSpinner.selectedItemPosition) 
-//                when (mActivity.thingBuildUnitSpinner.selectedItemPosition) {
-//                1 -> "A009001"
-//                2 -> "A009002"
-//                3 -> "A009003"
-//                4 -> "A009004"
-//                5 -> "A009005"
-//                6 -> "A009006"
-//                7 -> "A009007"
-//                8 -> "A009008"
-//                9 -> "A009009"
-//                10 -> "A009010"
-//                11 -> "A009011"
-//                12 -> "A009012"
-//                13 -> "A009013"
-//                14 -> "A009014"
-//                15 -> "A009015"
-//                16 -> "A009016"
-//                17 -> "A009017"
-//                18 -> "A009018"
-//                19 -> "A009019"
-//                20 -> "A009020"
-//                21 -> "A009021"
-//                22 -> "A009022"
-//                23 -> "A009023"
-//                24 -> "A009024"
-//                25 -> "A009025"
-//                26 -> "A009026"
-//                27 -> "A009027"
-//                28 -> "A009028"
-//                29 -> "A009029"
-//                30 -> "A009030"
-//                31 -> "A009031"
-//                32 -> "A009032"
-//                33 -> "A009033"
-//                34 -> "A009034"
-//                35 -> "A009035"
-//                36 -> "A009036"
-//                37 -> "A009037"
-//                38 -> "A009038"
-//                39 -> "A009039"
-//                40 -> "A009040"
-//                41 -> "A009041"
-//                42 -> "A009042"
-//                43 -> "A009043"
-//                44 -> "A009044"
-//                45 -> "A009045"
-//                46 -> "A009046"
-//                47 -> "A009047"
-//                48 -> "A009048"
-//                49 -> "A009049"
-//                50 -> "A009050"
-//                51 -> "A009051"
-//                52 -> "A009052"
-//                53 -> "A009053"
-//                54 -> "A009054"
-//                55 -> "A009055"
-//                56 -> "A009056"
-//                57 -> "A009057"
-//                58 -> "A009058"
-//                59 -> "A009059"
-//                60 -> "A009060"
-//                61 -> "A009061"
-//                62 -> "A009062"
-//                63 -> "A009063"
-//                64 -> "A009064"
-//                65 -> "A009065"
-//                66 -> "A009066"
-//                67 -> "A009067"
-//                68 -> "A009068"
-//                else -> ""
-//            }
 
             ThingWtnObject.arComputBasis = mActivity.thingBuildArComputBasisEdit.text.toString()
 
@@ -1479,77 +1468,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             ThingWtnObject.incrprAr = mActivity.thingWdptincrprArEdit.text.toString()
 
             ThingWtnObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.thingWdpUnitSpinner.selectedItemPosition)
-//                when (mActivity.thingWdpUnitSpinner.selectedItemPosition) {
-//                1 -> "A009001"
-//                2 -> "A009002"
-//                3 -> "A009003"
-//                4 -> "A009004"
-//                5 -> "A009005"
-//                6 -> "A009006"
-//                7 -> "A009007"
-//                8 -> "A009008"
-//                9 -> "A009009"
-//                10 -> "A009010"
-//                11 -> "A009011"
-//                12 -> "A009012"
-//                13 -> "A009013"
-//                14 -> "A009014"
-//                15 -> "A009015"
-//                16 -> "A009016"
-//                17 -> "A009017"
-//                18 -> "A009018"
-//                19 -> "A009019"
-//                20 -> "A009020"
-//                21 -> "A009021"
-//                22 -> "A009022"
-//                23 -> "A009023"
-//                24 -> "A009024"
-//                25 -> "A009025"
-//                26 -> "A009026"
-//                27 -> "A009027"
-//                28 -> "A009028"
-//                29 -> "A009029"
-//                30 -> "A009030"
-//                31 -> "A009031"
-//                32 -> "A009032"
-//                33 -> "A009033"
-//                34 -> "A009034"
-//                35 -> "A009035"
-//                36 -> "A009036"
-//                37 -> "A009037"
-//                38 -> "A009038"
-//                39 -> "A009039"
-//                40 -> "A009040"
-//                41 -> "A009041"
-//                42 -> "A009042"
-//                43 -> "A009043"
-//                44 -> "A009044"
-//                45 -> "A009045"
-//                46 -> "A009046"
-//                47 -> "A009047"
-//                48 -> "A009048"
-//                49 -> "A009049"
-//                50 -> "A009050"
-//                51 -> "A009051"
-//                52 -> "A009052"
-//                53 -> "A009053"
-//                54 -> "A009054"
-//                55 -> "A009055"
-//                56 -> "A009056"
-//                57 -> "A009057"
-//                58 -> "A009058"
-//                59 -> "A009059"
-//                60 -> "A009060"
-//                61 -> "A009061"
-//                62 -> "A009062"
-//                63 -> "A009063"
-//                64 -> "A009064"
-//                65 -> "A009065"
-//                66 -> "A009066"
-//                67 -> "A009067"
-//                68 -> "A009068"
-//                else -> ""
-//            }
 
             ThingWtnObject.examinMthd = when (mActivity.thingExaminMthSpnr.selectedItemPosition) {
                 1 -> "개별"
@@ -1699,77 +1617,6 @@ class ThingSearchFragment(val activity: Activity, context: Context, val fragment
             ThingWtnObject.incrprAr = mActivity.thingIncrprArEdit.text.toString()
 
             ThingWtnObject.unitCl = CommonCodeInfoList.getCodeId("A009", mActivity.thingUnitSpinner.selectedItemPosition)
-//                when (mActivity.thingUnitSpinner.selectedItemPosition) {
-//                1 -> "A009001"
-//                2 -> "A009002"
-//                3 -> "A009003"
-//                4 -> "A009004"
-//                5 -> "A009005"
-//                6 -> "A009006"
-//                7 -> "A009007"
-//                8 -> "A009008"
-//                9 -> "A009009"
-//                10 -> "A009010"
-//                11 -> "A009011"
-//                12 -> "A009012"
-//                13 -> "A009013"
-//                14 -> "A009014"
-//                15 -> "A009015"
-//                16 -> "A009016"
-//                17 -> "A009017"
-//                18 -> "A009018"
-//                19 -> "A009019"
-//                20 -> "A009020"
-//                21 -> "A009021"
-//                22 -> "A009022"
-//                23 -> "A009023"
-//                24 -> "A009024"
-//                25 -> "A009025"
-//                26 -> "A009026"
-//                27 -> "A009027"
-//                28 -> "A009028"
-//                29 -> "A009029"
-//                30 -> "A009030"
-//                31 -> "A009031"
-//                32 -> "A009032"
-//                33 -> "A009033"
-//                34 -> "A009034"
-//                35 -> "A009035"
-//                36 -> "A009036"
-//                37 -> "A009037"
-//                38 -> "A009038"
-//                39 -> "A009039"
-//                40 -> "A009040"
-//                41 -> "A009041"
-//                42 -> "A009042"
-//                43 -> "A009043"
-//                44 -> "A009044"
-//                45 -> "A009045"
-//                46 -> "A009046"
-//                47 -> "A009047"
-//                48 -> "A009048"
-//                49 -> "A009049"
-//                50 -> "A009050"
-//                51 -> "A009051"
-//                52 -> "A009052"
-//                53 -> "A009053"
-//                54 -> "A009054"
-//                55 -> "A009055"
-//                56 -> "A009056"
-//                57 -> "A009057"
-//                58 -> "A009058"
-//                59 -> "A009059"
-//                60 -> "A009060"
-//                61 -> "A009061"
-//                62 -> "A009062"
-//                63 -> "A009063"
-//                64 -> "A009064"
-//                65 -> "A009065"
-//                66 -> "A009066"
-//                67 -> "A009067"
-//                68 -> "A009068"
-//                else -> ""
-//            }
 
             ThingWtnObject.arComputBasis = mActivity.thingArComputBasisEdit.text.toString()
 

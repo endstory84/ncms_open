@@ -15,12 +15,17 @@ import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.naver.maps.geometry.LatLng
 import kotlinx.android.synthetic.main.fragment_land_search_item.view.*
 import kotlinx.android.synthetic.main.fragment_land_search_item_footer.view.*
 import kr.or.kreb.ncms.mobile.MapActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.data.LandInfoObject
+import kr.or.kreb.ncms.mobile.util.DialogUtil
 import kr.or.kreb.ncms.mobile.util.LogUtil
+import kr.or.kreb.ncms.mobile.util.convertWGS84
+import kr.or.kreb.ncms.mobile.util.ToastUtil
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -28,7 +33,8 @@ import org.json.JSONObject
 class LandSearchRealngrAdapter(
     private var realLandJson: JSONArray,
     private val context: Context?,
-    private val activity: Activity?
+    private val activity: Activity?,
+    private val dcsnAt: String?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
@@ -41,10 +47,26 @@ class LandSearchRealngrAdapter(
     inner class FooterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     private var logUtil: LogUtil = LogUtil("LandSearchRealngrAdapter")
+    private var toast = ToastUtil(context!!)
+
+    //var dialogUtil = (activity as MapActivity).naverMap?.dialogUtil
+    //var dialogBuilder = (activity as MapActivity).naverMap?.dialogBuilder
+
+    var dialogUtil: DialogUtil? = null
+    var dialogBuilder: MaterialAlertDialogBuilder? = null
+
+    //var dialogBuilder = activity.naverMap?.dialogBuilder
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    init {
+        dialogUtil = getActivity().naverMap?.dialogUtil!!
+        dialogBuilder = getActivity().naverMap?.dialogBuilder!!
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
         return when (viewType) {
             TYPE_FOOTER -> FooterViewHolder(parent.inflate(R.layout.fragment_land_search_item_footer))
             else -> LoanViewHolder2(parent.inflate(R.layout.fragment_land_search_item))
@@ -52,9 +74,65 @@ class LandSearchRealngrAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         when (holder) {
             is LoanViewHolder2 -> {
                 holder.itemView.apply {
+
+                    val curPos :Int = position
+
+                    /*편집버튼*/
+                    btn_landSearchEdit.setOnClickListener {
+
+                        try {
+
+                            LandInfoObject.landRealArCurPos = curPos
+                            logUtil.d("실제이용현황 [편집] [$curPos]")
+
+                            LandInfoObject.isEditable = true
+
+                            for (i in 0..LandInfoObject.searchRealLand?.length()!!) {
+                                if (curPos == i) { //
+
+                                    val editPolygonGeom = (LandInfoObject.searchRealLand?.get(i) as JSONObject).get("geoms").toString()
+                                    getActivity().settingCartoMap(null, null)
+
+                                    setEditLatLngArr(editPolygonGeom).let { ar ->
+                                        getActivity().cartoMap?.modifyLandAr(ar)
+                                    }
+
+                                    break
+                                }
+                            }
+
+
+                        } catch (e: Exception) {
+                            logUtil.e(e.toString())
+                        }
+
+                    }
+
+                    // 삭제버튼
+                    btn_landSearchRemove.setOnClickListener {
+                        try {
+
+                            LandInfoObject.landRealArCurPos = curPos
+                            logUtil.d("실제이용현황 [삭제] : [$curPos]")
+
+                            dialogUtil?.run {
+                                alertDialogYesNo(
+                                    "토지실제이용 삭제",
+                                    "선택한 토지 실제이용현황을 삭제하시겠습니까?",
+                                    dialogBuilder!!,
+                                    "토지실제이용 삭제"
+                                ).show()
+                            }
+                        } catch (e: Exception) {
+                            logUtil.e(e.toString())
+                        }
+
+                    }
+
                     logUtil.d("RealngrAdapter data $realLandJson")
                     val realLandData = realLandJson.get(position) as JSONObject
                     val realLndcgrAr = realLandData.getString("realLndcgrAr")
@@ -77,10 +155,17 @@ class LandSearchRealngrAdapter(
                         }
                     }
 
+                    if(dcsnAt == "Y") {
+                        landSearchRealCl.isEnabled = false
+                        landSearchRealCn.isEnabled = false
+                        landSearchRealAr.isEnabled = false
+                        btn_landSearchRemove.isEnabled = false
+                    }
+
                     landSearchRealCl.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, spinnerPosition: Int, id: Long) {
 
-                            logUtil.d("landSearchRealCl Spinner click $spinnerPosition");
+                            logUtil.d("landSearchRealCl Spinner click $spinnerPosition")
                             logUtil.d("real Land position $position")
 
                             val realData = LandInfoObject.searchRealLand
@@ -178,14 +263,12 @@ class LandSearchRealngrAdapter(
                         false
                     }
                 }
+
             }
             else -> {
 
                 if(realLandJson.length() == 1) {
                     logUtil.d("realData null")
-
-                    var dialogUtil = (activity as MapActivity).naverMap?.dialogUtil
-                    var dialogBuilder = activity.naverMap?.dialogBuilder
 
                     dialogUtil?.run {
                         alertDialogYesNo(
@@ -200,7 +283,14 @@ class LandSearchRealngrAdapter(
                 // 실제이용현황 추가 -> CartoMap 이동
                 holder.itemView.landRealAddBtn.setOnClickListener {
                     logUtil.d("실제이용현황 필지 추가 버튼")
-                    (activity as MapActivity).settingCartoMap(null, null) // 필지 그리기 이동
+                    if(dcsnAt == "Y") {
+                        toast.msg_error(R.string.msg_search_dcsc_at_resut, 100)
+                    } else {
+                        LandInfoObject.isEditable = false
+
+                        (activity as MapActivity).settingCartoMap(null, null) // 필지 그리기 이동
+                    }
+
 
                     //Toast.makeText(holder.itemView.context,"지도에서 조사내역을 추가해주세요", Toast.LENGTH_SHORT).show()
                     //clickListener?.onClick(realListener)
@@ -234,21 +324,31 @@ class LandSearchRealngrAdapter(
         }
     }
 
+    private fun getActivity(): MapActivity = (activity as MapActivity)
+
+    private fun setEditLatLngArr(str: String): MutableList<LatLng>{
+
+        val resultLatLngArr = mutableListOf<LatLng>()
+        val convertStr = str.replace("MULTIPOLYGON (((", "").replace(")))", "").split(",")
+
+        convertStr.forEach {
+
+            val x = it.trim().split(" ")[0].toDouble()
+            val y = it.trim().split(" ")[1].toDouble()
+
+            val coordX = convertWGS84(x, y).y
+            val coordY = convertWGS84(x, y).x
+
+            val latLng = LatLng(coordX, coordY)
+            resultLatLngArr.add(latLng)
+
+            logUtil.d(latLng.toString())
+
+        }
+        return resultLatLngArr
+    }
+
     private fun landSpinnerAdapter(stringArray: Int, spinner: Spinner) {
-//        ArrayAdapter.createFromResource(
-//            context!!,
-//            stringArray,
-//            android.R.layout.simple_spinner_dropdown_item
-//        ).also { adapter ->
-//            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//            spinner.adapter = adapter
-////            spinner.onItemSelectedListener = this
-//        }
-
-        spinner?.adapter = CustomDropDownAdapter(context!!, listOf(context.resources.getStringArray(stringArray))[0])
-        //spinner?.onItemSelectedListener = this
-
-
-
+        spinner.adapter = CustomDropDownAdapter(context!!, listOf(context.resources.getStringArray(stringArray))[0])
     }
 }

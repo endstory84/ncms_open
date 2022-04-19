@@ -8,17 +8,17 @@ package kr.or.kreb.ncms.mobile
 import android.animation.ObjectAnimator
 import android.app.SearchManager
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.geometry.WebMercatorCoord
@@ -39,11 +39,8 @@ import kotlinx.coroutines.*
 import kr.or.kreb.ncms.mobile.base.BaseActivity
 import kr.or.kreb.ncms.mobile.data.*
 import kr.or.kreb.ncms.mobile.databinding.ActivityMapWithDrawerlayoutBinding
-import kr.or.kreb.ncms.mobile.enums.BizEnum
+import kr.or.kreb.ncms.mobile.enums.*
 import kr.or.kreb.ncms.mobile.enums.BizEnum.*
-import kr.or.kreb.ncms.mobile.enums.CameraEnum
-import kr.or.kreb.ncms.mobile.enums.GeoserverLayerEnum
-import kr.or.kreb.ncms.mobile.enums.SketchEnum
 import kr.or.kreb.ncms.mobile.fragment.*
 import kr.or.kreb.ncms.mobile.listener.*
 import kr.or.kreb.ncms.mobile.util.*
@@ -124,7 +121,7 @@ class MapActivity :
     //네트워크통신 다이얼로그
 //    private var progressDialog: AlertDialog? = null
 
-    val selectWtnccPolygonArr = mutableListOf<PolygonOverlay>()
+    val contextPopupPolygonArr = mutableListOf<PolygonOverlay>()
     var choiceInfoWindowArr = mutableListOf<InfoWindow>()
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -337,13 +334,60 @@ class MapActivity :
      */
     fun toggleFab(flag: Boolean) {
         if (!flag) {
+
+            btn_EditMode.visibleView()
+
             fabVisableArr.forEachIndexed { idx, obj ->
                 obj.visibleView()
                 if (idx > 0) {
                     ObjectAnimator.ofFloat(fabArr[idx - 1], "translationX", fabTranslationXArr[idx - 1]).run { start() }
                 }
             }
+            // 토지에선 '점' 유형 제외
+            when(Constants.BIZ_SUBCATEGORY_KEY){
+
+
+                LAD -> {
+                    floatingActionButtonPoint.isEnabled = false
+
+                    if(LandInfoObject.isEditable){
+
+                        // 실제이용현황 토지 내 툴바 버튼 기능 제한
+                        floatingActionButtonUndo.isEnabled = false
+                        floatingActionButtonRedo.isEnabled = false
+                        floatingActionButtonLine.isEnabled = false
+                        floatingActionButtonModify.isEnabled = false
+
+                        floatingActionButtonUndo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.btnColor1))
+                        floatingActionButtonRedo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.btnColor1))
+                        floatingActionButtonLine.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.btnColor1))
+                        floatingActionButtonModify.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.btnColor1))
+
+                    } else {
+                        // 실제이용현황 토지 내 툴바 버튼 기능 제한
+                        floatingActionButtonUndo.isEnabled = true
+                        floatingActionButtonRedo.isEnabled = true
+                        floatingActionButtonLine.isEnabled = true
+                        floatingActionButtonModify.isEnabled = true
+
+                        floatingActionButtonUndo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimary))
+                        floatingActionButtonRedo.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimary))
+                        floatingActionButtonLine.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimary))
+                        floatingActionButtonModify.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorPrimary))
+                    }
+
+
+
+                    floatingActionButtonPoint.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, R.color.btnColor1))
+                }
+                else -> {
+                    floatingActionButtonPoint.isEnabled = true
+                }
+            }
         } else {
+
+            btn_EditMode.goneView()
+
             fabArr.forEach { obj ->
                 ObjectAnimator.ofFloat(obj, "translationX", 0f).run { start() }
             }
@@ -955,14 +999,7 @@ class MapActivity :
             layoutMapRightButtonGroup.goneView()
             layoutMapLeftButtonGroup.goneView()
 
-            // 기존 폴리곤 데이터가 존재할 시에
-            editPolygonArr?.let{ cartoMap?.drawPolygon(it) }
-
-
-//        } else {
-//            toast.msg_error(getString(R.string.msg_sketch_minzoom), 1500)
-//        }
-        toggleFab(false)
+            toggleFab(false)
     }
 
     /**
@@ -999,12 +1036,12 @@ class MapActivity :
             map = naverMap?.naverMap
         }
 
-        if(type.equals("bsn") && sketchTy) {
+        if(type == "bsn" && sketchTy) {
             val buldPolygonOverlayArr = mutableListOf<PolygonOverlay>()
             buldPolygonOverlayArr.add(buldPoly)
             ThingBsnObject.thingBsnSketchPolygon = buldPolygonOverlayArr
         }
-        if(type.equals("residnt") && sketchTy) {
+        if(type == "residnt" && sketchTy) {
             val buldPolygonOverlayArr = mutableListOf<PolygonOverlay>()
             buldPolygonOverlayArr.add(buldPoly)
             ThingResidntObject.thingResidntSketchPolygon = buldPolygonOverlayArr
@@ -1048,7 +1085,7 @@ class MapActivity :
                 val checkedItems = mutableListOf<Boolean>()
                 val wtnCodeArr = ArrayList<String>()
 
-                kndItems?.forEachIndexed() { idx, it ->
+                kndItems?.forEachIndexed { idx, it ->
                     checkedItems.add(false)
                     sumStrItems.add("$it (조서번호: ${wtnCodeItems!![idx]})")
                 }
@@ -1606,6 +1643,7 @@ class MapActivity :
         landInfoMap.put("incrprLnm", jibun)
         log.d("land info url $landUrl")
 
+
         val progressDialog = dialogUtil.progressDialog(MaterialAlertDialogBuilder(this))
 
         HttpUtil.getInstance(context)
@@ -1673,16 +1711,16 @@ class MapActivity :
         val landInfo = LandInfoObject.landInfo
         val searchRealLand = LandInfoObject.searchRealLand as JSONArray
         val realLandPolygon = LandInfoObject.realLandPolygon
-        var realLandPolygonLatLngArr = LandInfoObject.realLandPolygonArr
+        val realLandPolygonLatLngArr: MutableList<ArrayList<LatLng>>?
         val seleceLandPolygon = LandInfoObject.selectLandPolygonArr
 
         val realRequestData = JSONArray()
+        var realLandAreaSize = 0.0
 
         var realLandPolygonSize = 1
-        var mulitGeomString: String? = ""
-        var muilitElemString: String? = ""
+        var multiGeomString: String? = ""
+        var multiElemString: String? = ""
         var polyStartPoint = 1
-        var polySelectStartPoint = 1
 
         LandSearchFragment(this, this).addLandData() // 조서 입력 사항 체크
 
@@ -1704,7 +1742,7 @@ class MapActivity :
                     var geomString: String? = ""
                     var realCoordsSize = 0
                     val realLandObject = JSONObject()
-                    muilitElemString += "$polyStartPoint, 1003, 1"
+                    multiElemString += "$polyStartPoint, 1003, 1"
 
                     realLandPolygonData.forEachIndexed { index, code ->
 
@@ -1724,14 +1762,14 @@ class MapActivity :
 
                     log.d("realLandPolygon String geom -> $geomString")
 
-                    mulitGeomString += geomString.toString()
+                    multiGeomString += geomString.toString()
                     if (realLandPolygonSize != realLandPolygon?.size) {
-                        mulitGeomString  +=  ","
-                        muilitElemString +=  ","
+                        multiGeomString  +=  ","
+                        multiElemString +=  ","
                     }
 
                     // 실제이용현황 서버 전송
-                    val realData = searchRealLand.get(realLandPolygonSize) as JSONObject
+                    val realData = searchRealLand.get(LandInfoObject.landRealArCurPos) as JSONObject
 
                     /**
                      * lad_wtn_code 토지조서코드
@@ -1752,7 +1790,7 @@ class MapActivity :
                     realLandObject.put("realLndcgrCl", realData.getString("realLndcgrCl"))
                     realLandObject.put("realLndcgrCn", realData.getString("realLndcgrCn"))
                     realLandObject.put("realLndcgrAr", realData.getString("realLndcgrAr"))
-                    realLandObject.put("user", PreferenceUtil.getString(context!!, "id", "defaual"))
+                    realLandObject.put("user", PreferenceUtil.getString(context, "id", "defaual"))
                     realLandObject.put("elemArray", "1,1003,1")
                     realLandObject.put("ordinateArray", geomString.toString())
 
@@ -1769,14 +1807,11 @@ class MapActivity :
 //                val tempA = ArrayList<LatLng>()
                 val tempB = mutableListOf<ArrayList<LatLng>>()
 
-
-
                 realLandPolygon.forEach {
                     val tempA = ArrayList<LatLng>()
-                    it.coords.forEach { coord ->
-                        tempA.add(coord)
-                    }
+                    it.coords.forEach { coord -> tempA.add(coord) }
                     log.d(it.toString())
+
                     tempB.add(tempA)
                     log.d("tempB size -> ${tempB.size}")
                 }
@@ -1784,6 +1819,7 @@ class MapActivity :
                 realLandPolygonLatLngArr = tempB
 
                 ////
+
 
                 realLandPolygonLatLngArr.forEach { realLandPolygonData ->
                     log.d(realLandPolygonData.toString())
@@ -1809,7 +1845,7 @@ class MapActivity :
                         polyStartPoint += 2
                     }
 
-                    log.d("realLandPolygon String geom -> $geomString")
+                     log.d("realLandPolygon String geom -> $geomString")
 
 //                    mulitGeomString += geomString.toString()
 //                    if (realLandPolygonSize != realLandPolygon.size) {
@@ -1818,7 +1854,14 @@ class MapActivity :
 //                    }
 
                     // 실제이용현황 서버 전송
-                    val realData = searchRealLand.get(realLandPolygonSize) as JSONObject
+                    //val realData = searchRealLand.get(realLandPolygonSize) as JSONObject
+
+                    LandInfoObject.landRealArCurPos = when(LandInfoObject.landRealArCurPos){
+                        0 -> LandInfoObject.landRealArCurPos + 1
+                        else -> LandInfoObject.landRealArCurPos
+                    }
+
+                    val realData = searchRealLand.get(LandInfoObject.landRealArCurPos) as JSONObject
 
                     /**
                      * lad_wtn_code 토지조서코드
@@ -1838,8 +1881,10 @@ class MapActivity :
                     realLandObject.put("realLndcgrCode", realData.getString("realLndcgrCode"))
                     realLandObject.put("realLndcgrCl", realData.getString("realLndcgrCl"))
                     realLandObject.put("realLndcgrCn", realData.getString("realLndcgrCn"))
-                    realLandObject.put("realLndcgrAr", realData.getString("realLndcgrAr"))
-                    realLandObject.put("user", PreferenceUtil.getString(context!!, "id", "defaual"))
+                    val realLandAr = realData.getString("realLndcgrAr")
+                    realLandAreaSize +=  realLandAr.toDouble()
+                    realLandObject.put("realLndcgrAr", realLandAr)
+                    realLandObject.put("user", PreferenceUtil.getString(context, "id", "defaual"))
                     realLandObject.put("elemArray", "1,1003,1")
                     realLandObject.put("ordinateArray", geomString.toString())
 
@@ -1857,88 +1902,95 @@ class MapActivity :
                     val x = BigDecimal.valueOf(webMercatorCoord.x)
                     val y = BigDecimal.valueOf(webMercatorCoord.y)
 
-                    mulitGeomString += "$x,$y"
+                    multiGeomString += "$x,$y"
 
                     selectCoordsSize++
                     if (selectCoordsSize != seleceLandPolygon.size) {
-                        mulitGeomString += ","
+                        multiGeomString += ","
                     }
                 }
 
             }
         }
 
-        val landRequestData = JSONObject()
-        val landInfoData = JSONObject()
-        landInfoData.put("ladWtnCode", landInfo!!.getString("ladWtnCode"))
-        landInfoData.put("saupCode", landInfo.getString("saupCode"))
-        landInfoData.put("no", landInfo.getString("no"))
-        landInfoData.put("subNo", landInfo.getString("subNo"))
-        landInfoData.put("legaldongCode", landInfo.getString("legaldongCode"))
-        landInfoData.put("nrfrstAt", LandInfoObject.nrfrstAtChk) // 자연림여부
-        landInfoData.put("clvtAt", LandInfoObject.clvtAtChk)   //경작여부
-        landInfoData.put("buildAt", LandInfoObject.buildAtChk)   //건축물여부
-        landInfoData.put("plotAt", LandInfoObject.plotAtChk) // 대지권여부
-        landInfoData.put("sttusMesrAt", LandInfoObject.sttusMesrAtChk)   //측량요청
-        landInfoData.put("rwTrgetAt", LandInfoObject.rwTrgetAt)
-        landInfoData.put("partitnTrgetAt", LandInfoObject.partitnTrgetAt)
-        landInfoData.put("spclLadCl", LandInfoObject.spclLadCl)   //특수용지
-        landInfoData.put("spclLadCn", LandInfoObject.spclLadCn)   //특수용지내용
-        landInfoData.put("ownerCnfirmBasisCl", LandInfoObject.ownerCnfirmBasisCl)   //소유자확인근거
-        landInfoData.put("paclrMatter", LandInfoObject.paclrMatter) //특이사항
-        landInfoData.put("referMatter", LandInfoObject.referMatter) //참고사항
-        landInfoData.put("rm", LandInfoObject.rm) //비고
-        landInfoData.put("user",PreferenceUtil.getString(context!!, "id", "defaual")) // 수정자 추후 앱 로그인 사번으로 변경 5자리
 
-        //if(realLandPolygon == null){
-        landInfoData.put("elemArray", "1, 1003, 1")
-        //} else {
-        //landInfoData.put("elemArray", muilitElemString)
-        //}
-
-        landInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
-
-        landRequestData.put("real", realRequestData)
-        landRequestData.put("land", landInfoData)
-
-        landUrl = if(LandInfoObject.realLngrty.equals("Y")) {
-            context.resources.getString(R.string.mobile_url) +"updateLand"
+        if(realLandAreaSize > landInfo!!.getString("incrprAr").toDouble()) {
+            toast.msg_error("현실적인 이용현황의 총합이 편입 면적의 총합을 넘을수 없습니다. 다시 확인 해주시기 바람니다.", 500)
         } else {
-            context.resources.getString(R.string.mobile_url) +"registLand"
-        }
+            val landRequestData = JSONObject()
+            val landInfoData = JSONObject()
+            landInfoData.put("ladWtnCode", landInfo.getString("ladWtnCode"))
+            landInfoData.put("saupCode", landInfo.getString("saupCode"))
+            landInfoData.put("no", landInfo.getString("no"))
+            landInfoData.put("subNo", landInfo.getString("subNo"))
+            landInfoData.put("legaldongCode", landInfo.getString("legaldongCode"))
+            landInfoData.put("nrfrstAt", LandInfoObject.nrfrstAtChk) // 자연림여부
+            landInfoData.put("clvtAt", LandInfoObject.clvtAtChk)   //경작여부
+            landInfoData.put("buildAt", LandInfoObject.buildAtChk)   //건축물여부
+            landInfoData.put("plotAt", LandInfoObject.plotAtChk) // 대지권여부
+            landInfoData.put("sttusMesrAt", LandInfoObject.sttusMesrAtChk)   //측량요청
+            landInfoData.put("rwTrgetAt", LandInfoObject.rwTrgetAt)
+            landInfoData.put("partitnTrgetAt", LandInfoObject.partitnTrgetAt)
+            landInfoData.put("spclLadCl", LandInfoObject.spclLadCl)   //특수용지
+            landInfoData.put("spclLadCn", LandInfoObject.spclLadCn)   //특수용지내용
+            landInfoData.put("ownerCnfirmBasisCl", LandInfoObject.ownerCnfirmBasisCl)   //소유자확인근거
+            landInfoData.put("paclrMatter", LandInfoObject.paclrMatter) //특이사항
+            landInfoData.put("referMatter", LandInfoObject.referMatter) //참고사항
+            landInfoData.put("rm", LandInfoObject.rm) //비고
+            landInfoData.put("user",PreferenceUtil.getString(context, "id", "defaual")) // 수정자 추후 앱 로그인 사번으로 변경 5자리
 
-        log.d("landInfoData $landInfo")
+            //if(realLandPolygon == null){
+            landInfoData.put("elemArray", "1, 1003, 1")
+            //} else {
+            //landInfoData.put("elemArray", muilitElemString)
+            //}
 
-        HttpUtil.getInstance(context)
-            .callUrlJsonWebServer(landRequestData, progressDialog, landUrl!!,
-                object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {
-                        progressDialog?.dismiss()
-                        log.d("fail")
-                    }
+            landInfoData.put("ordinateArray", lastCommaRemove(multiGeomString))
 
-                    override fun onResponse(call: Call, response: Response) {
-                        val responseString = response.body!!.string()
-                        log.d("realRequest response -> $responseString")
-                        progressDialog?.dismiss()
+            landRequestData.put("real", realRequestData)
+            landRequestData.put("land", landInfoData)
 
-                        runOnUiThread{
-                            toast.msg_info("토지조서가 등록 되었습니다.", 500)
-                            bottomPanelClose()
-                            GlobalScope.launch {
-                                delay(500)
-                                withContext(Dispatchers.Main) {
-                                    naverMap?.clearCartoPolygon()
+            landUrl = if(LandInfoObject.realLngrty.equals("Y")) {
+                context.resources.getString(R.string.mobile_url) +"updateLand"
+            } else {
+                context.resources.getString(R.string.mobile_url) +"registLand"
+            }
+
+            log.d("landInfoData $landInfo")
+
+            HttpUtil.getInstance(context)
+                .callUrlJsonWebServer(landRequestData, progressDialog, landUrl!!,
+                    object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+                            progressDialog?.dismiss()
+                            log.d("fail")
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val responseString = response.body!!.string()
+                            log.d("realRequest response -> $responseString")
+                            progressDialog?.dismiss()
+
+                            runOnUiThread{
+                                toast.msg_info("토지조서가 등록 되었습니다.", 500)
+                                bottomPanelClose()
+                                GlobalScope.launch {
+                                    delay(500)
+                                    withContext(Dispatchers.Main) {
+                                        naverMap?.clearCartoPolygon()
 //                                    naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_WTN.value, "토지")
-                                    naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용")
+                                        naverMap?.getWFSLayer(GeoserverLayerEnum.TB_LAD_REALNGR.value, "토지실제이용")
+                                    }
                                 }
+
                             }
 
                         }
-
                     }
-                }
-            )
+                )
+        }
+
+
 
     }
     // 잔여건물
@@ -1948,9 +2000,9 @@ class MapActivity :
         val thingRestInfo = RestThingWtnObject.thingInfo as JSONObject
         val thingInfo = thingRestInfo.getJSONObject("ThingSearch")
 
-        val ownerInfo = thingRestInfo!!.getJSONArray("ownerInfo") as JSONArray
+        val ownerInfo = thingRestInfo.getJSONArray("ownerInfo") as JSONArray
 
-        var thingWtnOwnerCode = ArrayList<String>()
+        val thingWtnOwnerCode = ArrayList<String>()
 
         if(ownerInfo.length() > 0) {
             for(i in 0 until ownerInfo.length() -1) {
@@ -1977,15 +2029,15 @@ class MapActivity :
         thingRestRequstData["examin10Rslt"] = RestThingWtnObject.examin10Rslt.toString()
         thingRestRequstData["rqestPsn"] = RestThingWtnObject.rqestPsn.toString()
         thingRestRequstData["rqestCn"] = RestThingWtnObject.rqestCn.toString()
-        thingRestRequstData["register"] = PreferenceUtil.getString(context!!, "id", "defaual")
+        thingRestRequstData["register"] = PreferenceUtil.getString(context, "id", "defaual")
         thingRestRequstData["thingOwner"] = thingWtnOwnerCode.joinToString(separator = ",")
 
-        var thingRestUrl = ""
+        var thingRestUrl: String
 
-        if(thingRestInfo.getJSONArray("restThing").length() > 0) {
-            thingRestUrl = context!!.resources.getString(R.string.mobile_url) + "/updateRestThing"
+        thingRestUrl = if(thingRestInfo.getJSONArray("restThing").length() > 0) {
+            context.resources.getString(R.string.mobile_url) + "/updateRestThing"
         } else {
-            thingRestUrl = context!!.resources.getString(R.string.mobile_url) + "/registRestThing"
+            context.resources.getString(R.string.mobile_url) + "/registRestThing"
         }
 
         HttpUtil.getInstance(context).callerUrlInfoPostWebServer(thingRestRequstData, progressDialog, thingRestUrl,
@@ -2025,12 +2077,12 @@ class MapActivity :
         RestLandSearchFragment(this, this).addLandRestData()
 
         val landRestInfo = RestLandInfoObject.landInfo!!.getJSONObject("list") as JSONObject
-        val landInfo = landRestInfo!!.getJSONObject("LandInfo")
+        val landInfo = landRestInfo.getJSONObject("LandInfo")
 
 
-        val ownerInfo = landRestInfo!!.getJSONArray("ownerInfo") as JSONArray
+        val ownerInfo = landRestInfo.getJSONArray("ownerInfo") as JSONArray
 
-        var ladWtnOwnerCode = ArrayList<String>()
+        val ladWtnOwnerCode = ArrayList<String>()
         if(ownerInfo.length() > 0) {
             for(i in 0 until ownerInfo.length() -1) {
                 val item = ownerInfo.getJSONObject(i)
@@ -2059,16 +2111,16 @@ class MapActivity :
         landRestRequestData["examin10Rslt"] = RestLandInfoObject.examin10Rslt.toString()
         landRestRequestData["rqestPsn"] = RestLandInfoObject.rqestPsn.toString()
         landRestRequestData["rqestCn"] = RestLandInfoObject.rqestCn.toString()
-        landRestRequestData["register"] = PreferenceUtil.getString(context!!, "id", "defaual")
+        landRestRequestData["register"] = PreferenceUtil.getString(context, "id", "defaual")
         landRestRequestData["ladOwner"] = ladWtnOwnerCode.joinToString(separator = ",")
 
 
-        var landRestLadUrl = ""
+        var landRestLadUrl: String
 
         if(landRestInfo.getJSONArray("restLad").length() > 0) {
-            landRestLadUrl = context!!.resources.getString(R.string.mobile_url) + "/updateRestLad"
+            landRestLadUrl = context.resources.getString(R.string.mobile_url) + "/updateRestLad"
         } else {
-            landRestLadUrl = context!!.resources.getString(R.string.mobile_url) + "/registRestLad"
+            landRestLadUrl = context.resources.getString(R.string.mobile_url) + "/registRestLad"
         }
 
         HttpUtil.getInstance(context).callerUrlInfoPostWebServer(landRestRequestData, progressDialog, landRestLadUrl,
@@ -2143,7 +2195,7 @@ class MapActivity :
                         log.d("thingPolygonData ---------------------------------><><><><><><")
 
                         mulitElemString += "1, 1003, 1"
-                        for (coord in thingPolygonData[0]?.coords) {
+                        for (coord in thingPolygonData[0].coords) {
 
                             val webMercatorCoord = WebMercatorCoord.valueOf(coord)
 
@@ -2193,9 +2245,9 @@ class MapActivity :
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
                             thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) //실내외여부 1: 실내 2: 실외
-                            thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                            thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                             thingInfoData.put("elemArray", mulitElemString)
-                            thingInfoData.put("ordinateArray", mulitGeomString)
+                            thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                             thingInfoData.put("buldNm", ThingWtnObject.buldName) //건물명
                             thingInfoData.put("buldPrpos", ThingWtnObject.buldPrpos) //건물용도
                             thingInfoData.put("buldStrct", ThingWtnObject.buldStrct) //건물구조
@@ -2205,11 +2257,7 @@ class MapActivity :
                             thingInfoData.put("buldAr", ThingWtnObject.buldAr)
                             thingInfoData.put("nrtBuldAt", ThingWtnObject.thingNrtBuldAt)
                             thingInfoData.put("ownerInfo", ThingWtnObject.thingOwnerInfoJson)
-                            if(ThingWtnObject.pointYn == "POINT") {
-                                thingInfoData.put("pointYn", "1")
-                            } else {
-                                thingInfoData.put("pointYn", "2")
-                            }
+                            thingInfoData.put("pointYn", ThingWtnObject.pointYn)
                             thingRequestData.put("thing", thingInfoData)
                         } else {
                             thingBuildUrl = context.resources.getString(R.string.mobile_url) + "updateThingBuld"
@@ -2242,9 +2290,9 @@ class MapActivity :
                             thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
                             thingInfoData.put("indoorTy", ThingWtnObject.thingIndoorTy) //실내여부
-                            thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
+                            thingInfoData.put("updusr", PreferenceUtil.getString(context, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                             thingInfoData.put("elemArray", mulitElemString)
-                            thingInfoData.put("ordinateArray", mulitGeomString)
+                            thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                             thingInfoData.put("buldWtnCode", thingDataJson.getString("buldWtnCode")) //건물조서코드
                             thingInfoData.put("buldNm", ThingWtnObject.buldName) //건물명
                             thingInfoData.put("buldPrpos", ThingWtnObject.buldPrpos) //건물용도
@@ -2283,9 +2331,9 @@ class MapActivity :
                         log.d("thingPolygonData ---------------------------------><><><><><><")
 
                         mulitElemString += "1, 1003, 1"
-                        if(ThingWtnObject.pointYn == "POINT") {
+                        if(ThingWtnObject.pointYn == "1") {
                             for (i in 0 until thingPolygonData.size) {
-                                var coord = thingPolygonData[i].coords[0]
+                                val coord = thingPolygonData[i].coords[0]
 
                                 val webMercatorCoord = WebMercatorCoord.valueOf(coord)
 
@@ -2344,20 +2392,15 @@ class MapActivity :
                             thingInfoData.put("rm", ThingWtnObject.rm) //비고
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                            thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                            thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                             thingInfoData.put("elemArray", mulitElemString)
-                            thingInfoData.put("ordinateArray", mulitGeomString)
+                            thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                             //수목 -> 정상식여부, 사유, 조사방식
                             thingInfoData.put("examinMthd", ThingWtnObject.examinMthd)
                             thingInfoData.put("nrmltpltAt", ThingWtnObject.nrmltpltAt)
                             thingInfoData.put("wdptResn", ThingWtnObject.wdptResn)
                             thingInfoData.put("ownerInfo", ThingWtnObject.thingOwnerInfoJson)
-                            if(ThingWtnObject.pointYn == "POINT") {
-                                thingInfoData.put("pointYn", "1")
-                            } else {
-                                thingInfoData.put("pointYn", "2")
-                            }
-
+                            thingInfoData.put("pointYn", ThingWtnObject.pointYn)
                             thingRequestData.put("thing", thingInfoData)
                         } else {
                             thingBuildUrl = context.resources.getString(R.string.mobile_url) + "updateThingWdpt"
@@ -2385,9 +2428,9 @@ class MapActivity :
                             thingInfoData.put("referMatter", ThingWtnObject.referMatter) //참고사항
                             thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                             thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                            thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
+                            thingInfoData.put("updusr", PreferenceUtil.getString(context, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                             thingInfoData.put("elemArray", mulitElemString)
-                            thingInfoData.put("ordinateArray", mulitGeomString)
+                            thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                             //수목 -> 정상식여부, 사유
                             thingInfoData.put("nrmltpltAt", ThingWtnObject.nrmltpltAt)
                             thingInfoData.put("wdptResn", ThingWtnObject.wdptResn)
@@ -2405,23 +2448,39 @@ class MapActivity :
                         log.d("thingPolygonData ---------------------------------><><><><><><")
 
                         mulitElemString += "1, 1003, 1"
-                        for (coord in thingPolygonData[0].coords) {
+                        if(ThingWtnObject.pointYn == "1") {
+                            for (i in 0 until thingPolygonData.size-1) {
+                                var coord = thingPolygonData[i].coords[0]
 
-                            val webMercatorCoord = WebMercatorCoord.valueOf(coord)
+                                val webMercatorCoord = WebMercatorCoord.valueOf(coord)
 
-                            val x = BigDecimal.valueOf(webMercatorCoord.x)
-                            val y = BigDecimal.valueOf(webMercatorCoord.y)
+                                val x = BigDecimal.valueOf(webMercatorCoord.x)
+                                val y = BigDecimal.valueOf(webMercatorCoord.y)
 
-                            coordSize++
+                                coordSize++
 
-                            mulitGeomString += "$x,$y"
-                            if (coordSize != thingPolygonData.get(0).coords.size) {
-                                mulitGeomString += ","
+                                mulitGeomString += "$x,$y"
+                                if (coordSize != thingPolygonData.size) {
+                                    mulitGeomString += ","
+                                }
                             }
+                        } else {
+                            for (coord in thingPolygonData[0].coords) {
 
+                                val webMercatorCoord = WebMercatorCoord.valueOf(coord)
+
+                                val x = BigDecimal.valueOf(webMercatorCoord.x)
+                                val y = BigDecimal.valueOf(webMercatorCoord.y)
+
+                                coordSize++
+
+                                mulitGeomString += "$x,$y"
+                                if (coordSize != thingPolygonData[0].coords.size) {
+                                    mulitGeomString += ","
+                                }
+
+                            }
                         }
-
-                        log.d("ThingPolygon String geom ${mulitGeomString.toString()}")
 
                         when {
                             ThingWtnObject.thingNewSearch.equals("Y") -> {
@@ -2450,15 +2509,11 @@ class MapActivity :
                                 thingInfoData.put("rm", ThingWtnObject.rm) //비고
                                 thingInfoData.put("referMatter", ThingWtnObject.referMatter) // 참고사항
                                 thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                                thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
+                                thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual")) //등록자 // 테블릿 이용자 아이디(사번-5자리)
                                 thingInfoData.put("elemArray", mulitElemString)
-                                thingInfoData.put("ordinateArray", mulitGeomString)
+                                thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                                 thingInfoData.put("ownerInfo", ThingWtnObject.thingOwnerInfoJson)
-                                if(ThingWtnObject.pointYn == "POINT") {
-                                    thingInfoData.put("pointYn", "1")
-                                } else {
-                                    thingInfoData.put("pointYn", "2")
-                                }
+                                thingInfoData.put("pointYn", ThingWtnObject.pointYn)
                                 thingRequestData.put("thing", thingInfoData)
                             }
                             else -> {
@@ -2487,9 +2542,9 @@ class MapActivity :
                                 thingInfoData.put("referMatter", ThingWtnObject.referMatter) //참고사항
                                 thingInfoData.put("changeResn", ThingWtnObject.changeResn) //변경사유
                                 thingInfoData.put("paclrMatter", ThingWtnObject.paclrMatter) //특이사항
-                                thingInfoData.put("updusr", PreferenceUtil.getString(context!!, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
+                                thingInfoData.put("updusr", PreferenceUtil.getString(context, "id", "defaual")) //업데이트 //임시 // 테블릿 이용자
                                 thingInfoData.put("elemArray", mulitElemString)
-                                thingInfoData.put("ordinateArray", mulitGeomString)
+                                thingInfoData.put("ordinateArray", lastCommaRemove(mulitGeomString))
                                 thingRequestData.put("thing", thingInfoData)
                             }
                         }
@@ -2612,15 +2667,12 @@ class MapActivity :
                         thingInfoData.put("bizrdtlsBizrno", ThingBsnObject.bizrdtlsBizrno)
                         thingInfoData.put("bizrdtlsBizDe", ThingBsnObject.bizrdtlsBizDe)
                         thingInfoData.put("bizrdtlsRegAt", ThingBsnObject.bizrdtlsRegAt)
+                        thingInfoData.put("pointYn", ThingBsnObject.pointYn)
 
-                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                         thingInfoData.put("elemArray", mulitElemString)
                         thingInfoData.put("ordinateArray", mulitGeomString)
-                        if(ThingBsnObject.pointYn == "POINT") {
-                            thingInfoData.put("pointYn", "1")
-                        } else {
-                            thingInfoData.put("pointYn", "2")
-                        }
+
                         thingInfoData.put("brdDtlsList", ThingBsnObject.addBsnBrdpdList)
                         thingInfoData.put("bsnBuldLink", ThingBsnObject.addBuldLinkList)
                         thingInfoData.put("bsnThing", ThingBsnObject.addBsnThingList)
@@ -2702,7 +2754,7 @@ class MapActivity :
                         thingInfoData.put("bizrdtlsBizDe", ThingBsnObject.bizrdtlsBizDe)
                         thingInfoData.put("bizrdtlsRegAt", ThingBsnObject.bizrdtlsRegAt)
 
-                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                         thingInfoData.put("elemArray", mulitElemString)
                         thingInfoData.put("ordinateArray", mulitGeomString)
                         thingInfoData.put("brdDtlsList", ThingBsnObject.addBsnBrdpdList)
@@ -2860,15 +2912,12 @@ class MapActivity :
                             thingInfoData.put("posesnCntrctLc",ThingFarmObject.posesnCntrctLc)
                             thingInfoData.put("posesnCntrctAr",ThingFarmObject.posesnCntrctAr)
                             thingInfoData.put("posesnSpccntr",ThingFarmObject.posesnSpccntr)
+                            thingInfoData.put("pointYn",ThingFarmObject.pointYn)
 
-                            thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                            thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                             thingInfoData.put("elemArray",mulitElemString)
                             thingInfoData.put("ordinateArray",mulitGeomString)
-                            if(ThingFarmObject.pointYn == "POINT") {
-                                thingInfoData.put("pointYn", "1")
-                            } else {
-                                thingInfoData.put("pointYn", "2")
-                            }
+
                             thingInfoData.put("farmClvtdlList", ThingFarmObject.addFarmClvtdlList) // 경작여부
                             thingInfoData.put("farmThing", ThingFarmObject.addFarmThignList) //농업 시설물
                             thingInfoData.put("ownerInfo", ThingFarmObject.thingOwnerInfoJson) // 농업 소유자
@@ -2934,7 +2983,7 @@ class MapActivity :
                             thingInfoData.put("posesnCntrctAr",ThingFarmObject.posesnCntrctAr)
                             thingInfoData.put("posesnSpccntr",ThingFarmObject.posesnSpccntr)
 
-                            thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                            thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                             thingInfoData.put("elemArray",mulitElemString)
                             thingInfoData.put("ordinateArray",mulitGeomString)
                             thingInfoData.put("farmClvtdlList", ThingFarmObject.addFarmClvtdlList) // 경작여부
@@ -3014,6 +3063,8 @@ class MapActivity :
                     thingInfoData.put("legaldongCode",residntDataJson.getString("legaldongCode"))
                     thingInfoData.put("thingKnd",ThingResidntObject.thingKnd)
                     thingInfoData.put("strctNdStndrd",ThingResidntObject.strctNdStndrd)
+                    thingInfoData.put("incrprLnm", residntDataJson.getString("incrprLnm"))
+                    thingInfoData.put("bgnnLnm", residntDataJson.getString("bgnnLnm"))
                     thingInfoData.put("bgnnAr",ThingResidntObject.bgnnAr)
                     thingInfoData.put("incrprAr",ThingResidntObject.incrprAr)
                     thingInfoData.put("unitCl",ThingResidntObject.unitCl)
@@ -3042,6 +3093,7 @@ class MapActivity :
                     thingInfoData.put("pssCntrctLc", ThingResidntObject.pssCntrctLc)
                     thingInfoData.put("pssCntrctAr", ThingResidntObject.pssCntrctAr)
                     thingInfoData.put("pssSpccntr", ThingResidntObject.pssSpccntr)
+                    thingInfoData.put("pointYn", ThingResidntObject.pointYn)
 //            //공익사업 재편입근거
 //            thingInfoData.put("reincrprProperAt", ThingResidntObject.reincrprProperAt)
 //            thingInfoData.put("reincrprBgnnBsnsNm", ThingResidntObject.reincrprBgnnBsnsNm)
@@ -3058,14 +3110,9 @@ class MapActivity :
                     thingInfoData.put("ownerInfo", ThingResidntObject.thingOwnerInfoJson)
 
                     //기타.
-                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
-                    if(ThingResidntObject.pointYn == "POINT") {
-                        thingInfoData.put("pointYn", "1")
-                    } else {
-                        thingInfoData.put("pointYn", "2")
-                    }
 
                     thingRequestData.put("thing", thingInfoData)
 
@@ -3123,7 +3170,7 @@ class MapActivity :
                     thingInfoData.put("residntBuldLink", ThingResidntObject.addBuldLinkList)
 
                     //기타.
-                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual"))// 임시등록자
+                    thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual"))// 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -3217,14 +3264,12 @@ class MapActivity :
                         thingInfoData.put("burlDe", ThingTombObject.burlDe) // 매장일자
                         thingInfoData.put("balmCl", ThingTombObject.balmCl) //연고자 유무
                         thingInfoData.put("tombCl", ThingTombObject.tombCl) // 분묘유형
-                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자//임시로그인등록번호
+                        thingInfoData.put("pointYn", ThingTombObject.pointYn) //
+
+                        thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual")) //등록자//임시로그인등록번호
                         thingInfoData.put("elemArray", mulitElemString) // 폴리곤어레이
                         thingInfoData.put("ordinateArray", mulitGeomString) //폴리곤정보
-                        if(ThingTombObject.pointYn == "POINT") {
-                            thingInfoData.put("pointYn", "1")
-                        } else {
-                            thingInfoData.put("pointYn", "2")
-                        }
+
                         thingInfoData.put("buriedPerson", ThingTombObject.addBuriedPerson) // 매장자
                         thingInfoData.put("buriedThing", ThingTombObject.addBuriedThing) // 분묘 시설물
                         thingInfoData.put("ownerInfo", ThingTombObject.thingOwnerInfoJson)
@@ -3263,7 +3308,7 @@ class MapActivity :
                         thingInfoData.put("burlDe", ThingTombObject.burlDe) // 매장일자
                         thingInfoData.put("balmCl", ThingTombObject.balmCl) //연고자 유무
                         thingInfoData.put("tombCl", ThingTombObject.tombCl) // 분묘유형
-                        thingInfoData.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) //등록자
+                        thingInfoData.put("register", PreferenceUtil.getString(context, "id", "defaual")) //등록자
                         thingInfoData.put("elemArray", mulitElemString) // 폴리곤어레이
                         thingInfoData.put("ordinateArray", mulitGeomString) //폴리곤정보
                         thingInfoData.put("buriedPerson", ThingTombObject.addBuriedPerson) // 매장자
@@ -3350,14 +3395,14 @@ class MapActivity :
                     thingInfoData.put("miningPlanCnfmDe",ThingMinrgtObject.miningPlanCnfmDe)  //채광계획(변경)인가일자
                     thingInfoData.put("mnrlPrdnRprtAt",ThingMinrgtObject.mnrlPrdnRprtAt)    //광물샌산자보고자료여부
                     thingInfoData.put("minrgtLgstr", ThingMinrgtObject.minrgtLgstr)     //광업지적
-                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
+                    thingInfoData.put("bsnCl", ThingMinrgtObject.bsnCl)
+                    thingInfoData.put("sssMthCo", ThingMinrgtObject.sssMthCo)
+                    thingInfoData.put("pointYn", ThingMinrgtObject.pointYn)     //
+
+                    thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual")) // 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
-                    if(ThingMinrgtObject.pointYn == "POINT") {
-                        thingInfoData.put("pointYn", "1")
-                    } else {
-                        thingInfoData.put("pointYn", "2")
-                    }
+
                     thingInfoData.put("ownerInfo", ThingMinrgtObject.thingOwnerInfoJson)
                     thingInfoData.put("minrgtThing",ThingMinrgtObject.addMinrgtThing)   //광업권시설물
                     thingRequestData.put("thing", thingInfoData)
@@ -3398,7 +3443,9 @@ class MapActivity :
                     thingInfoData.put("miningPlanCnfmDe",ThingMinrgtObject.miningPlanCnfmDe)  //채광계획(변경)인가일자
                     thingInfoData.put("mnrlPrdnRprtAt",ThingMinrgtObject.mnrlPrdnRprtAt)    //광물샌산자보고자료여부
                     thingInfoData.put("minrgtLgstr", ThingMinrgtObject.minrgtLgstr)     //광업지적
-                    thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
+                    thingInfoData.put("bsnCl", ThingMinrgtObject.bsnCl)
+                    thingInfoData.put("sssMthCo", ThingMinrgtObject.sssMthCo)
+                    thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual")) // 임시등록자
                     thingInfoData.put("elemArray",mulitElemString)
                     thingInfoData.put("ordinateArray",mulitGeomString)
                     thingInfoData.put("minrgtThing",ThingMinrgtObject.addMinrgtThing)   //광업권시설물
@@ -3487,15 +3534,11 @@ class MapActivity :
                         thingInfoData.put("fyhtsAr", ThingFyhtsObject.fyhtsAr)//면적
                         thingInfoData.put("fshrMth", ThingFyhtsObject.fshrMth)//어업의 방법
                         thingInfoData.put("srfwtrLcZoneAt", ThingFyhtsObject.srfwtrLcZoneAt)//수면의 위치 및 구역도 여부
+                        thingInfoData.put("pointYn", ThingFyhtsObject.pointYn)//
 
-                        thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
+                        thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual")) // 임시등록자
                         thingInfoData.put("elemArray",mulitElemString)
                         thingInfoData.put("ordinateArray",mulitGeomString)
-                        if(ThingFyhtsObject.pointYn == "POINT") {
-                            thingInfoData.put("pointYn", "1")
-                        } else {
-                            thingInfoData.put("pointYn", "2")
-                        }
 
                         thingInfoData.put("ownerInfo", ThingFyhtsObject.thingOwnerInfoJson)
                         thingInfoData.put("fyhtsThing", ThingFyhtsObject.addFyhtsThing)
@@ -3542,7 +3585,7 @@ class MapActivity :
                         thingInfoData.put("fshrMth", ThingFyhtsObject.fshrMth)//어업의 방법
                         thingInfoData.put("srfwtrLcZoneAt", ThingFyhtsObject.srfwtrLcZoneAt)//수면의 위치 및 구역도 여부
 
-                        thingInfoData.put("register",PreferenceUtil.getString(context!!, "id", "defaual")) // 임시등록자
+                        thingInfoData.put("register",PreferenceUtil.getString(context, "id", "defaual")) // 임시등록자
                         thingInfoData.put("elemArray",mulitElemString)
                         thingInfoData.put("ordinateArray",mulitGeomString)
 
@@ -3562,6 +3605,7 @@ class MapActivity :
                 }
             }
 
+            else -> {}
         }
     }
 
@@ -3727,7 +3771,7 @@ class MapActivity :
     }
 
     fun updateSearchImage(thingDataJson: JSONObject) {
-        var dataSearchImage: MutableList<WtnncImage>? = null
+        val dataSearchImage: MutableList<WtnncImage>?
         dataSearchImage = when(Constants.BIZ_SUBCATEGORY_KEY){
             THING -> ThingWtnObject.wtnncImage
             BSN -> ThingBsnObject.wtnncImage
@@ -3740,32 +3784,32 @@ class MapActivity :
         }
 
         if(dataSearchImage != null) {
-            for (i in 0 until dataSearchImage!!.size) {
-                val item = dataSearchImage.get(i)
+            for (i in 0 until dataSearchImage.size) {
+                val item = dataSearchImage[i]
 
-                if (!item.fileNameString.equals("")) {
+                if (item.fileNameString != "") {
                     val atchRequestMap = HashMap<String, String>()
-                    var atchRequestUrl: String? = null
+                    var atchRequestUrl: String?
 
                     val saveImage = File(item.fileNameString)
 
-                    atchRequestUrl = context!!.resources.getString(R.string.mobile_url) + "thingSearchAtchFileUpload"
+                    atchRequestUrl = context.resources.getString(R.string.mobile_url) + "thingSearchAtchFileUpload"
 
-                    atchRequestMap.put("ladWtnCode", "")
-                    atchRequestMap.put("thingWtnCode", thingDataJson.getString("thingWtnCode"))
-                    atchRequestMap.put("saupCode", item.saupCode)
-                    atchRequestMap.put("rm", item.rmTxt)
-                    atchRequestMap.put("atflNm", saveImage.absolutePath)
-                    atchRequestMap.put("fileseInfo", item.fileCode)
-                    atchRequestMap.put("fileCodeNm", item.fileCodeNm)
-                    atchRequestMap.put("register", PreferenceUtil.getString(context!!, "id", "defaual")) // 임시 등록자
-                    atchRequestMap.put("atflSize", "")
-                    atchRequestMap.put("atflExtsn", ".png")
-                    atchRequestMap.put("lon", item.lon)
-                    atchRequestMap.put("lat", item.lat)
-                    atchRequestMap.put("azimuth", item.azimuth)
+                    atchRequestMap["ladWtnCode"] = ""
+                    atchRequestMap["thingWtnCode"] = thingDataJson.getString("thingWtnCode")
+                    atchRequestMap["saupCode"] = item.saupCode
+                    atchRequestMap["rm"] = item.rmTxt
+                    atchRequestMap["atflNm"] = saveImage.absolutePath
+                    atchRequestMap["fileseInfo"] = item.fileCode
+                    atchRequestMap["fileCodeNm"] = item.fileCodeNm
+                    atchRequestMap["register"] = PreferenceUtil.getString(context, "id", "defaual") // 임시 등록자
+                    atchRequestMap["atflSize"] = ""
+                    atchRequestMap["atflExtsn"] = ".png"
+                    atchRequestMap["lon"] = item.lon
+                    atchRequestMap["lat"] = item.lat
+                    atchRequestMap["azimuth"] = item.azimuth
 
-                    HttpUtil.getInstance(context!!)
+                    HttpUtil.getInstance(context)
                         .callerUrlInfoPostFileUpload(atchRequestMap, progressDialog, atchRequestUrl, saveImage,
                             object : Callback {
                                 override fun onFailure(call: Call, e: IOException) {
@@ -3983,13 +4027,15 @@ class MapActivity :
                                     log.d("Land RealLandPolygonData -----------------> $landPolygonData")
 
                                     if (landPolygonData == null) {
-                                        toast.msg_error(" 토지 조서의 현실적인 이용현황이 작성되지 않았습니다. 해당 조서의 스케치를 완료 해주시기 바람니다.", 500)
+                                        //toast.msg_error(" 토지 조서의 현실적인 이용현황이 작성되지 않았습니다. 해당 조서의 스케치를 완료 해주시기 바람니다.", 500)
+                                        showToast(ToastType.WARNING, "토지 조서의 현실적인 이용현황이 작성되지 않았습니다. 해당 조서의 스케치를 완료 해주시기 바랍니다.", 500)
                                     } else {
                                         searchSaveLand()
                                     }
 
                                 } catch (e: Exception) {
                                     log.d(e.toString())
+                                    showToast(ToastType.ERROR, "저장실패 [$e]", 500)
                                 }
                             }
 
@@ -4160,6 +4206,7 @@ class MapActivity :
                                 }
                             }
 
+                            else -> {}
                         }
                     }
 
@@ -4477,7 +4524,7 @@ class MapActivity :
                                                     log.d("thingSearch FARM response ------------------> $responseString")
 
                                                     val thingDataJson = JSONObject(responseString).getJSONObject("list") as JSONObject
-                                                    val noSkitchThingData = thingDataJson.getJSONArray("ThingSearch") as JSONArray?
+                                                    val noSkitchThingData = thingDataJson.getJSONArray("ThingSearch")
 
                                                     progressDialog?.dismiss()
                                                     naverMap?.setNaverMapContextPopup(this@MapActivity, ThingWtnObject.naverGeoAddressName.toString(), ThingWtnObject.naverGeoAddress!!,
@@ -4546,7 +4593,7 @@ class MapActivity :
                                                 log.d("thingSearch RESIDNT response ------------------> $responseString")
 
                                                 val thingDataJson = JSONObject(responseString).getJSONObject("list") as JSONObject
-                                                val noSkitchThingData = thingDataJson.getJSONArray("ThingSearch") as JSONArray?
+                                                val noSkitchThingData = thingDataJson.getJSONArray("ThingSearch")
 
                                                 progressDialog?.dismiss()
                                                 naverMap?.setNaverMapContextPopup(this@MapActivity, ThingWtnObject.naverGeoAddressName.toString(), ThingWtnObject.naverGeoAddress!!,
@@ -4753,7 +4800,7 @@ class MapActivity :
             else -> {
                 val dataArray = JSONArray((dialog as ContextDialogFragment).dataString)
                 log.d(dataArray.toString())
-                callerContextThing(setContextPopupPosition, setcontextPopupName, (dialog as ContextDialogFragment).dataString)
+                callerContextThing(setContextPopupPosition, setcontextPopupName, dialog.dataString)
             }
 
 
@@ -4774,55 +4821,83 @@ class MapActivity :
 
         try {
             choiceInfoWindowArr.forEach { it.map = null }
+            contextPopupPolygonArr.forEach { it.map = null }
+
             choiceInfoWindowArr.clear()
+            contextPopupPolygonArr.clear()
 
             ThingWtnObject.thingWtnncJsonArray?.forEach {
 
                 val kndName = it.asJsonObject.get("properties").asJsonObject.get("THING_KND").asString
                 val moNo = it.asJsonObject.get("properties").asJsonObject.get("MO_NO").asString
+                val pointYn = it.asJsonObject.get("properties").asJsonObject.get("MO_POINT_YN").asString
+
 
                 if (kndName.equals(setcontextPopupName)) {
+                    ThingWtnObject.pointYn = pointYn
+
                     log.d("moNo => $moNo")
 
                     val coordArr = it.asJsonObject.get("geometry").asJsonObject.get("coordinates").asJsonArray.get(0).asJsonArray.get(0).asJsonArray
 
-                    for (j in 0 until coordArr.size() - 1) {
+                    // 포인트 유형일 경우
+                    if(pointYn.equals("1")){
 
-                        log.d("coord => ${coordArr[j]}")
+                        for (j in 0 until coordArr.size() - 1) {
 
-                        val coord = coordArr[j].toString().replace("[", "").replace("]", "").split(",")
+                            log.d("coord => ${coordArr[j]}")
 
-                        val x = coord[1].toDouble()
-                        val y = coord[0].toDouble()
+                            val coord = coordArr[j].toString().replace("[", "").replace("]", "").split(",")
 
-                        log.d("x=$x, y=$y");
+                            val x = coord[1].toDouble()
+                            val y = coord[0].toDouble()
 
-                        val infoWindow = InfoWindow()
-                        val infoView: InfoView?
-                        infoView = InfoView(context, null, R.layout.include_wtncc_info_choice_view)
-                        infoView.setText(moNo, "wtncc")
+                            log.d("x=$x, y=$y")
 
-                        infoWindow.adapter = object : InfoWindow.ViewAdapter() {
-                            override fun getView(p0: InfoWindow): View = infoView
+                            val infoWindow = InfoWindow()
+                            val infoView: InfoView?
+                            infoView = InfoView(context, null, R.layout.include_wtncc_info_choice_view)
+                            infoView.setText(moNo, "wtncc")
+
+                            infoWindow.adapter = object : InfoWindow.ViewAdapter() { override fun getView(p0: InfoWindow): View = infoView }
+
+                            infoWindow.position = LatLng(x, y)
+                            infoWindow.offsetX = 0
+                            infoWindow.offsetY = 0
+
+                            choiceInfoWindowArr.add(infoWindow)
+
                         }
-                        infoWindow.position = LatLng(x, y)
-                        infoWindow.offsetX = 0
-                        infoWindow.offsetY = 0
 
-                        //infoWindow.map = this.naverMap?.naverMap
+                    // 포인트 표현이 아닌경우
+                    } else {
 
-                        choiceInfoWindowArr.add(infoWindow)
+                        val contextPopupPolygonLatLngArr = mutableListOf<LatLng>()
 
+                        for (j in 0 until coordArr.size() ) {
+                            val coord = coordArr[j].toString().replace("[", "").replace("]", "").split(",")
+                            val x = coord[1].toDouble()
+                            val y = coord[0].toDouble()
+                            contextPopupPolygonLatLngArr.add(LatLng(x, y))
+                        }
+
+                        val contextPolygonOverlay = PolygonOverlay()
+                        contextPolygonOverlay.apply {
+                            coords = contextPopupPolygonLatLngArr
+                            globalZIndex  = 160000
+                            color = setObjectColor(context, R.color.blue, 100)
+                            outlineWidth = 5
+                            outlineColor = setObjectColor(context, R.color.blue, 255)
+                            map = naverMap?.naverMap
+                        }
+
+                        contextPopupPolygonArr.add(contextPolygonOverlay)
                     }
-                } else {
-
                 }
             }
 
-            choiceInfoWindowArr.forEach {
-                it.map = this.naverMap?.naverMap
-            }
-
+            choiceInfoWindowArr.forEach { it.map = this.naverMap?.naverMap }
+            contextPopupPolygonArr.forEach { it.map = this.naverMap?.naverMap }
 
         } catch (e: Exception) {
             log.d(e.toString())

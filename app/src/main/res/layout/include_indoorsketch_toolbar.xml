@@ -63,7 +63,7 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             style="@style/Widget.NCMS.FloatingActionButton"
-            android:id="@+id/floatingActionButtonLine"
+            android:id="@+id/floatingActionButtonIndoorLine"
             app:srcCompat="@drawable/ic_line"
             app:layout_constraintTop_toTopOf="@id/floatingActionButtonIndoorToolbar"
             app:layout_constraintBottom_toBottomOf="@+id/floatingActionButtonIndoorToolbar"

@@ -10,6 +10,7 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_add_owner_item.view.*
 import kr.or.kreb.ncms.mobile.MapActivity
+import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.enums.BizEnum
 import kr.or.kreb.ncms.mobile.fragment.DelvyAddrChangeFragment
 import kr.or.kreb.ncms.mobile.util.withIhidNumAsterRisk
@@ -19,6 +20,7 @@ class OwnerRecyclerViewAdapter(
     context: Context,
     bizType: BizEnum,
     ownerInfo: JSONArray,
+    val dcsnAt: String,
     onOwnerEventListener: OnOwnerEventListener
 ) : BaseOwnerRecyclerViewAdapter(context, bizType, ownerInfo, onOwnerEventListener) {
 
@@ -79,19 +81,22 @@ class OwnerRecyclerViewAdapter(
                     val delvyZipString = checkStringNull(ownerInfoJson.getString("delvyZip"))
                     val delvyAdresString = checkStringNull(ownerInfoJson.getString("delvyAdres"))
                     val delvyAdresDetailString = checkStringNull(ownerInfoJson.getString("delvyAdresDetail"))
-                    DelvyAddrText.text = when(bizType) {
-                        BizEnum.LAD -> {
-                            delvyAdresString
-                        }
-                        else -> {
-                            "($delvyZipString) $delvyAdresString $delvyAdresDetailString"
-                        }
-                    }
-
+//                    DelvyAddrText.text = when(bizType) {
+//                        BizEnum.LAD -> {
+//                            delvyAdresString
+//                        }
+//                        else -> {
+//                            "($delvyZipString) $delvyAdresString $delvyAdresDetailString"
+//                        }
+//                    }
+                    DelvyAddrText.text = "($delvyZipString) $delvyAdresString $delvyAdresDetailString"
+//                    if(dcsnAt == "Y") {
+//                        delvyAddrChange.isEnabled = false
+//                    }
                     val relateData = ownerInfoJson.getJSONArray("relateData")
                     if(relateData.length() > 0) {
                         relateOwnerItemLayout.visibility = View.VISIBLE
-                        relateOwnerList.adapter = RelateOwnerListAdapter(context!!)
+                        relateOwnerList.adapter = RelateOwnerListAdapter(context!!, dcsnAt)
                         for(i in 0 until relateData.length()) {
                             (relateOwnerList.adapter as RelateOwnerListAdapter).addItem(relateData.getJSONObject(i))
                         }
@@ -100,13 +105,20 @@ class OwnerRecyclerViewAdapter(
                     }
 
                     delvyAddrChange.setOnClickListener {
-                        onOwnerEventListener.onDelvyAddrClicked(ownerInfoJson)
+                        if(dcsnAt == "Y") {
+//                            onOwnerEventListener.onDelvyAddrClicked(ownerInfoJson)
+                            toastUtil.msg_error(R.string.msg_search_dcsc_at_resut, 100)
 
-                        when(bizType) {
-                            BizEnum.LAD, BizEnum.REST_LAD -> {
-                                DelvyAddrChangeFragment(BizEnum.LAD, ownerInfoJson).show((context as MapActivity).supportFragmentManager, "delvyAddrChangeFragment")
-                            }
+                        } else {
+//                            when(bizType) {
+//                                BizEnum.LAD, BizEnum.REST_LAD -> {
+//                                    DelvyAddrChangeFragment(BizEnum.LAD, ownerInfoJson).show((context as MapActivity).supportFragmentManager, "delvyAddrChangeFragment")
+//                                }
+//                            }
+                            DelvyAddrChangeFragment(BizEnum.LAD, ownerInfoJson).show((context as MapActivity).supportFragmentManager, "delvyAddrChangeFragment")
+
                         }
+
                     }
 
                     addRelateOwnerBtn.setOnClickListener {

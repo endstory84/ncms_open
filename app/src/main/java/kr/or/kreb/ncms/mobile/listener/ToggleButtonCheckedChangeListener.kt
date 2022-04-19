@@ -6,9 +6,11 @@
 package kr.or.kreb.ncms.mobile.listener
 
 import android.app.Activity
+import android.view.Gravity
 import android.widget.CompoundButton
 import androidx.core.view.GravityCompat
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.activity_map_with_drawerlayout.*
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.util.NaverMapUtil
 

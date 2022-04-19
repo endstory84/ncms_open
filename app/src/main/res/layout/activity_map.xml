@@ -184,8 +184,26 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <Button
+                    android:id="@+id/btn_EditMode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/btnColor1"
+                    android:text="편집모드 OFF"
+                    android:fontFamily="@font/nsquarebold"
+                    android:padding="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:visibility="invisible" />
+
             <!-- 필지 스케치 -->
-            <include layout="@layout/include_mapsketch_toolbar" />
+            <include
+                    android:id="@+id/include_map_toolbar"
+                    layout="@layout/include_mapsketch_toolbar" />
 
             <!-- 조서 bottom sheet -->
             <LinearLayout

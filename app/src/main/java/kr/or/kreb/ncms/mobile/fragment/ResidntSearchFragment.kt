@@ -19,9 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -78,6 +76,8 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 //    private var progressDialog: AlertDialog? = null
 
     var wtnncImageAdapter: WtnncImageAdapter? = null
+
+    var dcsnAt: String? = "N"
 //    var builder: MaterialAlertDialogBuilder? = null
 
     val wonFormat = DecimalFormat("#,###")
@@ -279,6 +279,9 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 //            }
 
             addResidntViewCnt++
+            if(dcsnAt == "Y") {
+
+            }
 
         }
 
@@ -680,9 +683,11 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
                 })
         }
 
+        dcsnAt = checkStringNull(thingDataJson.getString("dcsnAt"))
 
         //토지정보
         view.landSearchLocationText.text = checkStringNull(thingDataJson.getString("legaldongNm"))
+        view.thingdcsnAtText.text = dcsnAt
         view.landSearchBgnnLnmText.text = checkStringNull(thingDataJson.getString("bgnnLnm"))
         view.landSearchincrprLnmText.text = checkStringNull(thingDataJson.getString("incrprLnm"))
         view.landSearchNominationText.text = checkStringNull(thingDataJson.getString("gobuLndcgrNm"))
@@ -862,6 +867,9 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
 
 
                 addThingBuldViewCnt++
+                if(dcsnAt == "Y") {
+                    addAraLganAtChk.isEnabled = false
+                }
             }
 
             // 거주자 내역
@@ -931,6 +939,19 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
                     )
                 }
             addResidntViewCnt++
+
+
+                if(dcsnAt == "Y") {
+                    addResideAr.isEnabled = false
+                    addProperAt.isEnabled = false
+                    addName.isEnabled = false
+                    addResidntTy.isEnabled = false
+                    addHshldrRelate.isEnabled = false
+                    addResidePdBgnde.isEnabled = false
+                    addResidePdEndde.isEnabled = false
+                    addResideSe.isEnabled = false
+                }
+
             }
 
 
@@ -969,6 +990,32 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
             settingSearchCamerasView(null)
         }
 
+
+        if(dcsnAt == "Y") {
+            toast.msg_info(R.string.searchDcsnAtThing, 1000)
+
+            view.landSearchRelatedLnmText.isEnabled = false
+            view.residntSclasSpinner.isEnabled = false
+            view.residntBgnnAr.isEnabled = false
+            view.residntIncrprAr.isEnabled = false
+            view.residntUnitSpinner.isEnabled = false
+            view.residntArComputBasis.isEnabled = false
+            view.residntPssLgalAtChk.isEnabled = false
+            view.residntPssPssCl.isEnabled = false
+            view.residntPssHireCntrctAt.isEnabled = false
+            view.residntPssRentName.isEnabled = false
+            view.residntPssHireName.isEnabled = false
+            view.residntPssRentBgnDe.isEnabled = false
+            view.residntPssRentEndde.isEnabled = false
+            view.residntPssGtn.isEnabled = false
+            view.residntPssMtht.isEnabled = false
+            view.residntPssCntrctLc.isEnabled = false
+            view.residntPssCntrctAr.isEnabled = false
+            view.residntPssSpccntr.isEnabled = false
+            view.residntOwnerCnfirmBasisSpinner.isEnabled = false
+            view.rwTrgetAtChk.isEnabled = false
+            view.apasmtTrgetAtChk.isEnabled = false
+        }
 
 
 
@@ -1147,10 +1194,10 @@ class ResidntSearchFragment(activity: Activity, context: Context, val fragmentAc
         }
 
         // 관련지번
-        val residntRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
-        if(!getString(R.string.landInfoRelatedLnmText).equals(residntRelateLnmString)) {
-            ThingResidntObject.relateLnm = residntRelateLnmString
-        }
+//        val residntRelateLnmString = activity!!.landSearchRelatedLnmText.text.toString()
+//        if(!getString(R.string.landInfoRelatedLnmText).equals(residntRelateLnmString)) {
+//            ThingResidntObject.relateLnm = residntRelateLnmString
+//        }
 
         ThingResidntObject.bgnnAr = mActivity.residntBgnnAr.text.toString() // 전체면적
 

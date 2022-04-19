@@ -90,7 +90,7 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragm
 
         view.ownerRecyclerView.visibleView()
         view.newOwnerRecyclerView.goneView()
-        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.REST_THING, restThingOwnerInfoJson!!, this)
+        recyclerViewAdapter = OwnerRecyclerViewAdapter(context!!, BizEnum.REST_THING, restThingOwnerInfoJson!!, "", this)
         view.ownerRecyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         view.ownerRecyclerView.adapter = recyclerViewAdapter
     }
@@ -100,9 +100,9 @@ class RestThingOwnerFragment(val fragmentActivity: FragmentActivity) : BaseFragm
 
     }
 
-    override fun onDelvyAddrClicked(data: JSONObject) {
-        logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
-    }
+//    override fun onDelvyAddrClicked(data: JSONObject) {
+//        logUtil.d("onDelvyAddrClick data >>>>>>>>>>>>>>>>>>>>> $data")
+//    }
 
     override fun onAddRelateBtnClicked(data: JSONObject) {
         logUtil.d("onAddRelateBtnClick >>>>>>>>>>>>> $data")
