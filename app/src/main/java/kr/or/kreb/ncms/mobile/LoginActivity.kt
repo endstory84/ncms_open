@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
@@ -23,7 +22,9 @@ import kr.or.kreb.ncms.mobile.data.CommonCodeInfoList
 import kr.or.kreb.ncms.mobile.databinding.ActivityLoginBinding
 import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.fragment.ConfirmDialogFragment
+import kr.or.kreb.ncms.mobile.listener.DroidXServiceListener
 import kr.or.kreb.ncms.mobile.util.*
+import net.nshc.droidx3.manager.library.DroidXLibraryManager
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
@@ -59,6 +60,8 @@ class LoginActivity :
 
     private var mdmHandler: Handler? = null
 
+    var context = this
+
 //    private var MDM_HOST: String = "mdm.reb.or.kr:44300"
 //    private var MDM_COMPANY: String = "20032300"
 
@@ -66,6 +69,11 @@ class LoginActivity :
      * MDM 사용유무
      */
     private val USE_MDM: Boolean = false
+
+    /**
+     * 모바일 백신
+     */
+    private var drwoidXLibraryManager: DroidXLibraryManager? = null
 
 
     override fun initViewStart() {
@@ -75,6 +83,10 @@ class LoginActivity :
         if (USE_MDM) {
             settingMDM()
         }
+
+
+        droidServiceStart()
+
 
     }
 
@@ -121,6 +133,9 @@ class LoginActivity :
 //        }
 
         permissionCheck()
+
+        // 백신 시작
+
 
         reqCommonCodeList()
 
@@ -421,6 +436,18 @@ class LoginActivity :
 
     override fun onBackPressed() {
         super.onBackPressed()
+        val droidXLibrayManager = DroidXLibraryManager.getInstance()
+        if(droidXLibrayManager != null) {
+            droidXLibrayManager.stopService()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val droidXLibrayManager = DroidXLibraryManager.getInstance()
+        if(droidXLibrayManager != null) {
+            droidXLibrayManager.stopService()
+        }
     }
 
     companion object {
@@ -465,6 +492,32 @@ class LoginActivity :
             toast.msg_error(getString(R.string.msg_mdm_fail), 100)
             finish()
         }
+    }
+
+    fun droidServiceStart() {
+        val droidXServiceListener = DroidXServiceListener(applicationContext)
+
+        drwoidXLibraryManager = DroidXLibraryManager.getInstance(applicationContext)
+
+        drwoidXLibraryManager!!.setNotificationUse(true)
+
+        drwoidXLibraryManager!!.setNotificationChannelListener {
+
+        }
+
+        drwoidXLibraryManager!!.setLogView(true)
+        drwoidXLibraryManager!!.setIntroView(true)
+        drwoidXLibraryManager!!.setUpdateMaxTime(5000)
+        drwoidXLibraryManager!!.setDefaultRemoveDialogMode(true)
+        drwoidXLibraryManager!!.setUseStorage(true)
+        drwoidXLibraryManager!!.setDXCallbackListener(droidXServiceListener)
+        if(drwoidXLibraryManager!!.chkProc()) drwoidXLibraryManager!!.stopService()
+
+        val result = drwoidXLibraryManager!!.startService()
+        if(!result) {
+
+        }
+
     }
 
 }

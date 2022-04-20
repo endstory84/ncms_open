@@ -25,6 +25,7 @@ import kr.or.kreb.ncms.mobile.BizListActivity
 import kr.or.kreb.ncms.mobile.R
 import kr.or.kreb.ncms.mobile.enums.ToastType
 import kr.or.kreb.ncms.mobile.util.*
+import net.nshc.droidx3.manager.library.DroidXLibraryManager
 import kotlin.system.exitProcess
 
 abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, activityName: String) : AppCompatActivity() {
@@ -146,6 +147,7 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
         when (getPageCode()) {
             Constants.BIZ_LIST_ACT -> {
                 if(System.currentTimeMillis() - backPressedTime < 2000){
+                    stopDroidProc();
                     PreferenceUtil.removeAllUserInfo(this)
                     ActivityCompat.finishAffinity(this)
                     System.runFinalization()
@@ -159,6 +161,16 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
             Constants.CAMERA_ACT, Constants.LOGIN_ACT -> super.onBackPressed()
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopDroidProc()
+        PreferenceUtil.removeAllUserInfo(this)
+        ActivityCompat.finishAffinity(this)
+        System.runFinalization()
+        exitProcess(0)
+        return
     }
 
     override fun finish() {
@@ -204,6 +216,13 @@ abstract class BaseActivity<T : ViewDataBinding>(private val layoutId: Int, acti
                 ToastType.INFO -> toast.msg_info(text, duration)
             }
 
+        }
+    }
+
+    fun stopDroidProc() {
+        val droidXLibrayManager = DroidXLibraryManager.getInstance()
+        if(droidXLibrayManager != null) {
+            droidXLibrayManager.stopService()
         }
     }
 

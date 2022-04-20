@@ -749,6 +749,11 @@
     <string name="ownerSearchDiv">조서\n구분</string>
     <string name="ownerRgistAdres">등기부주소</string>
 
+    <!-- droixX String -->
+    <string name="dx_intro_message">모바일백신을 구동중입니다.</string>
+    <string name="dx_notification_msg">안전하게 보호되고 있습니다.</string>
+    <string name="dx_notification_title">Droid-X Antivirus</string>
+
     <!-- 잔여지 조서탭 -->
     <string-array name="restLandQuestArr">
         <item>지목과 토지이용현황이 동일성\n* 동일하지 않은 경우 불법형질 변경 등 해당여부</item>

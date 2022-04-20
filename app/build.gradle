@@ -51,6 +51,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation name: 'opencv451-v1.0.0', ext: 'aar'
     implementation name: 'MDMLib_3_0_2_15', ext: 'aar'
+    implementation name: 'droidx3_lib_3.1.13.794.1483', ext: 'aar'
 
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2' // pdf viewer
     implementation 'com.github.slaviboy:InfiniteGridView:v0.1.0' // 그리드 뷰 (실내스케치 전용)
